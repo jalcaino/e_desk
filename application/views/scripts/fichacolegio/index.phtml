@@ -1,271 +1,308 @@
 <?php
 	 //recupera paràmetros principales
-	 $LABORATORIODESCRIPCION=$this->layout()->LABORATORIODESCRIPCION;
 	 $LABORATORIOID=$this->layout()->LABORATORIOID;
+	 $LABORATORIODESCRIPCION=$this->layout()->LABORATORIODESCRIPCION;
+	 $SIS03_ESTADO=$this->layout()->SIS03_ESTADO;
+	 $SIS03_CURSOS=$this->layout()->SIS03_CURSOS;
+	 $SIS03_ASESOR=$this->layout()->SIS03_ASESOR;
+	 $SIS03_PRODUCTOS=$this->layout()->SIS03_PRODUCTOS;
+	 $SIS03_CONEMATLOCAL=$this->layout()->SIS03_CONEMATLOCAL;
+	
+	if(isset($this->layout()->datosticket))
+		$datosticket=$this->layout()->datosticket;
 
-
+	if(isset($this->layout()->datossolicitud))
+		$datossolicitud=$this->layout()->datossolicitud;
+	
+	if(isset($this->layout()->datosasistencias))
+	   $datosasistencias=$this->layout()->datosasistencias;
+	
+	
 ?>
 			<div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Ficha Colegio</h1>
-                        <h1 class="page-subhead-line">Visi&oacute;n resumida de las actividades de un colegio</h1>
-
-                    </div>
+						   				<form name="frmBuscaRbd" action="/Fichacolegio/index">
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													
+													<div class="form-group row">
+														<div class="col-md-2">
+																<h4>FICHA COLEGIO</h4>
+														</div>
+														<div class="col-md-2">
+															<input class="form-control" value="<?php echo $LABORATORIOID?>" name="Colegio" id="Colegio" type="text" />
+														</div>
+														<div class="col-md-1">
+															<button type="submit" class="btn btn-info">Ver Colegio</button>
+														</div>
+													</div>
+												
+												</div>
+											</div>
+										</form>
+		
+								
+							
+					</div>
             </div>
               
-          
+          <?
+		  	if(trim($LABORATORIOID)!="SIN-INFO")
+			{
+		  ?>
 		  
 		    <div class="row">
                
 						<div class="col-md-4 col-sm-4">
+						
 							<div class="panel panel-primary">
 								<div class="panel-heading">
-									Colegio : <?php echo $LABORATORIOID?>, <?php echo $LABORATORIODESCRIPCION?>
+									<strong>Colegio : </strong><?php echo $LABORATORIOID?> <?php echo $LABORATORIODESCRIPCION?>
 								</div>
 								<div class="panel-body">
-									<p><strong>Cursos:</strong> I MEDIO-A</p>
-									<p><strong>Asesor:</strong> Amèrica Yañez</p>
-									<p><strong>Productos:</strong> Inicial, Bàsica, Media</p>
-									<p><strong>Productos:</strong>ONLINE LOCAL</p>
-							
-							
+									<p><strong>Cursos : </strong><?php echo $SIS03_CURSOS?></p>
+									<p><strong>Asesor : </strong><?php echo $SIS03_ASESOR?></p>
+									<p><strong>Productos : </strong><?php echo $SIS03_PRODUCTOS?></p>
+									<p><strong>&iquest;Tiene Emat-Local? : </strong> <?=($SIS03_CONEMATLOCAL=="1")?'SI':'NO'?></p>
 								</div>
 							</div>
+						
 						</div>
-					
-				
-				
 						<div class="col-md-6 col-sm-6 col-xs-12">
-							<div class="panel panel-info">
-								<div class="panel-heading">
-								   CONSULTA ALUMNO
-								</div>
-								<div class="panel-body">
-									<form role="form">
-												<div class="form-group">
-													<label>Ingrese Rut:</label>
-													<input class="form-control" type="text" size="10">
+					
+					
+								
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											Bit&aacute;cora Colegio
+										</div>
+										<div class="panel-body">
+											<ul class="nav nav-pills">
+											    <!--class="active"-->
+												<li class=""><a href="#home-pills" data-toggle="tab">Incidentes</a>
+												</li>
+												<li class=""><a href="#profile-pills" data-toggle="tab">Solicitudes Internas</a>
+												</li>
+												<li class=""><a href="#messages-pills" data-toggle="tab">Atenciones T&eacute;cnicas</a>
+												</li>
+											</ul>
+				
+											<div class="tab-content">
+			
+														 <!-- active in -->
+												<div class="tab-pane fade" id="home-pills">
+			
+			
+												 <div class="panel panel-success">
+														<div class="panel-heading">
+																Ultimos 10 Incidentes
+														</div>
+														<div class="panel-body" style="padding: 0px;">
+															<div class="chat-widget-main">
+							
+																	<table class="table table-hover">
+																		<thead>
+																			<tr>
+																				<th>#</th>
+																				<th>Fecha</th>
+																				<th>Solicitante</th>
+																				<th>Nivel</th>
+																				<th>Clasificador</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<?php
+																			if(isset($datosticket))
+																			{
+																				foreach($datosticket as $clave => $valor)
+																				{
+																				?>
+																				<tr>
+																					<td><?php echo $valor["ED03_TICKETID"]?></td>
+																					<td><?php echo $valor["ED03_FECHATICKET"]?></td>
+																					<td><?php echo $valor["ED03_NOMBRESOLICITANTE"]?></td>
+																					<td><?php echo $valor["ED03_NIVELSOPORTE"]?></td>
+																					<td><?php echo $valor["ED03_CLASIFICADOR"]?></td>
+																				</tr>
+																				<?
+																				}
+																			}
+																			?>
+																		</tbody>
+																	</table>
+															</div>
+														</div>
+													</div>
+			
+											
+											
 												</div>
-													<div class="form-group">
-														<label>Producto : </label>
-														<select class="form-control">
-															<option>INICIAL</option>
-															<option>BASICA</option>
-															<option>MEDIA</option>
-														</select>
-											   </div>
-										 
-												<button type="submit" class="btn btn-info">Consultar</button>
-		
-											</form>
+												<div class="tab-pane fade" id="profile-pills">
+												
+												
+											
+													 <div class="panel panel-success">
+														<div class="panel-heading">
+															Ultimas 10 Solicitudes Internas
+														</div>
+														<div class="panel-body" style="padding: 0px;">
+															<div class="chat-widget-main">
+							
+																	<table class="table table-hover">
+																		<thead>
+																			<tr>
+																				<th>#</th>
+																				<th>Fecha</th>
+																				<th>Solicitante</th>
+																				<th>Detalle</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<?php
+																			if(isset($datossolicitud))
+																			{
+																				foreach($datossolicitud as $clave => $valor)
+																				{
+																				?>
+																				<tr>
+																					<td><?php echo $valor["ED02_SOLICITUDID"]?></td>
+																					<td><?php echo $valor["ED02_FECHASOLICITUD"]?></td>
+																					<td><?php echo $valor["ED02_NOMBRESOLICITANTE"]?></td>
+																					<td><?php echo $valor["ED02_DETALLESOLICITUD"]?></td>
+																				</tr>
+																				<?
+																				}
+																			}
+																			?>
+																		</tbody>
+																	</table>
+															</div>
+														</div>
+													</div>
+			
+												
+												
+												</div>
+												<div class="tab-pane fade" id="messages-pills">
+												
+			
+												 <div class="panel panel-success">
+														<div class="panel-heading">
+															Ultimas 10 Atenciones T&eacute;cnicas
+														</div>
+														<div class="panel-body" style="padding: 0px;">
+															<div class="chat-widget-main">
+							
+																	<table class="table table-hover">
+																		<thead>
+																			<tr>
+																				<th>#</th>
+																				<th>Fecha</th>
+																				<th>Solicitante</th>
+																				<th>Detalle</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<?php
+																			if(isset($datosasistencias))
+																			{
+																				foreach($datosasistencias as $clave => $valor)
+																				{
+																				?>
+																				<tr>
+																					<td><?php echo $valor["ED05_ASISTENCIAID"]?></td>
+																					<td><?php echo $valor["ED05_FECHAINGRESO"]?></td>
+																					<td><?php echo $valor["ED05_NOMBRESOLICITANTE"]?></td>
+																					<td><?php echo $valor["ED05_DETALLEASISTENCIAREALIZAR"]?></td>
+																				</tr>
+																				<?
+																				}
+																			}		
+																			?>
+																		</tbody>
+																	</table>
+															</div>
+														</div>
+													</div>
+			
+			
+			
+			
+												
+												
+												</div>
+											</div>
+										</div>
 									</div>
-								</div>
-						  </div>
+				
+							  
+							  
+				
+
+					   </div>
 						  
 			</div>
 			
 			<div class="row">
 			 
 				   <div class="col-md-6 col-sm-6">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								Tabs
-							</div>
-							<div class="panel-body">
-								<ul class="nav nav-pills">
-									<li class="active"><a href="#home-pills" data-toggle="tab">Ultimos Incidentes</a>
-									</li>
-									<li class=""><a href="#profile-pills" data-toggle="tab">Ultimas Solicitudes Internas</a>
-									</li>
-									<li class=""><a href="#messages-pills" data-toggle="tab">Ultimas Atenciones T&eacute;cnicas</a>
-									</li>
-								</ul>
-	
-								<div class="tab-content">
-									<div class="tab-pane fade active in" id="home-pills">
-								
-											 <div class="panel panel-default">
-								   
-												<div class="panel-heading">
-													Ultimos Incidentes
-												</div>
-												
-												<div class="panel-body">
-													<div class="table-responsive">
-														<table class="table">
-															<thead>
-																<tr>
-																	<th>#</th>
-																	<th>First Name</th>
-																	<th>Last Name</th>
-																	<th>Username</th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr class="success">
-																	<td>1</td>
-																	<td>Mark</td>
-																	<td>Otto</td>
-																	<td>@mdo</td>
-																</tr>
-																<tr class="info">
-																	<td>2</td>
-																	<td>Jacob</td>
-																	<td>Thornton</td>
-																	<td>@fat</td>
-																</tr>
-																<tr class="warning">
-																	<td>3</td>
-																	<td>Larry</td>
-																	<td>the Bird</td>
-																	<td>@twitter</td>
-																</tr>
-																<tr class="danger">
-																	<td>4</td>
-																	<td>John</td>
-																	<td>Smith</td>
-																	<td>@jsmith</td>
-																</tr>
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</div>
-								
-								
-								
-								
-									</div>
-									<div class="tab-pane fade" id="profile-pills">
-									
-									
-									     <div class="panel panel-success">
-											<div class="panel-heading">
-											  	Ultimas Solicitudes Internas
-											</div>
-											<div class="panel-body" style="padding: 0px;">
-												<div class="chat-widget-main">
+					
 				
 				
-												
-												
-												
-												
-														<table class="table table-hover">
-															<thead>
-																<tr>
-																	<th>#</th>
-																	<th>First Name</th>
-																	<th>Last Name</th>
-																	<th>Username</th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<td>1</td>
-																	<td>Mark</td>
-																	<td>Otto</td>
-																	<td>@mdo</td>
-																</tr>
-																<tr>
-																	<td>2</td>
-																	<td>Jacob</td>
-																	<td>Thornton</td>
-																	<td>@fat</td>
-																</tr>
-																<tr>
-																	<td>3</td>
-																	<td>Larry</td>
-																	<td>the Bird</td>
-																	<td>@twitter</td>
-																</tr>
-																<tr>
-																	<td>4</td>
-																	<td>Larry</td>
-																	<td>the Bird</td>
-																	<td>@twitter</td>
-																</tr>
-															</tbody>
-														</table>
-									
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												
-												</div>
-											</div>
+							  <div class="panel panel-info">
+										<div class="panel-heading">
+										   CONSULTA ALUMNO
 										</div>
-
-									
-									
-									</div>
-									<div class="tab-pane fade" id="messages-pills">
-									
-									
-											  <div class="panel panel-default">
-												<div class="panel-heading">
-													Ultimas Atenciones T&eacute;cnicas
-												</div>
-												<div class="panel-body">
-													<div class="table-responsive">
-														<table class="table table-hover">
-															<thead>
-																<tr>
-																	<th>#</th>
-																	<th>First Name</th>
-																	<th>Last Name</th>
-																	<th>Username</th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<td>1</td>
-																	<td>Mark</td>
-																	<td>Otto</td>
-																	<td>@mdo</td>
-																</tr>
-																<tr>
-																	<td>2</td>
-																	<td>Jacob</td>
-																	<td>Thornton</td>
-																	<td>@fat</td>
-																</tr>
-																<tr>
-																	<td>3</td>
-																	<td>Larry</td>
-																	<td>the Bird</td>
-																	<td>@twitter</td>
-																</tr>
-																<tr>
-																	<td>4</td>
-																	<td>Larry</td>
-																	<td>the Bird</td>
-																	<td>@twitter</td>
-																</tr>
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</div>
-									
-									
-									
-									</div>
+										<div class="panel-body">
+												<form role="form">
+															<div class="form-group">
+																<label>Ingrese Rut:</label>
+																<input class="form-control" name="rutalumno" id="rutalumno" type="text" size="10" value="">
+															</div>
+															<button type="button" class="btn btn-info" onclick="consulta_rut();">Consultar</button>
+												</form>
+										</div>
 								</div>
-							</div>
-						</div>
+
+				
 					</div>
 
 			</div>
+			
+			
+			<script language="JavaScript" type="text/javascript">
+
+					  function consulta_rut()
+					  {
+					
+					
+									var parametros = {
+											"rut" : $("#rutalumno").val(),
+											"rbd" : '<?=$LABORATORIOID?>'
+									};
+							
+									$.ajax({
+													data:  parametros,
+													url:   '/webservice/send_alumno.php', 
+													type:  'post', 
+													success:  function (response) { 
+													
+															
+															$("#informacion_alumno").html(response);
+																														
+													
+													}
+											});
+					 
+					  } 
+
+			</script>
+			
+						
+	
+			<div class="row" id="informacion_alumno">
+			</div>
+					 
+			<?
+			}//si es sin info
+			?>	 	

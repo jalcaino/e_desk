@@ -27,7 +27,7 @@ body {
 #page-wrapper {
     padding: 15px 15px;
     min-height: 600px;
-    background: #F3F3F3;
+    background: #FFF8C3;
 }
 
 #page-inner {
@@ -92,7 +92,7 @@ body {
 .user-img-div {
     min-height: 140px;
     padding: 20px;
-    background-color: #F7D03F;
+    background-color: #F7C177;
 }
 
     .user-img-div img {
@@ -162,7 +162,7 @@ body {
 
     .sidebar-collapse .nav > li > a:hover,
     .sidebar-collapse .nav > li > a:focus {
-        background: #FDD341;
+        background: #EDAC50;
         outline: 0;
     }
 
@@ -194,7 +194,7 @@ body {
 }
 
 .navbar-header {
-    background: #FDD341;
+    background: #EDAC50;
 }
 
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
