@@ -17,8 +17,11 @@
         <controllerFile controllerName="Usuario">
           <actionMethod actionName="index"/>
           <actionMethod actionName="agregarusuario"/>
+          <actionMethod actionName="agregarusuarioprocess"/>
           <actionMethod actionName="editarusuario"/>
+		  <actionMethod actionName="editarusuarioprocess"/>
           <actionMethod actionName="eliminarusuario"/>
+          <actionMethod actionName="listarusuarios"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false"/>
@@ -48,10 +51,19 @@
             <viewScriptFile forActionName="agregarusuario"/>
        	  </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Usuario">
+            <viewScriptFile forActionName="agregarusuarioprocess"/>
+       	  </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuario">
            <viewScriptFile forActionName="editarusuario"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Usuario">
+            <viewScriptFile forActionName="editarusuarioprocess"/>
+       	  </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuario">
             <viewScriptFile forActionName="eliminarusuario"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuario">
+            <viewScriptFile forActionName="listarusuarios"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
