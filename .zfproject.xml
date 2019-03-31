@@ -23,7 +23,17 @@
           <actionMethod actionName="eliminarusuario"/>
           <actionMethod actionName="listarusuarios"/>
         </controllerFile>
-      </controllersDirectory>
+	    <controllerFile controllerName="Login">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="infousuario"/>
+          <actionMethod actionName="menuperfil"/>
+          <actionMethod actionName="notificacion"/>
+		  <actionMethod actionName="recordarclave"/>
+		  <actionMethod actionName="recordarclaveprocess"/>
+          <actionMethod actionName="sesion"/>
+          <actionMethod actionName="validarusuario"/>
+        </controllerFile>
+	  </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory>
         <layoutScriptsDirectory>
@@ -65,7 +75,31 @@
           <viewControllerScriptsDirectory forControllerName="Usuario">
             <viewScriptFile forActionName="listarusuarios"/>
           </viewControllerScriptsDirectory>
-        </viewScriptsDirectory>
+ 		 <viewControllerScriptsDirectory forControllerName="Login">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+         <viewControllerScriptsDirectory forControllerName="Login">
+            <viewScriptFile forActionName="infousuario"/>
+       	  </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Login">
+            <viewScriptFile forActionName="menuperfil"/>
+       	  </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Login">
+           <viewScriptFile forActionName="notificacion"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Login">
+            <viewScriptFile forActionName="recordarclave"/>
+       	  </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Login">
+            <viewScriptFile forActionName="recordarclaveprocess"/>
+       	  </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Login">
+            <viewScriptFile forActionName="sesion"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Login">
+            <viewScriptFile forActionName="validarusuario"/>
+          </viewControllerScriptsDirectory>
+ 		</viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
       </viewsDirectory>
