@@ -4,7 +4,9 @@
 							<?php
 						
 							
-								if(isset($_POST["rut"]) && trim($_POST["rut"])!="" && isset($_POST["rbd"]) && trim($_POST["rbd"])!="")
+								$LABORATORIOID="";
+							
+								if(isset($_POST["rut"]) && trim($_POST["rut"])!="")
 								{
 							
 										require_once ('lib/nusoap.php');
@@ -17,11 +19,9 @@
 										}else{
 								
 														$elrut=trim($_POST["rut"]);
-														$elrbd=trim($_POST["rbd"]);
-														
-														$return = $cliente->call('getXMLtblacceso', array('rut'=>$elrut,'rbd'=>$elrbd));
-										
-													
+																										
+														$return = $cliente->call('getXMLtblacceso', array('rut'=>$elrut));
+																							
 										
 														$filas_respuesta = explode("@",$return);
 										
@@ -50,18 +50,23 @@
 																	{
 																
 																		$sub_columna_fila = explode("******",$columna_fila[1]);
+																		
+																		$MATRIZ_ALUMNOS[$i]["RUT"]=$sub_columna_fila[0];
+																		$MATRIZ_ALUMNOS[$i]["INSTITUCION"]=$sub_columna_fila[1];
+																		
+																		$LABORATORIOID=$MATRIZ_ALUMNOS[$i]["INSTITUCION"];
+																		
+																		$MATRIZ_ALUMNOS[$i]["LISTA"]=$sub_columna_fila[2];
+																		$MATRIZ_ALUMNOS[$i]["HABILITADO"]=$sub_columna_fila[3];
+																		$MATRIZ_ALUMNOS[$i]["NIVEL"]=$sub_columna_fila[4];
+																		$MATRIZ_ALUMNOS[$i]["ULTIMOMODULO"]=$sub_columna_fila[5];
+																		$MATRIZ_ALUMNOS[$i]["DATOSREINIC"]=$sub_columna_fila[6];
+																		$MATRIZ_ALUMNOS[$i]["DATOSREINICMETA"]=$sub_columna_fila[7];
+																		$MATRIZ_ALUMNOS[$i]["DATOSREINICPRU"]=$sub_columna_fila[8];
+																		$MATRIZ_ALUMNOS[$i]["RUTTUTOR"]=$sub_columna_fila[9];
+																		$MATRIZ_ALUMNOS[$i]["NOMBRE"]=$sub_columna_fila[10];
+																		$MATRIZ_ALUMNOS[$i]["PRODUCTO"]=strtoupper($sub_columna_fila[11]);
 																	
-																		$ALUMNO_RUT=$sub_columna_fila[0];
-																		$ALUMNO_INSTITUCION=$sub_columna_fila[1];
-																		$ALUMNO_LISTA=$sub_columna_fila[2];
-																		$ALUMNO_HABILITADO=$sub_columna_fila[3];
-																		$ALUMNO_NIVEL=$sub_columna_fila[4];
-																		$ALUMNO_ULTIMOMODULO=$sub_columna_fila[5];
-																		$ALUMNO_DATOSREINIC=$sub_columna_fila[6];
-																		$ALUMNO_DATOSREINICMETA=$sub_columna_fila[7];
-																		$ALUMNO_DATOSREINICPRU=$sub_columna_fila[8];
-																		$ALUMNO_RUTTUTOR=$sub_columna_fila[9];
-																		$ALUMNO_NOMBRE=$sub_columna_fila[10];
 																	
 																	}
 													
@@ -75,6 +80,7 @@
 																		$MATRIZ_PRUEBAS[$i]["ev_hora"]=$sub_columna_fila[2];
 																		$MATRIZ_PRUEBAS[$i]["ev_puntaje"]=$sub_columna_fila[3];
 																		$MATRIZ_PRUEBAS[$i]["ev_puntaje_nivel"]=$sub_columna_fila[4];
+																		$MATRIZ_PRUEBAS[$i]["PRODUCTO"]=strtoupper($sub_columna_fila[5]);
 																		
 																	}
 														
@@ -87,6 +93,7 @@
 																		$MATRIZ_SES[$i]["ses_reinicio"]=$sub_columna_fila[2];
 																		$MATRIZ_SES[$i]["ses_session_anterior"]=$sub_columna_fila[3];
 																		$MATRIZ_SES[$i]["ses_session_actual"]=$sub_columna_fila[4];
+																		$MATRIZ_SES[$i]["PRODUCTO"]=strtoupper($sub_columna_fila[5]);
 																		
 																	}
 															
@@ -105,6 +112,7 @@
 																		$MATRIZ_MOD[$i]["mod_puntajePSU"]=$sub_columna_fila[7];
 																		$MATRIZ_MOD[$i]["mod_cuenta"]=$sub_columna_fila[8];
 																		$MATRIZ_MOD[$i]["mod_respaldo_reinicio"]=$sub_columna_fila[9];
+																		$MATRIZ_MOD[$i]["PRODUCTO"]=strtoupper($sub_columna_fila[10]);
 																		
 																	}
 																	
@@ -117,43 +125,57 @@
 															 <div class="panel-heading">
 																  Informaci&oacute;n Alumno
 															 </div>
-														
+                                                        
+															 <?php
+                                                                
+																if(isset($MATRIZ_ALUMNOS))
+                                                                {
+                                                                    foreach($MATRIZ_ALUMNOS as $clave => $valor)
+                                                                    {
+                                                                    ?>
 															 <div  class="row text-center contact-info">
-																 <div class="col-lg-12 col-md-12 col-sm-12">
+													        	 <div class="col-lg-12 col-md-12 col-sm-12">
 																	 <hr />
 																	 <span>
-																		 <strong>RUT : </strong>  <?=$ALUMNO_RUT?> / 
+																		 <strong>RUT : </strong>  <?=$valor["RUT"]?> / 
 																	 </span>
 																	 <span>
-																		 <strong>NOMBRE : </strong>  <?=$ALUMNO_NOMBRE?> / 
+																		 <strong>NOMBRE : </strong>  <?=$valor["NOMBRE"]?> / 
 																	 </span>
 																	  <span>
-																		 <strong>CURSO : </strong>  <?=$ALUMNO_LISTA?> 
+																		 <strong>CURSO : </strong>  <?=$valor["LISTA"]?> 
 																	 </span>
 																	 <hr />
 																 </div>
-															 </div>
+													          </div>
 															 <div  class="row pad-top-botm client-info">
 																 <div class="col-lg-6 col-md-6 col-sm-6">
-																     <b>Habilitado :</b> <?=$ALUMNO_HABILITADO?>
+																     <b>Habilitado :</b> <?=$valor["HABILITADO"]?>
 																	 <br />
-																	 <b>Nivel :</b> <?=$ALUMNO_NIVEL?>
+																	 <b>Nivel :</b> <?=$valor["NIVEL"]?>
 																	 <br />
-																	 <b>Ultimo M&oacute;dulo :</b> <?=$ALUMNO_ULTIMOMODULO?>
+																	 <b>Ultimo M&oacute;dulo :</b> <?=$valor["ULTIMOMODULO"]?>
 																	 <br />
-																	 <b>Datos Reinicio :</b> <?=$ALUMNO_DATOSREINIC?>
+																	 <b>Datos Reinicio :</b> <?=$valor["DATOSREINIC"]?>
 																 	 <br />
 																 </div>
 																  <div class="col-lg-6 col-md-6 col-sm-6">
-																	 <b>Datos Reinicio Meta :</b> <?=$ALUMNO_DATOSREINICMETA?>
+																	 <b>Datos Reinicio Meta :</b> <?=$valor["DATOSREINICMETA"]?>
 																	 <br />
-																	 <b>Datos Reinicio Pru :</b> <?=$ALUMNO_DATOSREINICPRU?>
+																	 <b>Datos Reinicio Pru :</b> <?=$valor["DATOSREINICPRU"]?>
 																	 <br />
-																	 <b>Rut Tutor :</b> <?=$ALUMNO_RUTTUTOR?>
-																 	<br />
+																	 <b>Rut Tutor :</b> <?=$valor["RUTTUTOR"]?>
+																	 <br />
+																	 <b>Base de Datos :</b> <strong><font color="<?=($valor["PRODUCTO"]=="BASICA")?"#FF9966":"#0099FF"?>"><?=$valor["PRODUCTO"]?></strong></font>
+															     	<br />
 																 </div>
 															</div>
-								 
+								 						<?
+																	}
+															}		
+												
+														?>
+                                 
 															 <div class="row">
 																 <div class="col-lg-12 col-md-12 col-sm-12">
 																   <div class="table-responsive">
@@ -166,6 +188,7 @@
 																							</tr>
 																						
 																							<tr>
+																								<th>BD</th>
 																								<th>PRUEBA</th>
 																								<th>FECHA</th>
 																								<th>HORA</th>
@@ -182,7 +205,8 @@
 																								{
 																								?>
 																								<tr>
-																									<td><?php echo $valor["ev_prueba"]?></td>
+																									<td><strong><font color="<?=($valor["PRODUCTO"]=="BASICA")?"#FF9966":"#0099FF"?>"><?=$valor["PRODUCTO"]?></font></strong></td>
+                                                                                                	<td><?php echo $valor["ev_prueba"]?></td>
 																									<td><?php echo $valor["ev_fecha"]?></td>
 																									<td><?php echo $valor["ev_hora"]?></td>
 																									<td><?php echo $valor["ev_puntaje"]?></td>
@@ -215,7 +239,8 @@
 																								<th colspan="9">ACTIVIDADES</th>
 																							</tr>
 																							<tr>
-																								<th>MODULO</th>
+																								<th>BD</th>
+																							    <th>MODULO</th>
 																								<th>FECHA INGRESO</th>
 																								<th>HORA INGRESO</th>
 																								<th>FECHA TERMINO</th>
@@ -236,7 +261,8 @@
 																								{
 																								?>
 																								<tr>
-																									<td><?php echo $valor["mod_modulo"]?></td>
+																									<td><strong><font color="<?=($valor["PRODUCTO"]=="BASICA")?"#FF9966":"#0099FF"?>"><?=$valor["PRODUCTO"]?></font></strong></td>
+                                                                                                    <td><?php echo $valor["mod_modulo"]?></td>
 																									<td><?php echo $valor["mod_ingreso_fecha"]?></td>
 																									<td><?php echo $valor["mod_ingreso_hora"]?></td>
 																									<td><?php echo $valor["mod_termino_fecha"]?></td>
@@ -276,7 +302,9 @@
 																								<th colspan="4">MULTI SESION</th>
 																							</tr>
 																							<tr>
-																								<th>HORA</th>
+																								<th>BD</th>
+																							    <th>FECHA</th>
+                                                                                                <th>HORA</th>
 																								<th>REINICIO</th>
 																								<th>SESION ANTERIOR</th>
 																								<th>SESION ACTUAL</th>
@@ -291,7 +319,9 @@
 																								{
 																								?>
 																								<tr>
-																									<td><?php echo $valor["ses_hora_episodio"]?></td>
+																									<td><strong><font color="<?=($valor["PRODUCTO"]=="BASICA")?"#FF9966":"#0099FF"?>"><?=$valor["PRODUCTO"]?></font></strong></td>
+                                                                                                    <td><?php echo $valor["ses_fecha_episodio"]?></td>
+																								    <td><?php echo $valor["ses_hora_episodio"]?></td>
 																									<td><?php echo $valor["ses_reinicio"]?></td>
 																									<td><?php echo $valor["ses_session_anterior"]?></td>
 																									<td><?php echo $valor["ses_session_actual"]?></td>
@@ -325,7 +355,12 @@
 				
 				}
 				?>		 
-
+				<script>
+					<? if(trim($LABORATORIOID)!=""){?>
+						$("#Colegio").val('<?=$LABORATORIOID?>');
+						consulta_colegio('<?=$LABORATORIOID?>');
+					<? } ?>
+				</script>
 
 
 		 </div>

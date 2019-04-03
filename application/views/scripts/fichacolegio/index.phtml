@@ -1,27 +1,79 @@
 <?php
 	 //recupera paràmetros principales
 	 $LABORATORIOID=$this->layout()->LABORATORIOID;
-	 $LABORATORIODESCRIPCION=$this->layout()->LABORATORIODESCRIPCION;
-	 $SIS03_ESTADO=$this->layout()->SIS03_ESTADO;
-	 $SIS03_CURSOS=$this->layout()->SIS03_CURSOS;
-	 $SIS03_ASESOR=$this->layout()->SIS03_ASESOR;
-	 $SIS03_PRODUCTOS=$this->layout()->SIS03_PRODUCTOS;
-	 $SIS03_CONEMATLOCAL=$this->layout()->SIS03_CONEMATLOCAL;
-	
-	if(isset($this->layout()->datosticket))
-		$datosticket=$this->layout()->datosticket;
-
-	if(isset($this->layout()->datossolicitud))
-		$datossolicitud=$this->layout()->datossolicitud;
-	
-	if(isset($this->layout()->datosasistencias))
-	   $datosasistencias=$this->layout()->datosasistencias;
-	
-	
 ?>
+			
+			<script language="JavaScript" type="text/javascript">
+
+					  function consulta_rut()
+					  {
+					
+									var parametros = {
+											"rut" : $("#rutalumno").val()
+									};
+							
+									$.ajax({
+													data:  parametros,
+													url:   '/webservice/send_alumno.php', 
+													type:  'post', 
+													evalscripts : true,
+													success:  function (response) { 
+													
+															
+															$("#informacion_alumno").html(response);
+																														
+													
+													}
+											});
+					 
+					  } 
+
+
+  					  function consulta_colegio(colegio)
+					  {
+					  
+					  				if(colegio=="")
+									{
+										alert("Debes Ingresar el RBD del Colegio");
+										$("#Colegio").focus();
+										return false;
+													
+									}
+							
+									var parametros = {
+											"Colegio" : colegio
+									};
+							
+									$.ajax({
+													data:  parametros,
+													url:   '/Fichacolegio/mostrarficha', 
+													type:  'post', 
+													evalscripts : true,
+													success:  function (response) { 
+													
+															
+															$("#informacion_colegio").html(response);
+																														
+													
+													}
+											});
+					 
+					  } 
+
+
+					<? if(trim($LABORATORIOID)!=""){?>
+						consulta_colegio('<?=$LABORATORIOID?>');
+					<?}?>
+
+			</script>
+			
+			
+			
+			
+			
 			<div class="row">
                     <div class="col-md-12">
-						   				<form name="frmBuscaRbd" action="/Fichacolegio/index">
+						   				<form name="frmBuscaRbd">
 											<div class="panel panel-default">
 												<div class="panel-heading">
 													
@@ -33,7 +85,7 @@
 															<input class="form-control" value="<?php echo $LABORATORIOID?>" name="Colegio" id="Colegio" type="text" />
 														</div>
 														<div class="col-md-1">
-															<button type="submit" class="btn btn-info">Ver Colegio</button>
+															<button type="button" class="btn btn-info" onclick='consulta_colegio($("#Colegio").val());$("#informacion_alumno").html("");$("#rutalumno").val("")'>Ver Colegio</button>
 														</div>
 													</div>
 												
@@ -46,210 +98,20 @@
 					</div>
             </div>
               
-          <?
-		  	if(trim($LABORATORIOID)!="SIN-INFO")
-			{
-		  ?>
-		  
-		    <div class="row">
+		
+	     
+		    <div class="row" id="informacion_colegio">
                
-						<div class="col-md-4 col-sm-4">
-						
-							<div class="panel panel-primary">
-								<div class="panel-heading">
-									<strong>Colegio : </strong><?php echo $LABORATORIOID?> <?php echo $LABORATORIODESCRIPCION?>
-								</div>
-								<div class="panel-body">
-									<p><strong>Cursos : </strong><?php echo $SIS03_CURSOS?></p>
-									<p><strong>Asesor : </strong><?php echo $SIS03_ASESOR?></p>
-									<p><strong>Productos : </strong><?php echo $SIS03_PRODUCTOS?></p>
-									<p><strong>&iquest;Tiene Emat-Local? : </strong> <?=($SIS03_CONEMATLOCAL=="1")?'SI':'NO'?></p>
-								</div>
-							</div>
-						
-						</div>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-					
-					
-								
-									<div class="panel panel-info">
-										<div class="panel-heading">
-											Bit&aacute;cora Colegio
-										</div>
-										<div class="panel-body">
-											<ul class="nav nav-pills">
-											    <!--class="active"-->
-												<li class=""><a href="#home-pills" data-toggle="tab">Incidentes</a>
-												</li>
-												<li class=""><a href="#profile-pills" data-toggle="tab">Solicitudes Internas</a>
-												</li>
-												<li class=""><a href="#messages-pills" data-toggle="tab">Atenciones T&eacute;cnicas</a>
-												</li>
-											</ul>
-				
-											<div class="tab-content">
-			
-														 <!-- active in -->
-												<div class="tab-pane fade" id="home-pills">
-			
-			
-												 <div class="panel panel-success">
-														<div class="panel-heading">
-																Ultimos 10 Incidentes
-														</div>
-														<div class="panel-body" style="padding: 0px;">
-															<div class="chat-widget-main">
-							
-																	<table class="table table-hover">
-																		<thead>
-																			<tr>
-																				<th>#</th>
-																				<th>Fecha</th>
-																				<th>Solicitante</th>
-																				<th>Nivel</th>
-																				<th>Clasificador</th>
-																			</tr>
-																		</thead>
-																		<tbody>
-																			<?php
-																			if(isset($datosticket))
-																			{
-																				foreach($datosticket as $clave => $valor)
-																				{
-																				?>
-																				<tr>
-																					<td><?php echo $valor["ED03_TICKETID"]?></td>
-																					<td><?php echo $valor["ED03_FECHATICKET"]?></td>
-																					<td><?php echo $valor["ED03_NOMBRESOLICITANTE"]?></td>
-																					<td><?php echo $valor["ED03_NIVELSOPORTE"]?></td>
-																					<td><?php echo $valor["ED03_CLASIFICADOR"]?></td>
-																				</tr>
-																				<?
-																				}
-																			}
-																			?>
-																		</tbody>
-																	</table>
-															</div>
-														</div>
-													</div>
-			
-											
-											
-												</div>
-												<div class="tab-pane fade" id="profile-pills">
-												
-												
-											
-													 <div class="panel panel-success">
-														<div class="panel-heading">
-															Ultimas 10 Solicitudes Internas
-														</div>
-														<div class="panel-body" style="padding: 0px;">
-															<div class="chat-widget-main">
-							
-																	<table class="table table-hover">
-																		<thead>
-																			<tr>
-																				<th>#</th>
-																				<th>Fecha</th>
-																				<th>Solicitante</th>
-																				<th>Detalle</th>
-																			</tr>
-																		</thead>
-																		<tbody>
-																			<?php
-																			if(isset($datossolicitud))
-																			{
-																				foreach($datossolicitud as $clave => $valor)
-																				{
-																				?>
-																				<tr>
-																					<td><?php echo $valor["ED02_SOLICITUDID"]?></td>
-																					<td><?php echo $valor["ED02_FECHASOLICITUD"]?></td>
-																					<td><?php echo $valor["ED02_NOMBRESOLICITANTE"]?></td>
-																					<td><?php echo $valor["ED02_DETALLESOLICITUD"]?></td>
-																				</tr>
-																				<?
-																				}
-																			}
-																			?>
-																		</tbody>
-																	</table>
-															</div>
-														</div>
-													</div>
-			
-												
-												
-												</div>
-												<div class="tab-pane fade" id="messages-pills">
-												
-			
-												 <div class="panel panel-success">
-														<div class="panel-heading">
-															Ultimas 10 Atenciones T&eacute;cnicas
-														</div>
-														<div class="panel-body" style="padding: 0px;">
-															<div class="chat-widget-main">
-							
-																	<table class="table table-hover">
-																		<thead>
-																			<tr>
-																				<th>#</th>
-																				<th>Fecha</th>
-																				<th>Solicitante</th>
-																				<th>Detalle</th>
-																			</tr>
-																		</thead>
-																		<tbody>
-																			<?php
-																			if(isset($datosasistencias))
-																			{
-																				foreach($datosasistencias as $clave => $valor)
-																				{
-																				?>
-																				<tr>
-																					<td><?php echo $valor["ED05_ASISTENCIAID"]?></td>
-																					<td><?php echo $valor["ED05_FECHAINGRESO"]?></td>
-																					<td><?php echo $valor["ED05_NOMBRESOLICITANTE"]?></td>
-																					<td><?php echo $valor["ED05_DETALLEASISTENCIAREALIZAR"]?></td>
-																				</tr>
-																				<?
-																				}
-																			}		
-																			?>
-																		</tbody>
-																	</table>
-															</div>
-														</div>
-													</div>
-			
-			
-			
-			
-												
-												
-												</div>
-											</div>
-										</div>
-									</div>
-				
-							  
-							  
-				
-
-					   </div>
 						  
 			</div>
+			
+			
+			
 			
 			<div class="row">
 			 
 				   <div class="col-md-6 col-sm-6">
-					
-				
-				
-							  <div class="panel panel-info">
+						  <div class="panel panel-info">
 										<div class="panel-heading">
 										   CONSULTA ALUMNO
 										</div>
@@ -270,39 +132,14 @@
 			</div>
 			
 			
-			<script language="JavaScript" type="text/javascript">
-
-					  function consulta_rut()
-					  {
-					
-					
-									var parametros = {
-											"rut" : $("#rutalumno").val(),
-											"rbd" : '<?=$LABORATORIOID?>'
-									};
-							
-									$.ajax({
-													data:  parametros,
-													url:   '/webservice/send_alumno.php', 
-													type:  'post', 
-													success:  function (response) { 
-													
-															
-															$("#informacion_alumno").html(response);
-																														
-													
-													}
-											});
-					 
-					  } 
-
-			</script>
 			
-						
+			
+			
 	
 			<div class="row" id="informacion_alumno">
+			
+			
+			
 			</div>
 					 
-			<?
-			}//si es sin info
-			?>	 	
+	

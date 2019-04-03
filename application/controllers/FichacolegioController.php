@@ -9,9 +9,28 @@ class FichacolegioController extends Zend_Controller_Action
 	
 		public function indexAction()
 		{
+							
+							
+							//$this->_helper->layout->disableLayout();
+						$config = Zend_Registry::get('config');
 						
+						$DB = Zend_Db_Table::getDefaultAdapter();
+					
+						//con parametros
+						$S_COLEGIO = trim($this->_request->getParam('Colegio'));
 						
-						//$this->_helper->layout->disableLayout();
+						Zend_Layout::getMvcInstance()->assign('LABORATORIOID',$S_COLEGIO);
+							
+				
+		}
+		
+		
+		
+		public function mostrarfichaAction()
+		{
+
+
+						$this->_helper->layout->disableLayout();
 						$config = Zend_Registry::get('config');
 						
 						$DB = Zend_Db_Table::getDefaultAdapter();
@@ -181,8 +200,10 @@ class FichacolegioController extends Zend_Controller_Action
 						
 						if(isset($datosasistencias))
 							Zend_Layout::getMvcInstance()->assign('datosasistencias',$datosasistencias);
-							
 				
+
+
+
 		}
 
 

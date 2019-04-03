@@ -1,0 +1,206 @@
+<?php
+	 //recupera paràmetros principales
+	 $LABORATORIOID=$this->layout()->LABORATORIOID;
+	 $LABORATORIODESCRIPCION=$this->layout()->LABORATORIODESCRIPCION;
+	 $SIS03_ESTADO=$this->layout()->SIS03_ESTADO;
+	 $SIS03_CURSOS=$this->layout()->SIS03_CURSOS;
+	 $SIS03_ASESOR=$this->layout()->SIS03_ASESOR;
+	 $SIS03_PRODUCTOS=$this->layout()->SIS03_PRODUCTOS;
+	 $SIS03_CONEMATLOCAL=$this->layout()->SIS03_CONEMATLOCAL;
+	
+	if(isset($this->layout()->datosticket))
+		$datosticket=$this->layout()->datosticket;
+
+	if(isset($this->layout()->datossolicitud))
+		$datossolicitud=$this->layout()->datossolicitud;
+	
+	if(isset($this->layout()->datosasistencias))
+	   $datosasistencias=$this->layout()->datosasistencias;
+	
+	
+?>
+   
+			<div class="col-md-4 col-sm-4">
+			
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<strong>Colegio : </strong><?php echo $LABORATORIOID?> <?php echo $LABORATORIODESCRIPCION?>
+					</div>
+					<div class="panel-body">
+						<p><strong>Cursos : </strong><?php echo $SIS03_CURSOS?></p>
+						<p><strong>Asesor : </strong><?php echo $SIS03_ASESOR?></p>
+						<p><strong>Productos : </strong><?php echo $SIS03_PRODUCTOS?></p>
+						<p><strong>&iquest;Tiene Emat-Local? : </strong> <?=($SIS03_CONEMATLOCAL=="1")?'SI':'NO'?></p>
+					</div>
+				</div>
+			
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+		
+		
+					
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								Bit&aacute;cora Colegio
+							</div>
+							<div class="panel-body">
+								<ul class="nav nav-pills">
+									<!--class="active"-->
+									<li class=""><a href="#home-pills" data-toggle="tab">Incidentes</a>
+									</li>
+									<li class=""><a href="#profile-pills" data-toggle="tab">Solicitudes Internas</a>
+									</li>
+									<li class=""><a href="#messages-pills" data-toggle="tab">Atenciones T&eacute;cnicas</a>
+									</li>
+								</ul>
+	
+								<div class="tab-content">
+
+											 <!-- active in -->
+									<div class="tab-pane fade" id="home-pills">
+
+
+									 <div class="panel panel-success">
+											<div class="panel-heading">
+													Ultimos 10 Incidentes
+											</div>
+											<div class="panel-body" style="padding: 0px;">
+												<div class="chat-widget-main">
+				
+														<table class="table table-hover">
+															<thead>
+																<tr>
+																	<th>#</th>
+																	<th>Fecha</th>
+																	<th>Solicitante</th>
+																	<th>Nivel</th>
+																	<th>Clasificador</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php
+																if(isset($datosticket))
+																{
+																	foreach($datosticket as $clave => $valor)
+																	{
+																	?>
+																	<tr>
+																		<td><?php echo $valor["ED03_TICKETID"]?></td>
+																		<td><?php echo $valor["ED03_FECHATICKET"]?></td>
+																		<td><?php echo $valor["ED03_NOMBRESOLICITANTE"]?></td>
+																		<td><?php echo $valor["ED03_NIVELSOPORTE"]?></td>
+																		<td><?php echo $valor["ED03_CLASIFICADOR"]?></td>
+																	</tr>
+																	<?
+																	}
+																}
+																?>
+															</tbody>
+														</table>
+												</div>
+											</div>
+										</div>
+
+								
+								
+									</div>
+									<div class="tab-pane fade" id="profile-pills">
+									
+									
+								
+										 <div class="panel panel-success">
+											<div class="panel-heading">
+												Ultimas 10 Solicitudes Internas
+											</div>
+											<div class="panel-body" style="padding: 0px;">
+												<div class="chat-widget-main">
+				
+														<table class="table table-hover">
+															<thead>
+																<tr>
+																	<th>#</th>
+																	<th>Fecha</th>
+																	<th>Solicitante</th>
+																	<th>Detalle</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php
+																if(isset($datossolicitud))
+																{
+																	foreach($datossolicitud as $clave => $valor)
+																	{
+																	?>
+																	<tr>
+																		<td><?php echo $valor["ED02_SOLICITUDID"]?></td>
+																		<td><?php echo $valor["ED02_FECHASOLICITUD"]?></td>
+																		<td><?php echo $valor["ED02_NOMBRESOLICITANTE"]?></td>
+																		<td><?php echo $valor["ED02_DETALLESOLICITUD"]?></td>
+																	</tr>
+																	<?
+																	}
+																}
+																?>
+															</tbody>
+														</table>
+												</div>
+											</div>
+										</div>
+
+									
+									
+									</div>
+									<div class="tab-pane fade" id="messages-pills">
+									
+
+									 <div class="panel panel-success">
+											<div class="panel-heading">
+												Ultimas 10 Atenciones T&eacute;cnicas
+											</div>
+											<div class="panel-body" style="padding: 0px;">
+												<div class="chat-widget-main">
+				
+														<table class="table table-hover">
+															<thead>
+																<tr>
+																	<th>#</th>
+																	<th>Fecha</th>
+																	<th>Solicitante</th>
+																	<th>Detalle</th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php
+																if(isset($datosasistencias))
+																{
+																	foreach($datosasistencias as $clave => $valor)
+																	{
+																	?>
+																	<tr>
+																		<td><?php echo $valor["ED05_ASISTENCIAID"]?></td>
+																		<td><?php echo $valor["ED05_FECHAINGRESO"]?></td>
+																		<td><?php echo $valor["ED05_NOMBRESOLICITANTE"]?></td>
+																		<td><?php echo $valor["ED05_DETALLEASISTENCIAREALIZAR"]?></td>
+																	</tr>
+																	<?
+																	}
+																}		
+																?>
+															</tbody>
+														</table>
+												</div>
+											</div>
+										</div>
+
+
+
+
+									
+									
+									</div>
+								</div>
+							</div>
+						</div>
+	
+
+		   </div>

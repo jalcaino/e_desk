@@ -14,6 +14,52 @@
 	<!-- JQUERY SCRIPTS -->
 	<script src="/assets/js/jquery-1.10.2.js"></script>
 
+	<script type="text/javascript">
+ 
+ 
+	   function accion_logearse()
+	   {
+	
+	
+				if($("#login").val().length<5)
+				{
+					alert("Debes Ingresar Correctamente Login de Usuario");
+					$("#login").focus();
+					return false;
+				} 
+				
+				
+				if($("#clave").val().length<10)
+				{
+					alert("Debe Ingresar Correctamente Password de Usuario");
+					$("#clave").focus();
+					return false;
+				} 
+	
+	
+	
+				var parametros = {
+									"login" : $("#login").val(),
+									"clave" : $("#clave").val()
+								};
+				
+				$.ajax({
+								data:  parametros,
+								url:   '/Login/validarusuario', 
+								type:  'post', 
+								evalscripts : true,
+								success:  function (response) { 
+								
+										$("#divNotificacionesCentral").html("<div class='panel-body'><div class='alert alert-danger alert-dismissable'>"+response+"</div></div>");
+													
+								}
+						});
+						
+	
+
+ 	   }	
+	</script>
+
 </head>
 <body style="background-color: #E2E2E2;">
     <div class="container">
@@ -26,18 +72,24 @@
                
                 <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
                            
+						
+						   
                             <div class="panel-body">
                                 <form role="form">
                                     <hr />
-                                    <h5>Ingresa tus datos de acceso</h5>
+                                    
+									   
+									<div id="divNotificacionesCentral">
+									</div>
+									<h5>Ingresa tus datos de acceso</h5>
                                        <br />
                                        <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-tag"  ></i></span>
-                                            <input type="text" class="form-control" placeholder="Tu Login" />
+                                            <input type="text" class="form-control" placeholder="Tu Login"  onFocus="$('#login').attr('placeholder','').placeholder()" id="login" name="login" maxlength="10"/>
                                         </div>
                                        <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
-                                            <input type="password" class="form-control"  placeholder="Tu Password" />
+                                            <input type="password" class="form-control"  placeholder="Tu Password" onFocus="$('#clave').attr('placeholder','').placeholder()" id="clave" name="clave" maxlength="10"/>
                                         </div>
                                         <div class="form-group">
                                             <label class="checkbox-inline">
@@ -47,7 +99,7 @@
                                                    <a href="/Login/recordarclave" >¿OLVIDASTE TU PASSWORD? </a> 
                                             </span>
                                         </div>
-                                     	<a href="/Fichacolegio/index/Colegio/10491" class="btn btn-primary ">Aceptar</a>
+                                     	<a href="#" onClick="accion_logearse();" class="btn btn-primary ">Aceptar</a>
 										<!--
 										 <a href="/Login/validarusuario" class="btn btn-primary ">Aceptar</a>
                                     	-->
