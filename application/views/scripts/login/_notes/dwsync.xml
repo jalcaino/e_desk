@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.phtml" server="192.168.2.136//var/www/html/" local="131983661540000000" remote="131983661540000000" />
-<file name="validarusuario.phtml" server="192.168.2.136//var/www/html/" local="131987092430000000" remote="131987092430000000" />
-<file name="recordarclave.phtml" server="192.168.2.136//var/www/html/" local="131984673930000000" remote="131984673930000000" />
-<file name="menuperfil.phtml" server="192.168.2.136//var/www/html/" local="131984673930000000" remote="131984673930000000" />
-<file name="sesion.phtml" server="192.168.2.136//var/www/html/" local="131983661540000000" remote="131983661540000000" />
-<file name="notificacion.phtml" server="192.168.2.136//var/www/html/" local="131983661540000000" remote="131983661540000000" />
-<file name="recordarclaveprocess.phtml" server="192.168.2.136//var/www/html/" local="131983661540000000" remote="131983661540000000" />
-<file name="infousuario.phtml" server="192.168.2.136//var/www/html/" local="131984673930000000" remote="131984673930000000" />
+<file name="index.phtml" server="192.168.2.136//var/www/html/edesk/" local="131983661540000000" remote="131983661540000000" />
+<file name="validarusuario.phtml" server="192.168.2.136//var/www/html/edesk/" local="131987092430000000" remote="131987092430000000" />
+<file name="recordarclave.phtml" server="192.168.2.136//var/www/html/edesk/" local="131984673930000000" remote="131984673930000000" />
+<file name="menuperfil.phtml" server="192.168.2.136//var/www/html/edesk/" local="131984673930000000" remote="131984673930000000" />
+<file name="sesion.phtml" server="192.168.2.136//var/www/html/edesk/" local="131983661540000000" remote="131983661540000000" />
+<file name="notificacion.phtml" server="192.168.2.136//var/www/html/edesk/" local="131983661540000000" remote="131983661540000000" />
+<file name="recordarclaveprocess.phtml" server="192.168.2.136//var/www/html/edesk/" local="131983661540000000" remote="131983661540000000" />
+<file name="infousuario.phtml" server="192.168.2.136//var/www/html/edesk/" local="131984673930000000" remote="131984673930000000" />
+<file name="logout.phtml" server="192.168.2.136//var/www/html/edesk/" local="131994051934534666" remote="131994049190000000" />
 </dwsync>

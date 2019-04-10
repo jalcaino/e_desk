@@ -33,7 +33,8 @@
 		  <actionMethod actionName="recordarclaveprocess"/>
           <actionMethod actionName="sesion"/>
           <actionMethod actionName="validarusuario"/>
-        </controllerFile>
+          <actionMethod actionName="logout"/>
+		</controllerFile>
 	  </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory>
@@ -102,6 +103,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Login">
             <viewScriptFile forActionName="validarusuario"/>
+          </viewControllerScriptsDirectory>
+ 	      <viewControllerScriptsDirectory forControllerName="Login">
+            <viewScriptFile forActionName="logout"/>
           </viewControllerScriptsDirectory>
  		</viewScriptsDirectory>
         <viewHelpersDirectory/>

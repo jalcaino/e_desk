@@ -11,7 +11,25 @@ class LoginController extends Zend_Controller_Action
 		{
 						
 						$this->_helper->layout->disableLayout();
-						$session = new Zend_Session_Namespace('edeskses');
+						
+						
+						###########################		
+						##inicio validacion sesion
+						###########################		
+						
+						$edesk_session = new Zend_Session_Namespace('edeskses');
+	
+						if(trim($edesk_session->ID)=="" || trim($edesk_session->USUARIOID)=="" || trim($edesk_session->NIVELID)=="")
+						{
+							header('location:/');
+							exit;		
+						}
+					
+						###########################		
+						##fin validacion sesion
+						###########################		
+						
+						
 					
 		}
 
@@ -19,9 +37,18 @@ class LoginController extends Zend_Controller_Action
 		{
 						
 						$this->_helper->layout->disableLayout();
-						$this->session = new Zend_Session_Namespace('edeskses');
 						$DB = Zend_Db_Table::getDefaultAdapter();
-		
+
+
+						###########################		
+						##inicio validacion sesion
+						###########################	
+						
+						$edesk_session = new Zend_Session_Namespace('edeskses');
+				
+						###########################		
+						##fin validacion sesion
+						###########################	
 		
 						$login=$this->_request->getPost('login');
 						$clave=$this->_request->getPost('clave');
@@ -39,7 +66,7 @@ class LoginController extends Zend_Controller_Action
 									ED01_AVISARASIGNACION,
 									ED01_AVISARSOLICITUD
 									FROM
-									e_desk.ED01_USUARIO WHERE ED01_USUARIOID = '$login' and ED01_PASSWORD='$clave'"; 
+									e_desk.ED01_USUARIO WHERE ED01_USUARIOID = '$login' and ED01_PASSWORD=MD5($clave)"; 
 							
 				
 							
@@ -59,20 +86,24 @@ class LoginController extends Zend_Controller_Action
 									$AVISARASIGNACION=$row_datosQuery["ED01_AVISARASIGNACION"];
 									$AVISARSOLICITUD=$row_datosQuery["ED01_AVISARSOLICITUD"];
 		
-		
-		
-									$details[$USUARIOID]=array(
-															'USUARIOID'=>$USUARIOID,
-															'NIVELID'=>$NIVELID,
-															'SECTORID'=>$SECTORID,
-															'NOMBREAPELLIDO'=>$NOMBREAPELLIDO,
-															'EMAIL'=>$EMAIL,
-															'ESPRIVADO'=>$ESPRIVADO,
-															'AVISARASIGNACION'=>$AVISARASIGNACION,
-															'AVISARSOLICITUD'=>$AVISARSOLICITUD 
-									);
+				
+									 //30 minutos
+								    $edesk_session->setExpirationSeconds(1800);
+								
+									$edesk_session->ID=session_id();
+									$edesk_session->USUARIOID=$USUARIOID;
+									$edesk_session->NIVELID=$NIVELID;
+									$edesk_session->SECTORID=$SECTORID;
+									$edesk_session->NOMBREAPELLIDO=$NOMBREAPELLIDO;
+									$edesk_session->EMAIL=$EMAIL;
+									$edesk_session->ESPRIVADO=$ESPRIVADO;
+									$edesk_session->AVISARASIGNACION=$AVISARASIGNACION;
+									$edesk_session->AVISARSOLICITUD=$AVISARSOLICITUD; 
+								
+									Zend_Registry::set('session', $edesk_session);
 									
-									//$this->session->DATOS_USUARIO=$details; 
+									
+									
 									$ENCONTRO=1;
 								
 								}								
@@ -81,20 +112,11 @@ class LoginController extends Zend_Controller_Action
 		
 							if($ENCONTRO==0)
 							{
-			
-			
-										echo "Usuario no existe en el sistema!!!";
-			
-			
+										echo "KO|Usuario no existe en el sistema!!!";
 							}else{
-		
-										echo "Si existe<br><br>";
-										
-										print_r($this->session);
-		
+										echo "OK|";
+								 
 								 }	
-				
-		
 		
 		}
 
@@ -153,5 +175,20 @@ class LoginController extends Zend_Controller_Action
 						
 						
 		}
+
+
+		public function logoutAction()
+		{
+						
+						$this->_helper->layout->disableLayout();
+						Zend_Session::namespaceUnset('edeskses');
+						
+						header('location:/');
+						exit;	
+						
+						
+		}
+
+
 
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="agregarusuario.phtml" server="192.168.2.136//var/www/html/" local="131979272440000000" remote="131979272440000000" />
-<file name="index.phtml" server="192.168.2.136//var/www/html/" local="131987091880000000" remote="131987091880000000" />
-<file name="eliminarusuario.phtml" server="192.168.2.136//var/www/html/" local="131976656130000000" remote="131976656130000000" />
-<file name="agregarusuarioprocess.phtml" server="192.168.2.136//var/www/html/" local="131979272440000000" remote="131979272440000000" />
-<file name="editarusuario.phtml" server="192.168.2.136//var/www/html/" local="131979272440000000" remote="131979272440000000" />
-<file name="editarusuarioprocess.phtml" server="192.168.2.136//var/www/html/" local="131979272440000000" remote="131979272440000000" />
-<file name="listarusuarios.phtml" server="192.168.2.136//var/www/html/" local="131979272450000000" remote="131979272450000000" />
+<file name="index.phtml" server="192.168.2.136//var/www/html/edesk/" local="131987091880000000" remote="131987091880000000" />
+<file name="eliminarusuario.phtml" server="192.168.2.136//var/www/html/edesk/" local="131976656130000000" remote="131976656130000000" />
+<file name="agregarusuarioprocess.phtml" server="192.168.2.136//var/www/html/edesk/" local="131979272440000000" remote="131979272440000000" />
+<file name="agregarusuario.phtml" server="192.168.2.136//var/www/html/edesk/" local="131979272440000000" remote="131979272440000000" />
+<file name="editarusuario.phtml" server="192.168.2.136//var/www/html/edesk/" local="131993998996906807" remote="131993996230000000" />
+<file name="editarusuarioprocess.phtml" server="192.168.2.136//var/www/html/edesk/" local="131979272440000000" remote="131979272440000000" />
+<file name="listarusuarios.phtml" server="192.168.2.136//var/www/html/edesk/" local="131979272450000000" remote="131979272450000000" />
 </dwsync>

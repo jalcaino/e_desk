@@ -9,16 +9,28 @@ class UsuarioController extends Zend_Controller_Action
 	
 		public function indexAction()
 		{
+
+						###########################		
+						##inicio validacion sesion
+						###########################		
 						
-						//$this->_helper->layout->disableLayout();
-						
+						$edesk_session = new Zend_Session_Namespace('edeskses');
+	
+						if(trim($edesk_session->ID)=="" || trim($edesk_session->USUARIOID)=="" || trim($edesk_session->NIVELID)=="")
+						{
+							header('location:/');
+							exit;		
+						}
+					
+						###########################		
+						##fin validacion sesion
+						###########################		
 					
 		}
 
 		public function agregarusuarioAction()
 		{
 						
-						//$this->_helper->layout->disableLayout();
 						$config = Zend_Registry::get('config');
 						
 						$DB = Zend_Db_Table::getDefaultAdapter();
@@ -140,7 +152,7 @@ class UsuarioController extends Zend_Controller_Action
 													'SIS01_SECTORID' => $sector,
 													'ED01_NOMBREAPELLIDO' => $nombreapellido,
 													'ED01_EMAIL' => $email,
-													'ED01_PASSWORD' => $clave,
+													'ED01_PASSWORD' => MD5($clave),
 													'ED01_ESPRIVADO' => $privado,
 													'ED01_AVISARASIGNACION' => $notiasig,
 													'ED01_AVISARSOLICITUD' => $notisoli,
@@ -224,6 +236,7 @@ class UsuarioController extends Zend_Controller_Action
 	
 		public function editarusuarioAction()
 		{
+						
 						
 						$this->_helper->layout->disableLayout();
 						$config = Zend_Registry::get('config');
@@ -377,7 +390,7 @@ class UsuarioController extends Zend_Controller_Action
 									'SIS01_SECTORID' => $sector,
 									'ED01_NOMBREAPELLIDO' => $nombreapellido,
 									'ED01_EMAIL' => $email,
-									'ED01_PASSWORD' => $clave,
+									'ED01_PASSWORD' => MD5($clave),
 									'ED01_ESPRIVADO' => $privado,
 									'ED01_AVISARASIGNACION' => $notiasig,
 									'ED01_AVISARSOLICITUD' => $notisoli,
@@ -486,6 +499,8 @@ class UsuarioController extends Zend_Controller_Action
 
 		public function listarusuariosAction()
 		{
+						
+						
 						
 						$this->_helper->layout->disableLayout();
 						$config = Zend_Registry::get('config');

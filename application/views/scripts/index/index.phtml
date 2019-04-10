@@ -29,7 +29,7 @@
 				} 
 				
 				
-				if($("#clave").val().length<10)
+				if($("#clave").val().length<1)
 				{
 					alert("Debe Ingresar Correctamente Password de Usuario");
 					$("#clave").focus();
@@ -50,8 +50,19 @@
 								evalscripts : true,
 								success:  function (response) { 
 								
-										$("#divNotificacionesCentral").html("<div class='panel-body'><div class='alert alert-danger alert-dismissable'>"+response+"</div></div>");
-													
+								
+										var str=response;
+										var res = str.split("|");
+								
+										if(res[0]=='OK')
+										{
+								
+												var urlentrada = "/Fichacolegio";   
+												$(location).attr('href',urlentrada);								
+										
+										}else{
+												$("#divNotificacionesCentral").html("<div class='panel-body'><div class='alert alert-danger alert-dismissable'>"+res[1]+"</div></div>");
+											}				
 								}
 						});
 						

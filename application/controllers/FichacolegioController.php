@@ -9,17 +9,30 @@ class FichacolegioController extends Zend_Controller_Action
 	
 		public function indexAction()
 		{
-							
-							
-							//$this->_helper->layout->disableLayout();
-						$config = Zend_Registry::get('config');
-						
-						$DB = Zend_Db_Table::getDefaultAdapter();
+					###########################		
+					##inicio validacion sesion
+					###########################		
 					
-						//con parametros
-						$S_COLEGIO = trim($this->_request->getParam('Colegio'));
+					$edesk_session = new Zend_Session_Namespace('edeskses');
+
+					if(trim($edesk_session->ID)=="" || trim($edesk_session->USUARIOID)=="" || trim($edesk_session->NIVELID)=="")
+					{
+						header('location:/');
+						exit;		
+					}
+				
+					###########################		
+					##fin validacion sesion
+					###########################		
+							
+				
 						
-						Zend_Layout::getMvcInstance()->assign('LABORATORIOID',$S_COLEGIO);
+					$config = Zend_Registry::get('config');
+					$DB = Zend_Db_Table::getDefaultAdapter();
+				
+					//con parametros
+					$S_COLEGIO = trim($this->_request->getParam('Colegio'));
+					Zend_Layout::getMvcInstance()->assign('LABORATORIOID',$S_COLEGIO);
 							
 				
 		}
