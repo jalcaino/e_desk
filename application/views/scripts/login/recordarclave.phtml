@@ -11,9 +11,107 @@
     <link href="/assets/css/font-awesome.css" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+	
 	<!-- JQUERY SCRIPTS -->
 	<script src="/assets/js/jquery-1.10.2.js"></script>
 
+	<script type="text/javascript">
+ 
+ 	
+	   var emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
+ 
+ 
+	   function accion_recordar()
+	   {
+	
+				
+				if($("#email").val().length<5 || !$("#email").val().match(emailPattern))
+				{
+					alert("Debe Ingresar Correctamente un E-mail");
+					$("#email").focus();
+					return false;		
+				} 
+			
+	
+	
+				var parametros = {
+									"email" : $("#email").val()
+								};
+				
+				$.ajax({
+								data:  parametros,
+								url:   '/Login/recordarclaveprocess', 
+								type:  'post', 
+								evalscripts : true,
+								success:  function (response) { 
+								
+								
+										var str=response;
+										var res = str.split("|");
+								
+										if(res[0]=='OK')
+										{
+												$("#divNotificacionesRecordar").html("<div class='panel-body'><div class='alert alert-danger alert-dismissable'><u>Tus datos para ingresar son</u> : <br><br><strong>Usuario :</strong> "+res[1]+" <br> <strong>Password :</strong> "+res[2]+" </div></div>");
+												$("#email").val("");
+												notificacion();
+										
+										}else{
+												$("#divNotificacionesRecordar").html("<div class='panel-body'><div class='alert alert-danger alert-dismissable'>"+res[1]+"</div></div>");
+											}				
+								}
+						});
+						
+	
+
+ 	   }	
+	
+	
+	
+		$(document).keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				document.getElementById("envia_accion_recordar").click();
+			}
+		});
+
+
+
+
+    function notificacion() {
+
+        if (Notification) {
+
+            if (Notification.permission !== "granted") {
+
+                Notification.requestPermission()
+
+            }
+            var title = "E-DESK"
+            var extra = {
+
+                icon: "http://edesk.e-mat.cl/assets/img/user.png",
+                body: "Nueva clave generada para E-DESK"
+
+            }
+            var noti = new Notification( title, extra)
+            noti.onclick = {
+
+   		 
+            }
+            noti.onclose = {
+
+   		
+            }
+            setTimeout( function() { noti.close() }, 10000)
+
+        }
+
+    }
+
+
+	</script>
+
+	
 </head>
 <body style="background-color: #E2E2E2;">
     <div class="container">
@@ -29,14 +127,19 @@
                             <div class="panel-body">
                                 <form role="form">
                                     <hr />
+									<div id="divNotificacionesRecordar">
+									</div>
+								
                                     <h5>Ingresa tu e-mail registrado</h5>
                                        <br />
                                        <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-envelope fa-fw"  ></i></span>
-                                            <input type="password" class="form-control"  placeholder="Tu e-mail" />
+                                            <input type="text" class="form-control"  placeholder="Tu e-mail" onFocus="$('#email').attr('placeholder','').placeholder()" id="email" name="email"/>
                                         </div>
-                                    	<a href="/Login/recordarclaveprocess" class="btn btn-primary ">Recuperar</a>
-									    <hr />
+                                    	
+										<a href="#" onClick="accion_recordar();" class="btn btn-primary " id="envia_accion_recordar">Recuperar</a>
+										
+										<hr />
 										¿ Recuperaste tu clave ? <a href="/" >CLICK AQUI</a> 
 									</form>
                             </div>

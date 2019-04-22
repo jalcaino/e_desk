@@ -1,3 +1,36 @@
+<?
+
+	if(isset($_COOKIE['cok_login']) && trim($_COOKIE['cok_login'])!="") 
+	{
+			$TEXTO_LOGIN=trim($_COOKIE['cok_login']);
+			$DESACTIVAR_FOCUS_LOGIN=1;
+	}else{	
+			$DESACTIVAR_FOCUS_LOGIN=0;
+	}
+	
+	if(isset($_COOKIE['cok_clave']) && trim($_COOKIE['cok_clave'])!="") 
+	{
+			$TEXTO_PASSWORD=trim($_COOKIE['cok_clave']);
+			$DESACTIVAR_FOCUS_PASSWORD=1;
+	}else{
+			$DESACTIVAR_FOCUS_PASSWORD=0;
+	
+	}
+
+
+	if(isset($_COOKIE['cok_recuerdame']) && trim($_COOKIE['cok_recuerdame'])!="") 
+	{
+			$DESACTIVAR_RECUERDAME=1;
+	}else{
+			$DESACTIVAR_RECUERDAME=0;
+	
+	}
+	
+	
+	
+	
+	
+?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -37,10 +70,17 @@
 				} 
 	
 	
+				if (document.getElementById('recuerdame').checked==true) {
+					CHECKEADO=1;
+				} else {
+					CHECKEADO=0;
+				}
+			
 	
 				var parametros = {
 									"login" : $("#login").val(),
-									"clave" : $("#clave").val()
+									"clave" : $("#clave").val(),
+									"recuerdame" : CHECKEADO
 								};
 				
 				$.ajax({
@@ -69,6 +109,17 @@
 	
 
  	   }	
+	
+	
+	
+		$(document).keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+			if(keycode == '13'){
+				document.getElementById("envia_accion_logearse").click();
+			}
+		});
+	
+	
 	</script>
 
 </head>
@@ -96,24 +147,21 @@
                                        <br />
                                        <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-tag"  ></i></span>
-                                            <input type="text" class="form-control" placeholder="Tu Login"  onFocus="$('#login').attr('placeholder','').placeholder()" id="login" name="login" maxlength="10"/>
+                                            <input type="text" class="form-control" <?php if($DESACTIVAR_FOCUS_LOGIN==0){?>placeholder="Tu Login" onFocus="$('#login').attr('placeholder','').placeholder()" <?php }else{?> value="<?php echo $TEXTO_LOGIN?>"<?php }?> id="login" name="login" maxlength="10" />
                                         </div>
                                        <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
-                                            <input type="password" class="form-control"  placeholder="Tu Password" onFocus="$('#clave').attr('placeholder','').placeholder()" id="clave" name="clave" maxlength="10"/>
+                                            <input type="password" class="form-control"  <?php if($DESACTIVAR_FOCUS_PASSWORD==0){?>placeholder="Tu Password" onFocus="$('#clave').attr('placeholder','').placeholder()" <?php }else{?> value="<?php echo $TEXTO_PASSWORD?>"<?php }?> id="clave" name="clave" maxlength="10" />
                                         </div>
                                         <div class="form-group">
                                             <label class="checkbox-inline">
-                                                <input type="checkbox" /> Recu&eacute;rdame
+                                                <input type="checkbox"  name="recuerdame" id="recuerdame" value="1" <?php if($DESACTIVAR_RECUERDAME==1){?>checked<?php } ?>/> Recu&eacute;rdame
                                             </label>
                                             <span class="pull-right">
                                                    <a href="/Login/recordarclave" >¿OLVIDASTE TU PASSWORD? </a> 
                                             </span>
                                         </div>
-                                     	<a href="#" onClick="accion_logearse();" class="btn btn-primary ">Aceptar</a>
-										<!--
-										 <a href="/Login/validarusuario" class="btn btn-primary ">Aceptar</a>
-                                    	-->
+                                     	<a href="#" onClick="accion_logearse();" class="btn btn-primary " id="envia_accion_logearse">Aceptar</a>
 									</form>
                             </div>
                            

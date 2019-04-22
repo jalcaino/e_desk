@@ -52,9 +52,14 @@ class LoginController extends Zend_Controller_Action
 		
 						$login=$this->_request->getPost('login');
 						$clave=$this->_request->getPost('clave');
+						$recuerdame=$this->_request->getPost('recuerdame');
+				
+				
 				
 						$ENCONTRO=0;
 				
+						$clave_md5=md5($clave);			
+									
 										
 						$sSQL = "SELECT 
 									ED01_USUARIOID,
@@ -66,7 +71,7 @@ class LoginController extends Zend_Controller_Action
 									ED01_AVISARASIGNACION,
 									ED01_AVISARSOLICITUD
 									FROM
-									e_desk.ED01_USUARIO WHERE ED01_USUARIOID = '$login' and ED01_PASSWORD=MD5($clave)"; 
+									e_desk.ED01_USUARIO WHERE ED01_USUARIOID = '$login' and ED01_PASSWORD='$clave_md5'"; 
 							
 				
 							
@@ -103,7 +108,6 @@ class LoginController extends Zend_Controller_Action
 									Zend_Registry::set('session', $edesk_session);
 									
 									
-									
 									$ENCONTRO=1;
 								
 								}								
@@ -112,8 +116,41 @@ class LoginController extends Zend_Controller_Action
 		
 							if($ENCONTRO==0)
 							{
+							
+							
+										if(isset($_COOKIE['cok_login'])) unset($_COOKIE['cok_login']);
+										if(isset($_COOKIE['cok_clave'])) unset($_COOKIE['cok_clave']);
+								
+										setcookie('cok_login', null, -1, '/');
+										setcookie('cok_clave', null, -1, '/');
+							
+							
+							
 										echo "KO|Usuario no existe en el sistema!!!";
 							}else{
+								
+								
+										//para recordar datos en el formulario
+										if($recuerdame==1)
+										{
+											setcookie("cok_login",$login,time()+(60*60*24*365),"/");
+											setcookie("cok_clave",$clave,time()+(60*60*24*365),"/");
+											setcookie("cok_recuerdame","1",time()+(60*60*24*365),"/");
+										
+										}else{
+										
+												if(isset($_COOKIE['cok_login'])) unset($_COOKIE['cok_login']);
+												if(isset($_COOKIE['cok_clave'])) unset($_COOKIE['cok_clave']);
+												if(isset($_COOKIE['cok_recuerdame'])) unset($_COOKIE['cok_recuerdame']);
+										
+												setcookie('cok_login', null, -1, '/');
+												setcookie('cok_clave', null, -1, '/');
+												setcookie('cok_recuerdame', null, -1, '/');
+										
+										}					
+								
+								
+								
 										echo "OK|";
 								 
 								 }	
@@ -125,7 +162,6 @@ class LoginController extends Zend_Controller_Action
 		{
 						
 						$this->_helper->layout->disableLayout();
-		
 						
 		}
 		
@@ -133,8 +169,124 @@ class LoginController extends Zend_Controller_Action
 		public function recordarclaveprocessAction()
 		{
 						
-						$this->_helper->layout->disableLayout();
+						//generamos una nueva contraseña de largos 10
+						//////////////////////////////////////////////
+						$longitud=10;
+						$key = '';
+						$pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
+						$max = strlen($pattern)-1;
+						for($i=0;$i < $longitud;$i++) $key.= $pattern{mt_rand(0,$max)};
+						///////////////////////////////////////////////
+ 						$clave=$key;
+													
+					
+  						//////////////////////////////////////////////
+						//////////////////////////////////////////////
 						
+						$this->_helper->layout->disableLayout();
+						$DB = Zend_Db_Table::getDefaultAdapter();
+
+						$email=$this->_request->getPost('email');
+						
+						$ENCONTRO=0;
+				
+										
+						$sSQL = "SELECT 
+									ED01_USUARIOID,
+									ED01_PASSWORD
+									FROM
+									e_desk.ED01_USUARIO WHERE ED01_EMAIL = '$email'"; 
+							
+				
+							
+					 		$rowset = $DB->fetchAll($sSQL);
+
+							foreach($rowset as $row_datosQuery)
+							{
+								if(trim($row_datosQuery["ED01_USUARIOID"])!="")
+								{
+								
+									$USUARIOID=$row_datosQuery["ED01_USUARIOID"];
+									$ENCONTRO=1;
+								}								
+							}
+		
+		
+							if($ENCONTRO==0)
+							{
+										echo "KO|Email no existe en el sistema!!!";
+							}else{
+			
+			
+			
+										$key_md5=md5($key);			
+									
+										//insertamos con try
+										$data = array(
+											'ED01_PASSWORD' => $key_md5
+										);
+					
+					
+										$where['ED01_USUARIOID = ?'] = $USUARIOID;
+											
+					
+										#############################
+										##MAIL EDICION USUARIO
+										#############################
+					
+										$from="helpdesk@compumat.cl";
+										$to=$email;
+										$subject="INTERNO - RECORDAR CLAVE DE USUARIO E-DESK";
+										$body="<u>Estimado Usuario</u><br><br>
+											   Con fecha de hoy ".date("d/m/Y")." se ha procedido a la recuperaci&oacute;n<br><br>
+											   de la clave E-DESK Login : (<strong>$USUARIOID</strong>) , Nueva Clave : (<strong>$clave</strong>)  asociado a su email $email<br><br>
+											   Atte.<br>Equipo Compumat.";
+										
+					
+										$data_email = array(
+												'origen' => $from,
+												'destinatarios' => $to,
+												'f_ingreso' => date("Ymdhis"),
+												'app_origen' => 'E-DESK',
+												'encabezado' => $subject,
+												'contenido' => $body,
+												'estado_correo' => '0'
+											);
+						
+			
+										#############################
+										##FIN MAIL EDICION USUARIO
+										#############################
+			
+					
+					
+										try {
+					
+											$DB->getConnection();
+											$DB->beginTransaction();
+											$DB->update('e_desk.ED01_USUARIO', $data, $where);
+											$DB->insert('bd_correos.correos_soporte', $data_email);
+									
+											
+											$DB->commit();
+						
+											echo "OK|$USUARIOID|$key";
+											exit;
+											
+										} catch (Zend_Exception $e) {
+					
+											$DB->rollBack();
+											echo("KO|".$e->getMessage());
+											exit;	
+										}
+				
+								 
+								 }	
+						
+	
+	
+	
+	
 		}
 
 
@@ -152,8 +304,26 @@ class LoginController extends Zend_Controller_Action
 		{
 						
 						$this->_helper->layout->disableLayout();
-						$session = new Zend_Session_Namespace('edeskses');
+						$DB = Zend_Db_Table::getDefaultAdapter();
+				        $config = Zend_Registry::get('config');
+
+						###########################		
+						##inicio validacion sesion
+						###########################	
 						
+						$edesk_session = new Zend_Session_Namespace('edeskses');
+				
+						###########################		
+						##fin validacion sesion
+						###########################	
+				
+						Zend_Layout::getMvcInstance()->assign('nivelid',trim($edesk_session->NIVELID));
+						Zend_Layout::getMvcInstance()->assign('sectorid',trim($edesk_session->SECTORID));
+						Zend_Layout::getMvcInstance()->assign('menu',$config['vectorMenu']);
+						Zend_Layout::getMvcInstance()->assign('submenu',$config['vectorSubMenu']);
+						Zend_Layout::getMvcInstance()->assign('permisos',$config['vectorPermisos']);
+				
+				
 						
 		}
 
@@ -169,10 +339,25 @@ class LoginController extends Zend_Controller_Action
 
 		public function infousuarioAction()
 		{
-						
+		
 						$this->_helper->layout->disableLayout();
-						$session = new Zend_Session_Namespace('edeskses');
+						$DB = Zend_Db_Table::getDefaultAdapter();
+
+
+						###########################		
+						##inicio validacion sesion
+						###########################	
 						
+						$edesk_session = new Zend_Session_Namespace('edeskses');
+				
+						###########################		
+						##fin validacion sesion
+						###########################	
+				
+						Zend_Layout::getMvcInstance()->assign('nombreapellido',trim($edesk_session->NOMBREAPELLIDO));
+					    Zend_Layout::getMvcInstance()->assign('nivel',trim($edesk_session->NIVELID));
+					    Zend_Layout::getMvcInstance()->assign('sector',trim($edesk_session->SECTORID));
+		
 						
 		}
 

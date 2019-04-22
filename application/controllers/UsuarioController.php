@@ -170,8 +170,8 @@ class UsuarioController extends Zend_Controller_Action
 												$to=$email;
 												$subject="INTERNO - CREACION DE USUARIO E-DESK";
 												$body="<u>Estimado Usuario</u><br><br>
-													   Con fecha de hoy ".date("d/m/Y")." se ha procedido a a la creaci&oacute;n<br><br>
-													   del usuario E-DESK ($login) asociado a su email $email<br><br>
+													   Con fecha de hoy ".date("d/m/Y")." se ha procedido a la creaci&oacute;n<br><br>
+													   del usuario E-DESK Login : ($login) , Clave : ($clave) asociado a su email $email<br><br>
 													   Atte.<br>Equipo Compumat.";
 												
 							
@@ -412,8 +412,8 @@ class UsuarioController extends Zend_Controller_Action
 								$to=$email;
 								$subject="INTERNO - EDICION DE USUARIO E-DESK";
 								$body="<u>Estimado Usuario</u><br><br>
-									   Con fecha de hoy ".date("d/m/Y")." se ha procedido a a la modificaci&oacute;n<br><br>
-									   del usuario E-DESK ($login) asociado a su email $email<br><br>
+									   Con fecha de hoy ".date("d/m/Y")." se ha procedido a la modificaci&oacute;n<br><br>
+									   del usuario E-DESK Login : ($login) , Clave : ($clave)  asociado a su email $email<br><br>
 									   Atte.<br>Equipo Compumat.";
 								
 			

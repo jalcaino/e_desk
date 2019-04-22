@@ -1,7 +1,20 @@
+<?php
+	
+	if(isset($this->layout()->nombreapellido))
+		$nombreapellido=$this->layout()->nombreapellido;
+
+	if(isset($this->layout()->nivel))
+		$nivel=$this->layout()->nivel;
+
+	if(isset($this->layout()->sector))
+		$sector=$this->layout()->sector;
+	
+?>
+
 	<img src="/assets/img/user.png" class="img-thumbnail" />
 
 	<div class="inner-text">
-		Usuario Soporte
+		<?php echo $nombreapellido;?>
 	<br />
-		<small>Ultimo login : 1 d&iacute;a  atr&aacute;s  </small>
+		<small><?php echo $sector;?>-<?php echo $nivel;?></small>
 	</div>
