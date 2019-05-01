@@ -1,9 +1,9 @@
 <script type="text/javascript">
  
-	   function accion_eliminar(loginusuario)
+	   function accion_eliminar(solicitudid)
 	   {
 
-				if (!confirm("Desea Eliminar los Datos del Usuario?")) 
+				if (!confirm("Desea Eliminar los Datos de la Solicitud?")) 
 				{
 				
 					return false;
@@ -11,17 +11,17 @@
 				} else {
 				
 							var parametros = {
-												"loginusuario" : loginusuario
+												"solicitudid" : solicitudid
 											};
 							
 							$.ajax({
 											data:  parametros,
-											url:   '/Usuario/eliminarusuario', 
+											url:   '/Solicitud/eliminarsolicitud', 
 											type:  'post', 
 											evalscripts : true,
 											success:  function (response) { 
 											
-													$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Usuario'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>"+response+"</h4></div>");
+													$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>"+response+"</h4></div>");
 													$('#volver_bot').focus();
 									
 																
@@ -32,16 +32,16 @@
 
  	   }	
  
- 	   function carga_editar(loginusuario)
+ 	   function carga_editar(solicitudid)
 	   {
 
 					var parametros = {
-										"loginusuario" : loginusuario
+										"solicitudid" : solicitudid
 									};
 					
 					$.ajax({
 									data:  parametros,
-									url:   '/Usuario/editarusuario', 
+									url:   '/Solicitud/editarsolicitud', 
 									type:  'post', 
 									evalscripts : true,
 									success:  function (response) { 
@@ -64,7 +64,7 @@
 					
 					$.ajax({
 									data:  parametros,
-									url:   '/Usuario/listarusuarios', 
+									url:   '/Solicitud/listarsolicitudes', 
 									type:  'post', 
 									evalscripts : true,
 									success:  function (response) { 

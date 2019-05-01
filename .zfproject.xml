@@ -20,22 +20,40 @@
           <actionMethod actionName="agregarusuario"/>
           <actionMethod actionName="agregarusuarioprocess"/>
           <actionMethod actionName="editarusuario"/>
-		  <actionMethod actionName="editarusuarioprocess"/>
+          <actionMethod actionName="editarusuarioprocess"/>
           <actionMethod actionName="eliminarusuario"/>
           <actionMethod actionName="listarusuarios"/>
         </controllerFile>
-	    <controllerFile controllerName="Login">
+        <controllerFile controllerName="Login">
           <actionMethod actionName="index"/>
           <actionMethod actionName="infousuario"/>
           <actionMethod actionName="menuperfil"/>
           <actionMethod actionName="notificacion"/>
-		  <actionMethod actionName="recordarclave"/>
-		  <actionMethod actionName="recordarclaveprocess"/>
+          <actionMethod actionName="recordarclave"/>
+          <actionMethod actionName="recordarclaveprocess"/>
           <actionMethod actionName="sesion"/>
           <actionMethod actionName="validarusuario"/>
           <actionMethod actionName="logout"/>
-		</controllerFile>
-	  </controllersDirectory>
+        </controllerFile>
+        <controllerFile controllerName="Solicitud">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="agregarsolicitud"/>
+          <actionMethod actionName="agregarsolicitudprocess"/>
+          <actionMethod actionName="editarsolicitud"/>
+          <actionMethod actionName="editarsolicitudprocess"/>
+          <actionMethod actionName="eliminarsolicitud"/>
+          <actionMethod actionName="listarsolicitudes"/>
+        </controllerFile>
+        <controllerFile controllerName="Incidente">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="agregarincidente"/>
+          <actionMethod actionName="agregarincidenteprocess"/>
+          <actionMethod actionName="editarincidente"/>
+          <actionMethod actionName="editarincidenteprocess"/>
+          <actionMethod actionName="eliminarincidente"/>
+          <actionMethod actionName="listarincidentes"/>
+        </controllerFile>
+      </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory>
         <layoutScriptsDirectory>
@@ -62,52 +80,94 @@
           <viewControllerScriptsDirectory forControllerName="Usuario">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
-         <viewControllerScriptsDirectory forControllerName="Usuario">
+          <viewControllerScriptsDirectory forControllerName="Usuario">
             <viewScriptFile forActionName="agregarusuario"/>
-       	  </viewControllerScriptsDirectory>
+          </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Usuario">
             <viewScriptFile forActionName="agregarusuarioprocess"/>
-       	  </viewControllerScriptsDirectory>
+          </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Usuario">
-           <viewScriptFile forActionName="editarusuario"/>
+            <viewScriptFile forActionName="editarusuario"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Usuario">
             <viewScriptFile forActionName="editarusuarioprocess"/>
-       	  </viewControllerScriptsDirectory>
+          </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Usuario">
             <viewScriptFile forActionName="eliminarusuario"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Usuario">
             <viewScriptFile forActionName="listarusuarios"/>
           </viewControllerScriptsDirectory>
- 		 <viewControllerScriptsDirectory forControllerName="Login">
+          <viewControllerScriptsDirectory forControllerName="Login">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
-         <viewControllerScriptsDirectory forControllerName="Login">
+          <viewControllerScriptsDirectory forControllerName="Login">
             <viewScriptFile forActionName="infousuario"/>
-       	  </viewControllerScriptsDirectory>
+          </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Login">
             <viewScriptFile forActionName="menuperfil"/>
-       	  </viewControllerScriptsDirectory>
+          </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Login">
-           <viewScriptFile forActionName="notificacion"/>
+            <viewScriptFile forActionName="notificacion"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Login">
             <viewScriptFile forActionName="recordarclave"/>
-       	  </viewControllerScriptsDirectory>
+          </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Login">
             <viewScriptFile forActionName="recordarclaveprocess"/>
-       	  </viewControllerScriptsDirectory>
+          </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Login">
             <viewScriptFile forActionName="sesion"/>
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Login">
             <viewScriptFile forActionName="validarusuario"/>
           </viewControllerScriptsDirectory>
- 	      <viewControllerScriptsDirectory forControllerName="Login">
+          <viewControllerScriptsDirectory forControllerName="Login">
             <viewScriptFile forActionName="logout"/>
           </viewControllerScriptsDirectory>
- 		</viewScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Solicitud">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Solicitud">
+            <viewScriptFile forActionName="agregarsolicitud"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Solicitud">
+            <viewScriptFile forActionName="agregarsolicitudprocess"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Solicitud">
+            <viewScriptFile forActionName="editarsolicitud"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Solicitud">
+            <viewScriptFile forActionName="editarsolicitudprocess"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Solicitud">
+            <viewScriptFile forActionName="eliminarsolicitud"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Solicitud">
+            <viewScriptFile forActionName="listarsolicitudes"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Incidente">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Incidente">
+            <viewScriptFile forActionName="agregarincidente"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Incidente">
+            <viewScriptFile forActionName="agregarincidenteprocess"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Incidente">
+            <viewScriptFile forActionName="editarincidente"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Incidente">
+            <viewScriptFile forActionName="editarincidenteprocess"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Incidente">
+            <viewScriptFile forActionName="eliminarincidente"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Incidente">
+            <viewScriptFile forActionName="listarincidentes"/>
+          </viewControllerScriptsDirectory>
+        </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
       </viewsDirectory>

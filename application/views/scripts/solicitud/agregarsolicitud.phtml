@@ -1,0 +1,300 @@
+<?php
+	
+	if(isset($this->layout()->datoscolegio))
+		$datoscolegio=$this->layout()->datoscolegio;
+
+	if(isset($this->layout()->datosproducto))
+		$datosproducto=$this->layout()->datosproducto;
+	
+
+?>
+
+
+	<!-- PAGE LEVEL STYLES -->
+	<link href="/assets/css/bootstrap-fileupload.min.css" rel="stylesheet" />
+	<!-- InputMask -->
+	<script src="/plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
+	<script src="/plugins/input-mask/jquery.inputmask.date.extensions.js" type="text/javascript"></script>
+	<script src="/plugins/input-mask/jquery.inputmask.extensions.js" type="text/javascript"></script>
+	<!-- date-range-picker -->
+	<script src="/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+	<!-- FILEUPLOAD -->
+	<script src="/assets/js/bootstrap-fileupload.js"></script>
+    
+
+
+ <script type="text/javascript">
+      $(function () {
+       
+	    //Datemask dd/mm/yyyy
+        $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+        //Datemask2 mm/dd/yyyy
+        $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+        //Money Euro
+        $("[data-mask]").inputmask();
+
+       
+      });
+    </script>
+
+
+
+
+<script type="text/javascript">
+	
+	
+	   var emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
+
+ 
+	   $(document).ready(function() {
+            
+
+			$("#btn_guardar").click(function(){
+
+
+				if($("#login").val().length<5)
+				{
+					alert("Debe Ingresar Correctamente Login de Usuario");
+					$("#login").focus();
+					return false;
+				} 
+				
+				if(!$("#nivel").val())
+				{
+					alert("Debe Seleccionar el Nivel de Permisos");
+					$("#nivel").focus();
+					return false;
+				}
+				
+				if(!$("#sector").val())
+				{
+					alert("Debe Seleccionar el Departamento");
+					$("#sector").focus();
+					return false;
+				}
+				
+				if($("#nombreapellido").val().length<5)
+				{
+					alert("Debe Ingresar Correctamente Nombre y Apellido Usuario");
+					$("#nombreapellido").focus();
+					return false;
+				} 
+				
+			
+				if($("#email").val().length<5 || !$("#email").val().match(emailPattern))
+				{
+					alert("Debe Ingresar Correctamente un E-mail");
+					$("#email").focus();
+					return false;		
+				} 
+				
+				if($("#clave").val().length<5)
+				{
+					alert("Debe Ingresar Correctamente Password de Usuario");
+					$("#clave").focus();
+					return false;
+				} 
+				
+
+				if (!confirm("Desea Guardar los Datos del Usuario?")) 
+				{
+				
+					return false;
+				
+				} else {
+				
+						grabar();
+									
+				}
+				
+
+
+
+            });
+        }); 
+
+
+		function grabar()
+  		{
+
+			var parametros = {
+									"login" : $("#login").val(),
+									"nivel" : $("#nivel").val(),
+									"sector" : $("#sector").val(),
+									"nombreapellido" : $("#nombreapellido").val(),
+									"email" : $("#email").val(),
+									"clave" : $("#clave").val(),
+									"privado" : $("#privado").val(),
+									"notiasig" : $("#notiasig").val(),
+									"notisoli" : $("#notisoli").val(),
+									"accion" : 'grabar'
+							};
+			
+			
+			$.ajax({
+							data:  parametros,
+							url:   '/Solicitud/agregarsolicitudprocess', 
+							type:  'post', 
+							beforeSend: function () {
+														$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando solicitud..</h4></div>");
+													},
+	
+							success:  function (response) { 
+							
+										var str=response;
+										var res = str.split("|");
+								
+										if(res[0]=='OK')
+										{
+												$("#divNotificaciones").html("<div class='panel-body'><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
+												$('#volver_bot').focus();
+												//limpia formulario
+												$('#oForm').trigger("reset");
+										
+										}else{
+											
+												$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
+											
+										}
+									
+							}
+					});
+	  
+  		} 	
+
+
+
+
+
+</script>
+
+
+ <div class="col-md-12">
+  			 <div class="row">
+					 <div class="col-md-6 col-sm-6 col-xs-12">
+											
+						   <div id="divNotificaciones">
+							    <div class='panel-body'>
+									<a href="/Solicitud"><button type="button" class="btn btn-danger">Volver</button></a>
+                           		</div>
+						   </div>	
+				
+				
+							<div class="panel panel-danger">
+				
+									<div class="panel-heading">
+                                       <strong>INGRESO SOLICITUD</strong>
+                                    </div>
+                                    <div class="panel-body">
+				
+				                            <form role="form" id="oForm" name="oForm">
+												 
+												    <div class="form-group">
+                                                        <label>Colegio</label>
+
+                                                        <input list="colegio" class="form-control">
+														<datalist id="colegio">
+															<?php
+															if(isset($datoscolegio))
+															{
+																foreach($datoscolegio as $clave => $valor)
+																{
+																?>
+																	<option value="<?php echo $valor["SIS03_LABORATORIOID"]?> | <?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?>">
+																<?
+																}
+															}		
+															?>
+														</datalist>
+														
+										
+										
+										
+														
+														<!--
+														<select class="form-control" id="sector" name="sector">
+															<?php
+															if(isset($datoscolegio))
+															{
+																foreach($datoscolegio as $clave => $valor)
+																{
+																?>
+																	<option value="<?php echo $valor["SIS03_LABORATORIOID"]?>"><?php echo $valor["SIS03_LABORATORIOID"]?> / <?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?></option>
+																<?
+																}
+															}		
+															?>
+														</select>
+														-->
+													
+													</div>
+                                                  
+												   <div class="form-group">
+                                                        <label>Producto</label>
+                                                        <select class="form-control" id="sector" name="sector">
+															<?php
+															if(isset($datosproducto))
+															{
+																foreach($datosproducto as $clave => $valor)
+																{
+																?>
+																	<option value="<?php echo $valor["SIS04_PRODUCTOID"]?>"><?php echo $valor["SIS04_PRODUCTODESCRIPCION"]?></option>
+																<?
+																}
+															}		
+															?>
+														</select>
+													</div>
+                                                  
+												 
+													 <div class="form-group">
+														<label>Fecha Solicitud</label>
+														<div class="input-group">
+														  <div class="input-group-addon">
+															<i class="fa fa-calendar"></i>
+														  </div>
+														  <input type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
+														</div><!-- /.input group -->
+													  </div><!-- /.form group -->
+
+												 
+														<div class="form-group">
+															<label>Detalle Solicitud</label>
+															<textarea class="form-control" rows="10"></textarea>
+														</div>
+										   
+															 
+														 <div class="form-group">
+															<label class="control-label col-lg-4">Archivo adjunto </label>
+															<div class="">
+																<div class="fileupload fileupload-new" data-provides="fileupload">
+																	<span class="btn btn-file btn-default">
+																		<span class="fileupload-new">Seleccionar archivo</span>
+																		<span class="fileupload-exists">Cambiar</span>
+																		<input type="file">
+																	</span>
+																	<span class="fileupload-preview"></span>
+																	<a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+																</div>
+															</div>
+														</div>
+														 
+															 
+													
+											
+																	
+													  <button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
+
+
+
+										    </form>
+                                    </div>
+
+							</div>
+				
+					 </div>
+				 </div>
+
+ </div>
+ 
+  

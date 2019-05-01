@@ -7,23 +7,30 @@
 		$datosnivel=$this->layout()->datosnivel;
 	
 	
+	$USUARIOID=$this->layout()->USUARIOID;
+	$NIVELID=$this->layout()->NIVELID;
+	$SECTORID=$this->layout()->SECTORID;
+	$NOMBREAPELLIDO=$this->layout()->NOMBREAPELLIDO;
+	$EMAIL=$this->layout()->EMAIL;
+	$PASSWORD=$this->layout()->PASSWORD;
+	$ESPRIVADO=$this->layout()->ESPRIVADO;
+	$AVISARASIGNACION=$this->layout()->AVISARASIGNACION;
+	$AVISARSOLICITUD=$this->layout()->AVISARSOLICITUD;
+
+	
+	
+	
 ?>
 <script type="text/javascript">
-       
-	   var emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
+
+
+  	   var emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
  
-	   $(document).ready(function() {
-            
-			$("#btn_guardar").click(function(){
+	   
+		function valida_grabar()
+  		{
 
-
-				if($("#login").val().length<5)
-				{
-					alert("Debe Ingresar Correctamente Login de Usuario");
-					$("#login").focus();
-					return false;
-				} 
-				
+						
 				if(!$("#nivel").val())
 				{
 					alert("Debe Seleccionar el Nivel de Permisos");
@@ -60,7 +67,7 @@
 					return false;
 				} 
 				
-
+		
 				if (!confirm("Desea Guardar los Datos del Usuario?")) 
 				{
 				
@@ -71,12 +78,7 @@
 						grabar();
 									
 				}
-				
-
-
-
-            });
-        }); 
+		}					
 
 
 		function grabar()
@@ -98,10 +100,10 @@
 			
 			$.ajax({
 							data:  parametros,
-							url:   '/Usuario/agregarusuarioprocess', 
+							url:   '/Solicitud/editarsolicitudprocess', 
 							type:  'post', 
 							beforeSend: function () {
-														$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando solicitud..</h4></div>");
+														$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando solicitud...</h4></div>");
 													},
 	
 							success:  function (response) { 
@@ -111,15 +113,13 @@
 								
 										if(res[0]=='OK')
 										{
-												$("#divNotificaciones").html("<div class='panel-body'><a href='/Usuario'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
+												$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
 												$('#volver_bot').focus();
-												//limpia formulario
-												$('#oForm').trigger("reset");
-										
 										}else{
 											
-												$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
-											
+												$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
+												$('#volver_bot').focus();
+									
 										}
 									
 							}
@@ -128,8 +128,7 @@
   		} 	
 
 
-
-
+ 
 
 </script>
 
@@ -137,29 +136,25 @@
  <div class="col-md-12">
   			 <div class="row">
 					 <div class="col-md-6 col-sm-6 col-xs-12">
-											
-						   <div id="divNotificaciones">
+				
+				
+							<div id="divNotificaciones">
 							    <div class='panel-body'>
-									<a href="/Usuario"><button type="button" class="btn btn-danger">Volver</button></a>
+									<a href="/Solicitud"><button type="button" class="btn btn-danger">Volver</button></a>
                            		</div>
-						   </div>	
+						   </div>									 
+							<div class="panel panel-primary">
 				
-				
-							<div class="panel panel-danger">
-				
+								
 									<div class="panel-heading">
-                                       <strong>INGRESO USUARIO</strong>
+                                       <strong>EDITAR USUARIO</strong>
                                     </div>
                                     <div class="panel-body">
-                
-										   
-				
 				                            <form role="form" id="oForm" name="oForm">
                                                     <div class="form-group">
                                                         <label>Login Usuario</label>
-                                                        <input id="login" name="login" class="form-control" maxlength="10" type="text" title="Aqu&iacute; debe ingresar el login de usuario con el cual ingresar&aacute; al sistema, m&iacute;nimo 5 caracteres">
-                                                        <p class="help-block">M&iacute;nimo 5 carateres sin espacio</p>
-                                     				</div>
+                                                        <input id="login" name="login" class="form-control" maxlength="10" type="text" value="<?php echo $USUARIOID?>" readonly>
+                                                    </div>
                                                     <div class="form-group">
                                                         <label>Nivel Permisos</label>
                                                         <select class="form-control" id="nivel" name="nivel">
@@ -169,7 +164,7 @@
 																foreach($datosnivel as $clave => $valor)
 																{
 																?>
-																	<option value="<?php echo $valor["SIS02_NIVELID"]?>"><?php echo $valor["SIS02_NIVELDESCRIPCION"]?></option>
+																	<option value="<?php echo $valor["SIS02_NIVELID"]?>" <?php if($NIVELID==$valor["SIS02_NIVELID"]) echo "selected"?>><?php echo $valor["SIS02_NIVELDESCRIPCION"]?></option>
 																<?
 																}
 															}		
@@ -186,7 +181,7 @@
 																foreach($datossector as $clave => $valor)
 																{
 																?>
-																	<option value="<?php echo $valor["SIS01_SECTORID"]?>"><?php echo $valor["SIS01_SECTORDESCRIPCION"]?></option>
+																	<option value="<?php echo $valor["SIS01_SECTORID"]?>"  <?php if($SECTORID==$valor["SIS01_SECTORID"]) echo "selected"?>><?php echo $valor["SIS01_SECTORDESCRIPCION"]?></option>
 																<?
 																}
 															}		
@@ -194,22 +189,24 @@
 														</select>
 													</div>
                                                   
+
+
 												    <div class="form-group">
                                                         <label>Nombre / Apellido</label>
-                                                        <input class="form-control" type="text" id="nombreapellido" maxlength="50"  name="nombreapellido">
+                                                        <input class="form-control" type="text" id="nombreapellido" maxlength="50"  value="<?php echo $NOMBREAPELLIDO?>" name="nombreapellido">
                                                     </div>
                                                     
 													  <div class="form-group">
                                                         <label>E-mail</label>
-                                                        <input class="form-control" type="text" id="email" maxlength="100"  name="email">
+                                                        <input class="form-control" type="text" id="email" maxlength="100"  name="email" value="<?php echo $EMAIL?>">
                                                     
 													
 													</div>
                                                     				
 													<div class="form-group">
                                                         <label>Password</label>
-                                                        <input class="form-control" type="password" maxlength="10" id="clave" name="clave" title="Aqu&iacute; debe ingresar la password de usuario con el cual ingresar&aacute; al sistema, m&iacute;nimo 5 caracteres">
-                                                        <p class="help-block">M&iacute;nimo 5 carateres</p>
+                                                        <input class="form-control" type="password" maxlength="10" id="clave" name="clave" title="Aqu&iacute; debe re-ingresar la password de usuario con el cual ingresar&aacute; al sistema, m&iacute;nimo 5 caracteres" value="">
+                                                        <p class="help-block">M&iacute;nimo 5 carateres <strong>(debe reingresar la password)</strong></p>
                                                     </div>
                                                     						
 													
@@ -218,8 +215,8 @@
 															<label>Es Usuario Privado</label>
 															
 															<select class="form-control" id="privado" name="privado">
-																<option value="1">SI</option>
-																<option value="0">NO</option>
+																<option value="1" <?php if(intval($ESPRIVADO)==1){?>selected<?php }?>>SI</option>
+																<option value="0" <?php if(intval($ESPRIVADO)==0){?>selected<?php }?>>NO</option>
 															</select>
 															
 														
@@ -227,8 +224,8 @@
           											<div class="form-group">
 															<label>Notificar Asignaci&oacute;n</label>
 															<select class="form-control" id="notiasig" name="notiasig">
-																<option value="1">SI</option>
-																<option value="0">NO</option>
+																<option value="1" <?php if(intval($AVISARASIGNACION)==1){?>selected<?php }?>>SI</option>
+																<option value="0" <?php if(intval($AVISARASIGNACION)==0){?>selected<?php }?>>NO</option>
 															</select>
 												    </div>
           											
@@ -237,13 +234,15 @@
 															<label>Notificar Solicitud</label>
 												
 															<select class="form-control" id="notisoli" name="notisoli">
-																<option value="1">SI</option>
-																<option value="0">NO</option>
+																<option value="1" <?php if(intval($AVISARSOLICITUD)==1){?>selected<?php }?>>SI</option>
+																<option value="0" <?php if(intval($AVISARSOLICITUD)==0){?>selected<?php }?>>NO</option>
 															</select>
 												    </div>
           														
-													<button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
-										    </form>
+													
+													
+													<button type="button" class="btn btn-info" id="btn_guardar" onclick="valida_grabar()">Guardar</button>
+								             </form>
                                     </div>
 
 							</div>
