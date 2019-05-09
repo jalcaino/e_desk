@@ -110,76 +110,119 @@ class SolicitudController extends Zend_Controller_Action
 					$this->_helper->layout->disableLayout();
 					$DB = Zend_Db_Table::getDefaultAdapter();
 
-					$login=$this->_request->getPost('login');
-					$nivel=$this->_request->getPost('nivel');
-					$sector=$this->_request->getPost('sector');
-					$nombreapellido=$this->_request->getPost('nombreapellido');
-					$email=$this->_request->getPost('email');
-					$clave=$this->_request->getPost('clave');
-					$privado=$this->_request->getPost('privado');
-					$notiasig=$this->_request->getPost('notiasig');
-					$notisoli=$this->_request->getPost('notisoli');
-					$accion=$this->_request->getPost('accion');
+					$colegio=$this->_request->getPost('colegio');
+					$producto=$this->_request->getPost('producto');
+					$calendario=$this->_request->getPost('calendario');
+					$detalle=$this->_request->getPost('detalle');
+					$archivo=$this->_request->getPost('archivo');
+					$accion=$this->_request->getPost('grabar');
+			
+					$porciones = explode("|",$colegio);
+				
+					$edesk_session = new Zend_Session_Namespace('edeskses');
+	
+				
+			        
+					///////////
+					$adapter = new Zend_File_Transfer_Adapter_Http();
+					$adapter->addValidator('Count',false, array('min'=>1, 'max'=>3))
+					->addValidator('Size',false,array('max' => 10000))
+					->addValidator('Extension',false,array('extension' => 'txt','case' => true));
+					
+					
+					$adapter->setDestination("/var/www/html/edesk/public/");
+					
+					$files = $adapter->getFileInfo();
+					
+					foreach($files as $fieldname=>$fileinfo)
+					{
+						if (($adapter->isUploaded($fileinfo['name']))&& ($adapter->isValid($fileinfo['archivo'])))
+						{
+							$adapter->receive($fileinfo[name]);
+						}
+					
+					}
+					
+					print_r($files);
+					exit;
+					
+					///////////
+					
+					
+					
+					
+					    
 			
 			
 					if($accion=="grabar")
 					{
 					
-								  $no_existe=0;
-			
-			
-								  //validamos que no exista usuario
-								  $sSQL = "SELECT * FROM e_desk.ED01_USUARIO ";
-								  $sSQL .= "WHERE ED01_USUARIOID = '$login'"; 
-									
-		
-								  try {
+								  	$no_existe=0;
 						
-										$rowset = $DB->fetchAll($sSQL);
-										if (count($rowset) > 0) 
-										{
-											$no_existe=1;
-										}
-						
-									} catch (Zend_Exception $e) {
-						
-										echo("KO|".$e->getMessage());
-										exit;	
-								
-									}
-
-		
-									if($no_existe==0)
+									if(isset($porciones[0]) && trim($porciones[0])!="")
 									{
 		
-										
+											$ELCOLEGIO=trim($porciones[0]);
+					
+											$sSQL="SELECT
+													SIS03_LABORATORIOID 
+													FROM
+													e_desk.SIS03_LABORATORIO 
+													WHERE 
+													SIS03_LABORATORIOID = '".trim($porciones[0])."'";
+									
+							
+											  try {
+									
+													$rowset = $DB->fetchAll($sSQL);
+													if (count($rowset) > 0) 
+													{
+														$no_existe=1;
+													}
+									
+												} catch (Zend_Exception $e) {
+									
+													echo("KO|".$e->getMessage());
+													exit;	
+											
+												}
+			
+									}		
+		
+
+
+
+		
+									if($no_existe==1)
+									{
+			
 												//insertamos con try
 												$data = array(
-													'ED01_USUARIOID' => $login,
-													'SIS02_NIVELID' => $nivel,
-													'SIS01_SECTORID' => $sector,
-													'ED01_NOMBREAPELLIDO' => $nombreapellido,
-													'ED01_EMAIL' => $email,
-													'ED01_PASSWORD' => MD5($clave),
-													'ED01_ESPRIVADO' => $privado,
-													'ED01_AVISARASIGNACION' => $notiasig,
-													'ED01_AVISARSOLICITUD' => $notisoli,
-													'ED01_FECHAINGRESO' => date("Ymdhis"),
-													'ED01_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
+													'SIS03_LABORATORIOID' => $ELCOLEGIO,
+													'SIS04_PRODUCTOID' => $producto,
+													'ED02_FECHASOLICITUD' => $calendario,
+													'ED02_DETALLESOLICITUD' => $detalle,
+													'ED02_ARCHIVOADJUNTO' => $login,
+													'ED02_NOMBREARCHIVOADJUNTO' => $archivo,
+													'ED02_TIPOARCHIVOADJUNTO' => $archivo,
+													'ED02_NOMBRESOLICITANTE' => $edesk_session->login,
+													'ED02_FECHAINGRESO' => date("Ymdhis"),
+													'ED02_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
+													'ED02_ESTADO' => 'PEN'
 												);
-							
+													
 							
 							
 												#############################
-												##MAIL CREACION USUARIO
+												##MAIL CREACION SOLICITUD
 												#############################
 							
 												$from="helpdesk@compumat.cl";
 												$to=$email;
-												$subject="INTERNO - CREACION DE USUARIO E-DESK";
+												$subject="INTERNO - CREACION DE SOLICITUD E-DESK";
 												$body="<u>Estimado Usuario</u><br><br>
-													   Con fecha de hoy ".date("d/m/Y")." se ha procedido a la creaci&oacute;n<br><br>
-													   del usuario E-DESK Login : ($login) , Clave : ($clave) asociado a su email $email<br><br>
+													   Con fecha de hoy ".date("d/m/Y")." se ha generado una nueva solicitud <br><br>
+													   de usuario E-DESK Login : ($edesk_session->login) <br><br>
 													   Atte.<br>Equipo Compumat.";
 												
 							
@@ -199,13 +242,21 @@ class SolicitudController extends Zend_Controller_Action
 												##FIN MAIL CREACION USUARIO
 												#############################
 					
+												//FALTA
+												//NUMERO SOLICITUD
+												//DETALLE EN LISTADO
+												//LOGIN DE USUARIO
+												//A QUIEN LE MANDO MAIL???
+												
+					
+					
 					
 							
 												try {
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
-													$DB->insert('e_desk.ED01_USUARIO', $data);
+													$DB->insert('e_desk.ED02_SOLICITUD', $data);
 													$DB->insert('bd_correos.correos_soporte', $data_email);
 							
 							
@@ -222,9 +273,11 @@ class SolicitudController extends Zend_Controller_Action
 												}
 
 
+
+
 									}else{
 									
-											echo("KO|Ya existe el login de usuario, ingrese otro");
+											echo("KO|No existe el colegio a asociar la solicitud");
 											exit;
 
 									

@@ -20,20 +20,26 @@
 	$nivel_compuesto="N".$nivelid."ACC";
 	$sector_compuesto=$sectorid;
 
+	if(isset($sector_compuesto) && isset($permisos) && isset($permisos[$sector_compuesto]))
 	$arreglo=$permisos[$sector_compuesto];
+	
+	
 	$ACCESOS="";
 
 
 	//cargamos accesos del usuario
-	foreach($arreglo as $clave => $valor)
+	if(isset($arreglo))
 	{
-		if($clave==$nivel_compuesto)
+		
+		foreach($arreglo as $clave => $valor)
 		{
-			$ACCESOS=$valor;
+			if($clave==$nivel_compuesto)
+			{
+				$ACCESOS=$valor;
+			}
 		}
+
 	}
-
-
 
 ?>
 	<li>
