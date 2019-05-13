@@ -8,26 +8,31 @@
 	
 
 ?>
-
-
-
-	<!-- date-range-picker -->
-	<script src="/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
-	<link rel="stylesheet" href="/assets/css/jquery-ui.css">
-	<script src="/assets/js/jquery-ui.js"></script>
-
-
-	<!-- FILEUPLOAD -->
-	<script src="/assets/js/bootstrap-fileupload.js"></script>
-	<link rel="stylesheet" href="/assets/css/bootstrap-fileupload.min.css"/>
-
-
-	 <script type="text/javascript">
+	<script type="text/javascript">
+		
+		   
+		   var match= ["application/vnd.openxmlformats-officedocument.presentationml.presentation","application/vnd.ms-powerpoint","image/jpeg","image/png","image/jpg","image/gif","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","text/plain","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","application/vnd.ms-excel","application/pdf"];
+			
 		
 		   $(document).ready(function() {
 		
 		
-				$( "#calendario" ).datepicker();
+				$("#archivo").change(function() {
+			
+					var file = this.files[0];
+					var imagefile = file.type;
+					
+					if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]) || (imagefile==match[3]) || (imagefile==match[4]) || (imagefile==match[5]) || (imagefile==match[6]) || (imagefile==match[7]) || (imagefile==match[8]) || (imagefile==match[9]) || (imagefile==match[10]) || (imagefile==match[11]))){
+						alert('Por favor seleccione un archivo del tipo (JPEG / JPG / PNG / GIF / TXT / DOC / XLS / PDF / PPT).');
+						$("#archivo").val('');
+						return false;
+					}
+			
+				});
+		
+		
+		
+				$("#calendario").datepicker({dateFormat: 'dd/mm/yy'});
 	 
 	
 				$("#btn_guardar").click(function(){
@@ -68,7 +73,8 @@
 						$("#detalle").focus();
 						return false;
 					} 
-				
+			
+					
 	
 					if (!confirm("Desea Guardar la Solicitud?")) 
 					{
@@ -91,22 +97,26 @@
 			function grabar()
 			{
 	
-				var parametros = {
-										"colegio" : $("#colegio").val(),
-										"producto" : $("#producto").val(),
-										"calendario" : $("#calendario").val(),
-										"detalle" : $("#detalle").val(),
-										"archivo" : $("#archivo").val(),
-										"accion" : 'grabar'
-								};
 				
-				
+				var file_data = $('#archivo').prop('files')[0];   
+				var form_data = new FormData();                  
+				form_data.append('file', file_data);
+				form_data.append('colegio',$("#colegio").val());
+				form_data.append('producto', $("#producto").val());
+				form_data.append('calendario', $("#calendario").val());
+				form_data.append('detalle', $("#detalle").val());
+				form_data.append('archivo', $("#archivo").val());
+				form_data.append('accion', 'grabar');
 				
 				
 				$.ajax({
-								data:  parametros,
 								url:   '/Solicitud/agregarsolicitudprocess', 
-								type:  'post', 
+								dataType: 'text',  
+								cache: false,
+								contentType: false,
+								processData: false,
+								data: form_data,                         
+								type: 'post',
 								beforeSend: function () {
 															$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando solicitud..</h4></div>");
 														},
@@ -202,7 +212,7 @@
 												  
 													   <div class="form-group">
 															<label>Fecha Solicitud</label>
-															<input type="text" class="form-control" id="calendario">
+															<input type="text" class="form-control" id="calendario" readonly="readonly">
 													   </div>
 													  
 												 
@@ -236,10 +246,3 @@
 				 </div>
 
  </div>
- 
- <script>
- $( function() {
- } );
- </script>
- 
-  

@@ -1,248 +1,282 @@
 <?php
 	
-	if(isset($this->layout()->datossector))
-		$datossector=$this->layout()->datossector;
+	if(isset($this->layout()->datoscolegio))
+		$datoscolegio=$this->layout()->datoscolegio;
 
-	if(isset($this->layout()->datosnivel))
-		$datosnivel=$this->layout()->datosnivel;
+	if(isset($this->layout()->datosproducto))
+		$datosproducto=$this->layout()->datosproducto;
 	
 	
-	$USUARIOID=$this->layout()->USUARIOID;
-	$NIVELID=$this->layout()->NIVELID;
-	$SECTORID=$this->layout()->SECTORID;
-	$NOMBREAPELLIDO=$this->layout()->NOMBREAPELLIDO;
-	$EMAIL=$this->layout()->EMAIL;
-	$PASSWORD=$this->layout()->PASSWORD;
-	$ESPRIVADO=$this->layout()->ESPRIVADO;
-	$AVISARASIGNACION=$this->layout()->AVISARASIGNACION;
-	$AVISARSOLICITUD=$this->layout()->AVISARSOLICITUD;
-
 	
+	$SOLICITUDID=$this->layout()->SOLICITUDID;
+	$LABORATORIOID=$this->layout()->LABORATORIOID;
+	$PRODUCTOID=$this->layout()->PRODUCTOID;
+	$FECHASOLICITUD=$this->layout()->FECHASOLICITUD;
+	$DETALLESOLICITUD=$this->layout()->DETALLESOLICITUD;
+	$ARCHIVOADJUNTO=$this->layout()->ARCHIVOADJUNTO;
+	$NOMBREARCHIVOADJUNTO=$this->layout()->NOMBREARCHIVOADJUNTO;
+	$TIPOARCHIVOADJUNTO=$this->layout()->TIPOARCHIVOADJUNTO;
+	$NOMBRESOLICITANTE=$this->layout()->NOMBRESOLICITANTE;
+	$ESTADO=$this->layout()->ED02_ESTADO;
 	
 	
 ?>
-<script type="text/javascript">
-
-
-  	   var emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
- 
-	   
-		function valida_grabar()
-  		{
-
-						
-				if(!$("#nivel").val())
-				{
-					alert("Debe Seleccionar el Nivel de Permisos");
-					$("#nivel").focus();
-					return false;
-				}
-				
-				if(!$("#sector").val())
-				{
-					alert("Debe Seleccionar el Departamento");
-					$("#sector").focus();
-					return false;
-				}
-				
-				if($("#nombreapellido").val().length<5)
-				{
-					alert("Debe Ingresar Correctamente Nombre y Apellido Usuario");
-					$("#nombreapellido").focus();
-					return false;
-				} 
-				
-			
-				if($("#email").val().length<5 || !$("#email").val().match(emailPattern))
-				{
-					alert("Debe Ingresar Correctamente un E-mail");
-					$("#email").focus();
-					return false;		
-				} 
-				
-				if($("#clave").val().length<5)
-				{
-					alert("Debe Ingresar Correctamente Password de Usuario");
-					$("#clave").focus();
-					return false;
-				} 
-				
+	<script type="text/javascript">
 		
-				if (!confirm("Desea Guardar los Datos del Usuario?")) 
-				{
-				
-					return false;
-				
-				} else {
-				
-						grabar();
-									
-				}
-		}					
-
-
-		function grabar()
-  		{
-
-			var parametros = {
-									"login" : $("#login").val(),
-									"nivel" : $("#nivel").val(),
-									"sector" : $("#sector").val(),
-									"nombreapellido" : $("#nombreapellido").val(),
-									"email" : $("#email").val(),
-									"clave" : $("#clave").val(),
-									"privado" : $("#privado").val(),
-									"notiasig" : $("#notiasig").val(),
-									"notisoli" : $("#notisoli").val(),
-									"accion" : 'grabar'
-							};
+		   
+			   var match= ["application/vnd.openxmlformats-officedocument.presentationml.presentation","application/vnd.ms-powerpoint","image/jpeg","image/png","image/jpg","image/gif","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","text/plain","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","application/vnd.ms-excel","application/pdf"];
 			
-			
-			$.ajax({
-							data:  parametros,
-							url:   '/Solicitud/editarsolicitudprocess', 
-							type:  'post', 
-							beforeSend: function () {
-														$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando solicitud...</h4></div>");
-													},
-	
-							success:  function (response) { 
+			/*		
+				$(document).ready(function() {
+				
+				
+						$("#archivo").change(function() {
+					
+							var file = this.files[0];
+							var imagefile = file.type;
 							
-										var str=response;
-										var res = str.split("|");
+							if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]) || (imagefile==match[3]) || (imagefile==match[4]) || (imagefile==match[5]) || (imagefile==match[6]) || (imagefile==match[7]) || (imagefile==match[8]) || (imagefile==match[9]) || (imagefile==match[10]) || (imagefile==match[11]))){
+								alert('Por favor seleccione un archivo del tipo (JPEG / JPG / PNG / GIF / TXT / DOC / XLS / PDF / PPT).');
+								$("#archivo").val('');
+								return false;
+							}
+					
+						});
+				
+				
+				
+						$("#calendario").datepicker({dateFormat: 'dd/mm/yy'});
+			 
+			
+				}); 
+				*/
+				
+				
+	
+	
+				function valida_grabar()
+				{
+		
+					
+			
+							var val = $("#colegio").val();
+							var obj = $("#colegio_lista").find("option[value='" + val + "']");
+							
+							if(obj != null && obj.length > 0)
+							{
+								//OK  
+							}else{
+									alert("Debe Ingresar Correctamente el Colegio Asociado");
+									$("#colegio").focus();
+									return false;
+								 }	
 								
-										if(res[0]=='OK')
-										{
+							
+							if(!$("#producto").val())
+							{
+								alert("Debe Seleccionar el Producto");
+								$("#producto").focus();
+								return false;
+							}
+							
+											
+							if($("#calendario").val().length<10)
+							{
+								alert("Debe Ingresar la Fecha de Solicitud");
+								$("#calendario").focus();
+								return false;
+							} 
+							
+							
+							if($("#detalle").val().length<5)
+							{
+								alert("Debe Ingresar el Detalle de la Solicitud");
+								$("#detalle").focus();
+								return false;
+							} 
+					
+							
+			
+							if (!confirm("Desea Guardar la Solicitud?")) 
+							{
+							
+								return false;
+							
+							} else {
+							
+									grabar();
+												
+							}
+							
+			
+					}
+			
+			}
+	
+	
+	
+			function grabar()
+			{
+	
+				
+				var file_data = $('#archivo').prop('files')[0];   
+				var form_data = new FormData();                  
+				form_data.append('file', file_data);
+				
+				form_data.append('solicitudid',$("#solicitudid").val());
+				form_data.append('colegio',$("#colegio").val());
+				form_data.append('producto', $("#producto").val());
+				form_data.append('calendario', $("#calendario").val());
+				form_data.append('detalle', $("#detalle").val());
+				form_data.append('archivo', $("#archivo").val());
+				form_data.append('estado', $("#estado").val());
+				form_data.append('accion', 'grabar');
+				
+				
+				$.ajax({
+								url:   '/Solicitud/editarsolicitudprocess', 
+								dataType: 'text',  
+								cache: false,
+								contentType: false,
+								processData: false,
+								data: form_data,                         
+								type: 'post',
+								beforeSend: function () {
+															$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando solicitud..</h4></div>");
+														},
+		
+								success:  function (response) { 
+								
+											var str=response;
+											var res = str.split("|");
+									
+											if(res[0]=='OK')
+											{
 												$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
 												$('#volver_bot').focus();
-										}else{
-											
-												$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
-												$('#volver_bot').focus();
 									
-										}
-									
-							}
-					});
-	  
-  		} 	
-
-
- 
-
-</script>
+											}else{
+												
+													$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
+													$('#volver_bot').focus();
+										
+											}
+										
+								}
+						});
+		  
+			} 	
+	
+	
+	
+	
+	
+	</script>
 
 
  <div class="col-md-12">
   			 <div class="row">
 					 <div class="col-md-6 col-sm-6 col-xs-12">
-				
-				
-							<div id="divNotificaciones">
+											
+						   <div id="divNotificaciones">
 							    <div class='panel-body'>
 									<a href="/Solicitud"><button type="button" class="btn btn-danger">Volver</button></a>
                            		</div>
-						   </div>									 
-							<div class="panel panel-primary">
+						   </div>	
 				
-								
+				
+							<div class="panel panel-danger">
+				
 									<div class="panel-heading">
-                                       <strong>EDITAR USUARIO</strong>
+                                       <strong>INGRESO SOLICITUD</strong>
                                     </div>
                                     <div class="panel-body">
-				                            <form role="form" id="oForm" name="oForm">
-                                                    <div class="form-group">
-                                                        <label>Login Usuario</label>
-                                                        <input id="login" name="login" class="form-control" maxlength="10" type="text" value="<?php echo $USUARIOID?>" readonly>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Nivel Permisos</label>
-                                                        <select class="form-control" id="nivel" name="nivel">
+				
+				                            <form role="form" id="oForm" name="oForm" enctype="multipart/form-data">
+												 
+												    <input type="hidden" id="solicitudid" name="solicitudid" value="<?php echo $SOLICITUDID?>">
+												 
+												    <div class="form-group">
+                                                        <label>Colegio</label>
+
+                                                        <input list="colegio_lista" class="form-control" id="colegio">
+														<datalist id="colegio_lista">
 															<?php
-															if(isset($datosnivel))
+															if(isset($datoscolegio))
 															{
-																foreach($datosnivel as $clave => $valor)
+																foreach($datoscolegio as $clave => $valor)
 																{
 																?>
-																	<option value="<?php echo $valor["SIS02_NIVELID"]?>" <?php if($NIVELID==$valor["SIS02_NIVELID"]) echo "selected"?>><?php echo $valor["SIS02_NIVELDESCRIPCION"]?></option>
+																	<option value="<?php echo $valor["SIS03_LABORATORIOID"]?> | <?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?>" <?php if($LABORATORIOID==$valor["SIS03_LABORATORIOID"]) echo "selected='selected'"?>>
 																<?
 																}
 															}		
 															?>
-														</select>
-													</div>
-                                                  
-												    <div class="form-group">
-                                                        <label>Departamento</label>
-                                                        <select class="form-control" id="sector" name="sector">
-															<?php
-															if(isset($datossector))
-															{
-																foreach($datossector as $clave => $valor)
-																{
-																?>
-																	<option value="<?php echo $valor["SIS01_SECTORID"]?>"  <?php if($SECTORID==$valor["SIS01_SECTORID"]) echo "selected"?>><?php echo $valor["SIS01_SECTORDESCRIPCION"]?></option>
-																<?
-																}
-															}		
-															?>
-														</select>
-													</div>
-                                                  
-
-
-												    <div class="form-group">
-                                                        <label>Nombre / Apellido</label>
-                                                        <input class="form-control" type="text" id="nombreapellido" maxlength="50"  value="<?php echo $NOMBREAPELLIDO?>" name="nombreapellido">
-                                                    </div>
-                                                    
-													  <div class="form-group">
-                                                        <label>E-mail</label>
-                                                        <input class="form-control" type="text" id="email" maxlength="100"  name="email" value="<?php echo $EMAIL?>">
-                                                    
-													
-													</div>
-                                                    				
-													<div class="form-group">
-                                                        <label>Password</label>
-                                                        <input class="form-control" type="password" maxlength="10" id="clave" name="clave" title="Aqu&iacute; debe re-ingresar la password de usuario con el cual ingresar&aacute; al sistema, m&iacute;nimo 5 caracteres" value="">
-                                                        <p class="help-block">M&iacute;nimo 5 carateres <strong>(debe reingresar la password)</strong></p>
-                                                    </div>
-                                                    						
-													
-													
-													<div class="form-group">
-															<label>Es Usuario Privado</label>
-															
-															<select class="form-control" id="privado" name="privado">
-																<option value="1" <?php if(intval($ESPRIVADO)==1){?>selected<?php }?>>SI</option>
-																<option value="0" <?php if(intval($ESPRIVADO)==0){?>selected<?php }?>>NO</option>
-															</select>
-															
+														</datalist>
 														
-											        </div>
-          											<div class="form-group">
-															<label>Notificar Asignaci&oacute;n</label>
-															<select class="form-control" id="notiasig" name="notiasig">
-																<option value="1" <?php if(intval($AVISARASIGNACION)==1){?>selected<?php }?>>SI</option>
-																<option value="0" <?php if(intval($AVISARASIGNACION)==0){?>selected<?php }?>>NO</option>
+											
+												  </div>
+                                                  
+												   <div class="form-group">
+                                                        <label>Producto</label>
+                                                        <select class="form-control" id="producto" name="producto">
+															<?php
+															if(isset($datosproducto))
+															{
+																foreach($datosproducto as $clave => $valor)
+																{
+																?>
+																	<option value="<?php echo $valor["SIS04_PRODUCTOID"]?>" <?php if($PRODUCTOID==$valor["SIS04_PRODUCTOID"]) echo "selected"?>><?php echo $valor["SIS04_PRODUCTODESCRIPCION"]?></option>
+																<?
+																}
+															}		
+															?>
+														</select>
+													</div>
+                                                  
+												  
+													   <div class="form-group">
+															<label>Fecha Solicitud</label>
+															<input type="text" class="form-control" id="calendario" readonly="readonly" value="<?php echo $FECHASOLICITUD?>">
+													   </div>
+													  
+												 
+														<div class="form-group">
+															<label>Detalle Solicitud</label>
+															<textarea class="form-control" rows="10" id="detalle" name="detalle"><?php echo $DETALLESOLICITUD?></textarea>
+														</div>
+										   
+															 
+														 <div class="form-group">
+															<label class="control-label col-lg-4">Archivo adjunto </label>
+															<div class="">
+																 <input type="file" name="archivo" id="archivo" class="btn btn-info">
+																 <?php
+																 if(trim($NOMBREARCHIVOADJUNTO)!="")
+																 {
+																 ?>
+																 <br><strong>Archivo actual :</strong> <?php echo $NOMBREARCHIVOADJUNTO?>
+																 <?php
+																 }
+																 ?>
+															</div>
+														</div>
+														 
+															 
+														 <div class="form-group">
+															<label>Estado</label>
+															<select class="form-control" id="estado" name="estado">
+																<option value="PEN" <?php if($ESTADO=="PEN") echo "selected"?>>PENDIENTE</option>
+																<option value="DER" <?php if($ESTADO=="DER") echo "selected"?>>DERIVADO</option>
+																<option value="RES" <?php if($ESTADO=="RES") echo "selected"?>>RESUELTO</option>
 															</select>
-												    </div>
-          											
-													
-													<div class="form-group">
-															<label>Notificar Solicitud</label>
-												
-															<select class="form-control" id="notisoli" name="notisoli">
-																<option value="1" <?php if(intval($AVISARSOLICITUD)==1){?>selected<?php }?>>SI</option>
-																<option value="0" <?php if(intval($AVISARSOLICITUD)==0){?>selected<?php }?>>NO</option>
-															</select>
-												    </div>
-          														
-													
-													
-													<button type="button" class="btn btn-info" id="btn_guardar" onclick="valida_grabar()">Guardar</button>
-								             </form>
+														</div>
+																		
+													  <button type="button" class="btn btn-info" id="btn_guardar" onclick="valida_grabar()">Guardar</button>
+
+
+
+										    </form>
                                     </div>
 
 							</div>

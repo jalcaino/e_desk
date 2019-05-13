@@ -51,7 +51,7 @@
 																		</th>
 																	</tr>
 																	<tr>
-																		<th>NUM SOLICITUD</th>
+																		<th>NUM.SOL.</th>
 																		<th>COLEGIO</th>
 																		<th>FECHA SOLICITUD</th>
 																		<th>ESTADO</th>
@@ -73,6 +73,59 @@
 																					<td>
 																					  <button onclick="carga_editar('<?php echo $valor["ED02_SOLICITUDID"]?>')" id="btn_editar" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i>Editar</button>
 																					  <button onclick="accion_eliminar('<?php echo $valor["ED02_SOLICITUDID"]?>')" class="btn btn-danger"><i class="glyphicon glyphicon-home"></i>Eliminar</button>
+																					  <button class="btn btn-success" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED02_SOLICITUDID"]?>">Detalle</button>
+																					
+																					
+																					
+																						<div class="modal fade" id="myModal_<?php echo $valor["ED02_SOLICITUDID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																								<div class="modal-dialog">
+																											<div class="modal-content">
+																								
+																														<div class="modal-header">
+																															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+																															<h4 class="modal-title" id="myModalLabel">Solicitud n&uacute;mero : <?php echo $valor["ED02_SOLICITUDID"]?></h4>
+																														</div>
+																														<div class="modal-body">
+																															
+																															<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
+																															<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
+																															<strong>PRODUCTO : </strong><?php echo $valor["SIS04_PRODUCTOID"]?><br><br>
+																															<strong>FECHA SOLICITUD : </strong><?php echo $valor["FECHASOLICITUD"]?><br><br>
+																															<strong>DETALLE : </strong><br><?php echo $valor["ED02_DETALLESOLICITUD"]?><br><br>
+																															<?php
+																															if(trim($valor["ED02_ARCHIVOADJUNTO"])!="")
+																															{	
+																															?>
+																															<strong>ARCHIVO ADJUNTO : </strong><br>
+																															
+																															<strong><a href="<?php echo $valor["ED02_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor["ED02_NOMBREARCHIVOADJUNTO"]?></a></strong>
+																															
+																															<br><br>
+																															
+																															<?php
+																															}
+																															?>
+																															<strong>SOLICITANTE : </strong><?php echo $valor["ED02_NOMBRESOLICITANTE"]?><br><br>
+																															<strong>FECHA INGRESO : </strong><?php echo $valor["FECHAINGRESO"]?><br><br>
+																															<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
+																															<strong>ESTADO : </strong><?php echo $valor["ED02_ESTADO"]?><br><br>
+																												
+																												
+																														</div>
+																														<div class="modal-footer">
+																															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+																														</div>
+																										
+																								
+																											</div>
+																								</div>
+																						</div>
+
+																					
+																					
+																					
+																					
+																					
 																					</td>
 																				</tr>
 																			<?
