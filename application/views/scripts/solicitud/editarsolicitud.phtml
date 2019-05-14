@@ -6,10 +6,9 @@
 	if(isset($this->layout()->datosproducto))
 		$datosproducto=$this->layout()->datosproducto;
 	
-	
-	
 	$SOLICITUDID=$this->layout()->SOLICITUDID;
 	$LABORATORIOID=$this->layout()->LABORATORIOID;
+	$LABORATORIODESCRIPCION=$this->layout()->LABORATORIODESCRIPCION;
 	$PRODUCTOID=$this->layout()->PRODUCTOID;
 	$FECHASOLICITUD=$this->layout()->FECHASOLICITUD;
 	$DETALLESOLICITUD=$this->layout()->DETALLESOLICITUD;
@@ -21,45 +20,42 @@
 	
 	
 ?>
-	<script type="text/javascript">
+
+<script type="text/javascript">
 		
 		   
 			   var match= ["application/vnd.openxmlformats-officedocument.presentationml.presentation","application/vnd.ms-powerpoint","image/jpeg","image/png","image/jpg","image/gif","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","text/plain","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","application/vnd.ms-excel","application/pdf"];
-			
-			/*		
-				$(document).ready(function() {
-				
-				
-						$("#archivo").change(function() {
-					
-							var file = this.files[0];
-							var imagefile = file.type;
-							
-							if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]) || (imagefile==match[3]) || (imagefile==match[4]) || (imagefile==match[5]) || (imagefile==match[6]) || (imagefile==match[7]) || (imagefile==match[8]) || (imagefile==match[9]) || (imagefile==match[10]) || (imagefile==match[11]))){
-								alert('Por favor seleccione un archivo del tipo (JPEG / JPG / PNG / GIF / TXT / DOC / XLS / PDF / PPT).');
-								$("#archivo").val('');
-								return false;
-							}
-					
-						});
-				
-				
-				
-						$("#calendario").datepicker({dateFormat: 'dd/mm/yy'});
-			 
-			
-				}); 
-				*/
-				
-				
+			   var val = $("#colegio").val("<?php echo $LABORATORIOID?> | <?php echo $LABORATORIODESCRIPCION?>");
 	
-	
+				
+				
+				$("#archivo").change(function() {
+			
+					var file = this.files[0];
+					var imagefile = file.type;
+					
+					if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]) || (imagefile==match[3]) || (imagefile==match[4]) || (imagefile==match[5]) || (imagefile==match[6]) || (imagefile==match[7]) || (imagefile==match[8]) || (imagefile==match[9]) || (imagefile==match[10]) || (imagefile==match[11]))){
+						alert('Por favor seleccione un archivo del tipo (JPEG / JPG / PNG / GIF / TXT / DOC / XLS / PDF / PPT).');
+						$("#archivo").val('');
+						return false;
+					}
+			
+				});
+		
+		
+		
+				$("#calendario").datepicker({dateFormat: 'dd/mm/yy'});
+	 
+				
+				
+				
+				
+				
 				function valida_grabar()
 				{
 		
-					
-			
-							var val = $("#colegio").val();
+								
+							val = $("#colegio").val();
 							var obj = $("#colegio_lista").find("option[value='" + val + "']");
 							
 							if(obj != null && obj.length > 0)
@@ -108,10 +104,10 @@
 												
 							}
 							
-			
-					}
+		
 			
 			}
+	
 	
 	
 	
@@ -168,12 +164,10 @@
 			} 	
 	
 	
-	
-	
-	
-	</script>
 
-
+</script>
+				
+	
  <div class="col-md-12">
   			 <div class="row">
 					 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -255,7 +249,8 @@
 																 if(trim($NOMBREARCHIVOADJUNTO)!="")
 																 {
 																 ?>
-																 <br><strong>Archivo actual :</strong> <?php echo $NOMBREARCHIVOADJUNTO?>
+																 <br>
+																 <strong>Archivo actual : <a href="<?php echo $ARCHIVOADJUNTO?>" target="_blank"><?php echo $NOMBREARCHIVOADJUNTO?></a></strong>
 																 <?php
 																 }
 																 ?>

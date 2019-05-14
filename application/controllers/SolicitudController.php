@@ -1,11 +1,19 @@
 <?php
-
 class SolicitudController extends Zend_Controller_Action
 {
 
-
+	/*
+    public $ESTADOS_SOLICITUDES[];
+	$ESTADOS_SOLICITUDES["PEN"]="PENDIENTE";
+	$ESTADOS_SOLICITUDES["RES"]="RESUELTO";
+	$ESTADOS_SOLICITUDES["DER"]="DERIVADO";
+	*/
+	
+	//falta
+	//arreglo para estados
+	//busqueda inteligente en el listado
+		
     
-
     public function init()
     {
         /* Initialize action controller here */
@@ -407,6 +415,7 @@ class SolicitudController extends Zend_Controller_Action
 					$sSQL = "	SELECT 
 								s.ED02_SOLICITUDID, 
 								s.SIS03_LABORATORIOID, 
+								l.SIS03_LABORATORIODESCRIPCION, 
 								s.SIS04_PRODUCTOID, 
 								DATE_FORMAT(s.ED02_FECHASOLICITUD, '%d/%m/%Y') as FECHASOLICITUD, 
 								s.ED02_DETALLESOLICITUD, 
@@ -433,6 +442,7 @@ class SolicitudController extends Zend_Controller_Action
 									
 											$SOLICITUDID=$row_datosQuery["ED02_SOLICITUDID"];
 											$LABORATORIOID=$row_datosQuery["SIS03_LABORATORIOID"];
+											$LABORATORIODESCRIPCION=$row_datosQuery["SIS03_LABORATORIODESCRIPCION"];
 											$PRODUCTOID=$row_datosQuery["SIS04_PRODUCTOID"];
 											$FECHASOLICITUD=$row_datosQuery["FECHASOLICITUD"];
 											$DETALLESOLICITUD=$row_datosQuery["ED02_DETALLESOLICITUD"];
@@ -507,6 +517,7 @@ class SolicitudController extends Zend_Controller_Action
 
 						Zend_Layout::getMvcInstance()->assign('SOLICITUDID',$SOLICITUDID);
 						Zend_Layout::getMvcInstance()->assign('LABORATORIOID',$LABORATORIOID);
+						Zend_Layout::getMvcInstance()->assign('LABORATORIODESCRIPCION',$LABORATORIODESCRIPCION);
 						Zend_Layout::getMvcInstance()->assign('PRODUCTOID',$PRODUCTOID);
 						Zend_Layout::getMvcInstance()->assign('FECHASOLICITUD',$FECHASOLICITUD);
 						Zend_Layout::getMvcInstance()->assign('DETALLESOLICITUD',$DETALLESOLICITUD);
@@ -524,7 +535,6 @@ class SolicitudController extends Zend_Controller_Action
     public function editarsolicitudprocessAction()
     {
     			
-		//TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 		
 					$uploads = '/var/www/html/edesk/public/archivos_upload';
 					$uploads_public = '/archivos_upload';

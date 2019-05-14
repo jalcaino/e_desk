@@ -91,7 +91,7 @@
 																															<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
 																															<strong>PRODUCTO : </strong><?php echo $valor["SIS04_PRODUCTOID"]?><br><br>
 																															<strong>FECHA SOLICITUD : </strong><?php echo $valor["FECHASOLICITUD"]?><br><br>
-																															<strong>DETALLE : </strong><br><?php echo $valor["ED02_DETALLESOLICITUD"]?><br><br>
+																															<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED02_DETALLESOLICITUD"])?><br><br>
 																															<?php
 																															if(trim($valor["ED02_ARCHIVOADJUNTO"])!="")
 																															{	
