@@ -17,6 +17,9 @@
 
 	if(isset($this->layout()->registro_fin))
 		$registro_fin=$this->layout()->registro_fin;
+	
+	if(isset($this->layout()->busqueda))
+		$busqueda=$this->layout()->busqueda;
 		
 	
 	if($total_filas < $registro_fin)
@@ -26,10 +29,38 @@
 	
 	
 ?>
+<script type="text/javascript">
+ 
+	   
+	   $("#realizar_busqueda").click( function()
+       {
+         	if($("#busqueda").val()!="")
+			{
+				carga_pagina('1',$("#busqueda").val());
+		  	}
+		 }
+        );
+	   
+   
+	   
+</script>
+	   
 <div class="col-md-12">
 		   
 		   <div id="divNotificacionesCentral">
 		   </div>									 
+						
+						
+						
+		<div class="panel-footer">
+			<div class="input-group">
+				<input type="text" name="busqueda" id="busqueda" class="form-control" value="<?php echo $busqueda?>" placeholder="" data-toggle="tooltip" title="Puedes buscar por : RBD / NUM SOLICITUD / ESTADO (PEN - DER - RES)" />
+				<span class="input-group-btn">
+					<button class="btn btn-success" type="button" id="realizar_busqueda">SEND</button>
+				</span>
+			</div>
+		 </div>
+	
 							
 		   
 		   <div class="panel panel-info">
@@ -37,6 +68,9 @@
 						 <div class="row">
 							 <div class="col-lg-12 col-md-12 col-sm-12">
 						
+								
+											 
+								
 								
 										   <div class="table-responsive">
 									
@@ -140,7 +174,7 @@
 															  for($i=1;$i<=$num_paginas;$i++)
 															  {
 															  ?>	
-															  <li <?php if(intval($pagina)==intval($i)){?>class="active"<?php }?>><a href="#" onclick="carga_pagina('<?php echo $i;?>')"><?php echo $i;?> <?php if(intval($pagina)==intval($i)){?><span class="sr-only">(current)</span><?php }?></a></li>
+															  <li <?php if(intval($pagina)==intval($i)){?>class="active"<?php }?>><a href="#" onclick="carga_pagina('<?php echo $i;?>','<?php echo $busqueda?>')"><?php echo $i;?> <?php if(intval($pagina)==intval($i)){?><span class="sr-only">(current)</span><?php }?></a></li>
 															  <?
 															  }
 															  ?>	

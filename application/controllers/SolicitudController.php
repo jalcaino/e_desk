@@ -2,18 +2,7 @@
 class SolicitudController extends Zend_Controller_Action
 {
 
-	/*
-    public $ESTADOS_SOLICITUDES[];
-	$ESTADOS_SOLICITUDES["PEN"]="PENDIENTE";
-	$ESTADOS_SOLICITUDES["RES"]="RESUELTO";
-	$ESTADOS_SOLICITUDES["DER"]="DERIVADO";
-	*/
-	
-	//falta
-	//arreglo para estados
-	//busqueda inteligente en el listado
-		
-    
+
     public function init()
     {
         /* Initialize action controller here */
@@ -845,6 +834,7 @@ class SolicitudController extends Zend_Controller_Action
     {
     
 	
+	
 						$this->_helper->layout->disableLayout();
 						$config = Zend_Registry::get('config');
 						
@@ -855,6 +845,8 @@ class SolicitudController extends Zend_Controller_Action
 						$PAGINA=1;
 
 						$lapagina=$this->_request->getPost('pagina');
+						$busqueda=$this->_request->getPost('busqueda');
+						
 						
 						if($lapagina!="")
 						{
@@ -886,9 +878,13 @@ class SolicitudController extends Zend_Controller_Action
 								FROM 
 								e_desk.ED02_SOLICITUD s
 								LEFT JOIN
-								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID
-								ORDER BY 
-								ED02_SOLICITUDID desc ";
+								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID ";
+								
+						
+						if(trim($busqueda)!="")
+								$sSQL.=" WHERE s.ED02_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID like '".$busqueda."' OR s.ED02_SOLICITUDID like '".$busqueda."' ";		
+							
+						$sSQL.=" ORDER BY ED02_SOLICITUDID desc ";
 					
 					
 					 	$rowset = $DB->fetchAll($sSQL);
@@ -915,11 +911,22 @@ class SolicitudController extends Zend_Controller_Action
 									$datossolicitudes["$ID"]["ED02_NOMBRESOLICITANTE"]=$row_datosQuery["ED02_NOMBRESOLICITANTE"];
 									$datossolicitudes["$ID"]["FECHAINGRESO"]=$row_datosQuery["FECHAINGRESO"];
 									$datossolicitudes["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
-									$datossolicitudes["$ID"]["ED02_ESTADO"]=$row_datosQuery["ED02_ESTADO"];
-						
+									
+									
+									if(isset($config['estados'][$row_datosQuery["ED02_ESTADO"]]))
+										$datossolicitudes["$ID"]["ED02_ESTADO"]=$config['estados'][$row_datosQuery["ED02_ESTADO"]];
+									else
+										$datossolicitudes["$ID"]["ED02_ESTADO"]="-";
+							
 								}						
 							}								
 						}
+					
+					
+					
+					
+					
+					
 					
 					
 						$NUM_PAGINAS=intval($CONTADOR_FILAS/15);
@@ -941,12 +948,14 @@ class SolicitudController extends Zend_Controller_Action
 						if(isset($NUM_PAGINAS))
 								Zend_Layout::getMvcInstance()->assign('num_paginas',$NUM_PAGINAS);
 					
-					
 						if(isset($CONTADOR_INI))
 								Zend_Layout::getMvcInstance()->assign('registro_ini',$CONTADOR_INI);
 						
 						if(isset($CONTADOR_FIN))
 								Zend_Layout::getMvcInstance()->assign('registro_fin',$CONTADOR_FIN);
+						
+						if(isset($busqueda))
+								Zend_Layout::getMvcInstance()->assign('busqueda',$busqueda);
 						
 	
 	

@@ -1,5 +1,6 @@
 <script type="text/javascript">
  
+	   
 	   function accion_eliminar(solicitudid)
 	   {
 
@@ -55,11 +56,12 @@
 
 
 
- 	   function carga_pagina(pagina)
+ 	   function carga_pagina(pagina,busqueda)
 	   {
 
 					var parametros = {
-										"pagina" : pagina
+										"pagina" : pagina,
+										"busqueda" : busqueda 
 									};
 					
 					$.ajax({
@@ -78,7 +80,7 @@
 
 
 		//carga inicial
-		carga_pagina('1');
+		carga_pagina('1','PEN');
 </script>
 <div id="formulario">
 		
