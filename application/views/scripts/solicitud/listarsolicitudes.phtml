@@ -56,7 +56,7 @@
 			<div class="input-group">
 				<input type="text" name="busqueda" id="busqueda" class="form-control" value="<?php echo $busqueda?>" placeholder="" data-toggle="tooltip" title="Puedes buscar por : RBD / NUM SOLICITUD / ESTADO (PEN - DER - RES)" />
 				<span class="input-group-btn">
-					<button class="btn btn-success" type="button" id="realizar_busqueda">SEND</button>
+					<button class="btn btn-success" type="button" id="realizar_busqueda">BUSCAR</button>
 				</span>
 			</div>
 		 </div>
@@ -85,7 +85,7 @@
 																		</th>
 																	</tr>
 																	<tr>
-																		<th>NUM.SOL.</th>
+																		<th>NUM.</th>
 																		<th>COLEGIO</th>
 																		<th>FECHA SOLICITUD</th>
 																		<th>ESTADO</th>
@@ -105,9 +105,9 @@
 																					<td><?php echo $valor["FECHASOLICITUD"]?></td>
 																					<td><?php echo $valor["ED02_ESTADO"]?></td>
 																					<td>
-																					  <button onclick="carga_editar('<?php echo $valor["ED02_SOLICITUDID"]?>')" id="btn_editar" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i>Editar</button>
-																					  <button onclick="accion_eliminar('<?php echo $valor["ED02_SOLICITUDID"]?>')" class="btn btn-danger"><i class="glyphicon glyphicon-home"></i>Eliminar</button>
-																					  <button class="btn btn-success" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED02_SOLICITUDID"]?>">Detalle</button>
+																					  <button onclick="carga_editar('<?php echo $valor["ED02_SOLICITUDID"]?>')" id="btn_editar" class="btn btn-xs btn-primary">Editar</button>
+																					  <button onclick="accion_eliminar('<?php echo $valor["ED02_SOLICITUDID"]?>')" class="btn btn-xs btn-danger">Eliminar</button>
+																					  <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED02_SOLICITUDID"]?>">Detalle</button>
 																					
 																					
 																					
