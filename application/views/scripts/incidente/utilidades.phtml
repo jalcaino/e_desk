@@ -1,0 +1,45 @@
+<?php
+	
+	if(isset($this->layout()->datosclasificador))
+		$datosclasificador=$this->layout()->datosclasificador;
+
+	if(isset($this->layout()->tipo))
+		$tipo=$this->layout()->tipo;
+	
+	if(isset($this->layout()->clasificador))
+		$clasificador=$this->layout()->clasificador;
+
+	if(isset($this->layout()->clasificadordescripcion))
+		$clasificadordescripcion=$this->layout()->clasificadordescripcion;;
+
+?>
+<script type="text/javascript">
+		<?php
+		if(trim($clasificador)!="0" && trim($clasificador)!="" && $clasificadordescripcion!="") 
+		{
+		?>
+			   var val3 = $("#clasificadores").val("<?php echo $clasificador?> | <?php echo $clasificadordescripcion?>");
+		<?php
+		}
+		?>	
+</script>
+
+<div class="form-group">
+	<label>Clasificador</label>
+
+	<input list="clasificadores_lista" class="form-control" id="clasificadores">
+	<datalist id="clasificadores_lista">
+		<?php
+		if(isset($datosclasificador))
+		{
+			foreach($datosclasificador as $clave => $valor)
+			{
+			?>
+				<option value="<?php echo $valor["SIS07_CLASIFICADORID"]?> | <?php echo $valor["SIS07_CLASIFICADORDESCRIPCION"]?>">
+			<?
+			}
+		}		
+		?>
+	</datalist>
+
+</div>

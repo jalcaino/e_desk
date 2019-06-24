@@ -37,6 +37,26 @@ class UsuarioController extends Zend_Controller_Action
 					
 					
 					
+						###########################		
+						##inicio validacion sesion
+						###########################		
+						
+						$edesk_session = new Zend_Session_Namespace('edeskses');
+			
+						if(trim($edesk_session->ID)=="" || trim($edesk_session->USUARIOID)=="" || trim($edesk_session->NIVELID)=="")
+						{
+							header('location:/');
+							exit;		
+						}
+					
+						###########################		
+						##fin validacion sesion
+						###########################		
+				
+			
+			
+					
+					
 						//NIVEL
 						////////////////////////////
 						$sSQL="SELECT

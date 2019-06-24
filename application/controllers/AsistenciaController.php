@@ -1,6 +1,6 @@
 <?php
 
-class IncidenteController extends Zend_Controller_Action
+class AsistenciaController extends Zend_Controller_Action
 {
 
     public function init()
@@ -10,7 +10,7 @@ class IncidenteController extends Zend_Controller_Action
 
     public function indexAction()
     {
-						###########################		
+    			    	###########################		
 						##inicio validacion sesion
 						###########################		
 						
@@ -25,15 +25,15 @@ class IncidenteController extends Zend_Controller_Action
 						###########################		
 						##fin validacion sesion
 						###########################		
+	}
 					
-    }
-
-    public function agregarincidenteAction()
+    public function agregarasistenciaAction()
     {
     
 				$config = Zend_Registry::get('config');
 				
 				$DB = Zend_Db_Table::getDefaultAdapter();
+			
 			
 			
 				###########################		
@@ -52,6 +52,11 @@ class IncidenteController extends Zend_Controller_Action
 				##fin validacion sesion
 				###########################		
 				
+			
+			
+			
+			
+			
 			
 			
 			
@@ -82,7 +87,7 @@ class IncidenteController extends Zend_Controller_Action
 			
 				//USUARIOS
 				////////////////////////////
-				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO";
+				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE SIS01_SECTORID='LAB'";
 				$rowset = $DB->fetchAll($sSQL);
 
 				foreach($rowset as $row_datosQuery)
@@ -96,95 +101,13 @@ class IncidenteController extends Zend_Controller_Action
 				}
 			
 			
-			
-			
-			
-				//CLASIFICADOR
-				////////////////////////////
-				$sSQL="SELECT
-						SIS07_CLASIFICADORID,
-						SIS07_NIVELID,
-						SIS07_CLASIFICADORDESCRIPCION
-						FROM
-						e_desk.SIS07_CLASIFICADOR
-						ORDER BY
-						SIS07_NIVELID";
-			
-			
-				$rowset = $DB->fetchAll($sSQL);
-
-				foreach($rowset as $row_datosQuery)
-				{
-					if(trim($row_datosQuery["SIS07_CLASIFICADORID"])!="")
-					{
-						$ID=$row_datosQuery["SIS07_CLASIFICADORID"];
-						$datosclasificador["$ID"]["SIS07_CLASIFICADORID"]=$row_datosQuery["SIS07_CLASIFICADORID"];
-						$datosclasificador["$ID"]["SIS07_NIVELID"]=$row_datosQuery["SIS07_NIVELID"];
-						$datosclasificador["$ID"]["SIS07_CLASIFICADORDESCRIPCION"]=$row_datosQuery["SIS07_CLASIFICADORDESCRIPCION"];
-					}								
-				}
-			
-			
-			
-				//MODULO
-				////////////////////////////
-				$sSQL="SELECT SIS05_CODIGOMODULO FROM e_desk.SIS05_MODULO order by SIS05_CODIGOMODULO";
-			
-				$rowset = $DB->fetchAll($sSQL);
-
-				foreach($rowset as $row_datosQuery)
-				{
-					if(trim($row_datosQuery["SIS05_CODIGOMODULO"])!="")
-					{
-						$ID=$row_datosQuery["SIS05_CODIGOMODULO"];
-						$datosmodulos["$ID"]["SIS05_CODIGOMODULO"]=$row_datosQuery["SIS05_CODIGOMODULO"];
-					}								
-				}
-			
-			
-			
-			
-				//PRODUCTOS
-				////////////////////////////
-				$sSQL="SELECT
-						SIS04_PRODUCTOID,
-						SIS04_PRODUCTODESCRIPCION
-						FROM
-						e_desk.SIS04_PRODUCTO
-						ORDER BY
-						SIS04_PRODUCTOID";
-			
-			
-				$rowset = $DB->fetchAll($sSQL);
-
-				foreach($rowset as $row_datosQuery)
-				{
-					if(trim($row_datosQuery["SIS04_PRODUCTOID"])!="")
-					{
-						$ID=$row_datosQuery["SIS04_PRODUCTOID"];
-						$datosproducto["$ID"]["SIS04_PRODUCTOID"]=$row_datosQuery["SIS04_PRODUCTOID"];
-						$datosproducto["$ID"]["SIS04_PRODUCTODESCRIPCION"]=$row_datosQuery["SIS04_PRODUCTODESCRIPCION"];
-					}								
-				}
-			
 					
-			
-				if(isset($datosproducto))
-					Zend_Layout::getMvcInstance()->assign('datosproducto',$datosproducto);
 			
 			
 				if(isset($datoscolegio))
 					Zend_Layout::getMvcInstance()->assign('datoscolegio',$datoscolegio);
 			
 			
-				if(isset($datosclasificador))
-					Zend_Layout::getMvcInstance()->assign('datosclasificador',$datosclasificador);
-		
-		
-				if(isset($datosmodulos))
-					Zend_Layout::getMvcInstance()->assign('datosmodulos',$datosmodulos);
-		
-	
 				if(isset($datosusuarios))
 						Zend_Layout::getMvcInstance()->assign('datosusuarios',$datosusuarios);
 		
@@ -192,7 +115,7 @@ class IncidenteController extends Zend_Controller_Action
 	
     }
 
-    public function agregarincidenteprocessAction()
+    public function agregarasistenciaprocessAction()
     {
     
 	
@@ -209,7 +132,6 @@ class IncidenteController extends Zend_Controller_Action
 					$edesk_session = new Zend_Session_Namespace('edeskses');
 	
 					$colegio=$this->_request->getPost('colegio');
-					$producto=$this->_request->getPost('producto');
 					$calendario=$this->_request->getPost('calendario');
 					$detalle=$this->_request->getPost('detalle');
 					$nombreapellido=$this->_request->getPost('nombreapellido');
@@ -217,20 +139,13 @@ class IncidenteController extends Zend_Controller_Action
 					$email=$this->_request->getPost('email');
 					$prioridad=$this->_request->getPost('prioridad');
 					$tipocontacto=$this->_request->getPost('tipocontacto');
-					$nivelsoporte=$this->_request->getPost('nivelsoporte');
-					$clasificadores=$this->_request->getPost('clasificadores');
-					$modulo=$this->_request->getPost('modulo');
-					$num_pregunta=$this->_request->getPost('num_pregunta');
-					$num_alumnos=$this->_request->getPost('num_alumnos');
-					$nivel=$this->_request->getPost('nivel');
+					$fecha_realizarce=$this->_request->getPost('fecha_realizarce');
 					$estado=$this->_request->getPost('estado');
 					$derivado=$this->_request->getPost('derivado');
 					$archivo=$this->_request->getPost('archivo');
 					$accion=$this->_request->getPost('accion');
 			
 					$porciones = explode("|",$colegio);
-					$porciones_clasificador = explode("|",$clasificadores);
-					$clasificadores_final = $porciones_clasificador[0];
 				
 					$porciones_fecha = explode("/",$calendario);
 					$calendario_ingles=$porciones_fecha[2]."-".$porciones_fecha[1]."-".$porciones_fecha[0];
@@ -335,25 +250,19 @@ class IncidenteController extends Zend_Controller_Action
 												//insertamos con try
 												$data = array(
 														'SIS03_LABORATORIOID' => $ELCOLEGIO,
-												  		'SIS04_PRODUCTOID' => $producto,
-												  		'ED03_FECHATICKET' => $calendario_ingles,
-												  		'ED03_NOMBRESOLICITANTE' => $nombreapellido,
-												  		'ED03_TELEFONOSOLICITANTE' => $telefono,
-												  		'ED03_EMAILSOLICITANTE' => $email,
-												  		'ED03_PRIORIDAD' => $prioridad,
-												  		'ED03_DETALLETICKET' => $detalle,
-												  		'ED03_TIPOCONTACTO' => $tipocontacto,
-												  		'ED03_NIVELSOPORTE' => $nivelsoporte,
-												  		'SIS07_CLASIFICADORID' => $clasificadores_final, 
-												  		'ED03_ARCHIVOADJUNTO' => $fileRuta,
-												  		'ED03_NOMBREARCHIVOADJUNTO' => $fileName,
-												  		'ED03_TIPOARCHIVOADJUNTO' => $fileType,
-												  		'ED03_NUMALUMNOSAFECTADOS' => $num_alumnos,
-												  		'ED03_NIVELDELPROGRAMA' => $nivel,
-												  		'SIS05_CODIGOMODULO' => $modulo,
-												  		'ED03_NUMEJERCICIO' => $num_pregunta,
-												  		'ED03_ESTADO' => $estado,
-												  		'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
+												  		'ED05_FECHAINGRESO' => date("Ymdhis"),
+												  		'ED05_NOMBRESOLICITANTE' => $nombreapellido,
+												  		'ED05_TELEFONOSOLICITANTE' => $telefono,
+												  		'ED05_EMAILSOLICITANTE' => $email,
+												  		'ED05_PRIORIDAD' => $prioridad,
+												  		'ED05_DETALLEASISTENCIAREALIZAR' => $detalle,
+												  		'ED05_TIPOCONTACTO' => $tipocontacto,
+												  		'ED05_ARCHIVOADJUNTO' => $fileRuta,
+												  		'ED05_NOMBREARCHIVOADJUNTO' => $fileName,
+												  		'ED05_TIPOARCHIVOADJUNTO' => $fileType,
+												  		'ED05_FECHAREALIZARCE' => $calendario_ingles,
+												  		'ED05_ESTADO' => $estado,
+												  		'ED05_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
 												);
 												  		
 					
@@ -361,7 +270,7 @@ class IncidenteController extends Zend_Controller_Action
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
-													$DB->insert('e_desk.ED03_TICKET', $data);
+													$DB->insert('e_desk.ED05_ASISTENCIA_TECNICA', $data);
 							
 													$DB->commit();
 													
@@ -376,7 +285,7 @@ class IncidenteController extends Zend_Controller_Action
 												#################################
 												##RESCATAMOS ULTIMO ID INGRESADO
 												#################################
-												$sSQL="SELECT max(ED03_TICKETID) as ingresado FROM e_desk.ED03_TICKET";
+												$sSQL="SELECT max(ED05_ASISTENCIAID) as ingresado FROM e_desk.ED05_ASISTENCIA_TECNICA";
 												$rowset = $DB->fetchAll($sSQL);
 												
 												$nueva_solicitud=0;
@@ -418,9 +327,9 @@ class IncidenteController extends Zend_Controller_Action
 							
 												$from="helpdesk@compumat.cl";
 												$to=$email;
-												$subject="INTERNO - CREACION DE INCIDENTE E-DESK";
+												$subject="INTERNO - CREACION DE ASISTENCIA E-DESK";
 												$body="<u>Estimado Usuario</u><br><br>
-													   Con fecha de hoy ".date("d/m/Y")." se ha generado el incidente numero : <strong>$nueva_solicitud</strong> <br><br>
+													   Con fecha de hoy ".date("d/m/Y")." se ha generado el asistencia numero : <strong>$nueva_solicitud</strong> <br><br>
 													   por el usuario E-DESK Login : ($edesk_session->USUARIOID) <br><br>
 													   Atte.<br>Equipo Compumat.";
 												
@@ -448,16 +357,16 @@ class IncidenteController extends Zend_Controller_Action
 								
 												//1 propietario
 												$data_usuario1 = array(
-														'ED03_TICKETID' => $nueva_solicitud,
+														'ED05_ASISTENCIAID' => $nueva_solicitud,
 														'ED01_USUARIOID' => $edesk_session->USUARIOID,
-														'ED07_TIPOASIGNACION' => '1'
+														'ED11_TIPOASIGNACION' => '1'
 													);
 								
 												//2 derivado
 												$data_usuario2 = array(
-														'ED03_TICKETID' => $nueva_solicitud,
+														'ED05_ASISTENCIAID' => $nueva_solicitud,
 														'ED01_USUARIOID' => $derivado,
-														'ED07_TIPOASIGNACION' => '2'
+														'ED11_TIPOASIGNACION' => '2'
 													);
 																
 
@@ -467,11 +376,11 @@ class IncidenteController extends Zend_Controller_Action
 													$DB->getConnection();
 													$DB->beginTransaction();
 													$DB->insert('bd_correos.correos_soporte', $data_email);
-													$DB->insert('e_desk.ED07_USUARIO_TICKET',$data_usuario1);
+													$DB->insert('e_desk.ED11_USUARIO_ASISTENCIA_TECNICA',$data_usuario1);
 																
 													if(trim($derivado)!="")
 													{
-														$DB->insert('e_desk.ED07_USUARIO_TICKET',$data_usuario2);
+														$DB->insert('e_desk.ED11_USUARIO_ASISTENCIA_TECNICA',$data_usuario2);
 													}
 								
 													//hay que consultar por solicitudes asociadas
@@ -514,108 +423,88 @@ class IncidenteController extends Zend_Controller_Action
 	
     }
 
-    public function editarincidenteAction()
+    public function editarasistenciaAction()
     {
     
 					$this->_helper->layout->disableLayout();
 					$config = Zend_Registry::get('config');
 					$DB = Zend_Db_Table::getDefaultAdapter();
 					
-					$incidenteid=$this->_request->getPost('incidenteid');
+					$asistenciaid=$this->_request->getPost('asistenciaid');
 			
 					$LABORATORIOID="";
 					$LABORATORIODESCRIPCION="";
-					$PRODUCTOID="";
-					$FECHATICKET="";
+					$FECHAASISTENCIA="";
 					$NOMBRESOLICITANTE="";
 					$TELEFONOSOLICITANTE="";
 					$EMAILSOLICITANTE="";
 					$PRIORIDAD="";
-					$DETALLETICKET="";
+					$DETALLEASISTENCIAREALIZAR="";
 					$TIPOCONTACTO="";
-					$NIVELSOPORTE="";
-					$CLASIFICADORID=""; 
-					$CLASIFICADORDESCRIPCION=""; 
 					$ARCHIVOADJUNTO="";
 					$NOMBREARCHIVOADJUNTO="";
 					$TIPOARCHIVOADJUNTO="";
-					$NUMALUMNOSAFECTADOS="";
-					$NIVELDELPROGRAMA="";
-					$CODIGOMODULO="";
-					$NUMEJERCICIO="";
 					$ESTADO="";			
 				
 				
+					
 					//validamos que no exista usuario
-					$sSQL = "	SELECT 
-								s.ED03_TICKETID,
+						
+					$sSQL="SELECT 
+								s.ED05_ASISTENCIAID,
 								s.SIS03_LABORATORIOID,
 								l.SIS03_LABORATORIODESCRIPCION, 
-								s.SIS04_PRODUCTOID,
-								DATE_FORMAT(s.ED03_FECHATICKET, '%d/%m/%Y') as FECHATICKET,
-								s.ED03_NOMBRESOLICITANTE,
-								s.ED03_TELEFONOSOLICITANTE,
-								s.ED03_EMAILSOLICITANTE,
-								s.ED03_PRIORIDAD,
-								s.ED03_DETALLETICKET,
-								s.ED03_TIPOCONTACTO,
-								s.ED03_NIVELSOPORTE,
-								s.SIS07_CLASIFICADORID, 
-								c.SIS07_CLASIFICADORDESCRIPCION,
-								s.ED03_ARCHIVOADJUNTO,
-								s.ED03_NOMBREARCHIVOADJUNTO,
-								s.ED03_TIPOARCHIVOADJUNTO,
-								s.ED03_NUMALUMNOSAFECTADOS,
-								s.ED03_NIVELDELPROGRAMA,
-								s.SIS05_CODIGOMODULO,
-								s.ED03_NUMEJERCICIO,
-								s.ED03_ESTADO
+								DATE_FORMAT(s.ED05_FECHAINGRESO, '%d/%m/%Y') as FECHAASISTENCIA,
+								s.ED05_NOMBRESOLICITANTE,
+								s.ED05_TELEFONOSOLICITANTE,
+								s.ED05_EMAILSOLICITANTE,
+								s.ED05_PRIORIDAD,
+								s.ED05_DETALLEASISTENCIAREALIZAR,
+								DATE_FORMAT(s.ED05_FECHAREALIZARCE, '%d/%m/%Y') as FECHAREALIZARCE,
+								s.ED05_TIPOCONTACTO,
+								s.ED05_ESTADO,
+								s.ED05_ARCHIVOADJUNTO,
+								s.ED05_NOMBREARCHIVOADJUNTO,
+								s.ED05_TIPOARCHIVOADJUNTO,
+								DATE_FORMAT(s.ED05_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION
 								FROM 
-								e_desk.ED03_TICKET s
+								e_desk.ED05_ASISTENCIA_TECNICA s
 								LEFT JOIN
-								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID
-								LEFT JOIN
-								e_desk.SIS07_CLASIFICADOR c ON s.SIS07_CLASIFICADORID=c.SIS07_CLASIFICADORID
+								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID 
 								WHERE 
-								s.ED03_TICKETID = '$incidenteid' ";
-								
-								
-								
+								s.ED05_ASISTENCIAID = '$asistenciaid' ";	
+							
+						
 								
 							$rowset = $DB->fetchAll($sSQL);
 
 							foreach($rowset as $row_datosQuery)
 							{
 							
-									if(trim($row_datosQuery["ED03_TICKETID"])!="")
+									if(trim($row_datosQuery["ED05_ASISTENCIAID"])!="")
 									{
 									
 											$LABORATORIOID=$row_datosQuery["SIS03_LABORATORIOID"];
 											$LABORATORIODESCRIPCION=$row_datosQuery["SIS03_LABORATORIODESCRIPCION"];
-											$PRODUCTOID=$row_datosQuery["SIS04_PRODUCTOID"];
-											$FECHATICKET=$row_datosQuery["FECHATICKET"];
-											$NOMBRESOLICITANTE=$row_datosQuery["ED03_NOMBRESOLICITANTE"];
-											$TELEFONOSOLICITANTE=$row_datosQuery["ED03_TELEFONOSOLICITANTE"];
-											$EMAILSOLICITANTE=$row_datosQuery["ED03_EMAILSOLICITANTE"];
-											$PRIORIDAD=$row_datosQuery["ED03_PRIORIDAD"];
-											$DETALLETICKET=$row_datosQuery["ED03_DETALLETICKET"];
-											$TIPOCONTACTO=$row_datosQuery["ED03_TIPOCONTACTO"];
-											$NIVELSOPORTE=$row_datosQuery["ED03_NIVELSOPORTE"];
-											$CLASIFICADORID=$row_datosQuery["SIS07_CLASIFICADORID"];
-											$CLASIFICADORDESCRIPCION=$row_datosQuery["SIS07_CLASIFICADORDESCRIPCION"];
-											$ARCHIVOADJUNTO=$row_datosQuery["ED03_ARCHIVOADJUNTO"];
-											$NOMBREARCHIVOADJUNTO=$row_datosQuery["ED03_NOMBREARCHIVOADJUNTO"];
-											$TIPOARCHIVOADJUNTO=$row_datosQuery["ED03_TIPOARCHIVOADJUNTO"];
-											$NUMALUMNOSAFECTADOS=$row_datosQuery["ED03_NUMALUMNOSAFECTADOS"];
-											$NIVELDELPROGRAMA=$row_datosQuery["ED03_NIVELDELPROGRAMA"];
-											$CODIGOMODULO=$row_datosQuery["SIS05_CODIGOMODULO"];
-											$NUMEJERCICIO=$row_datosQuery["ED03_NUMEJERCICIO"];
-											$ESTADO=$row_datosQuery["ED03_ESTADO"];		
-									
-				
+											$FECHAASISTENCIA=$row_datosQuery["FECHAASISTENCIA"];
+											$NOMBRESOLICITANTE=$row_datosQuery["ED05_NOMBRESOLICITANTE"];
+											$TELEFONOSOLICITANTE=$row_datosQuery["ED05_TELEFONOSOLICITANTE"];
+											$EMAILSOLICITANTE=$row_datosQuery["ED05_EMAILSOLICITANTE"];
+											$PRIORIDAD=$row_datosQuery["ED05_PRIORIDAD"];
+											$DETALLEASISTENCIAREALIZAR=$row_datosQuery["ED05_DETALLEASISTENCIAREALIZAR"];
+											$TIPOCONTACTO=$row_datosQuery["ED05_TIPOCONTACTO"];
+											$ARCHIVOADJUNTO=$row_datosQuery["ED05_ARCHIVOADJUNTO"];
+											$NOMBREARCHIVOADJUNTO=$row_datosQuery["ED05_NOMBREARCHIVOADJUNTO"];
+											$TIPOARCHIVOADJUNTO=$row_datosQuery["ED05_TIPOARCHIVOADJUNTO"];
+											$ESTADO=$row_datosQuery["ED05_ESTADO"];		
+							
 									}
 
 							}
+						
+				
+				
+				
 							
 		
 				//COLEGIOS
@@ -644,7 +533,7 @@ class IncidenteController extends Zend_Controller_Action
 			
 				//USUARIOS
 				////////////////////////////
-				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO";
+				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE SIS01_SECTORID='LAB'";
 				$rowset = $DB->fetchAll($sSQL);
 
 				foreach($rowset as $row_datosQuery)
@@ -657,18 +546,21 @@ class IncidenteController extends Zend_Controller_Action
 					}								
 				}
 			
+			
+			
+				
 				
 				$USUARIOSELECCIONADO=0;
 
 				$sSQL="SELECT
 						ED01_USUARIOID
 						FROM
-						e_desk.ED07_USUARIO_TICKET
+						e_desk.ED11_USUARIO_ASISTENCIA_TECNICA
 						WHERE
-						ED07_TIPOASIGNACION=2 and
-						ED03_TICKETID='$incidenteid'
+						ED11_TIPOASIGNACION=2 and
+						ED05_ASISTENCIAID='$asistenciaid'
 						order by
-						ED07_FECHAASIGNACION desc
+						ED11_FECHAASIGNACION desc
 						limit 0,1";
 					
 				$rowset = $DB->fetchAll($sSQL);
@@ -682,133 +574,36 @@ class IncidenteController extends Zend_Controller_Action
 				}
 			
 			
-					
-			
-			
-			
-			
-			
-			
-				//CLASIFICADOR
-				////////////////////////////
-				$sSQL="SELECT
-						SIS07_CLASIFICADORID,
-						SIS07_NIVELID,
-						SIS07_CLASIFICADORDESCRIPCION
-						FROM
-						e_desk.SIS07_CLASIFICADOR
-						ORDER BY
-						SIS07_NIVELID";
-			
-			
-				$rowset = $DB->fetchAll($sSQL);
-
-				foreach($rowset as $row_datosQuery)
-				{
-					if(trim($row_datosQuery["SIS07_CLASIFICADORID"])!="")
-					{
-						$ID=$row_datosQuery["SIS07_CLASIFICADORID"];
-						$datosclasificador["$ID"]["SIS07_CLASIFICADORID"]=$row_datosQuery["SIS07_CLASIFICADORID"];
-						$datosclasificador["$ID"]["SIS07_NIVELID"]=$row_datosQuery["SIS07_NIVELID"];
-						$datosclasificador["$ID"]["SIS07_CLASIFICADORDESCRIPCION"]=$row_datosQuery["SIS07_CLASIFICADORDESCRIPCION"];
-					}								
-				}
-			
-			
-			
-				//MODULO
-				////////////////////////////
-				$sSQL="SELECT SIS05_CODIGOMODULO FROM e_desk.SIS05_MODULO order by SIS05_CODIGOMODULO";
-			
-				$rowset = $DB->fetchAll($sSQL);
-
-				foreach($rowset as $row_datosQuery)
-				{
-					if(trim($row_datosQuery["SIS05_CODIGOMODULO"])!="")
-					{
-						$ID=$row_datosQuery["SIS05_CODIGOMODULO"];
-						$datosmodulos["$ID"]["SIS05_CODIGOMODULO"]=$row_datosQuery["SIS05_CODIGOMODULO"];
-					}								
-				}
-			
-			
-			
-			
-				//PRODUCTOS
-				////////////////////////////
-				$sSQL="SELECT
-						SIS04_PRODUCTOID,
-						SIS04_PRODUCTODESCRIPCION
-						FROM
-						e_desk.SIS04_PRODUCTO
-						ORDER BY
-						SIS04_PRODUCTOID";
-			
-			
-				$rowset = $DB->fetchAll($sSQL);
-
-				foreach($rowset as $row_datosQuery)
-				{
-					if(trim($row_datosQuery["SIS04_PRODUCTOID"])!="")
-					{
-						$ID=$row_datosQuery["SIS04_PRODUCTOID"];
-						$datosproducto["$ID"]["SIS04_PRODUCTOID"]=$row_datosQuery["SIS04_PRODUCTOID"];
-						$datosproducto["$ID"]["SIS04_PRODUCTODESCRIPCION"]=$row_datosQuery["SIS04_PRODUCTODESCRIPCION"];
-					}								
-				}
-			
-					
-			
-				if(isset($datosproducto))
-					Zend_Layout::getMvcInstance()->assign('datosproducto',$datosproducto);
-			
-			
+				
 				if(isset($datoscolegio))
 					Zend_Layout::getMvcInstance()->assign('datoscolegio',$datoscolegio);
 			
 			
-				if(isset($datosclasificador))
-					Zend_Layout::getMvcInstance()->assign('datosclasificador',$datosclasificador);
-		
-		
-				if(isset($datosmodulos))
-					Zend_Layout::getMvcInstance()->assign('datosmodulos',$datosmodulos);
-		
-	
 				if(isset($datosusuarios))
 						Zend_Layout::getMvcInstance()->assign('datosusuarios',$datosusuarios);
 
+				
 		
-		
-				Zend_Layout::getMvcInstance()->assign('INCIDENTEID',$incidenteid);
+				Zend_Layout::getMvcInstance()->assign('ASISTENCIAID',$asistenciaid);
 				Zend_Layout::getMvcInstance()->assign('LABORATORIOID',$LABORATORIOID);
 				Zend_Layout::getMvcInstance()->assign('LABORATORIODESCRIPCION',$LABORATORIODESCRIPCION);
-				Zend_Layout::getMvcInstance()->assign('PRODUCTOID',$PRODUCTOID);
-				Zend_Layout::getMvcInstance()->assign('FECHATICKET',$FECHATICKET);
+				Zend_Layout::getMvcInstance()->assign('FECHAASISTENCIA',$FECHAASISTENCIA);
 				Zend_Layout::getMvcInstance()->assign('NOMBRESOLICITANTE',$NOMBRESOLICITANTE);
 				Zend_Layout::getMvcInstance()->assign('TELEFONOSOLICITANTE',$TELEFONOSOLICITANTE);
 				Zend_Layout::getMvcInstance()->assign('EMAILSOLICITANTE',$EMAILSOLICITANTE);
 				Zend_Layout::getMvcInstance()->assign('PRIORIDAD',$PRIORIDAD);
-				Zend_Layout::getMvcInstance()->assign('DETALLETICKET',$DETALLETICKET);
+				Zend_Layout::getMvcInstance()->assign('DETALLEASISTENCIAREALIZAR',$DETALLEASISTENCIAREALIZAR);
 				Zend_Layout::getMvcInstance()->assign('TIPOCONTACTO',$TIPOCONTACTO);
-				Zend_Layout::getMvcInstance()->assign('NIVELSOPORTE',$NIVELSOPORTE);
-				Zend_Layout::getMvcInstance()->assign('CLASIFICADORID',$CLASIFICADORID);
-				Zend_Layout::getMvcInstance()->assign('CLASIFICADORDESCRIPCION',$CLASIFICADORDESCRIPCION);
 				Zend_Layout::getMvcInstance()->assign('ARCHIVOADJUNTO',$ARCHIVOADJUNTO);
 				Zend_Layout::getMvcInstance()->assign('NOMBREARCHIVOADJUNTO',$NOMBREARCHIVOADJUNTO);
 				Zend_Layout::getMvcInstance()->assign('TIPOARCHIVOADJUNTO',$TIPOARCHIVOADJUNTO);
-				Zend_Layout::getMvcInstance()->assign('NUMALUMNOSAFECTADOS',$NUMALUMNOSAFECTADOS);
-				Zend_Layout::getMvcInstance()->assign('NIVELDELPROGRAMA',$NIVELDELPROGRAMA);
-				Zend_Layout::getMvcInstance()->assign('CODIGOMODULO',$CODIGOMODULO);
-				Zend_Layout::getMvcInstance()->assign('NUMEJERCICIO',$NUMEJERCICIO);
 				Zend_Layout::getMvcInstance()->assign('ESTADO',$ESTADO);		
 				Zend_Layout::getMvcInstance()->assign('USUARIOSELECCIONADO',$USUARIOSELECCIONADO);		
 				
 				
-				
     }
 
-    public function editarincidenteprocessAction()
+    public function editarasistenciaprocessAction()
     {
     
 
@@ -822,10 +617,8 @@ class IncidenteController extends Zend_Controller_Action
 		
 					$edesk_session = new Zend_Session_Namespace('edeskses');
 	
-
-					$incidenteid=$this->_request->getPost('incidenteid');
+					$asistenciaid=$this->_request->getPost('asistenciaid');
 					$colegio=$this->_request->getPost('colegio');
-					$producto=$this->_request->getPost('producto');
 					$calendario=$this->_request->getPost('calendario');
 					$detalle=$this->_request->getPost('detalle');
 					$nombreapellido=$this->_request->getPost('nombreapellido');
@@ -833,24 +626,18 @@ class IncidenteController extends Zend_Controller_Action
 					$email=$this->_request->getPost('email');
 					$prioridad=$this->_request->getPost('prioridad');
 					$tipocontacto=$this->_request->getPost('tipocontacto');
-					$nivelsoporte=$this->_request->getPost('nivelsoporte');
-					$clasificadores=$this->_request->getPost('clasificadores');
-					$modulo=$this->_request->getPost('modulo');
-					$num_pregunta=$this->_request->getPost('num_pregunta');
-					$num_alumnos=$this->_request->getPost('num_alumnos');
-					$nivel=$this->_request->getPost('nivel');
+					$fecha_realizarce=$this->_request->getPost('fecha_realizarce');
 					$estado=$this->_request->getPost('estado');
 					$derivado=$this->_request->getPost('derivado');
 					$archivo=$this->_request->getPost('archivo');
 					$accion=$this->_request->getPost('accion');
 			
 					$porciones = explode("|",$colegio);
-					$porciones_clasificador = explode("|",$clasificadores);
-					$clasificadores_final = $porciones_clasificador[0];
 				
 					$porciones_fecha = explode("/",$calendario);
 					$calendario_ingles=$porciones_fecha[2]."-".$porciones_fecha[1]."-".$porciones_fecha[0];
-							
+					
+					
 					
 			
 					if($accion=="grabar")
@@ -953,25 +740,18 @@ class IncidenteController extends Zend_Controller_Action
 												{
 														$data = array(
 															'SIS03_LABORATORIOID' => $ELCOLEGIO,
-															'SIS04_PRODUCTOID' => $producto,
-															'ED03_FECHATICKET' => $calendario_ingles,
-															'ED03_NOMBRESOLICITANTE' => $nombreapellido,
-															'ED03_TELEFONOSOLICITANTE' => $telefono,
-															'ED03_EMAILSOLICITANTE' => $email,
-															'ED03_PRIORIDAD' => $prioridad,
-															'ED03_DETALLETICKET' => $detalle,
-															'ED03_TIPOCONTACTO' => $tipocontacto,
-															'ED03_NIVELSOPORTE' => $nivelsoporte,
-															'SIS07_CLASIFICADORID' => $clasificadores_final, 
-															'ED03_ARCHIVOADJUNTO' => $fileRuta,
-															'ED03_NOMBREARCHIVOADJUNTO' => $fileName,
-															'ED03_TIPOARCHIVOADJUNTO' => $fileType,
-															'ED03_NUMALUMNOSAFECTADOS' => $num_alumnos,
-															'ED03_NIVELDELPROGRAMA' => $nivel,
-															'SIS05_CODIGOMODULO' => $modulo,
-															'ED03_NUMEJERCICIO' => $num_pregunta,
-															'ED03_ESTADO' => $estado,
-															'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
+															'ED05_NOMBRESOLICITANTE' => $nombreapellido,
+															'ED05_TELEFONOSOLICITANTE' => $telefono,
+															'ED05_EMAILSOLICITANTE' => $email,
+															'ED05_PRIORIDAD' => $prioridad,
+															'ED05_DETALLEASISTENCIAREALIZAR' => $detalle,
+															'ED05_TIPOCONTACTO' => $tipocontacto,
+															'ED05_ARCHIVOADJUNTO' => $fileRuta,
+															'ED05_NOMBREARCHIVOADJUNTO' => $fileName,
+															'ED05_TIPOARCHIVOADJUNTO' => $fileType,
+															'ED05_FECHAREALIZARCE' => $calendario_ingles,
+															'ED05_ESTADO' => $estado,
+															'ED05_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
 														);
 												
 			
@@ -979,35 +759,28 @@ class IncidenteController extends Zend_Controller_Action
 												
 														$data = array(
 															'SIS03_LABORATORIOID' => $ELCOLEGIO,
-															'SIS04_PRODUCTOID' => $producto,
-															'ED03_FECHATICKET' => $calendario_ingles,
-															'ED03_NOMBRESOLICITANTE' => $nombreapellido,
-															'ED03_TELEFONOSOLICITANTE' => $telefono,
-															'ED03_EMAILSOLICITANTE' => $email,
-															'ED03_PRIORIDAD' => $prioridad,
-															'ED03_DETALLETICKET' => $detalle,
-															'ED03_TIPOCONTACTO' => $tipocontacto,
-															'ED03_NIVELSOPORTE' => $nivelsoporte,
-															'SIS07_CLASIFICADORID' => $clasificadores_final, 
-															'ED03_NUMALUMNOSAFECTADOS' => $num_alumnos,
-															'ED03_NIVELDELPROGRAMA' => $nivel,
-															'SIS05_CODIGOMODULO' => $modulo,
-															'ED03_NUMEJERCICIO' => $num_pregunta,
-															'ED03_ESTADO' => $estado,
-															'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
+															'ED05_NOMBRESOLICITANTE' => $nombreapellido,
+															'ED05_TELEFONOSOLICITANTE' => $telefono,
+															'ED05_EMAILSOLICITANTE' => $email,
+															'ED05_PRIORIDAD' => $prioridad,
+															'ED05_DETALLEASISTENCIAREALIZAR' => $detalle,
+															'ED05_TIPOCONTACTO' => $tipocontacto,
+															'ED05_FECHAREALIZARCE' => $calendario_ingles,
+															'ED05_ESTADO' => $estado,
+															'ED05_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
 														);
 													
 												}
 
 
-												$where['ED03_TICKETID = ?'] = $incidenteid;
+												$where['ED05_ASISTENCIAID = ?'] = $asistenciaid;
 																				
 
 												try {
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
-													$DB->update('e_desk.ED03_TICKET', $data, $where);
+													$DB->update('e_desk.ED05_ASISTENCIA_TECNICA', $data, $where);
 													$DB->commit();
 													
 												} catch (Zend_Exception $e) {
@@ -1049,9 +822,9 @@ class IncidenteController extends Zend_Controller_Action
 							
 												$from="helpdesk@compumat.cl";
 												$to=$email;
-												$subject="INTERNO - ACTUALIZACION DE INCIDENTE E-DESK";
+												$subject="INTERNO - ACTUALIZACION DE ASISTENCIA E-DESK";
 												$body="<u>Estimado Usuario</u><br><br>
-													   Con fecha de hoy ".date("d/m/Y")." se ha actualizado el incidente numero : <strong>$incidenteid</strong> <br><br>
+													   Con fecha de hoy ".date("d/m/Y")." se ha actualizado el asistencia numero : <strong>$asistenciaid</strong> <br><br>
 													   por el usuario E-DESK Login : ($edesk_session->USUARIOID) <br><br>
 													   Atte.<br>Equipo Compumat.";
 												
@@ -1082,12 +855,12 @@ class IncidenteController extends Zend_Controller_Action
 												$sSQL="SELECT
 														ED01_USUARIOID
 														FROM
-														e_desk.ED07_USUARIO_TICKET
+														e_desk.ED11_USUARIO_ASISTENCIA_TECNICA
 														WHERE
-														ED07_TIPOASIGNACION=2 and
-														ED03_TICKETID='$incidenteid'
+														ED11_TIPOASIGNACION=2 and
+														ED05_ASISTENCIAID='$asistenciaid'
 														order by
-														ED07_FECHAASIGNACION desc
+														ED11_FECHAASIGNACION desc
 														limit 0,1";
 													
 												$rowset = $DB->fetchAll($sSQL);
@@ -1103,9 +876,9 @@ class IncidenteController extends Zend_Controller_Action
 								
 												//2 derivado
 												$data_usuario2 = array(
-														'ED03_TICKETID' => $incidenteid,
+														'ED05_ASISTENCIAID' => $asistenciaid,
 														'ED01_USUARIOID' => $derivado,
-														'ED07_TIPOASIGNACION' => '2'
+														'ED11_TIPOASIGNACION' => '2'
 													);
 
 												
@@ -1117,7 +890,7 @@ class IncidenteController extends Zend_Controller_Action
 																
 													if(trim($derivado)!=trim($USUARIOSELECCIONADO))
 													{
-														$DB->insert('e_desk.ED07_USUARIO_TICKET',$data_usuario2);
+														$DB->insert('e_desk.ED11_USUARIO_ASISTENCIA_TECNICA',$data_usuario2);
 													}
 													//hay que consultar por solicitudes asociadas
 													//relación
@@ -1155,12 +928,12 @@ class IncidenteController extends Zend_Controller_Action
 					}		
 			
 	
-	
-		
-	
     }
 
-    public function eliminarincidenteAction()
+
+
+
+    public function eliminarasistenciaAction()
     {
     
 						$this->_helper->layout->disableLayout();
@@ -1168,20 +941,19 @@ class IncidenteController extends Zend_Controller_Action
 						
 						$DB = Zend_Db_Table::getDefaultAdapter();
 				
-						$incidenteid=$this->_request->getPost('incidenteid');
+						$asistenciaid=$this->_request->getPost('asistenciaid');
 					
-						$where['ED03_TICKETID = ?'] = $incidenteid;
+						$where['ED05_ASISTENCIAID = ?'] = $asistenciaid;
 			
 						try {
 
-							$n = $DB->delete("e_desk.ED03_TICKET", $where);
-							$n2 = $DB->delete("e_desk.ED07_USUARIO_TICKET", $where);
-							$n3 = $DB->delete("e_desk.ED14_SOLICITUD_TICKET", $where);
-							$n4 = $DB->delete("e_desk.ED04_SEGUIMIENTO_TICKET", $where);
+							$n = $DB->delete("e_desk.ED05_ASISTENCIA_TECNICA", $where);
+							$n2 = $DB->delete("e_desk.ED11_USUARIO_ASISTENCIA_TECNICA", $where);
+							$n3 = $DB->delete("e_desk.ED13_TICKET_ASISTENCIA_TECNICA", $where);
 							
 							//FALTA AQUI LOG DE ACCION
 
-							echo "Incidente eliminado correctamente...";
+							echo "Asistencia eliminada correctamente...";
 
 						} catch (Zend_Exception $e) {
 
@@ -1193,7 +965,7 @@ class IncidenteController extends Zend_Controller_Action
 	
     }
 
-    public function listarincidentesAction()
+    public function listarasistenciasAction()
     {
     
 	
@@ -1222,45 +994,36 @@ class IncidenteController extends Zend_Controller_Action
 
 						$CONTADOR_FILAS=0;
 					
-						//INCIDENTES
+						//ASISTENCIAS
 						////////////////////////////
 						$sSQL="SELECT 
-								s.ED03_TICKETID,
+								s.ED05_ASISTENCIAID,
 								s.SIS03_LABORATORIOID,
 								l.SIS03_LABORATORIODESCRIPCION, 
-								s.SIS04_PRODUCTOID,
-								DATE_FORMAT(s.ED03_FECHATICKET, '%d/%m/%Y') as FECHATICKET,
-								s.ED03_NOMBRESOLICITANTE,
-								s.ED03_TELEFONOSOLICITANTE,
-								s.ED03_EMAILSOLICITANTE,
-								s.ED03_PRIORIDAD,
-								s.ED03_DETALLETICKET,
-								s.ED03_TIPOCONTACTO,
-								s.ED03_NIVELSOPORTE,
-								s.SIS07_CLASIFICADORID, 
-								c.SIS07_CLASIFICADORDESCRIPCION,
-								s.ED03_ARCHIVOADJUNTO,
-								s.ED03_NOMBREARCHIVOADJUNTO,
-								s.ED03_TIPOARCHIVOADJUNTO,
-								s.ED03_NUMALUMNOSAFECTADOS,
-								s.ED03_NIVELDELPROGRAMA,
-								s.SIS05_CODIGOMODULO,
-								s.ED03_NUMEJERCICIO,
-								s.ED03_ESTADO,
-								DATE_FORMAT(s.ED03_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION
+								DATE_FORMAT(s.ED05_FECHAINGRESO, '%d/%m/%Y') as FECHAASISTENCIA,
+								s.ED05_NOMBRESOLICITANTE,
+								s.ED05_TELEFONOSOLICITANTE,
+								s.ED05_EMAILSOLICITANTE,
+								s.ED05_PRIORIDAD,
+								s.ED05_DETALLEASISTENCIAREALIZAR,
+								DATE_FORMAT(s.ED05_FECHAREALIZARCE, '%d/%m/%Y') as FECHAREALIZARCE,
+								s.ED05_TIPOCONTACTO,
+								s.ED05_ESTADO,
+								s.ED05_ARCHIVOADJUNTO,
+								s.ED05_NOMBREARCHIVOADJUNTO,
+								s.ED05_TIPOARCHIVOADJUNTO,
+								DATE_FORMAT(s.ED05_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION
 								FROM 
-								e_desk.ED03_TICKET s
+								e_desk.ED05_ASISTENCIA_TECNICA s
 								LEFT JOIN
-								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID
-								LEFT JOIN
-								e_desk.SIS07_CLASIFICADOR c ON s.SIS07_CLASIFICADORID=c.SIS07_CLASIFICADORID ";
+								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID ";
 																
 								
 						
 						if(trim($busqueda)!="")
-								$sSQL.=" WHERE s.ED03_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID like '".$busqueda."' OR s.ED03_TICKETID like '".$busqueda."' ";		
+								$sSQL.=" WHERE s.ED05_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID like '".$busqueda."' OR s.ED05_ASISTENCIAID like '".$busqueda."' ";		
 							
-						$sSQL.=" ORDER BY ED03_TICKETID desc ";
+						$sSQL.=" ORDER BY ED05_ASISTENCIAID desc ";
 					
 						
 					 	$rowset = $DB->fetchAll($sSQL);
@@ -1269,46 +1032,40 @@ class IncidenteController extends Zend_Controller_Action
 					
 						foreach($rowset as $row_datosQuery)
 						{
-							if(trim($row_datosQuery["ED03_TICKETID"])!="")
+							if(trim($row_datosQuery["ED05_ASISTENCIAID"])!="")
 							{
 								$CONTADOR_FILAS++;
 								
 								if($CONTADOR_FILAS>=$CONTADOR_INI && $CONTADOR_FILAS<=$CONTADOR_FIN)
 								{
 						
-										$ID=$row_datosQuery["ED03_TICKETID"];
-                                        $ID_FILAS.=",".$ID;
-										$datossolicitudes["$ID"]["ED03_TICKETID"]=$row_datosQuery["ED03_TICKETID"];
-										$datossolicitudes["$ID"]["SIS03_LABORATORIOID"]=$row_datosQuery["SIS03_LABORATORIOID"];
-										$datossolicitudes["$ID"]["SIS03_LABORATORIODESCRIPCION"]=$row_datosQuery["SIS03_LABORATORIODESCRIPCION"];
-										$datossolicitudes["$ID"]["SIS04_PRODUCTOID"]=$row_datosQuery["SIS04_PRODUCTOID"];
-										$datossolicitudes["$ID"]["FECHATICKET"]=$row_datosQuery["FECHATICKET"];
-										$datossolicitudes["$ID"]["ED03_NOMBRESOLICITANTE"]=$row_datosQuery["ED03_NOMBRESOLICITANTE"];
-										$datossolicitudes["$ID"]["ED03_TELEFONOSOLICITANTE"]=$row_datosQuery["ED03_TELEFONOSOLICITANTE"];
-										$datossolicitudes["$ID"]["ED03_EMAILSOLICITANTE"]=$row_datosQuery["ED03_EMAILSOLICITANTE"];
-										$datossolicitudes["$ID"]["ED03_PRIORIDAD"]=$row_datosQuery["ED03_PRIORIDAD"];
-										
-										if($datossolicitudes["$ID"]["ED03_PRIORIDAD"]=="0")
-										   $datossolicitudes["$ID"]["ED03_PRIORIDAD"]="BAJA";
-										if($datossolicitudes["$ID"]["ED03_PRIORIDAD"]=="1")
-										   $datossolicitudes["$ID"]["ED03_PRIORIDAD"]="ALTA";
-										
-										
-										$datossolicitudes["$ID"]["ED03_DETALLETICKET"]=$row_datosQuery["ED03_DETALLETICKET"];
-										$datossolicitudes["$ID"]["ED03_TIPOCONTACTO"]=$row_datosQuery["ED03_TIPOCONTACTO"];
-										$datossolicitudes["$ID"]["ED03_NIVELSOPORTE"]=$row_datosQuery["ED03_NIVELSOPORTE"];
-										$datossolicitudes["$ID"]["SIS07_CLASIFICADORID"]=$row_datosQuery["SIS07_CLASIFICADORID"];
-										$datossolicitudes["$ID"]["SIS07_CLASIFICADORDESCRIPCION"]=$row_datosQuery["SIS07_CLASIFICADORDESCRIPCION"];
-										$datossolicitudes["$ID"]["ED03_ARCHIVOADJUNTO"]=$row_datosQuery["ED03_ARCHIVOADJUNTO"];
-										$datossolicitudes["$ID"]["ED03_NOMBREARCHIVOADJUNTO"]=$row_datosQuery["ED03_NOMBREARCHIVOADJUNTO"];
-										$datossolicitudes["$ID"]["ED03_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED03_TIPOARCHIVOADJUNTO"];
-										$datossolicitudes["$ID"]["ED03_NUMALUMNOSAFECTADOS"]=$row_datosQuery["ED03_NUMALUMNOSAFECTADOS"];
-										$datossolicitudes["$ID"]["ED03_NIVELDELPROGRAMA"]=$row_datosQuery["ED03_NIVELDELPROGRAMA"];
-										$datossolicitudes["$ID"]["SIS05_CODIGOMODULO"]=$row_datosQuery["SIS05_CODIGOMODULO"];
-										$datossolicitudes["$ID"]["ED03_NUMEJERCICIO"]=$row_datosQuery["ED03_NUMEJERCICIO"];
-										$datossolicitudes["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
-										$datossolicitudes["$ID"]["ED03_ESTADO"]=$row_datosQuery["ED03_ESTADO"];
+										$ID=$row_datosQuery["ED05_ASISTENCIAID"];
+										$ID_FILAS.=",".$ID;
 								
+										$datosasistencias["$ID"]["ED05_ASISTENCIAID"]=$row_datosQuery["ED05_ASISTENCIAID"];
+										$datosasistencias["$ID"]["SIS03_LABORATORIOID"]=$row_datosQuery["SIS03_LABORATORIOID"];
+										$datosasistencias["$ID"]["SIS03_LABORATORIODESCRIPCION"]=$row_datosQuery["SIS03_LABORATORIODESCRIPCION"];
+										$datosasistencias["$ID"]["FECHAASISTENCIA"]=$row_datosQuery["FECHAASISTENCIA"];
+										$datosasistencias["$ID"]["ED05_NOMBRESOLICITANTE"]=$row_datosQuery["ED05_NOMBRESOLICITANTE"];
+										$datosasistencias["$ID"]["ED05_TELEFONOSOLICITANTE"]=$row_datosQuery["ED05_TELEFONOSOLICITANTE"];
+										$datosasistencias["$ID"]["ED05_EMAILSOLICITANTE"]=$row_datosQuery["ED05_EMAILSOLICITANTE"];
+										$datosasistencias["$ID"]["ED05_PRIORIDAD"]=$row_datosQuery["ED05_PRIORIDAD"];
+										
+										if($datosasistencias["$ID"]["ED05_PRIORIDAD"]=="0")
+										   $datosasistencias["$ID"]["ED05_PRIORIDAD"]="BAJA";
+										if($datosasistencias["$ID"]["ED05_PRIORIDAD"]=="1")
+										   $datosasistencias["$ID"]["ED05_PRIORIDAD"]="ALTA";
+										
+										
+										$datosasistencias["$ID"]["ED05_DETALLEASISTENCIAREALIZAR"]=$row_datosQuery["ED05_DETALLEASISTENCIAREALIZAR"];
+										$datosasistencias["$ID"]["FECHAREALIZARCE"]=$row_datosQuery["FECHAREALIZARCE"];
+										$datosasistencias["$ID"]["ED05_TIPOCONTACTO"]=$row_datosQuery["ED05_TIPOCONTACTO"];
+										$datosasistencias["$ID"]["ED05_ESTADO"]=$row_datosQuery["ED05_ESTADO"];
+										$datosasistencias["$ID"]["ED05_ARCHIVOADJUNTO"]=$row_datosQuery["ED05_ARCHIVOADJUNTO"];
+										$datosasistencias["$ID"]["ED05_NOMBREARCHIVOADJUNTO"]=$row_datosQuery["ED05_NOMBREARCHIVOADJUNTO"];
+										$datosasistencias["$ID"]["ED05_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED05_TIPOARCHIVOADJUNTO"];
+										$datosasistencias["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
+										
 								
 								}						
 							}								
@@ -1316,17 +1073,16 @@ class IncidenteController extends Zend_Controller_Action
 					
 
 
-
 						$sSQL="SELECT
 								ED01_USUARIOID,
-								ED03_TICKETID
+								ED05_ASISTENCIAID
 								FROM
-								e_desk.ED07_USUARIO_TICKET
+								e_desk.ED11_USUARIO_ASISTENCIA_TECNICA
 								WHERE
-								ED07_TIPOASIGNACION=2 
+								ED11_TIPOASIGNACION=2 
 								order by
-								ED07_FECHAASIGNACION desc, 
-								ED03_TICKETID ";
+								ED11_FECHAASIGNACION desc, 
+								ED05_ASISTENCIAID ";
 							
 						$rowset = $DB->fetchAll($sSQL);
 		
@@ -1335,11 +1091,11 @@ class IncidenteController extends Zend_Controller_Action
 							if(trim($row_datosQuery["ED01_USUARIOID"])!="")
 							{
 							
-								$ID=$row_datosQuery["ED03_TICKETID"];
+								$ID=$row_datosQuery["ED05_ASISTENCIAID"];
 								
 								if(!isset($datos_derivados["$ID"]))
 								{
-									$datos_derivados["$ID"]["ED03_TICKETID"]=$row_datosQuery["ED03_TICKETID"];
+									$datos_derivados["$ID"]["ED05_ASISTENCIAID"]=$row_datosQuery["ED05_ASISTENCIAID"];
 									$datos_derivados["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED01_USUARIOID"];
 							
 								}	
@@ -1347,49 +1103,47 @@ class IncidenteController extends Zend_Controller_Action
 							}								
 						}
 			
-
-
+			
+			
 						//INICIO SEGUIMIENTO
 						/////////////////////////////
-					
 						$sSQL="SELECT
-									ED04_SEGTICKETID,
-									ED03_TICKETID,
+									ED06_SEGASISTENCIAID,
+									ED05_ASISTENCIAID,
 									ED01_USUARIOID,
-									DATE_FORMAT(ED04_SEGFECHA, '%d/%m/%Y') as ED04_SEGFECHA,
-									ED04_SEGCOMENTARIOS,
-									ED04_ARCHIVOADJUNTO,
-									ED04_NOMBREARCHIVOADJUNTO,
-									ED04_TIPOARCHIVOADJUNTO,
-									ED04_FECHAULTIMAACTUALIZACION,
-									ED04_REGISTRODETALLECAMBIO
+									DATE_FORMAT(ED06_SEGFECHA, '%d/%m/%Y') as ED06_SEGFECHA,
+									ED06_SEGCOMENTARIOS,
+									ED06_ARCHIVOADJUNTO,
+									ED06_NOMBREARCHIVOADJUNTO,
+									ED06_TIPOARCHIVOADJUNTO,
+									ED06_FECHAULTIMAACTUALIZACION,
+									ED06_REGISTRODETALLECAMBIO
 									FROM
-									e_desk.ED04_SEGUIMIENTO_TICKET WHERE ED03_TICKETID in ($ID_FILAS)";
+									e_desk.ED06_SEGUIMIENTO_ASISTENCIA_TECNICA WHERE ED05_ASISTENCIAID in ($ID_FILAS)";
 							
 						$rowset = $DB->fetchAll($sSQL);
 		
 						foreach($rowset as $row_datosQuery)
 						{
-							if(trim($row_datosQuery["ED04_SEGTICKETID"])!="")
+							if(trim($row_datosQuery["ED06_SEGASISTENCIAID"])!="")
 							{
 							
-								$ID=$row_datosQuery["ED04_SEGTICKETID"];
-								$datos_seguimiento["$ID"]["ED04_SEGTICKETID"]=$row_datosQuery["ED04_SEGTICKETID"];
-								$datos_seguimiento["$ID"]["ED03_TICKETID"]=$row_datosQuery["ED03_TICKETID"];
+								$ID=$row_datosQuery["ED06_SEGASISTENCIAID"];
+								$datos_seguimiento["$ID"]["ED06_SEGASISTENCIAID"]=$row_datosQuery["ED06_SEGASISTENCIAID"];
+								$datos_seguimiento["$ID"]["ED05_ASISTENCIAID"]=$row_datosQuery["ED05_ASISTENCIAID"];
 								$datos_seguimiento["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED01_USUARIOID"];
-								$datos_seguimiento["$ID"]["ED04_SEGFECHA"]=$row_datosQuery["ED04_SEGFECHA"];
-								$datos_seguimiento["$ID"]["ED04_SEGCOMENTARIOS"]=$row_datosQuery["ED04_SEGCOMENTARIOS"];
-								$datos_seguimiento["$ID"]["ED04_ARCHIVOADJUNTO"]=$row_datosQuery["ED04_ARCHIVOADJUNTO"];
-								$datos_seguimiento["$ID"]["ED04_NOMBREARCHIVOADJUNTO"]=$row_datosQuery["ED04_NOMBREARCHIVOADJUNTO"];
-								$datos_seguimiento["$ID"]["ED04_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED04_TIPOARCHIVOADJUNTO"];
-								$datos_seguimiento["$ID"]["ED04_FECHAULTIMAACTUALIZACION"]=$row_datosQuery["ED04_FECHAULTIMAACTUALIZACION"];
-								$datos_seguimiento["$ID"]["ED04_REGISTRODETALLECAMBIO"]=$row_datosQuery["ED04_REGISTRODETALLECAMBIO"];
+								$datos_seguimiento["$ID"]["ED06_SEGFECHA"]=$row_datosQuery["ED06_SEGFECHA"];
+								$datos_seguimiento["$ID"]["ED06_SEGCOMENTARIOS"]=$row_datosQuery["ED06_SEGCOMENTARIOS"];
+								$datos_seguimiento["$ID"]["ED06_ARCHIVOADJUNTO"]=$row_datosQuery["ED06_ARCHIVOADJUNTO"];
+								$datos_seguimiento["$ID"]["ED06_NOMBREARCHIVOADJUNTO"]=$row_datosQuery["ED06_NOMBREARCHIVOADJUNTO"];
+								$datos_seguimiento["$ID"]["ED06_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED06_TIPOARCHIVOADJUNTO"];
+								$datos_seguimiento["$ID"]["ED06_FECHAULTIMAACTUALIZACION"]=$row_datosQuery["ED06_FECHAULTIMAACTUALIZACION"];
+								$datos_seguimiento["$ID"]["ED06_REGISTRODETALLECAMBIO"]=$row_datosQuery["ED06_REGISTRODETALLECAMBIO"];
 							
 							}								
 						}
 			
-
-					
+			
 					
 					
 						$NUM_PAGINAS=intval($CONTADOR_FILAS/15);
@@ -1397,13 +1151,13 @@ class IncidenteController extends Zend_Controller_Action
 						if($RESTO_PAGINAS>0)
 						   $NUM_PAGINAS++;
 						   
-						   	
+						
 						if(isset($datos_seguimiento))
 								Zend_Layout::getMvcInstance()->assign('datos_seguimiento',$datos_seguimiento);
 	   	
 					
-						if(isset($datossolicitudes))
-								Zend_Layout::getMvcInstance()->assign('datossolicitudes',$datossolicitudes);
+						if(isset($datosasistencias))
+								Zend_Layout::getMvcInstance()->assign('datosasistencias',$datosasistencias);
 	
 						if(isset($datos_derivados))
 								Zend_Layout::getMvcInstance()->assign('datos_derivados',$datos_derivados);
@@ -1429,63 +1183,6 @@ class IncidenteController extends Zend_Controller_Action
     
 	
 	
-	
-	
-	}
-
-
-    public function utilidadesAction()
-    {
-        
-				$this->_helper->layout->disableLayout();
-				
-				$config = Zend_Registry::get('config');
-				
-				$DB = Zend_Db_Table::getDefaultAdapter();
-			
-			
-				
-				$tipo=$this->_request->getPost('tipo');
-				$nivel=$this->_request->getPost('nivel');
-				$clasificador=$this->_request->getPost('clasificador');
-				
-	
-				//CLASIFICADOR
-				////////////////////////////
-				$sSQL="SELECT
-						SIS07_CLASIFICADORID,
-						SIS07_NIVELID,
-						SIS07_CLASIFICADORDESCRIPCION
-						FROM
-						e_desk.SIS07_CLASIFICADOR
-						WHERE
-						SIS07_NIVELID='$nivel' 
-						ORDER BY
-						SIS07_NIVELID";
-			
-			
-				$rowset = $DB->fetchAll($sSQL);
-
-				foreach($rowset as $row_datosQuery)
-				{
-					if(trim($row_datosQuery["SIS07_CLASIFICADORID"])!="")
-					{
-						$ID=$row_datosQuery["SIS07_CLASIFICADORID"];
-						$datosclasificador["$ID"]["SIS07_CLASIFICADORID"]=$row_datosQuery["SIS07_CLASIFICADORID"];
-						$datosclasificador["$ID"]["SIS07_NIVELID"]=$row_datosQuery["SIS07_NIVELID"];
-						$datosclasificador["$ID"]["SIS07_CLASIFICADORDESCRIPCION"]=$row_datosQuery["SIS07_CLASIFICADORDESCRIPCION"];
-					}								
-				}
-			
-	
-				if(isset($datosclasificador))
-							Zend_Layout::getMvcInstance()->assign('datosclasificador',$datosclasificador);
-				
-							Zend_Layout::getMvcInstance()->assign('tipo',$tipo);
-							Zend_Layout::getMvcInstance()->assign('clasificador',$clasificador);
-							
-				if(isset($datosclasificador["$clasificador"]["SIS07_CLASIFICADORDESCRIPCION"]))
-							Zend_Layout::getMvcInstance()->assign('clasificadordescripcion',$datosclasificador["$clasificador"]["SIS07_CLASIFICADORDESCRIPCION"]);
 	
 	
 	}

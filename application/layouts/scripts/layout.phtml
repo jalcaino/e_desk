@@ -4,6 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>E-DESK</title>
+	<?php
+	if($_SERVER["REQUEST_URI"]=="/Fichacolegio" || 
+	   $_SERVER["REQUEST_URI"]=="/Usuario"  || 
+	   $_SERVER["REQUEST_URI"]=="/Solicitud"  || 
+	   $_SERVER["REQUEST_URI"]=="/Incidente"  || 
+	   $_SERVER["REQUEST_URI"]=="/Asistencia"){
+	 ?>
+	<META HTTP-EQUIV=Refresh CONTENT="120; URL=<?php echo $_SERVER["REQUEST_URI"]?>">
+	<?php
+	}
+	?>
 
     <!-- BOOTSTRAP STYLES-->
     <link href="/assets/css/bootstrap.css" rel="stylesheet" />
@@ -71,8 +82,7 @@
 
 </head>
 <body>
-
-
+	
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">

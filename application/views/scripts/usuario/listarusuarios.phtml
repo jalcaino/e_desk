@@ -45,11 +45,11 @@
 																		</th>
 																	</tr>
 																	<tr>
+																		<th></th>
 																		<th>ID</th>
 																		<th>NOMBRE</th>
 																		<th>E-MAIL</th>
 																		<th>NIVEL</th>
-																		<th>OPCIONES</th>
 																	</tr>
 																</thead>
 																<tbody>
@@ -60,14 +60,21 @@
 																			{
 																			?>
 																				<tr>
+																					<td>
+																				
+																						<div class="btn-group">
+																							<button data-toggle="dropdown" class="btn btn-success dropdown-toggle">Opci&oacute;n <span class="caret"></span></button>
+																							<ul class="dropdown-menu">
+																								<li><a href="#" onclick="carga_editar('<?php echo $valor["ED01_USUARIOID"]?>')">Editar</a></li>
+																								<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED01_USUARIOID"]?>')">Eliminar</a></li>
+																							</ul>
+																						</div>
+																				
+																					</td>
 																					<td><?php echo $valor["ED01_USUARIOID"]?></td>
 																					<td><?php echo $valor["ED01_NOMBREAPELLIDO"]?></td>
 																					<td><a href="mailto:<?php echo $valor["ED01_EMAIL"]?>"><?php echo $valor["ED01_EMAIL"]?></a></td>
 																					<td><?php echo $valor["SIS02_NIVELID"]?></td>
-																					<td>
-																					  <button onclick="carga_editar('<?php echo $valor["ED01_USUARIOID"]?>')" id="btn_editar" class="btn btn-xs btn-primary">Editar</button>
-																					  <button onclick="accion_eliminar('<?php echo $valor["ED01_USUARIOID"]?>')" class="btn btn-xs btn-danger">Eliminar</button>
-																					</td>
 																				</tr>
 																			<?
 																			}

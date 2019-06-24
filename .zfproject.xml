@@ -52,6 +52,34 @@
           <actionMethod actionName="editarincidenteprocess"/>
           <actionMethod actionName="eliminarincidente"/>
           <actionMethod actionName="listarincidentes"/>
+          <actionMethod actionName="utilidades"/>
+        </controllerFile>
+        <controllerFile controllerName="Bitacora">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="agregarbitacora"/>
+          <actionMethod actionName="agregarbitacoraprocess"/>
+          <actionMethod actionName="editarbitacora"/>
+          <actionMethod actionName="editarbitacoraprocess"/>
+          <actionMethod actionName="eliminarbitacora"/>
+          <actionMethod actionName="listarbitacoras"/>
+        </controllerFile>
+        <controllerFile controllerName="Bitacoraasistencia">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="agregarbitacoraasistencia"/>
+          <actionMethod actionName="agregarbitacoraasistenciaprocess"/>
+          <actionMethod actionName="editarbitacoraasistencia"/>
+          <actionMethod actionName="editarbitacoraasistenciaprocess"/>
+          <actionMethod actionName="eliminarbitacoraasistencia"/>
+          <actionMethod actionName="listarbitacoraasistencias"/>
+        </controllerFile>
+        <controllerFile controllerName="Asistencia">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="agregarasistencia"/>
+          <actionMethod actionName="agregarasistenciaprocess"/>
+          <actionMethod actionName="editarasistencia"/>
+          <actionMethod actionName="editarasistenciaprocess"/>
+          <actionMethod actionName="eliminarasistencia"/>
+          <actionMethod actionName="listarasistencias"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false"/>
@@ -166,6 +194,72 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Incidente">
             <viewScriptFile forActionName="listarincidentes"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacora">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacora">
+            <viewScriptFile forActionName="agregarbitacora"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacora">
+            <viewScriptFile forActionName="agregarbitacoraprocess"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacora">
+            <viewScriptFile forActionName="editarbitacora"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacora">
+            <viewScriptFile forActionName="editarbitacoraprocess"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacora">
+            <viewScriptFile forActionName="eliminarbitacora"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacora">
+            <viewScriptFile forActionName="listarbitacoras"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacoraasistencia">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacoraasistencia">
+            <viewScriptFile forActionName="agregarbitacoraasistencia"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacoraasistencia">
+            <viewScriptFile forActionName="agregarbitacoraasistenciaprocess"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacoraasistencia">
+            <viewScriptFile forActionName="editarbitacoraasistencia"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacoraasistencia">
+            <viewScriptFile forActionName="editarbitacoraasistenciaprocess"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacoraasistencia">
+            <viewScriptFile forActionName="eliminarbitacoraasistencia"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Bitacoraasistencia">
+            <viewScriptFile forActionName="listarbitacoraasistencias"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Asistencia">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Asistencia">
+            <viewScriptFile forActionName="agregarasistencia"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Asistencia">
+            <viewScriptFile forActionName="agregarasistenciaprocess"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Asistencia">
+            <viewScriptFile forActionName="editarasistencia"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Asistencia">
+            <viewScriptFile forActionName="editarasistenciaprocess"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Asistencia">
+            <viewScriptFile forActionName="eliminarasistencia"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Asistencia">
+            <viewScriptFile forActionName="listarasistencias"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Incidente">
+            <viewScriptFile forActionName="utilidades"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

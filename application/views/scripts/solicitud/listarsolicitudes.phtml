@@ -85,11 +85,11 @@
 																		</th>
 																	</tr>
 																	<tr>
+																		<th></th>
 																		<th>NUM.</th>
 																		<th>COLEGIO</th>
 																		<th>FECHA SOLICITUD</th>
 																		<th>ESTADO</th>
-																		<th>OPCIONES</th>
 																	</tr>
 																</thead>
 																<tbody>
@@ -100,16 +100,18 @@
 																			{
 																			?>
 																				<tr>
-																					<td><?php echo $valor["ED02_SOLICITUDID"]?></td>
-																					<td><?php echo $valor["SIS03_LABORATORIOID"]?> | <?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?></td>
-																					<td><?php echo $valor["FECHASOLICITUD"]?></td>
-																					<td><?php echo $valor["ED02_ESTADO"]?></td>
 																					<td>
-																					  <button onclick="carga_editar('<?php echo $valor["ED02_SOLICITUDID"]?>')" id="btn_editar" class="btn btn-xs btn-primary">Editar</button>
-																					  <button onclick="accion_eliminar('<?php echo $valor["ED02_SOLICITUDID"]?>')" class="btn btn-xs btn-danger">Eliminar</button>
-																					  <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED02_SOLICITUDID"]?>">Detalle</button>
-																					
-																					
+																					  
+																					  
+																					   <div class="btn-group">
+																						<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Opci&oacute;n <span class="caret"></span></button>
+																						<ul class="dropdown-menu">
+																								<li><a href="#" onclick="carga_editar('')">Editar</a></li>
+																								<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED02_SOLICITUDID"]?>')">Eliminar</a></li>
+																								<li><a href="#" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED02_SOLICITUDID"]?>">Detalle</a></li>
+																						</ul>
+																					  </div>
+																					  
 																					
 																						<div class="modal fade" id="myModal_<?php echo $valor["ED02_SOLICITUDID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 																								<div class="modal-dialog">
@@ -161,6 +163,11 @@
 																					
 																					
 																					</td>
+																				
+																					<td><?php echo $valor["ED02_SOLICITUDID"]?></td>
+																					<td><?php echo $valor["SIS03_LABORATORIOID"]?> | <?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?></td>
+																					<td><?php echo $valor["FECHASOLICITUD"]?></td>
+																					<td><?php echo $valor["ED02_ESTADO"]?></td>
 																				</tr>
 																			<?
 																			}

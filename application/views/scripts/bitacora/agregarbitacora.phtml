@@ -1,0 +1,194 @@
+<?php
+	
+	$INCIDENTEID=$this->layout()->INCIDENTEID;
+?>
+	<script type="text/javascript">
+		
+		   var match= ["application/vnd.openxmlformats-officedocument.presentationml.presentation","application/vnd.ms-powerpoint","image/jpeg","image/png","image/jpg","image/gif","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","text/plain","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","application/vnd.ms-excel","application/pdf"];
+			
+		
+		   $(document).ready(function() {
+		
+		
+		
+				$("#archivo").change(function() {
+			
+					var file = this.files[0];
+					var imagefile = file.type;
+					
+					if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]) || (imagefile==match[3]) || (imagefile==match[4]) || (imagefile==match[5]) || (imagefile==match[6]) || (imagefile==match[7]) || (imagefile==match[8]) || (imagefile==match[9]) || (imagefile==match[10]) || (imagefile==match[11]))){
+						alert('Por favor seleccione un archivo del tipo (JPEG / JPG / PNG / GIF / TXT / DOC / XLS / PDF / PPT).');
+						$("#archivo").val('');
+						return false;
+					}
+			
+				});
+		
+		
+		
+				$("#calendario").datepicker({dateFormat: 'dd/mm/yy'});
+	 
+
+				$("#btn_guardar").click(function(){
+	
+	
+					
+					if($("#calendario").val().length<10)
+					{
+						alert("Debe Ingresar la Fecha del Seguimiento");
+						$("#calendario").focus();
+						return false;
+					} 
+					
+			
+					if($("#detalle").val().length<5)
+					{
+						alert("Debe Ingresar el Detalle del Seguimiento");
+						$("#detalle").focus();
+						return false;
+					} 
+		
+
+					if (!confirm("Desea Guardar el Seguimiento al Incidente?")) 
+					{
+					
+						return false;
+					
+					} else {
+					
+							grabar();
+										
+					}
+					
+	
+				});
+			}); 
+	
+	
+	
+			function grabar()
+			{
+	
+				var file_data = $('#archivo').prop('files')[0];   
+				var form_data = new FormData();                  
+				form_data.append('file', file_data);
+
+				form_data.append('incidenteid',$("#incidenteid").val());
+				form_data.append('calendario', $("#calendario").val());
+				form_data.append('detalle', $("#detalle").val());
+				form_data.append('resuelto', $("#resuelto").val());
+				form_data.append('archivo', $("#archivo").val());
+				form_data.append('accion', 'grabar');
+				
+				
+				$.ajax({
+								url:   '/Bitacora/agregarbitacoraprocess', 
+								dataType: 'text',  
+								cache: false,
+								contentType: false,
+								processData: false,
+								data: form_data,                         
+								type: 'post',
+								beforeSend: function () {
+															$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando seguimiento..</h4></div>");
+														},
+		
+								success:  function (response) { 
+								
+											var str=response;
+											var res = str.split("|");
+									
+											if(res[0]=='OK')
+											{
+													$("#divNotificaciones").html("<div class='panel-body'><a href='/Incidente'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
+													$('#volver_bot').focus();
+													//limpia formulario
+													$('#oForm').trigger("reset");
+											
+											}else{
+												
+													$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
+												
+											}
+										
+								}
+						});
+		  
+			} 	
+	
+	
+	
+	
+	
+	</script>
+
+
+ <div class="col-md-12">
+  			 <div class="row">
+					 <div class="col-md-6 col-sm-6 col-xs-12">
+											
+						   <div id="divNotificaciones">
+							    <div class='panel-body'>
+									<a href="/Incidente"><button type="button" class="btn btn-danger">Volver</button></a>
+                           		</div>
+						   </div>	
+				
+				
+							<div class="panel panel-danger">
+				
+									<div class="panel-heading">
+                                       <strong>INGRESO SEGUIMIENTO INCIDENTE</strong>
+                                    </div>
+                                    <div class="panel-body">
+				
+											 
+											 
+															<form role="form" id="oForm" name="oForm" enctype="multipart/form-data">
+																 
+																	   <input type="hidden" id="incidenteid" name="incidenteid" value="<?php echo $INCIDENTEID?>">
+												 
+																 
+																	   <div class="form-group">
+																			<label>Fecha Seguimiento</label>
+																			<input type="text" class="form-control" id="calendario" readonly="readonly">
+																	   </div>
+																	  
+																		<div class="form-group">
+																			<label>Detalle Seguimiento</label>
+																			<textarea class="form-control" rows="5" id="detalle" name="detalle"></textarea>
+																		</div>
+															  
+															  			 
+																		 <div class="form-group">
+																			<label class="control-label col-lg-4">Adjunto</label>
+																			<div class="">
+																				 <input type="file" name="archivo" id="archivo" class="btn btn-info">
+																			</div>
+																		</div>
+																		 
+														
+																		<div class="form-group">
+																			<label>Est&aacute; Resuelto?</label>
+																			<select class="form-control" id="resuelto" name="resuelto">
+																			  <option value="NO">NO</option>
+																			  <option value="SI">SI</option>
+																			</select>
+																		<div>
+															
+																					
+																	  <button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
+				
+				
+				
+															</form>
+        			                         
+										</div>
+				
+								</div>
+				
+					 </div>
+				 
+				 
+				 </div>
+
+ </div>

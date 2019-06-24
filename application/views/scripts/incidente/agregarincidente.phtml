@@ -1,0 +1,459 @@
+<?php
+	
+	if(isset($this->layout()->datoscolegio))
+		$datoscolegio=$this->layout()->datoscolegio;
+
+	if(isset($this->layout()->datosproducto))
+		$datosproducto=$this->layout()->datosproducto;
+	
+	if(isset($this->layout()->datosclasificador))
+		$datosclasificador=$this->layout()->datosclasificador;
+
+	if(isset($this->layout()->datosmodulos))
+		$datosmodulos=$this->layout()->datosmodulos;
+
+	if(isset($this->layout()->datosusuarios))
+		$datosusuarios=$this->layout()->datosusuarios;
+	
+
+?>
+	<script type="text/javascript">
+		
+		   var emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
+		   var match= ["application/vnd.openxmlformats-officedocument.presentationml.presentation","application/vnd.ms-powerpoint","image/jpeg","image/png","image/jpg","image/gif","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","text/plain","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","application/vnd.ms-excel","application/pdf"];
+			
+		
+		   $(document).ready(function() {
+		
+		
+				$("#num_pregunta").on('input', function () { 
+					this.value = this.value.replace(/[^0-9]/g,'');
+				});
+				
+				$("#num_alumnos").on('input', function () { 
+					this.value = this.value.replace(/[^0-9]/g,'');
+				});
+						
+		
+				 $("#nivelsoporte").on('change', function () {
+					$("#nivelsoporte option:selected").each(function () {
+						elegido=$(this).val();
+						$.post("/Incidente/utilidades",{tipo:'1',nivel:elegido,clasificador:'0'}, function(data){
+							$("#comboclasificador").html(data);
+						});			
+					});
+			   });
+		
+		
+		
+				$("#archivo").change(function() {
+			
+					var file = this.files[0];
+					var imagefile = file.type;
+					
+					if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]) || (imagefile==match[3]) || (imagefile==match[4]) || (imagefile==match[5]) || (imagefile==match[6]) || (imagefile==match[7]) || (imagefile==match[8]) || (imagefile==match[9]) || (imagefile==match[10]) || (imagefile==match[11]))){
+						alert('Por favor seleccione un archivo del tipo (JPEG / JPG / PNG / GIF / TXT / DOC / XLS / PDF / PPT).');
+						$("#archivo").val('');
+						return false;
+					}
+			
+				});
+		
+		
+		
+				$("#calendario").datepicker({dateFormat: 'dd/mm/yy'});
+	 
+
+				$("#btn_guardar").click(function(){
+	
+	
+					var val = $("#colegio").val();
+					var obj = $("#colegio_lista").find("option[value='" + val + "']");
+					
+					if(obj != null && obj.length > 0)
+					{
+						//OK  
+					}else{
+							alert("Debe Ingresar Correctamente el Colegio Asociado");
+							$("#colegio").focus();
+							return false;
+						 }	
+						
+					
+					if(!$("#producto").val())
+					{
+						alert("Debe Seleccionar el Producto");
+						$("#producto").focus();
+						return false;
+					}
+					
+									
+					if($("#calendario").val().length<10)
+					{
+						alert("Debe Ingresar la Fecha de Solicitud");
+						$("#calendario").focus();
+						return false;
+					} 
+					
+					
+					if($("#nombreapellido").val().length<5)
+					{
+						alert("Debe Ingresar Correctamente Nombre y Apellido del Contacto");
+						$("#nombreapellido").focus();
+						return false;
+					} 
+						
+					if($("#email").val().length>0 && !$("#email").val().match(emailPattern))
+					{
+						alert("Debe Ingresar Correctamente un E-mail");
+						$("#email").focus();
+						return false;		
+					} 
+					
+				
+					if(!$("#prioridad").val())
+					{
+						alert("Debe Seleccionar Prioridad");
+						$("#prioridad").focus();
+						return false;
+					}			
+	
+					if($("#detalle").val().length<5)
+					{
+						alert("Debe Ingresar el Detalle del Incidente");
+						$("#detalle").focus();
+						return false;
+					} 
+		
+					if(!$("#tipocontacto").val())
+					{
+						alert("Debe Seleccionar Tipo Contacto");
+						$("#tipocontacto").focus();
+						return false;
+					}			
+
+					if(!$("#nivelsoporte").val())
+					{
+						alert("Debe Seleccionar Nivel Soporte");
+						$("#nivelsoporte").focus();
+						return false;
+					}			
+	
+					if(!$("#clasificadores").val())
+					{
+						alert("Debe Seleccionar Clasificador");
+						$("#clasificadores").focus();
+						return false;
+					}			
+	
+
+					if (!confirm("Desea Guardar el Incidente?")) 
+					{
+					
+						return false;
+					
+					} else {
+					
+							grabar();
+										
+					}
+					
+	
+				});
+			}); 
+	
+	
+	
+			function grabar()
+			{
+	
+				var file_data = $('#archivo').prop('files')[0];   
+				var form_data = new FormData();                  
+				form_data.append('file', file_data);
+
+				form_data.append('colegio',$("#colegio").val());
+				form_data.append('producto', $("#producto").val());
+				form_data.append('calendario', $("#calendario").val());
+				form_data.append('nombreapellido', $("#nombreapellido").val());
+				form_data.append('telefono', $("#telefono").val());
+				form_data.append('email', $("#email").val());
+				form_data.append('prioridad', $("#prioridad").val());
+				form_data.append('detalle', $("#detalle").val());
+				form_data.append('tipocontacto', $("#tipocontacto").val());
+				form_data.append('nivelsoporte', $("#nivelsoporte").val());
+				form_data.append('clasificadores', $("#clasificadores").val());
+				form_data.append('modulo', $("#modulo").val());
+				form_data.append('num_pregunta', $("#num_pregunta").val());
+				form_data.append('num_alumnos', $("#num_alumnos").val());
+				form_data.append('nivel', $("#nivel").val());
+				form_data.append('archivo', $("#archivo").val());
+				form_data.append('derivado', $("#derivado").val());
+				form_data.append('estado', $("#estado").val());
+				form_data.append('accion', 'grabar');
+				
+				
+				$.ajax({
+								url:   '/Incidente/agregarincidenteprocess', 
+								dataType: 'text',  
+								cache: false,
+								contentType: false,
+								processData: false,
+								data: form_data,                         
+								type: 'post',
+								beforeSend: function () {
+															$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando incidente..</h4></div>");
+														},
+		
+								success:  function (response) { 
+								
+											var str=response;
+											var res = str.split("|");
+									
+											if(res[0]=='OK')
+											{
+													$("#divNotificaciones").html("<div class='panel-body'><a href='/Incidente'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
+													$('#volver_bot').focus();
+													//limpia formulario
+													$('#oForm').trigger("reset");
+											
+											}else{
+												
+													$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
+												
+											}
+										
+								}
+						});
+		  
+			} 	
+	
+	
+	
+	
+	
+	</script>
+
+
+ <div class="col-md-12">
+  			 <div class="row">
+					 <div class="col-md-6 col-sm-6 col-xs-12">
+											
+						   <div id="divNotificaciones">
+							    <div class='panel-body'>
+									<a href="/Incidente"><button type="button" class="btn btn-danger">Volver</button></a>
+                           		</div>
+						   </div>	
+				
+				
+							<div class="panel panel-danger">
+				
+									<div class="panel-heading">
+                                       <strong>INGRESO INCIDENTE</strong>
+                                    </div>
+                                    <div class="panel-body">
+				
+											 <div style="height: 1000px; overflow-y: scroll;">
+											 
+															<form role="form" id="oForm" name="oForm" enctype="multipart/form-data">
+																 
+																		<div class="form-group">
+																			<label>Colegio</label>
+					
+																			<input list="colegio_lista" class="form-control" id="colegio">
+																			<datalist id="colegio_lista">
+																				<?php
+																				if(isset($datoscolegio))
+																				{
+																					foreach($datoscolegio as $clave => $valor)
+																					{
+																					?>
+																						<option value="<?php echo $valor["SIS03_LABORATORIOID"]?> | <?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?>">
+																					<?
+																					}
+																				}		
+																				?>
+																			</datalist>
+																			
+																
+																		</div>
+																	  
+																	   <div class="form-group">
+																			<label>Producto</label>
+																			<select class="form-control" id="producto" name="producto">
+																				<?php
+																				if(isset($datosproducto))
+																				{
+																					foreach($datosproducto as $clave => $valor)
+																					{
+																					?>
+																						<option value="<?php echo $valor["SIS04_PRODUCTOID"]?>"><?php echo $valor["SIS04_PRODUCTODESCRIPCION"]?></option>
+																					<?
+																					}
+																				}		
+																				?>
+																			</select>
+																		</div>
+																	  
+																  
+																	   <div class="form-group">
+																			<label>Fecha Incidente</label>
+																			<input type="text" class="form-control" id="calendario" readonly="readonly">
+																	   </div>
+																	  
+																
+																	   <div class="form-group">
+																			<label>Nombre Solicitante</label>
+																			<input class="form-control" type="text" id="nombreapellido" maxlength="100"  name="nombreapellido">
+																	   </div>
+																	 
+																	   <div class="form-group">
+																			<label>Tel&eacute;fono Solicitante</label>
+																			<input class="form-control" type="text" id="telefono" maxlength="50"  name="telefono">
+																	   </div>
+																	  
+																	   <div class="form-group">
+																			<label>E-mail Solicitante</label>
+																			<input class="form-control" type="text" id="email" maxlength="100"  name="email">
+																	   </div>
+																	  
+																		<div class="form-group">
+																			<label>Prioridad</label>
+																			<select class="form-control" id="prioridad" name="prioridad">
+																				<option value="1">ALTA</option>
+																				<option value="0">BAJA</option>
+																			</select>
+																		</div>
+																												  
+																		<div class="form-group">
+																			<label>Detalle Incidente</label>
+																			<textarea class="form-control" rows="5" id="detalle" name="detalle"></textarea>
+																		</div>
+															  
+															  
+																		<div class="form-group">
+																			<label>Tipo Contacto</label>
+																			<select class="form-control" id="tipocontacto" name="tipocontacto">
+																				<option value="CHAT">CHAT</option>
+																				<option value="TELEFONO">TELEFONO</option>
+																			</select>
+																		</div>
+																		
+																		
+																		<div class="form-group">
+																			<label>Nivel Soporte</label>
+																			<select class="form-control" id="nivelsoporte" name="nivelsoporte">
+																				<option value="">[SELECCIONE]</option>
+																				<option value="1">Soporte 1er Nivel Mesa de Ayuda</option>
+																				<option value="2">Soporte 2do Nivel</option>
+																			</select>
+																		</div>
+																	
+																	
+																		<div id="comboclasificador">
+																		</div>
+														
+														
+																		<div class="form-group">
+																			<label>M&oacute;dulo</label>
+																			<input list="modulo_lista" class="form-control" id="modulo">
+																			<datalist id="modulo_lista">
+																				<?php
+																				if(isset($datosmodulos))
+																				{
+																					foreach($datosmodulos as $clave => $valor)
+																					{
+																					?>
+																						<option value="<?php echo $valor["SIS05_CODIGOMODULO"]?>">
+																					<?
+																					}
+																				}		
+																				?>
+																			</datalist>
+																		</div>
+																
+																		<div class="form-group">
+																			<label>N&uacute;mero Pregunta</label>
+																			<input class="form-control" type="text" id="num_pregunta" maxlength="3"  name="num_pregunta">
+																		</div>
+																
+																	
+																		<div class="form-group">
+																			<label>Num Alumnos Afectados</label>
+																			<input class="form-control" type="text" id="num_alumnos" maxlength="3"  name="num_alumnos">
+																		</div>
+																		
+															  
+																		<div class="form-group">
+																			<label>Nivel</label>
+																			<select class="form-control" id="nivel" name="nivel">
+																				<option value="1 BASICO">1 BASICO</option>
+																				<option value="2 BASICO">2 BASICO</option>
+																				<option value="3 BASICO">3 BASICO</option>
+																				<option value="4 BASICO">4 BASICO</option>
+																				<option value="5 BASICO">5 BASICO</option>
+																				<option value="6 BASICO">6 BASICO</option>
+																				<option value="7 BASICO">7 BASICO</option>
+																				<option value="8 BASICO">8 BASICO</option>
+																				<option value="I MEDIO">I MEDIO</option>
+																				<option value="II MEDIO">II MEDIO</option>
+																				<option value="III MEDIO">III MEDIO</option>
+																				<option value="IV MEDIO">IV MEDIO</option>
+																			</select>
+																		</div>
+																			 
+																		 <div class="form-group">
+																			<label class="control-label col-lg-4">Adjunto</label>
+																			<div class="">
+																				 <input type="file" name="archivo" id="archivo" class="btn btn-info">
+																			</div>
+																		</div>
+																		 
+														
+														
+														 				<div class="form-group">
+																			<label>Derivado a:</label>
+																			<select class="form-control" id="derivado" name="derivado">
+																				<option value="">[SELECCIONE]</option>
+																				<?php
+																				if(isset($datosusuarios))
+																				{
+																					foreach($datosusuarios as $clave => $valor)
+																					{
+																					?>
+																						<option value="<?php echo $valor["ED01_USUARIOID"]?>"><?php echo $valor["ED01_NOMBREAPELLIDO"]?></option>
+																					<?
+																					}
+																				}		
+																				?>
+																			</select>
+																		</div>
+																	  
+														
+														
+																		<div class="form-group">
+																			<label>Estado</label>
+																			<select class="form-control" id="estado" name="estado">
+																				<option value="PENDIENTE">PENDIENTE</option>
+																				<option value="DERIVADO">DERIVADO</option>
+																				<option value="RESUELTO">RESUELTO</option>
+																			</select>
+																		</div>
+															
+																					
+																	  <button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
+				
+				
+				
+															</form>
+        			                            </div>
+	
+										</div>
+				
+								</div>
+				
+					 </div>
+				 
+				 
+				 </div>
+
+ </div>

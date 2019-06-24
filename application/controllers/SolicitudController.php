@@ -38,6 +38,28 @@ class SolicitudController extends Zend_Controller_Action
 				
 				$DB = Zend_Db_Table::getDefaultAdapter();
 			
+					
+			
+				###########################		
+				##inicio validacion sesion
+				###########################		
+				
+				$edesk_session = new Zend_Session_Namespace('edeskses');
+	
+				if(trim($edesk_session->ID)=="" || trim($edesk_session->USUARIOID)=="" || trim($edesk_session->NIVELID)=="")
+				{
+					header('location:/');
+					exit;		
+				}
+			
+				###########################		
+				##fin validacion sesion
+				###########################		
+				
+			
+					
+					
+					
 								
 				//COLEGIOS
 				////////////////////////////
@@ -245,7 +267,7 @@ class SolicitudController extends Zend_Controller_Action
 													'ED02_NOMBRESOLICITANTE' => $edesk_session->USUARIOID,
 													'ED02_FECHAINGRESO' => date("Ymdhis"),
 													'ED02_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
-													'ED02_ESTADO' => 'PEN'
+													'ED02_ESTADO' => 'PENDIENTE'
 												);
 												
 
@@ -911,12 +933,7 @@ class SolicitudController extends Zend_Controller_Action
 									$datossolicitudes["$ID"]["ED02_NOMBRESOLICITANTE"]=$row_datosQuery["ED02_NOMBRESOLICITANTE"];
 									$datossolicitudes["$ID"]["FECHAINGRESO"]=$row_datosQuery["FECHAINGRESO"];
 									$datossolicitudes["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
-									
-									
-									if(isset($config['estados'][$row_datosQuery["ED02_ESTADO"]]))
-										$datossolicitudes["$ID"]["ED02_ESTADO"]=$config['estados'][$row_datosQuery["ED02_ESTADO"]];
-									else
-										$datossolicitudes["$ID"]["ED02_ESTADO"]="-";
+									$datossolicitudes["$ID"]["ED02_ESTADO"]=$row_datosQuery["ED02_ESTADO"];
 							
 								}						
 							}								

@@ -1,0 +1,87 @@
+<script type="text/javascript">
+ 
+	   
+	   function accion_eliminar(incidenteid)
+	   {
+
+				if (!confirm("Desea Eliminar los Datos del Incidente?")) 
+				{
+				
+					return false;
+				
+				} else {
+				
+							var parametros = {
+												"incidenteid" : incidenteid
+											};
+							
+							$.ajax({
+											data:  parametros,
+											url:   '/Incidente/eliminarincidente', 
+											type:  'post', 
+											evalscripts : true,
+											success:  function (response) { 
+											
+													$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Incidente'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>"+response+"</h4></div>");
+													$('#volver_bot').focus();
+									
+																
+											}
+									});
+									
+				}
+
+ 	   }	
+ 
+ 	   function carga_editar(incidenteid)
+	   {
+
+					var parametros = {
+										"incidenteid" : incidenteid
+									};
+					
+					$.ajax({
+									data:  parametros,
+									url:   '/Incidente/editarincidente', 
+									type:  'post', 
+									evalscripts : true,
+									success:  function (response) { 
+									
+											$("#formulario").html(response);
+														
+									}
+							});
+
+		}	   
+
+
+
+ 	   function carga_pagina_incidente(pagina,busqueda)
+	   {
+
+					var parametros = {
+										"pagina" : pagina,
+										"busqueda" : busqueda 
+									};
+					
+					$.ajax({
+									data:  parametros,
+									url:   '/Incidente/listarincidentes', 
+									type:  'post', 
+									evalscripts : true,
+									success:  function (response) { 
+									
+											$("#formulario").html(response);
+														
+									}
+							});
+
+		}	
+
+
+		//carga inicial
+		carga_pagina_incidente('1','PENDIENTE');
+</script>
+<div id="formulario">
+		
+</div>						
