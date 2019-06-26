@@ -67,8 +67,46 @@
 																							<ul class="dropdown-menu">
 																								<li><a href="#" onclick="carga_editar('<?php echo $valor["ED01_USUARIOID"]?>')">Editar</a></li>
 																								<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED01_USUARIOID"]?>')">Eliminar</a></li>
+																								<li><a href="#" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED01_USUARIOID"]?>">Detalle</a></li>
 																							</ul>
 																						</div>
+																				
+																				
+																					<div class="modal fade" id="myModal_<?php echo $valor["ED01_USUARIOID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																								<div class="modal-dialog">
+																											<div class="modal-content">
+																								
+																														<div class="modal-header">
+																															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+																															<h4 class="modal-title" id="myModalLabel">Usuario : <?php echo $valor["ED01_USUARIOID"]?></h4>
+																														</div>
+																														<div class="modal-body">
+																															<strong>USUARIOID : </strong><?php echo $valor["ED01_USUARIOID"]?><br><br>
+																															<strong>NIVEL : </strong><?php echo $valor["SIS02_NIVELID"]?><br><br>
+																															<strong>SECTOR : </strong><?php echo $valor["SIS01_SECTORID"]?><br><br>
+																															<strong>NOMBRE : </strong><?php echo $valor["ED01_NOMBREAPELLIDO"]?><br><br>
+																															<strong>EMAIL : </strong><?php echo $valor["ED01_EMAIL"]?><br><br>
+																															<strong>ES PRIVADO : </strong><?php echo $valor["ED01_ESPRIVADO"]?><br><br>
+																															<strong>AVISAR ASIGNACION : </strong><?php echo $valor["ED01_AVISARASIGNACION"]?><br><br>
+																															<strong>AVISAR SOLICITUD : </strong><?php echo $valor["ED01_AVISARSOLICITUD"]?><br><br>
+																															<strong>FECHA INGRESO : </strong><?php echo $valor["FECHA_INGRESO"]?><br><br>
+																															<strong>FECHA ULTIMA ACTUALIZACION : </strong><?php echo $valor["FECHA_ACTUALIZACION"]?><br><br>
+																														</div>
+																														<div class="modal-footer">
+																															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+																														</div>
+																										
+																								
+																											</div>
+																								</div>
+																						</div>
+
+																					
+																					
+																					
+																				
+																				
+																				
 																				
 																					</td>
 																					<td><?php echo $valor["ED01_USUARIOID"]?></td>

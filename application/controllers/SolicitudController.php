@@ -442,6 +442,7 @@ class SolicitudController extends Zend_Controller_Action
 								WHERE 
 								s.ED02_SOLICITUDID = '$solicitudid' ";
 								
+					
 								
 							$rowset = $DB->fetchAll($sSQL);
 

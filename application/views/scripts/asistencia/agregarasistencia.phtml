@@ -3,15 +3,7 @@
 	if(isset($this->layout()->datoscolegio))
 		$datoscolegio=$this->layout()->datoscolegio;
 
-	if(isset($this->layout()->datosproducto))
-		$datosproducto=$this->layout()->datosproducto;
 	
-	if(isset($this->layout()->datosclasificador))
-		$datosclasificador=$this->layout()->datosclasificador;
-
-	if(isset($this->layout()->datosmodulos))
-		$datosmodulos=$this->layout()->datosmodulos;
-
 	if(isset($this->layout()->datosusuarios))
 		$datosusuarios=$this->layout()->datosusuarios;
 	
@@ -24,25 +16,6 @@
 			
 		
 		   $(document).ready(function() {
-		
-		
-				$("#num_pregunta").on('input', function () { 
-					this.value = this.value.replace(/[^0-9]/g,'');
-				});
-				
-				$("#num_alumnos").on('input', function () { 
-					this.value = this.value.replace(/[^0-9]/g,'');
-				});
-						
-		
-				 $("#nivelsoporte").on('change', function () {
-					$("#nivelsoporte option:selected").each(function () {
-						elegido=$(this).val();
-						$.post("/Incidente/utilidades",{tipo:'1',nivel:elegido,clasificador:'0'}, function(data){
-							$("#comboclasificador").html(data);
-						});			
-					});
-			   });
 		
 		
 		
@@ -80,17 +53,9 @@
 						 }	
 						
 					
-					if(!$("#producto").val())
-					{
-						alert("Debe Seleccionar el Producto");
-						$("#producto").focus();
-						return false;
-					}
-					
-									
 					if($("#calendario").val().length<10)
 					{
-						alert("Debe Ingresar la Fecha de Solicitud");
+						alert("Debe Ingresar la Fecha a Realizar Asistencia");
 						$("#calendario").focus();
 						return false;
 					} 
@@ -102,6 +67,16 @@
 						$("#nombreapellido").focus();
 						return false;
 					} 
+					
+					if($("#telefono").val().length<5)
+					{
+						alert("Debe Ingresar Correctamente el Telefono del Contacto");
+						$("#telefono").focus();
+						return false;
+					} 
+					
+					
+					
 						
 					if($("#email").val().length>0 && !$("#email").val().match(emailPattern))
 					{
@@ -120,7 +95,7 @@
 	
 					if($("#detalle").val().length<5)
 					{
-						alert("Debe Ingresar el Detalle del Incidente");
+						alert("Debe Ingresar el Detalle de la Asistencia");
 						$("#detalle").focus();
 						return false;
 					} 
@@ -132,22 +107,9 @@
 						return false;
 					}			
 
-					if(!$("#nivelsoporte").val())
-					{
-						alert("Debe Seleccionar Nivel Soporte");
-						$("#nivelsoporte").focus();
-						return false;
-					}			
-	
-					if(!$("#clasificadores").val())
-					{
-						alert("Debe Seleccionar Clasificador");
-						$("#clasificadores").focus();
-						return false;
-					}			
-	
+		
 
-					if (!confirm("Desea Guardar el Incidente?")) 
+					if (!confirm("Desea Guardar la Asistencia?")) 
 					{
 					
 						return false;
@@ -172,7 +134,6 @@
 				form_data.append('file', file_data);
 
 				form_data.append('colegio',$("#colegio").val());
-				form_data.append('producto', $("#producto").val());
 				form_data.append('calendario', $("#calendario").val());
 				form_data.append('nombreapellido', $("#nombreapellido").val());
 				form_data.append('telefono', $("#telefono").val());
@@ -180,12 +141,6 @@
 				form_data.append('prioridad', $("#prioridad").val());
 				form_data.append('detalle', $("#detalle").val());
 				form_data.append('tipocontacto', $("#tipocontacto").val());
-				form_data.append('nivelsoporte', $("#nivelsoporte").val());
-				form_data.append('clasificadores', $("#clasificadores").val());
-				form_data.append('modulo', $("#modulo").val());
-				form_data.append('num_pregunta', $("#num_pregunta").val());
-				form_data.append('num_alumnos', $("#num_alumnos").val());
-				form_data.append('nivel', $("#nivel").val());
 				form_data.append('archivo', $("#archivo").val());
 				form_data.append('derivado', $("#derivado").val());
 				form_data.append('estado', $("#estado").val());
@@ -193,7 +148,7 @@
 				
 				
 				$.ajax({
-								url:   '/Incidente/agregarincidenteprocess', 
+								url:   '/Asistencia/agregarasistenciaprocess', 
 								dataType: 'text',  
 								cache: false,
 								contentType: false,
@@ -201,7 +156,7 @@
 								data: form_data,                         
 								type: 'post',
 								beforeSend: function () {
-															$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando incidente..</h4></div>");
+															$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando asistencia..</h4></div>");
 														},
 		
 								success:  function (response) { 
@@ -211,7 +166,7 @@
 									
 											if(res[0]=='OK')
 											{
-													$("#divNotificaciones").html("<div class='panel-body'><a href='/Incidente'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
+													$("#divNotificaciones").html("<div class='panel-body'><a href='/Asistencia'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
 													$('#volver_bot').focus();
 													//limpia formulario
 													$('#oForm').trigger("reset");
@@ -240,7 +195,7 @@
 											
 						   <div id="divNotificaciones">
 							    <div class='panel-body'>
-									<a href="/Incidente"><button type="button" class="btn btn-danger">Volver</button></a>
+									<a href="/Asistencia"><button type="button" class="btn btn-danger">Volver</button></a>
                            		</div>
 						   </div>	
 				
@@ -248,11 +203,11 @@
 							<div class="panel panel-danger">
 				
 									<div class="panel-heading">
-                                       <strong>INGRESO INCIDENTE</strong>
+                                       <strong>INGRESO ASISTENCIA</strong>
                                     </div>
                                     <div class="panel-body">
 				
-											 <div style="height: 1000px; overflow-y: scroll;">
+											 
 											 
 															<form role="form" id="oForm" name="oForm" enctype="multipart/form-data">
 																 
@@ -278,25 +233,7 @@
 																		</div>
 																	  
 																	   <div class="form-group">
-																			<label>Producto (*)</label>
-																			<select class="form-control" id="producto" name="producto">
-																				<?php
-																				if(isset($datosproducto))
-																				{
-																					foreach($datosproducto as $clave => $valor)
-																					{
-																					?>
-																						<option value="<?php echo $valor["SIS04_PRODUCTOID"]?>"><?php echo $valor["SIS04_PRODUCTODESCRIPCION"]?></option>
-																					<?
-																					}
-																				}		
-																				?>
-																			</select>
-																		</div>
-																	  
-																  
-																	   <div class="form-group">
-																			<label>Fecha Incidente (*)</label>
+																			<label>Fecha a Realizar Asistencia (*)</label>
 																			<input type="text" class="form-control" id="calendario" readonly="readonly">
 																	   </div>
 																	  
@@ -307,7 +244,7 @@
 																	   </div>
 																	 
 																	   <div class="form-group">
-																			<label>Tel&eacute;fono Solicitante</label>
+																			<label>Tel&eacute;fono Solicitante (*)</label>
 																			<input class="form-control" type="text" id="telefono" maxlength="50"  name="telefono">
 																	   </div>
 																	  
@@ -325,7 +262,7 @@
 																		</div>
 																												  
 																		<div class="form-group">
-																			<label>Detalle Incidente (*)</label>
+																			<label>Detalle Asistencia (*)</label>
 																			<textarea class="form-control" rows="5" id="detalle" name="detalle"></textarea>
 																		</div>
 															  
@@ -333,73 +270,13 @@
 																		<div class="form-group">
 																			<label>Tipo Contacto (*)</label>
 																			<select class="form-control" id="tipocontacto" name="tipocontacto">
-																				<option value="CHAT">CHAT</option>
 																				<option value="TELEFONO">TELEFONO</option>
+																				<option value="ANYDESK">ANYDESK</option>
+																				<option value="TERRENO">TERRENO</option>
 																			</select>
 																		</div>
 																		
-																		
-																		<div class="form-group">
-																			<label>Nivel Soporte (*)</label>
-																			<select class="form-control" id="nivelsoporte" name="nivelsoporte">
-																				<option value="">[SELECCIONE]</option>
-																				<option value="1">Soporte 1er Nivel Mesa de Ayuda</option>
-																				<option value="2">Soporte 2do Nivel</option>
-																			</select>
-																		</div>
-																	
-																	
-																		<div id="comboclasificador">
-																		</div>
 														
-														
-																		<div class="form-group">
-																			<label>M&oacute;dulo</label>
-																			<input list="modulo_lista" class="form-control" id="modulo">
-																			<datalist id="modulo_lista">
-																				<?php
-																				if(isset($datosmodulos))
-																				{
-																					foreach($datosmodulos as $clave => $valor)
-																					{
-																					?>
-																						<option value="<?php echo $valor["SIS05_CODIGOMODULO"]?>">
-																					<?
-																					}
-																				}		
-																				?>
-																			</datalist>
-																		</div>
-																
-																		<div class="form-group">
-																			<label>N&uacute;mero Pregunta</label>
-																			<input class="form-control" type="text" id="num_pregunta" maxlength="3"  name="num_pregunta">
-																		</div>
-																
-																	
-																		<div class="form-group">
-																			<label>Num Alumnos Afectados</label>
-																			<input class="form-control" type="text" id="num_alumnos" maxlength="3"  name="num_alumnos">
-																		</div>
-																		
-															  
-																		<div class="form-group">
-																			<label>Nivel (*)</label>
-																			<select class="form-control" id="nivel" name="nivel">
-																				<option value="1 BASICO">1 BASICO</option>
-																				<option value="2 BASICO">2 BASICO</option>
-																				<option value="3 BASICO">3 BASICO</option>
-																				<option value="4 BASICO">4 BASICO</option>
-																				<option value="5 BASICO">5 BASICO</option>
-																				<option value="6 BASICO">6 BASICO</option>
-																				<option value="7 BASICO">7 BASICO</option>
-																				<option value="8 BASICO">8 BASICO</option>
-																				<option value="I MEDIO">I MEDIO</option>
-																				<option value="II MEDIO">II MEDIO</option>
-																				<option value="III MEDIO">III MEDIO</option>
-																				<option value="IV MEDIO">IV MEDIO</option>
-																			</select>
-																		</div>
 																			 
 																		 <div class="form-group">
 																			<label class="control-label col-lg-4">Adjunto</label>
@@ -413,7 +290,6 @@
 														 				<div class="form-group">
 																			<label>Derivado a: (*)</label>
 																			<select class="form-control" id="derivado" name="derivado">
-																				<option value="">[SELECCIONE]</option>
 																				<?php
 																				if(isset($datosusuarios))
 																				{
@@ -445,8 +321,7 @@
 				
 				
 															</form>
-        			                            </div>
-	
+        			                         
 										</div>
 				
 								</div>

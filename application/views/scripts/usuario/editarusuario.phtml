@@ -152,11 +152,11 @@
                                     <div class="panel-body">
 				                            <form role="form" id="oForm" name="oForm">
                                                     <div class="form-group">
-                                                        <label>Login Usuario</label>
+                                                        <label>Login Usuario (*)</label>
                                                         <input id="login" name="login" class="form-control" maxlength="10" type="text" value="<?php echo $USUARIOID?>" readonly>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Nivel Permisos</label>
+                                                        <label>Nivel Permisos (*)</label>
                                                         <select class="form-control" id="nivel" name="nivel">
 															<?php
 															if(isset($datosnivel))
@@ -173,7 +173,7 @@
 													</div>
                                                   
 												    <div class="form-group">
-                                                        <label>Departamento</label>
+                                                        <label>Departamento (*)</label>
                                                         <select class="form-control" id="sector" name="sector">
 															<?php
 															if(isset($datossector))
@@ -192,27 +192,27 @@
 
 
 												    <div class="form-group">
-                                                        <label>Nombre / Apellido</label>
+                                                        <label>Nombre / Apellido (*)</label>
                                                         <input class="form-control" type="text" id="nombreapellido" maxlength="50"  value="<?php echo $NOMBREAPELLIDO?>" name="nombreapellido">
                                                     </div>
                                                     
 													  <div class="form-group">
-                                                        <label>E-mail</label>
+                                                        <label>E-mail (*)</label>
                                                         <input class="form-control" type="text" id="email" maxlength="100"  name="email" value="<?php echo $EMAIL?>">
                                                     
 													
 													</div>
                                                     				
 													<div class="form-group">
-                                                        <label>Password</label>
-                                                        <input class="form-control" type="password" maxlength="10" id="clave" name="clave" title="Aqu&iacute; debe re-ingresar la password de usuario con el cual ingresar&aacute; al sistema, m&iacute;nimo 5 caracteres" value="">
+                                                        <label>Password (*)</label>
+                                                        <input class="form-control" type="text" maxlength="10" id="clave" name="clave" title="Aqu&iacute; debe re-ingresar la password de usuario con el cual ingresar&aacute; al sistema, m&iacute;nimo 5 caracteres" value="">
                                                         <p class="help-block">M&iacute;nimo 5 carateres <strong>(debe reingresar la password)</strong></p>
                                                     </div>
                                                     						
 													
 													
 													<div class="form-group">
-															<label>Es Usuario Privado</label>
+															<label>Es Usuario Privado (*)</label>
 															
 															<select class="form-control" id="privado" name="privado">
 																<option value="1" <?php if(intval($ESPRIVADO)==1){?>selected<?php }?>>SI</option>
@@ -222,7 +222,7 @@
 														
 											        </div>
           											<div class="form-group">
-															<label>Notificar Asignaci&oacute;n</label>
+															<label>Notificar Asignaci&oacute;n (*)</label>
 															<select class="form-control" id="notiasig" name="notiasig">
 																<option value="1" <?php if(intval($AVISARASIGNACION)==1){?>selected<?php }?>>SI</option>
 																<option value="0" <?php if(intval($AVISARASIGNACION)==0){?>selected<?php }?>>NO</option>
@@ -231,7 +231,7 @@
           											
 													
 													<div class="form-group">
-															<label>Notificar Solicitud</label>
+															<label>Notificar Solicitud (*)</label>
 												
 															<select class="form-control" id="notisoli" name="notisoli">
 																<option value="1" <?php if(intval($AVISARSOLICITUD)==1){?>selected<?php }?>>SI</option>

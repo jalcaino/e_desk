@@ -1,6 +1,6 @@
 <?php
 	
-	$INCIDENTEID=$this->layout()->INCIDENTEID;
+	$ASISTENCIAID=$this->layout()->ASISTENCIAID;
 ?>
 	<script type="text/javascript">
 		
@@ -49,7 +49,7 @@
 					} 
 		
 
-					if (!confirm("Desea Guardar el Seguimiento al Incidente?")) 
+					if (!confirm("Desea Guardar el Seguimiento a la Asistencia?")) 
 					{
 					
 						return false;
@@ -73,7 +73,7 @@
 				var form_data = new FormData();                  
 				form_data.append('file', file_data);
 
-				form_data.append('incidenteid',$("#incidenteid").val());
+				form_data.append('asistenciaid',$("#asistenciaid").val());
 				form_data.append('calendario', $("#calendario").val());
 				form_data.append('detalle', $("#detalle").val());
 				form_data.append('resuelto', $("#resuelto").val());
@@ -82,7 +82,7 @@
 				
 				
 				$.ajax({
-								url:   '/Bitacora/agregarbitacoraprocess', 
+								url:   '/Bitacoraasistencia/agregarbitacoraasistenciaprocess', 
 								dataType: 'text',  
 								cache: false,
 								contentType: false,
@@ -100,7 +100,7 @@
 									
 											if(res[0]=='OK')
 											{
-													$("#divNotificaciones").html("<div class='panel-body'><a href='/Incidente'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
+													$("#divNotificaciones").html("<div class='panel-body'><a href='/Asistencia'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
 													$('#volver_bot').focus();
 													//limpia formulario
 													$('#oForm').trigger("reset");
@@ -129,7 +129,7 @@
 											
 						   <div id="divNotificaciones">
 							    <div class='panel-body'>
-									<a href="/Incidente"><button type="button" class="btn btn-danger">Volver</button></a>
+									<a href="/Asistencia"><button type="button" class="btn btn-danger">Volver</button></a>
                            		</div>
 						   </div>	
 				
@@ -137,7 +137,7 @@
 							<div class="panel panel-danger">
 				
 									<div class="panel-heading">
-                                       <strong>INGRESO SEGUIMIENTO INCIDENTE</strong>
+                                       <strong>INGRESO SEGUIMIENTO ASISTENCIA</strong>
                                     </div>
                                     <div class="panel-body">
 				
@@ -145,7 +145,7 @@
 											 
 															<form role="form" id="oForm" name="oForm" enctype="multipart/form-data">
 																 
-																	   <input type="hidden" id="incidenteid" name="incidenteid" value="<?php echo $INCIDENTEID?>">
+																	   <input type="hidden" id="asistenciaid" name="asistenciaid" value="<?php echo $ASISTENCIAID?>">
 												 
 																 
 																	   <div class="form-group">

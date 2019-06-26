@@ -1,0 +1,87 @@
+<script type="text/javascript">
+ 
+       
+	   function accion_eliminar(asistenciaid)
+	   {
+
+				if (!confirm("Desea Eliminar los Datos de la Asistencia?")) 
+				{
+				
+					return false;
+				
+				} else {
+				
+							var parametros = {
+												"asistenciaid" : asistenciaid
+											};
+							
+							$.ajax({
+											data:  parametros,
+											url:   '/Asistencia/eliminarasistencia', 
+											type:  'post', 
+											evalscripts : true,
+											success:  function (response) { 
+											
+													$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Asistencia'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>"+response+"</h4></div>");
+													$('#volver_bot').focus();
+									
+																
+											}
+									});
+									
+				}
+
+ 	   }	
+ 
+ 	   function carga_editar(asistenciaid)
+	   {
+
+					var parametros = {
+										"asistenciaid" : asistenciaid
+									};
+					
+					$.ajax({
+									data:  parametros,
+									url:   '/Asistencia/editarasistencia', 
+									type:  'post', 
+									evalscripts : true,
+									success:  function (response) { 
+									
+											$("#formulario").html(response);
+														
+									}
+							});
+
+		}	   
+
+
+
+ 	   function carga_pagina_asistencia(pagina,busqueda)
+	   {
+
+					var parametros = {
+										"pagina" : pagina,
+										"busqueda" : busqueda 
+									};
+					
+					$.ajax({
+									data:  parametros,
+									url:   '/Asistencia/listarasistencias', 
+									type:  'post', 
+									evalscripts : true,
+									success:  function (response) { 
+									
+											$("#formulario").html(response);
+														
+									}
+							});
+
+		}	
+
+
+		//carga inicial
+		carga_pagina_asistencia('1','PENDIENTE');
+</script>
+<div id="formulario">
+		
+</div>						
