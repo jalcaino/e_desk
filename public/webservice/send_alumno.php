@@ -3,7 +3,17 @@
 
 							<?php
 						
-							
+								//determinando en que ambiente estoy
+								///////////////////////////////////////
+								$porciones = explode(".",trim($_SERVER['SERVER_NAME']));
+								$rest = substr($porciones[0],-3); 
+								if($rest=="des")
+									$URL_SERV="http://minlocaldes.e-mat.cl/webservice/serv_alumno.php";
+								else
+									$URL_SERV="http://minlocal.e-mat.cl/webservice/serv_alumno.php";
+								///////////////////////////////////////		
+								
+								
 								$LABORATORIOID="";
 							
 								if(isset($_POST["rut"]) && trim($_POST["rut"])!="")
@@ -11,7 +21,7 @@
 							
 										require_once ('lib/nusoap.php');
 												
-										$cliente =  new nusoap_client('http://minlocal.e-mat.cl/webservice/serv_alumno.php');
+										$cliente =  new nusoap_client($URL_SERV);
 										if($err=$cliente->getError())
 										{
 												echo "<div class='panel-heading'>Error : ".$err."</div>";
@@ -181,10 +191,12 @@
 																   <div class="table-responsive">
 																				 						
 																					<hr />
+																					
+																					<!-- Generated markup by the plugin -->
 																					<table class="table table-hover">
 																						<thead>
 																							<tr>
-																								<th colspan="5">EVALUACIONES</th>
+																								<th colspan="4">EVALUACIONES</th>
 																							</tr>
 																						
 																							<tr>
@@ -192,25 +204,53 @@
 																								<th>PRUEBA</th>
 																								<th>FECHA</th>
 																								<th>HORA</th>
-																								<th>PUNTAJE</th>
-																								<th>PUNTAJE NIVEL</th>
 																							</tr>
 																						</thead>
 																						<tbody>
 																					
 																						   <?php
+																							$contador=0;
+																							
 																							if(isset($MATRIZ_PRUEBAS))
 																							{
 																								foreach($MATRIZ_PRUEBAS as $clave => $valor)
 																								{
+																									$contador++;
+																								
 																								?>
 																								<tr>
 																									<td><strong><font color="<?=($valor["PRODUCTO"]=="BASICA")?"#FF9966":"#0099FF"?>"><?=$valor["PRODUCTO"]?></font></strong></td>
                                                                                                 	<td><?php echo $valor["ev_prueba"]?></td>
 																									<td><?php echo $valor["ev_fecha"]?></td>
-																									<td><?php echo $valor["ev_hora"]?></td>
-																									<td><?php echo $valor["ev_puntaje"]?></td>
-																									<td><?php echo $valor["ev_puntaje_nivel"]?></td>
+																									<td><?php echo $valor["ev_hora"]?>
+																								
+																								    <button type="button" data-toggle="modal" data-target="#myModal_<?php echo $contador?>"> + </button>	
+																							
+																									<div class="modal fade" id="myModal_<?php echo $contador?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																										<div class="modal-dialog">
+																													<div class="modal-content">
+																										
+																																<div class="modal-header">
+																																	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+																																	<h4 class="modal-title" id="myModalLabel">+ INFO</h4>
+																																</div>
+																																<div class="modal-body">
+																																	<strong>PUNTAJE :</strong> <?php echo $valor["ev_puntaje"]?><br><br>
+																																	<strong>PUNTAJE NIVEL :</strong> <?php echo $valor["ev_puntaje_nivel"]?><br><br>
+																																</div>
+																																<div class="modal-footer">
+																																	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+																																</div>
+																												
+																										
+																													</div>
+																										</div>
+																									 </div>
+
+																									
+																									
+																									
+																									</td>
 																								</tr>
 																								<?
 																								}
@@ -236,21 +276,14 @@
 																					<table class="table table-hover">
 																						<thead>
 																							<tr>
-																								<th colspan="9">ACTIVIDADES</th>
+																								<th colspan="4">ACTIVIDADES</th>
 																							</tr>
 																							<tr>
 																								<th>BD</th>
 																							    <th>MODULO</th>
 																								<th>FECHA INGRESO</th>
 																								<th>HORA INGRESO</th>
-																								<th>FECHA TERMINO</th>
-																								<th>HORA TERMINO</th>
-																								<th>ESTADO</th>
-																								<th>PUNTAJE</th>
-																								<th>PUNTAJE PSU</th>
-																								<th>CUENTA</th>
-																								<th>RESPALDO REINICIO</th>
-																					    	</tr>
+																							</tr>
 																						</thead>
 																						<tbody>
 																						
@@ -259,20 +292,51 @@
 																							{
 																								foreach($MATRIZ_MOD as $clave => $valor)
 																								{
+																									$contador++;
+																								
 																								?>
 																								<tr>
 																									<td><strong><font color="<?=($valor["PRODUCTO"]=="BASICA")?"#FF9966":"#0099FF"?>"><?=$valor["PRODUCTO"]?></font></strong></td>
                                                                                                     <td><?php echo $valor["mod_modulo"]?></td>
 																									<td><?php echo $valor["mod_ingreso_fecha"]?></td>
-																									<td><?php echo $valor["mod_ingreso_hora"]?></td>
-																									<td><?php echo $valor["mod_termino_fecha"]?></td>
-																									<td><?php echo $valor["mod_termino_hora"]?></td>
-																									<td><?php echo $valor["mod_estado"]?></td>
-																									<td><?php echo $valor["mod_puntaje"]?></td>
-																									<td><?php echo $valor["mod_puntajePSU"]?></td>
-																									<td><?php echo $valor["mod_cuenta"]?></td>
-																									<td><?php echo $valor["mod_respaldo_reinicio"]?></td>
-																					    		</tr>
+																									<td><?php echo $valor["mod_ingreso_hora"]?>
+																									
+																									
+																						
+																										<button type="button" data-toggle="modal" data-target="#myModal_<?php echo $contador?>"> + </button>	
+																								
+																										<div class="modal fade" id="myModal_<?php echo $contador?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																											<div class="modal-dialog">
+																														<div class="modal-content">
+																											
+																																	<div class="modal-header">
+																																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+																																		<h4 class="modal-title" id="myModalLabel">+ INFO</h4>
+																																	</div>
+																																	<div class="modal-body">
+																																		<strong>FECHA TERMINO :</strong> <?php echo $valor["mod_termino_fecha"]?><br><br>
+																																		<strong>HORA TERMINO :</strong> <?php echo $valor["mod_termino_hora"]?><br><br>
+																																		<strong>ESTADO :</strong> <?php echo $valor["mod_estado"]?><br><br>
+																																		<strong>PUNTAJE :</strong> <?php echo $valor["mod_puntaje"]?><br><br>
+																																		<strong>PUNTAJE PSU :</strong> <?php echo $valor["ev_puntaje"]?><br><br>
+																																		<strong>CUENTA :</strong> <?php echo $valor["mod_cuenta"]?><br><br>
+																																		<strong>RESPALDO REINICIO :</strong> <?php echo $valor["mod_respaldo_reinicio"]?><br><br>
+																																	</div>
+																																	<div class="modal-footer">
+																																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+																																	</div>
+																													
+																											
+																														</div>
+																											</div>
+																										 </div>
+				
+																									
+																									
+																									
+																									
+																									</td>
+																								</tr>
 																								<?
 																								}
 																							}		
@@ -306,8 +370,6 @@
 																							    <th>FECHA</th>
                                                                                                 <th>HORA</th>
 																								<th>REINICIO</th>
-																								<th>SESION ANTERIOR</th>
-																								<th>SESION ACTUAL</th>
 																							</tr>
 																						</thead>
 																						<tbody>
@@ -317,14 +379,44 @@
 																							{
 																								foreach($MATRIZ_SES as $clave => $valor)
 																								{
+																									$contador++;
+																								
 																								?>
 																								<tr>
 																									<td><strong><font color="<?=($valor["PRODUCTO"]=="BASICA")?"#FF9966":"#0099FF"?>"><?=$valor["PRODUCTO"]?></font></strong></td>
                                                                                                     <td><?php echo $valor["ses_fecha_episodio"]?></td>
 																								    <td><?php echo $valor["ses_hora_episodio"]?></td>
-																									<td><?php echo $valor["ses_reinicio"]?></td>
-																									<td><?php echo $valor["ses_session_anterior"]?></td>
-																									<td><?php echo $valor["ses_session_actual"]?></td>
+																									<td><?php echo $valor["ses_reinicio"]?>
+																									
+																									
+																										<button type="button" data-toggle="modal" data-target="#myModal_<?php echo $contador?>"> + </button>	
+																								
+																										<div class="modal fade" id="myModal_<?php echo $contador?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																											<div class="modal-dialog">
+																														<div class="modal-content">
+																											
+																																	<div class="modal-header">
+																																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+																																		<h4 class="modal-title" id="myModalLabel">+ INFO</h4>
+																																	</div>
+																																	<div class="modal-body">
+																																		<strong>SESION ANTERIOR :</strong> <?php echo $valor["ses_session_anterior"]?><br><br>
+																																		<strong>SESION ACTUAL :</strong> <?php echo $valor["ses_session_actual"]?><br><br>
+																																	</div>
+																																	<div class="modal-footer">
+																																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+																																	</div>
+																													
+																											
+																														</div>
+																											</div>
+																										 </div>
+				
+																									
+																									
+																									
+																									
+																									</td>
 																								</tr>
 																								<?
 																								}

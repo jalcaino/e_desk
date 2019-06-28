@@ -14,7 +14,20 @@
 	
 	require_once ('lib/nusoap.php');
 	
-	$miURL = 'http://minlocal.e-mat.cl/webservice';
+	
+	//determinando en que ambiente estoy
+	///////////////////////////////////////
+	$porciones = explode(".",trim($_SERVER['SERVER_NAME']));
+	$rest = substr($porciones[0],-3); 
+	if($rest=="des")
+		$URL_SERV="http://minlocaldes.e-mat.cl/webservice";
+	else
+		$URL_SERV="http://minlocal.e-mat.cl/webservice";
+	///////////////////////////////////////		
+	
+		
+	
+	$miURL = $URL_SERV;
 	$server = new nusoap_server();
 	$server->configureWSDL('mostrarWSDL',$miURL);
 	$server->wsdl->schemaTargetNamespace=$miURL;
@@ -138,7 +151,7 @@
 					
 								//MULTISESSION
 								/////////////////
-								$sql="SELECT DATE_FORMAT(fecha, '%d/%m/%Y') as fecha_episodio,DATE_FORMAT(fecha, '%H:%i:%s') as hora_episodio,reinicio,session_logeado as session_anterior,session_actual FROM ".$valor.".tbllogin_session_multiple where rut=? order by fecha desc limit 0,5";
+								$sql="SELECT DATE_FORMAT(fecha, '%d/%m/%Y') as fecha_episodio,DATE_FORMAT(fecha, '%H:%i:%s') as hora_episodio,reinicio,session_logeado as session_anterior,session_actual FROM ".$valor.".tbllogin_session_multiple where rut=? order by fecha desc";
 								$sArrDat1= array($rut);
 								$sth1 = $dbh->prepare($sql);
 								$sth1->execute($sArrDat1);
@@ -164,7 +177,7 @@
 				
 								//MODULOS
 								/////////////////
-								$sql="SELECT modulo,DATE_FORMAT(ingreso, '%d/%m/%Y') as ingreso_fecha,DATE_FORMAT(ingreso, '%H:%i:%s') as ingreso_hora,DATE_FORMAT(termino, '%d/%m/%Y') as termino_fecha,DATE_FORMAT(termino, '%H:%i:%s') as termino_hora,estado,puntaje,puntajePSU,cuenta,respaldo_reinicio FROM ".$valor.".tblregistro where rut=? order by estado, termino desc limit 0,5";
+								$sql="SELECT modulo,DATE_FORMAT(ingreso, '%d/%m/%Y') as ingreso_fecha,DATE_FORMAT(ingreso, '%H:%i:%s') as ingreso_hora,DATE_FORMAT(termino, '%d/%m/%Y') as termino_fecha,DATE_FORMAT(termino, '%H:%i:%s') as termino_hora,estado,puntaje,puntajePSU,cuenta,respaldo_reinicio FROM ".$valor.".tblregistro where rut=? order by estado, termino desc";
 								$sArrDat1= array($rut);
 								$sth1 = $dbh->prepare($sql);
 								$sth1->execute($sArrDat1);

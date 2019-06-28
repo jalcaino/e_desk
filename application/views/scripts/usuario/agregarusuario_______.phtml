@@ -160,6 +160,22 @@
 														<input id="login" name="login" class="form-control" maxlength="10" type="text" title="Aqu&iacute; debe ingresar el login de usuario con el cual ingresar&aacute; al sistema, m&iacute;nimo 5 caracteres">
                                                         <p class="help-block">M&iacute;nimo 5 carateres sin espacio</p>
                                      				</div>
+                                                    <div class="form-group">
+                                                        <label>Nivel Permisos (*)</label>
+                                                        <select class="form-control" id="nivel" name="nivel">
+															<?php
+															if(isset($datosnivel))
+															{
+																foreach($datosnivel as $clave => $valor)
+																{
+																?>
+																	<option value="<?php echo $valor["SIS02_NIVELID"]?>"><?php echo $valor["SIS02_NIVELDESCRIPCION"]?></option>
+																<?
+																}
+															}		
+															?>
+														</select>
+													</div>
                                                   
 												    <div class="form-group">
                                                         <label>Departamento (*)</label>
@@ -177,27 +193,7 @@
 															?>
 														</select>
 													</div>
-                                                
-												
-												    <div class="form-group">
-                                                        <label>Nivel Permisos (*)</label>
-                                                        <select class="form-control" id="nivel" name="nivel">
-															<?php
-															if(isset($datosnivel))
-															{
-																foreach($datosnivel as $clave => $valor)
-																{
-																?>
-																	<option value="<?php echo $valor["SIS02_NIVELID"]?>"><?php echo $valor["SIS02_NIVELDESCRIPCION"]?></option>
-																<?
-																}
-															}		
-															?>
-														</select>
-													</div>
-                                                
-												
-												  
+                                                  
 												    <div class="form-group">
                                                         <label>Nombre / Apellido (*)</label>
                                                         <input class="form-control" type="text" id="nombreapellido" maxlength="50"  name="nombreapellido">

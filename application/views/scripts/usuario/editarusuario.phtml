@@ -155,22 +155,6 @@
                                                         <label>Login Usuario (*)</label>
                                                         <input id="login" name="login" class="form-control" maxlength="10" type="text" value="<?php echo $USUARIOID?>" readonly>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Nivel Permisos (*)</label>
-                                                        <select class="form-control" id="nivel" name="nivel">
-															<?php
-															if(isset($datosnivel))
-															{
-																foreach($datosnivel as $clave => $valor)
-																{
-																?>
-																	<option value="<?php echo $valor["SIS02_NIVELID"]?>" <?php if($NIVELID==$valor["SIS02_NIVELID"]) echo "selected"?>><?php echo $valor["SIS02_NIVELDESCRIPCION"]?></option>
-																<?
-																}
-															}		
-															?>
-														</select>
-													</div>
                                                   
 												    <div class="form-group">
                                                         <label>Departamento (*)</label>
@@ -182,6 +166,23 @@
 																{
 																?>
 																	<option value="<?php echo $valor["SIS01_SECTORID"]?>"  <?php if($SECTORID==$valor["SIS01_SECTORID"]) echo "selected"?>><?php echo $valor["SIS01_SECTORDESCRIPCION"]?></option>
+																<?
+																}
+															}		
+															?>
+														</select>
+													</div>
+                                                 
+												    <div class="form-group">
+                                                        <label>Nivel Permisos (*)</label>
+                                                        <select class="form-control" id="nivel" name="nivel">
+															<?php
+															if(isset($datosnivel))
+															{
+																foreach($datosnivel as $clave => $valor)
+																{
+																?>
+																	<option value="<?php echo $valor["SIS02_NIVELID"]?>" <?php if($NIVELID==$valor["SIS02_NIVELID"]) echo "selected"?>><?php echo $valor["SIS02_NIVELDESCRIPCION"]?></option>
 																<?
 																}
 															}		

@@ -89,24 +89,27 @@ class FichacolegioController extends Zend_Controller_Action
 					
 						
 						}
+
 						
 					
 						//TICKET
 						////////////////////////////
 						$sSQL="SELECT
-								ED03_TICKETID,
-								SIS04_PRODUCTOID,
-								ED03_FECHATICKET,
-								ED03_NOMBRESOLICITANTE,
-								ED03_NIVELSOPORTE,
-								ED03_CLASIFICADOR,
-								ED03_ESTADO
+								t.ED03_TICKETID,
+								t.SIS04_PRODUCTOID,
+								t.ED03_FECHATICKET,
+								t.ED03_NOMBRESOLICITANTE,
+								t.ED03_NIVELSOPORTE,
+								c.SIS07_CLASIFICADORDESCRIPCION as ED03_CLASIFICADOR,
+								t.ED03_ESTADO
 								FROM
-								e_desk.ED03_TICKET
+								e_desk.ED03_TICKET t
+								LEFT JOIN 
+								e_desk.SIS07_CLASIFICADOR c on t.SIS07_CLASIFICADORID=c.SIS07_CLASIFICADORID
 								WHERE
-								SIS03_LABORATORIOID='".$S_COLEGIO."'
+								t.SIS03_LABORATORIOID='".$S_COLEGIO."'
 								ORDER BY
-								ED03_FECHATICKET DESC 
+								t.ED03_FECHATICKET DESC 
 								limit 0,10";
 							
 					
@@ -127,7 +130,6 @@ class FichacolegioController extends Zend_Controller_Action
 								$datosticket["$ID"]["ED03_ESTADO"]=$row_datosQuery["ED03_ESTADO"];
 							}								
 						}
-					
 					
 					
 					
