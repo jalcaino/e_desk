@@ -281,8 +281,8 @@
 																							<tr>
 																								<th>BD</th>
 																							    <th>MODULO</th>
-																								<th>FECHA INGRESO</th>
-																								<th>HORA INGRESO</th>
+																								<th>CUENTA</th>
+																								<th>ESTADO</th>
 																							</tr>
 																						</thead>
 																						<tbody>
@@ -298,9 +298,8 @@
 																								<tr>
 																									<td><strong><font color="<?=($valor["PRODUCTO"]=="BASICA")?"#FF9966":"#0099FF"?>"><?=$valor["PRODUCTO"]?></font></strong></td>
                                                                                                     <td><?php echo $valor["mod_modulo"]?></td>
-																									<td><?php echo $valor["mod_ingreso_fecha"]?></td>
-																									<td><?php echo $valor["mod_ingreso_hora"]?>
-																									
+																									<td><?php echo $valor["mod_cuenta"]?></td>
+																									<td><?php echo $valor["mod_estado"]?>
 																									
 																						
 																										<button type="button" data-toggle="modal" data-target="#myModal_<?php echo $contador?>"> + </button>	
@@ -314,12 +313,12 @@
 																																		<h4 class="modal-title" id="myModalLabel">+ INFO</h4>
 																																	</div>
 																																	<div class="modal-body">
-																																		<strong>FECHA TERMINO :</strong> <?php echo $valor["mod_termino_fecha"]?><br><br>
+																																		<strong>FECHA INGRESO :</strong> <?php echo $valor["mod_ingreso_fecha"]?><br><br>
+																																	    <strong>HORA INGRESO :</strong> <?php echo $valor["mod_ingreso_hora"]?><br><br>
+																															    		<strong>FECHA TERMINO :</strong> <?php echo $valor["mod_termino_fecha"]?><br><br>
 																																		<strong>HORA TERMINO :</strong> <?php echo $valor["mod_termino_hora"]?><br><br>
-																																		<strong>ESTADO :</strong> <?php echo $valor["mod_estado"]?><br><br>
-																																		<strong>PUNTAJE :</strong> <?php echo $valor["mod_puntaje"]?><br><br>
+																																	    <strong>PUNTAJE :</strong> <?php echo $valor["mod_puntaje"]?><br><br>
 																																		<strong>PUNTAJE PSU :</strong> <?php echo $valor["ev_puntaje"]?><br><br>
-																																		<strong>CUENTA :</strong> <?php echo $valor["mod_cuenta"]?><br><br>
 																																		<strong>RESPALDO REINICIO :</strong> <?php echo $valor["mod_respaldo_reinicio"]?><br><br>
 																																	</div>
 																																	<div class="modal-footer">
