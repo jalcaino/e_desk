@@ -1,0 +1,31 @@
+<?php
+	
+	if(isset($this->layout()->tipo))
+		$tipo=$this->layout()->tipo;
+	
+	if(isset($this->layout()->datosnivel))
+		$datosnivel=$this->layout()->datosnivel;
+	
+	if(isset($this->layout()->nivel))
+		$nivel=$this->layout()->nivel;
+	
+	if(isset($this->layout()->sector))
+		$sector=$this->layout()->sector;
+	
+?>
+<div class="form-group">
+	<label>Nivel Permisos (*)</label>
+	<select class="form-control" id="nivel" name="nivel">
+		<?php
+		if(isset($datosnivel))
+		{
+			foreach($datosnivel as $clave => $valor)
+			{
+			?>
+				<option value="<?php echo $valor["SIS02_NIVELID"]?>" <?php if($nivel==$valor["SIS02_NIVELID"]) echo "selected";?>><?php echo $valor["SIS02_NIVELDESCRIPCION"]?></option>
+			<?
+			}
+		}		
+		?>
+	</select>
+</div>

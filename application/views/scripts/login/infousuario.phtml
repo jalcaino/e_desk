@@ -6,8 +6,14 @@
 	if(isset($this->layout()->nivel))
 		$nivel=$this->layout()->nivel;
 
+	if(isset($this->layout()->niveldescripcion))
+		$niveldescripcion=$this->layout()->niveldescripcion;
+
 	if(isset($this->layout()->sector))
 		$sector=$this->layout()->sector;
+	
+	if(isset($this->layout()->sectordescripcion))
+		$sectordescripcion=$this->layout()->sectordescripcion;
 	
 ?>
 
@@ -16,5 +22,9 @@
 	<div class="inner-text">
 		<?php echo $nombreapellido;?>
 	<br />
-		<small><?php echo $sector;?>-<?php echo $nivel;?></small>
+		<small><?php echo $sectordescripcion;?> / <?php echo $niveldescripcion;?></small>
 	</div>
+	
+									
+	
+	

@@ -3,9 +3,6 @@
 	if(isset($this->layout()->datossector))
 		$datossector=$this->layout()->datossector;
 
-	if(isset($this->layout()->datosnivel))
-		$datosnivel=$this->layout()->datosnivel;
-	
 	
 ?>
 <script type="text/javascript">
@@ -14,6 +11,21 @@
  
 	   $(document).ready(function() {
             
+			
+			
+			 $("#sector").on('change', function () {
+					$("#sector option:selected").each(function () {
+						elegido=$(this).val();
+						$.post("/Usuario/utilidades",{tipo:'1',sector:elegido,nivel:'0'}, function(data){
+							$("#combonivel").html(data);
+						});			
+					});
+		   });
+		
+			
+			
+			
+			
 			$("#btn_guardar").click(function(){
 
 
@@ -91,7 +103,6 @@
 									"clave" : $("#clave").val(),
 									"privado" : $("#privado").val(),
 									"notiasig" : $("#notiasig").val(),
-									"notisoli" : $("#notisoli").val(),
 									"accion" : 'grabar'
 							};
 			
@@ -164,6 +175,7 @@
 												    <div class="form-group">
                                                         <label>Departamento (*)</label>
                                                         <select class="form-control" id="sector" name="sector">
+															<option value="">[SELECCIONE]</option>
 															<?php
 															if(isset($datossector))
 															{
@@ -179,21 +191,7 @@
 													</div>
                                                 
 												
-												    <div class="form-group">
-                                                        <label>Nivel Permisos (*)</label>
-                                                        <select class="form-control" id="nivel" name="nivel">
-															<?php
-															if(isset($datosnivel))
-															{
-																foreach($datosnivel as $clave => $valor)
-																{
-																?>
-																	<option value="<?php echo $valor["SIS02_NIVELID"]?>"><?php echo $valor["SIS02_NIVELDESCRIPCION"]?></option>
-																<?
-																}
-															}		
-															?>
-														</select>
+												 	<div id="combonivel">
 													</div>
                                                 
 												
@@ -229,23 +227,13 @@
 														
 											        </div>
           											<div class="form-group">
-															<label>Notificar Asignaci&oacute;n (*)</label>
+															<label>Notificar (*)</label>
 															<select class="form-control" id="notiasig" name="notiasig">
 																<option value="1">SI</option>
 																<option value="0">NO</option>
 															</select>
 												    </div>
           											
-													
-													<div class="form-group">
-															<label>Notificar Solicitud (*)</label>
-												
-															<select class="form-control" id="notisoli" name="notisoli">
-																<option value="1">SI</option>
-																<option value="0">NO</option>
-															</select>
-												    </div>
-          														
 													<button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
 										    </form>
                                     </div>

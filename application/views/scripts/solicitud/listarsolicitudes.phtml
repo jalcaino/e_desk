@@ -1,5 +1,8 @@
 <?php
 	
+	if(isset($this->layout()->acceso_funcionalidades))
+		$acceso_funcionalidades=$this->layout()->acceso_funcionalidades;
+	
 	if(isset($this->layout()->datossolicitudes))
 		$datossolicitudes=$this->layout()->datossolicitudes;
 	
@@ -81,7 +84,14 @@
 																	</tr>
 																	<tr>
 																		<th colspan="5">
+																		<?php
+																		if(isset($acceso_funcionalidades[2]) && trim($acceso_funcionalidades[2])=="1")
+																		{																								
+																		?>	
 																		<a href="/Solicitud/agregarsolicitud/"><button class="btn btn-inverse"><i class="glyphicon glyphicon-plus"></i>Agregar</button></a>
+																		<?php
+																		}
+																		?>	
 																		</th>
 																	</tr>
 																	<tr>
@@ -106,9 +116,26 @@
 																					   <div class="btn-group">
 																						<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Opci&oacute;n <span class="caret"></span></button>
 																						<ul class="dropdown-menu">
-																								<li><a href="#" onclick="carga_editar('<?php echo $valor["ED02_SOLICITUDID"]?>')">Editar</a></li>
-																								<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED02_SOLICITUDID"]?>')">Eliminar</a></li>
+																								<?php
+																								if(isset($acceso_funcionalidades[1]) && trim($acceso_funcionalidades[1])=="1")
+																								{																								
+																								?>
 																								<li><a href="#" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED02_SOLICITUDID"]?>">Detalle</a></li>
+																								<?php
+																								}
+																								if(isset($acceso_funcionalidades[3]) && trim($acceso_funcionalidades[3])=="1")
+																								{																								
+																								?>	
+																								<li><a href="#" onclick="carga_editar('<?php echo $valor["ED02_SOLICITUDID"]?>')">Editar</a></li>
+																								<?php
+																								}
+																								if(isset($acceso_funcionalidades[4]) && trim($acceso_funcionalidades[4])=="1")
+																								{																								
+																								?>	
+																								<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED02_SOLICITUDID"]?>')">Eliminar</a></li>
+																								<?php
+																								}
+																								?>
 																						</ul>
 																					  </div>
 																					  
@@ -118,7 +145,7 @@
 																											<div class="modal-content">
 																								
 																														<div class="modal-header">
-																															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+																															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
 																															<h4 class="modal-title" id="myModalLabel">Solicitud n&uacute;mero : <?php echo $valor["ED02_SOLICITUDID"]?></h4>
 																														</div>
 																														<div class="modal-body">
@@ -149,7 +176,7 @@
 																												
 																														</div>
 																														<div class="modal-footer">
-																															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+																															<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 																														</div>
 																										
 																								

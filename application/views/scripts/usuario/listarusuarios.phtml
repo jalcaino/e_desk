@@ -1,5 +1,8 @@
 <?php
 	
+	if(isset($this->layout()->acceso_funcionalidades))
+		$acceso_funcionalidades=$this->layout()->acceso_funcionalidades;
+	
 	if(isset($this->layout()->datosusuarios))
 		$datosusuarios=$this->layout()->datosusuarios;
 	
@@ -37,19 +40,25 @@
 															<table class="table table-striped table-bordered table-hover">
 																<thead>
 																	<tr>
-																		<th colspan="5">Usuarios del Sistema (<?php echo $total_usuarios?>)</th>
+																		<th colspan="4">Usuarios del Sistema (<?php echo $total_usuarios?>)</th>
 																	</tr>
 																	<tr>
-																		<th colspan="5">
+																		<th colspan="4">
+																		<?php
+																		if(isset($acceso_funcionalidades[2]) && trim($acceso_funcionalidades[2])=="1")
+																		{																								
+																		?>	
 																		<a href="/Usuario/agregarusuario/"><button class="btn btn-inverse"><i class="glyphicon glyphicon-plus"></i>Agregar</button></a>
+																		<?php
+																		}
+																		?>	
 																		</th>
 																	</tr>
 																	<tr>
 																		<th></th>
-																		<th>ID</th>
+																		<th>USUARIO</th>
 																		<th>NOMBRE</th>
 																		<th>E-MAIL</th>
-																		<th>NIVEL</th>
 																	</tr>
 																</thead>
 																<tbody>
@@ -65,9 +74,26 @@
 																						<div class="btn-group">
 																							<button data-toggle="dropdown" class="btn btn-success dropdown-toggle">Opci&oacute;n <span class="caret"></span></button>
 																							<ul class="dropdown-menu">
-																								<li><a href="#" onclick="carga_editar('<?php echo $valor["ED01_USUARIOID"]?>')">Editar</a></li>
-																								<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED01_USUARIOID"]?>')">Eliminar</a></li>
+																								<?php
+																								if(isset($acceso_funcionalidades[1]) && trim($acceso_funcionalidades[1])=="1")
+																								{																								
+																								?>
 																								<li><a href="#" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED01_USUARIOID"]?>">Detalle</a></li>
+																								<?php
+																								}
+																								if(isset($acceso_funcionalidades[3]) && trim($acceso_funcionalidades[3])=="1")
+																								{																								
+																								?>	
+																								<li><a href="#" onclick="carga_editar('<?php echo $valor["ED01_USUARIOID"]?>')">Editar</a></li>
+																								<?php
+																								}
+																								if(isset($acceso_funcionalidades[4]) && trim($acceso_funcionalidades[4])=="1")
+																								{																								
+																								?>	
+																								<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED01_USUARIOID"]?>')">Eliminar</a></li>
+																								<?php
+																								}
+																								?>	
 																							</ul>
 																						</div>
 																				
@@ -77,23 +103,22 @@
 																											<div class="modal-content">
 																								
 																														<div class="modal-header">
-																															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+																															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
 																															<h4 class="modal-title" id="myModalLabel">Usuario : <?php echo $valor["ED01_USUARIOID"]?></h4>
 																														</div>
 																														<div class="modal-body">
 																															<strong>USUARIOID : </strong><?php echo $valor["ED01_USUARIOID"]?><br><br>
-																															<strong>NIVEL : </strong><?php echo $valor["SIS02_NIVELID"]?><br><br>
-																															<strong>SECTOR : </strong><?php echo $valor["SIS01_SECTORID"]?><br><br>
+																															<strong>SECTOR : </strong><?php echo $valor["SIS01_SECTORDESCRIPCION"]?><br><br>
+																															<strong>NIVEL : </strong><?php echo $valor["SIS02_NIVELDESCRIPCION"]?><br><br>
 																															<strong>NOMBRE : </strong><?php echo $valor["ED01_NOMBREAPELLIDO"]?><br><br>
 																															<strong>EMAIL : </strong><?php echo $valor["ED01_EMAIL"]?><br><br>
 																															<strong>ES PRIVADO : </strong><?php echo $valor["ED01_ESPRIVADO"]?><br><br>
-																															<strong>AVISAR ASIGNACION : </strong><?php echo $valor["ED01_AVISARASIGNACION"]?><br><br>
-																															<strong>AVISAR SOLICITUD : </strong><?php echo $valor["ED01_AVISARSOLICITUD"]?><br><br>
+																															<strong>NOTIFICAR : </strong><?php echo $valor["ED01_NOTIFICAR"]?><br><br>
 																															<strong>FECHA INGRESO : </strong><?php echo $valor["FECHA_INGRESO"]?><br><br>
 																															<strong>FECHA ULTIMA ACTUALIZACION : </strong><?php echo $valor["FECHA_ACTUALIZACION"]?><br><br>
 																														</div>
 																														<div class="modal-footer">
-																															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+																															<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 																														</div>
 																										
 																								
@@ -112,7 +137,6 @@
 																					<td><?php echo $valor["ED01_USUARIOID"]?></td>
 																					<td><?php echo $valor["ED01_NOMBREAPELLIDO"]?></td>
 																					<td><a href="mailto:<?php echo $valor["ED01_EMAIL"]?>"><?php echo $valor["ED01_EMAIL"]?></a></td>
-																					<td><?php echo $valor["SIS02_NIVELID"]?></td>
 																				</tr>
 																			<?
 																			}

@@ -291,6 +291,14 @@ class BitacoraController extends Zend_Controller_Action
 														  'ED09_FECHANOTIFICACION' => date("Ymdhis")
 													);
 								
+								
+												$data_actividad = array(
+																	'ED01_USUARIOID' => $edesk_session->USUARIOID,
+																	'ED08_ACCION' => 'AGREGAR BITACORA TICKET INCIDENTE',
+																	'ED08_MASINFO' => 'SEGUIMIENTO NUM:'.$nueva_solicitud." / INCIDENTE NUM:".$incidenteid 
+																	);
+
+								
 
 												try {
 							
@@ -298,7 +306,8 @@ class BitacoraController extends Zend_Controller_Action
 													$DB->beginTransaction();
 													$DB->insert('bd_correos.correos_soporte', $data_email);
 													$DB->insert('e_desk.ED09_USUARIO_NOTIFICADO_SEG_TICKET',$data_usuario1);
-																
+													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
+																	
 												
 													//hay que consultar por solicitudes asociadas
 													//relación

@@ -23,6 +23,7 @@
           <actionMethod actionName="editarusuarioprocess"/>
           <actionMethod actionName="eliminarusuario"/>
           <actionMethod actionName="listarusuarios"/>
+          <actionMethod actionName="utilidades"/>
         </controllerFile>
         <controllerFile controllerName="Login">
           <actionMethod actionName="index"/>
@@ -80,6 +81,21 @@
           <actionMethod actionName="editarasistenciaprocess"/>
           <actionMethod actionName="eliminarasistencia"/>
           <actionMethod actionName="listarasistencias"/>
+        </controllerFile>
+        <controllerFile controllerName="Infacceso">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Infincidente">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Infclasificador">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Infactividad">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Infcolegio">
+          <actionMethod actionName="index"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false"/>
@@ -260,6 +276,24 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Incidente">
             <viewScriptFile forActionName="utilidades"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuario">
+            <viewScriptFile forActionName="utilidades"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Infacceso">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Infincidente">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Infclasificador">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Infactividad">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Infcolegio">
+            <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

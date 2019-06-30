@@ -2,9 +2,6 @@
 	
 	if(isset($this->layout()->datossector))
 		$datossector=$this->layout()->datossector;
-
-	if(isset($this->layout()->datosnivel))
-		$datosnivel=$this->layout()->datosnivel;
 	
 	
 	$USUARIOID=$this->layout()->USUARIOID;
@@ -14,9 +11,7 @@
 	$EMAIL=$this->layout()->EMAIL;
 	$PASSWORD=$this->layout()->PASSWORD;
 	$ESPRIVADO=$this->layout()->ESPRIVADO;
-	$AVISARASIGNACION=$this->layout()->AVISARASIGNACION;
-	$AVISARSOLICITUD=$this->layout()->AVISARSOLICITUD;
-
+	$NOTIFICAR=$this->layout()->NOTIFICAR;
 	
 	
 	
@@ -26,6 +21,26 @@
 
   	   var emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
  
+  		$.post("/Usuario/utilidades",{tipo:'1',sector:'<?php echo $SECTORID;?>',nivel:'<?php echo $NIVELID;?>'}, function(data){
+						$("#combonivel").html(data);
+		});			
+			
+			
+	
+		
+			
+		 $("#sector").on('change', function () {
+					$("#sector option:selected").each(function () {
+						elegido=$(this).val();
+						$.post("/Usuario/utilidades",{tipo:'1',sector:elegido,nivel:'0'}, function(data){
+							$("#combonivel").html(data);
+						});			
+					});
+		  });
+		
+	
+	
+	
 	   
 		function valida_grabar()
   		{
@@ -93,7 +108,6 @@
 									"clave" : $("#clave").val(),
 									"privado" : $("#privado").val(),
 									"notiasig" : $("#notiasig").val(),
-									"notisoli" : $("#notisoli").val(),
 									"accion" : 'grabar'
 							};
 			
@@ -159,6 +173,7 @@
 												    <div class="form-group">
                                                         <label>Departamento (*)</label>
                                                         <select class="form-control" id="sector" name="sector">
+															<option value="">[SELECCIONE]</option>
 															<?php
 															if(isset($datossector))
 															{
@@ -173,22 +188,9 @@
 														</select>
 													</div>
                                                  
-												    <div class="form-group">
-                                                        <label>Nivel Permisos (*)</label>
-                                                        <select class="form-control" id="nivel" name="nivel">
-															<?php
-															if(isset($datosnivel))
-															{
-																foreach($datosnivel as $clave => $valor)
-																{
-																?>
-																	<option value="<?php echo $valor["SIS02_NIVELID"]?>" <?php if($NIVELID==$valor["SIS02_NIVELID"]) echo "selected"?>><?php echo $valor["SIS02_NIVELDESCRIPCION"]?></option>
-																<?
-																}
-															}		
-															?>
-														</select>
-													</div>
+												   <div id="combonivel">
+												   </div>
+                                                
                                                   
 
 
@@ -223,24 +225,13 @@
 														
 											        </div>
           											<div class="form-group">
-															<label>Notificar Asignaci&oacute;n (*)</label>
+															<label>Notificar (*)</label>
 															<select class="form-control" id="notiasig" name="notiasig">
-																<option value="1" <?php if(intval($AVISARASIGNACION)==1){?>selected<?php }?>>SI</option>
-																<option value="0" <?php if(intval($AVISARASIGNACION)==0){?>selected<?php }?>>NO</option>
+																<option value="1" <?php if(intval($NOTIFICAR)==1){?>selected<?php }?>>SI</option>
+																<option value="0" <?php if(intval($NOTIFICAR)==0){?>selected<?php }?>>NO</option>
 															</select>
 												    </div>
           											
-													
-													<div class="form-group">
-															<label>Notificar Solicitud (*)</label>
-												
-															<select class="form-control" id="notisoli" name="notisoli">
-																<option value="1" <?php if(intval($AVISARSOLICITUD)==1){?>selected<?php }?>>SI</option>
-																<option value="0" <?php if(intval($AVISARSOLICITUD)==0){?>selected<?php }?>>NO</option>
-															</select>
-												    </div>
-          														
-													
 													
 													<button type="button" class="btn btn-info" id="btn_guardar" onclick="valida_grabar()">Guardar</button>
 								             </form>

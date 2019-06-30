@@ -38,6 +38,7 @@ class LoginController extends Zend_Controller_Action
 						
 						$this->_helper->layout->disableLayout();
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$config = Zend_Registry::get('config');
 
 
 						###########################		
@@ -60,20 +61,27 @@ class LoginController extends Zend_Controller_Action
 				
 						$clave_md5=md5($clave);			
 									
-										
-						$sSQL = "SELECT 
-									ED01_USUARIOID,
-									SIS02_NIVELID,
-									SIS01_SECTORID,
-									ED01_NOMBREAPELLIDO,
-									ED01_EMAIL,
-									ED01_ESPRIVADO,
-									ED01_AVISARASIGNACION,
-									ED01_AVISARSOLICITUD
-									FROM
-									e_desk.ED01_USUARIO WHERE ED01_USUARIOID = '$login' and ED01_PASSWORD='$clave_md5'"; 
+						$sSQL = "SELECT
+								u.ED01_USUARIOID,
+								u.SIS02_NIVELID,
+								n.SIS02_NIVELDESCRIPCION,	
+								u.SIS01_SECTORID,
+								s.SIS01_SECTORDESCRIPCION,
+								u.ED01_NOMBREAPELLIDO,
+								u.ED01_EMAIL,
+								u.ED01_PASSWORD,
+								u.ED01_ESPRIVADO,
+								u.ED01_NOTIFICAR
+								FROM
+								e_desk.ED01_USUARIO u
+								LEFT JOIN
+								e_desk.SIS01_SECTOR s ON u.SIS01_SECTORID=s.SIS01_SECTORID
+								LEFT JOIN
+								e_desk.SIS02_NIVEL_USUARIO n ON u.SIS02_NIVELID=n.SIS02_NIVELID
+								WHERE 
+								u.ED01_USUARIOID = '$login' and u.ED01_PASSWORD='$clave_md5' ";
 							
-				
+							
 							
 					 		$rowset = $DB->fetchAll($sSQL);
 
@@ -84,28 +92,31 @@ class LoginController extends Zend_Controller_Action
 								
 									$USUARIOID=$row_datosQuery["ED01_USUARIOID"];
 									$NIVELID=$row_datosQuery["SIS02_NIVELID"];
+									$NIVELDESCRIPCION=$row_datosQuery["SIS02_NIVELDESCRIPCION"];
 									$SECTORID=$row_datosQuery["SIS01_SECTORID"];
+									$SECTORDESCRIPCION=$row_datosQuery["SIS01_SECTORDESCRIPCION"];
 									$NOMBREAPELLIDO=$row_datosQuery["ED01_NOMBREAPELLIDO"];
 									$EMAIL=$row_datosQuery["ED01_EMAIL"];
 									$ESPRIVADO=$row_datosQuery["ED01_ESPRIVADO"];
-									$AVISARASIGNACION=$row_datosQuery["ED01_AVISARASIGNACION"];
-									$AVISARSOLICITUD=$row_datosQuery["ED01_AVISARSOLICITUD"];
-		
-				
+									$NOTIFICAR=$row_datosQuery["ED01_NOTIFICAR"];
+									
 									 //30 minutos
-								    $edesk_session->setExpirationSeconds(1800);
+								    $edesk_session->setExpirationSeconds(60*60*24*1);
 								
 									$edesk_session->ID=session_id();
 									$edesk_session->USUARIOID=$USUARIOID;
 									$edesk_session->NIVELID=$NIVELID;
+									$edesk_session->NIVELDESCRIPCION=$NIVELDESCRIPCION;
 									$edesk_session->SECTORID=$SECTORID;
+									$edesk_session->SECTORDESCRIPCION=$SECTORDESCRIPCION;
 									$edesk_session->NOMBREAPELLIDO=$NOMBREAPELLIDO;
 									$edesk_session->EMAIL=$EMAIL;
 									$edesk_session->ESPRIVADO=$ESPRIVADO;
-									$edesk_session->AVISARASIGNACION=$AVISARASIGNACION;
-									$edesk_session->AVISARSOLICITUD=$AVISARSOLICITUD; 
-								
+									$edesk_session->NOTIFICAR=$NOTIFICAR;
+									
 									Zend_Registry::set('session', $edesk_session);
+									
+									
 									
 									
 									$ENCONTRO=1;
@@ -150,6 +161,31 @@ class LoginController extends Zend_Controller_Action
 										}					
 								
 								
+										///////////////////////////////////
+										///GUARDADO REGISTRO ACTIVIDAD
+										//////////////////////////////////
+										$data_actividad = array(
+															'ED01_USUARIOID' => $edesk_session->USUARIOID,
+															'ED08_ACCION' => 'LOGIN',
+															'ED08_MASINFO' => ''
+															);
+																				
+														
+										try {
+																					
+													$DB->getConnection();
+													$DB->beginTransaction();
+													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
+													$DB->commit();
+																		
+											} catch (Zend_Exception $e) {
+																				
+													$DB->rollBack();
+										   }									
+										///////////////////////////////////
+										///FIN GUARDADO REGISTRO ACTIVIDAD
+										//////////////////////////////////
+															
 								
 										echo "OK|";
 								 
@@ -258,6 +294,18 @@ class LoginController extends Zend_Controller_Action
 										##FIN MAIL EDICION USUARIO
 										#############################
 			
+			
+										///////////////////////////////////
+										///GUARDADO REGISTRO ACTIVIDAD
+										//////////////////////////////////
+										$data_actividad = array(
+															'ED01_USUARIOID' => $USUARIOID,
+															'ED08_ACCION' => 'RECORDAR CLAVE',
+															'ED08_MASINFO' => 'NUEVA CLAVE:'.$clave 
+															);
+										///////////////////////////////////
+										///FIN GUARDADO REGISTRO ACTIVIDAD
+										//////////////////////////////////
 					
 					
 										try {
@@ -266,7 +314,8 @@ class LoginController extends Zend_Controller_Action
 											$DB->beginTransaction();
 											$DB->update('e_desk.ED01_USUARIO', $data, $where);
 											$DB->insert('bd_correos.correos_soporte', $data_email);
-									
+											$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
+												
 											
 											$DB->commit();
 						
@@ -356,8 +405,10 @@ class LoginController extends Zend_Controller_Action
 				
 						Zend_Layout::getMvcInstance()->assign('nombreapellido',trim($edesk_session->NOMBREAPELLIDO));
 					    Zend_Layout::getMvcInstance()->assign('nivel',trim($edesk_session->NIVELID));
+					    Zend_Layout::getMvcInstance()->assign('niveldescripcion',trim($edesk_session->NIVELDESCRIPCION));
 					    Zend_Layout::getMvcInstance()->assign('sector',trim($edesk_session->SECTORID));
-		
+						Zend_Layout::getMvcInstance()->assign('sectordescripcion',trim($edesk_session->SECTORDESCRIPCION));
+						
 						
 		}
 

@@ -192,7 +192,6 @@ class BitacoraasistenciaController extends Zend_Controller_Action
 												);
 												  		
 					
-					
 												try {
 							
 													$DB->getConnection();
@@ -294,14 +293,23 @@ class BitacoraasistenciaController extends Zend_Controller_Action
 													);
 								
 
+
+								
+												$data_actividad = array(
+																	'ED01_USUARIOID' => $edesk_session->USUARIOID,
+																	'ED08_ACCION' => 'AGREGAR BITACORA ASISTENCIA',
+																	'ED08_MASINFO' => 'SEGUIMIENTO NUM:'.$nueva_solicitud." / ASISTENCIA NUM:".$asistenciaid 
+																	);
+
+
 												try {
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
 													$DB->insert('bd_correos.correos_soporte', $data_email);
 													$DB->insert('e_desk.ED12_USUARIO_NOTIFICADO_SEG_ASIS',$data_usuario1);
-																
-												
+													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
+													
 													//hay que consultar por solicitudes asociadas
 													//relación
 													//y hacer insert
