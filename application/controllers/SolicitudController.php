@@ -264,10 +264,11 @@ class SolicitudController extends Zend_Controller_Action
 													'ED02_ARCHIVOADJUNTO' => $fileRuta,
 													'ED02_NOMBREARCHIVOADJUNTO' => $fileName,
 													'ED02_TIPOARCHIVOADJUNTO' => $fileType,
-													'ED02_NOMBRESOLICITANTE' => $edesk_session->USUARIOID,
+													'ED02_NOMBRESOLICITANTE' => $edesk_session->NOMBREAPELLIDO,
 													'ED02_FECHAINGRESO' => date("Ymdhis"),
 													'ED02_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
-													'ED02_ESTADO' => 'PENDIENTE'
+													'ED02_ESTADO' => 'PENDIENTE',
+													'ED01_USUARIOID' => $edesk_session->USUARIOID 
 												);
 												
 
@@ -1022,6 +1023,7 @@ class SolicitudController extends Zend_Controller_Action
 					3 - editar
 					4 - eliminar
 					5 - seguimiento
+					6 - generar incidente/asistencia
 					*/
 				
 					

@@ -53,10 +53,103 @@ class AsistenciaController extends Zend_Controller_Action
 				###########################		
 				
 			
+				$solicitudid=$this->_request->getParam('solicitudid');
+				if(!isset($solicitudid) || $solicitudid=="")
+				   $solicitudid=0;
+				   
+				   
+				if($solicitudid!=0)
+				{
+					
+					$LABORATORIOID="";
+					$LABORATORIODESCRIPCION="";
+					$PRODUCTOID="";
+					$DETALLESOLICITUD="";
+					$NOMBRESOLICITANTE="";
+					
+					$sSQL = "	SELECT 
+								s.SIS03_LABORATORIOID, 
+								l.SIS03_LABORATORIODESCRIPCION, 
+								s.SIS04_PRODUCTOID, 
+								s.ED02_DETALLESOLICITUD, 
+								s.ED02_NOMBRESOLICITANTE
+								FROM 
+								e_desk.ED02_SOLICITUD s
+								LEFT JOIN
+								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID
+								WHERE 
+								s.ED02_SOLICITUDID = '$solicitudid' ";
+								
+								
+							$rowset = $DB->fetchAll($sSQL);
+	
+							foreach($rowset as $row_datosQuery)
+							{
+							
+									if(trim($row_datosQuery["SIS03_LABORATORIOID"])!="")
+									{
+											$LABORATORIOID=$row_datosQuery["SIS03_LABORATORIOID"];
+											$LABORATORIODESCRIPCION=$row_datosQuery["SIS03_LABORATORIODESCRIPCION"];
+											$PRODUCTOID=$row_datosQuery["SIS04_PRODUCTOID"];
+											$DETALLESOLICITUD=$row_datosQuery["ED02_DETALLESOLICITUD"];
+											$NOMBRESOLICITANTE=$row_datosQuery["ED02_NOMBRESOLICITANTE"];
+									}
+	
+							}
+					
+					}			
 			
 			
+				//echo "/////$solicitudid////////<br>";
+			
+				$incidenteid=$this->_request->getParam('incidenteid');
+				if(!isset($incidenteid) || $incidenteid=="")
+				   $incidenteid=0;
+				
+			
+				if($incidenteid!=0)
+				{
+			
+					//validamos que no exista usuario
+					$sSQL = "	SELECT 
+								s.ED03_TICKETID,
+								s.SIS03_LABORATORIOID,
+								l.SIS03_LABORATORIODESCRIPCION, 
+								s.SIS04_PRODUCTOID,
+								s.ED03_NOMBRESOLICITANTE,
+								s.ED03_DETALLETICKET
+								FROM 
+								e_desk.ED03_TICKET s
+								LEFT JOIN
+								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID
+								LEFT JOIN
+								e_desk.SIS07_CLASIFICADOR c ON s.SIS07_CLASIFICADORID=c.SIS07_CLASIFICADORID
+								WHERE 
+								s.ED03_TICKETID = '$incidenteid' ";
+								
+								
+							$rowset = $DB->fetchAll($sSQL);
+
+							foreach($rowset as $row_datosQuery)
+							{
+							
+									if(trim($row_datosQuery["ED03_TICKETID"])!="")
+									{
+									
+											$LABORATORIOID=$row_datosQuery["SIS03_LABORATORIOID"];
+											$LABORATORIODESCRIPCION=$row_datosQuery["SIS03_LABORATORIODESCRIPCION"];
+											$PRODUCTOID=$row_datosQuery["SIS04_PRODUCTOID"];
+											$DETALLESOLICITUD=$row_datosQuery["ED03_DETALLETICKET"];
+											$NOMBRESOLICITANTE=$row_datosQuery["ED03_NOMBRESOLICITANTE"];
+										
+									}
+
+							}
+							
+				}
 			
 			
+				//echo "/////$incidenteid////////<br>";
 			
 			
 			
@@ -87,7 +180,7 @@ class AsistenciaController extends Zend_Controller_Action
 			
 				//USUARIOS
 				////////////////////////////
-				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE SIS01_SECTORID='LAB' and ED01_ESPRIVADO=0 ";
+				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and SIS02_NIVELID in (2,4) ";
 				$rowset = $DB->fetchAll($sSQL);
 
 				foreach($rowset as $row_datosQuery)
@@ -111,6 +204,26 @@ class AsistenciaController extends Zend_Controller_Action
 				if(isset($datosusuarios))
 						Zend_Layout::getMvcInstance()->assign('datosusuarios',$datosusuarios);
 		
+	
+	
+				if($solicitudid!=0)
+				{
+					Zend_Layout::getMvcInstance()->assign('solicitudid',$solicitudid);
+				}			
+			
+				if($incidenteid!=0)
+				{
+					Zend_Layout::getMvcInstance()->assign('incidenteid',$incidenteid);
+				}			
+			
+				if($solicitudid!=0 || $incidenteid!=0)
+				{
+					Zend_Layout::getMvcInstance()->assign('LABORATORIOID',$LABORATORIOID);
+					Zend_Layout::getMvcInstance()->assign('LABORATORIODESCRIPCION',$LABORATORIODESCRIPCION);
+					Zend_Layout::getMvcInstance()->assign('PRODUCTOID',$PRODUCTOID);
+					Zend_Layout::getMvcInstance()->assign('DETALLESOLICITUD',$DETALLESOLICITUD);
+					Zend_Layout::getMvcInstance()->assign('NOMBRESOLICITANTE',$NOMBRESOLICITANTE);
+				}
 	
 	
     }
@@ -541,7 +654,7 @@ class AsistenciaController extends Zend_Controller_Action
 			
 				//USUARIOS
 				////////////////////////////
-				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE SIS01_SECTORID='LAB' and ED01_ESPRIVADO=0";
+				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and SIS02_NIVELID in (2,4)";
 				$rowset = $DB->fetchAll($sSQL);
 
 				foreach($rowset as $row_datosQuery)
@@ -1226,6 +1339,7 @@ class AsistenciaController extends Zend_Controller_Action
 					3 - editar
 					4 - eliminar
 					5 - seguimiento
+					6 - generar incidente/asistencia
 					*/
 				
 					

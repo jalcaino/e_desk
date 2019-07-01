@@ -1,5 +1,16 @@
 <script type="text/javascript">
  
+ 
+ 	   function accion_generar(solicitudid,tipo)
+	   {
+			if(tipo==1)
+				window.location="/Incidente/agregarincidente/solicitudid/"+solicitudid;
+			
+			if(tipo==2)
+				window.location="/Asistencia/agregarasistencia/solicitudid/"+solicitudid;
+		
+ 	   }
+	   
 	   
 	   function accion_eliminar(solicitudid)
 	   {

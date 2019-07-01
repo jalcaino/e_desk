@@ -1,5 +1,34 @@
 <?php
 	
+	//inicio si hay solicitud	
+	//////////////////////////
+	
+	if(isset($this->layout()->solicitudid))
+		$solicitudid=$this->layout()->solicitudid;
+	
+	if(isset($this->layout()->incidenteid))
+		$incidenteid=$this->layout()->incidenteid;
+
+	if(isset($this->layout()->LABORATORIOID))
+		$LABORATORIOID=$this->layout()->LABORATORIOID;
+
+	if(isset($this->layout()->LABORATORIODESCRIPCION))
+		$LABORATORIODESCRIPCION=$this->layout()->LABORATORIODESCRIPCION;
+
+	if(isset($this->layout()->PRODUCTOID))
+		$PRODUCTOID=$this->layout()->PRODUCTOID;
+
+	if(isset($this->layout()->DETALLESOLICITUD))
+		$DETALLESOLICITUD=$this->layout()->DETALLESOLICITUD;
+
+	if(isset($this->layout()->NOMBRESOLICITANTE))
+		$NOMBRESOLICITANTE=$this->layout()->NOMBRESOLICITANTE;
+	
+	//fin si hay solicitud	
+	//////////////////////////
+	
+	
+	
 	if(isset($this->layout()->datoscolegio))
 		$datoscolegio=$this->layout()->datoscolegio;
 
@@ -145,7 +174,20 @@
 				form_data.append('derivado', $("#derivado").val());
 				form_data.append('estado', $("#estado").val());
 				form_data.append('accion', 'grabar');
-				
+				<?php
+				if(isset($solicitudid) && $solicitudid!="")
+				{
+				?>
+				form_data.append('solicitudid', '<?php echo $solicitudid?>');
+				<?php
+				}
+				if(isset($incidenteid) && $incidenteid!="")
+				{
+				?>
+				form_data.append('incidenteid', '<?php echo $incidenteid?>');
+				<?php
+				}
+				?>
 				
 				$.ajax({
 								url:   '/Asistencia/agregarasistenciaprocess', 
@@ -195,8 +237,31 @@
 											
 						   <div id="divNotificaciones">
 							    <div class='panel-body'>
-									<a href="/Asistencia"><button type="button" class="btn btn-danger">Volver</button></a>
-                           		</div>
+								
+								<?php
+								if(isset($solicitudid) && $solicitudid!="")
+								{
+								?>
+										<a href="/Solicitud"><button type="button" class="btn btn-danger">Volver</button></a>
+								<?php
+								}else{
+							
+										if(isset($incidenteid) && $incidenteid!="")
+										{
+		
+										?>
+										<a href="/Incidente"><button type="button" class="btn btn-danger">Volver</button></a>
+										<?php
+							
+										}else{
+								?>
+										<a href="/Asistencia"><button type="button" class="btn btn-danger">Volver</button></a>
+                           		<?php
+										}
+								}
+								?>
+								
+								</div>
 						   </div>	
 				
 				
@@ -213,21 +278,35 @@
 																 
 																		<div class="form-group">
 																			<label>Colegio (*)</label>
-					
-																			<input list="colegio_lista" class="form-control" id="colegio">
-																			<datalist id="colegio_lista">
-																				<?php
-																				if(isset($datoscolegio))
-																				{
-																					foreach($datoscolegio as $clave => $valor)
+																			<?php 
+																			if(isset($LABORATORIOID) && $LABORATORIOID!=""){ 
+																			?>
+																				<input type="hidden" name="colegio" id="colegio" value="<?php echo $LABORATORIOID?> | <?php echo $LABORATORIODESCRIPCION?>">
+																				<br>
+																				<?php if(isset($LABORATORIODESCRIPCION) && $LABORATORIODESCRIPCION!="") echo $LABORATORIODESCRIPCION;?>
+																			<?php
+																			}else{
+																			?>
+																			
+																				<input list="colegio_lista" class="form-control" id="colegio">
+																				<datalist id="colegio_lista">
+																					<?php
+																					if(isset($datoscolegio))
 																					{
+																						foreach($datoscolegio as $clave => $valor)
+																						{
+																						?>
+																							<option value="<?php echo $valor["SIS03_LABORATORIOID"]?> | <?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?>">
+																						<?
+																						}
+																					}		
 																					?>
-																						<option value="<?php echo $valor["SIS03_LABORATORIOID"]?> | <?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?>">
-																					<?
-																					}
-																				}		
-																				?>
-																			</datalist>
+																				</datalist>
+
+																			<?php
+																			}
+																			?>																
+
 																			
 																
 																		</div>
@@ -240,7 +319,7 @@
 																
 																	   <div class="form-group">
 																			<label>Nombre Solicitante (*)</label>
-																			<input class="form-control" type="text" id="nombreapellido" maxlength="100"  name="nombreapellido">
+																			<input class="form-control" type="text" id="nombreapellido" maxlength="100"  name="nombreapellido" value="<?php if(isset($NOMBRESOLICITANTE) && $NOMBRESOLICITANTE!="") echo $NOMBRESOLICITANTE;?>">
 																	   </div>
 																	 
 																	   <div class="form-group">
@@ -263,7 +342,7 @@
 																												  
 																		<div class="form-group">
 																			<label>Detalle Asistencia (*)</label>
-																			<textarea class="form-control" rows="5" id="detalle" name="detalle"></textarea>
+																			<textarea class="form-control" rows="5" id="detalle" name="detalle"><?php if(isset($DETALLESOLICITUD) && $DETALLESOLICITUD!="") echo $DETALLESOLICITUD;?></textarea>
 																		</div>
 															  
 															  

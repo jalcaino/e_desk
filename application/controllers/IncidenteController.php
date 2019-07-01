@@ -53,6 +53,63 @@ class IncidenteController extends Zend_Controller_Action
 				###########################		
 				
 			
+				$solicitudid=$this->_request->getParam('solicitudid');
+				if(!isset($solicitudid) || $solicitudid=="")
+				   $solicitudid=0;
+				   
+				if($solicitudid!=0)
+				{
+					
+					$LABORATORIOID="";
+					$LABORATORIODESCRIPCION="";
+					$PRODUCTOID="";
+					$DETALLESOLICITUD="";
+					$NOMBRESOLICITANTE="";
+					
+					$sSQL = "	SELECT 
+								s.SIS03_LABORATORIOID, 
+								l.SIS03_LABORATORIODESCRIPCION, 
+								s.SIS04_PRODUCTOID, 
+								s.ED02_DETALLESOLICITUD, 
+								s.ED02_NOMBRESOLICITANTE
+								FROM 
+								e_desk.ED02_SOLICITUD s
+								LEFT JOIN
+								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID
+								WHERE 
+								s.ED02_SOLICITUDID = '$solicitudid' ";
+								
+								
+							$rowset = $DB->fetchAll($sSQL);
+	
+							foreach($rowset as $row_datosQuery)
+							{
+							
+									if(trim($row_datosQuery["SIS03_LABORATORIOID"])!="")
+									{
+											$LABORATORIOID=$row_datosQuery["SIS03_LABORATORIOID"];
+											$LABORATORIODESCRIPCION=$row_datosQuery["SIS03_LABORATORIODESCRIPCION"];
+											$PRODUCTOID=$row_datosQuery["SIS04_PRODUCTOID"];
+											$DETALLESOLICITUD=$row_datosQuery["ED02_DETALLESOLICITUD"];
+											$NOMBRESOLICITANTE=$row_datosQuery["ED02_NOMBRESOLICITANTE"];
+									}
+	
+							}
+					
+					}			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 								
@@ -82,7 +139,7 @@ class IncidenteController extends Zend_Controller_Action
 			
 				//USUARIOS
 				////////////////////////////
-				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0";
+				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and SIS02_NIVELID not in (1,3,5)";
 				$rowset = $DB->fetchAll($sSQL);
 
 				foreach($rowset as $row_datosQuery)
@@ -188,6 +245,20 @@ class IncidenteController extends Zend_Controller_Action
 				if(isset($datosusuarios))
 						Zend_Layout::getMvcInstance()->assign('datosusuarios',$datosusuarios);
 		
+	
+	
+				if($solicitudid!=0)
+				{
+					Zend_Layout::getMvcInstance()->assign('solicitudid',$solicitudid);
+					Zend_Layout::getMvcInstance()->assign('LABORATORIOID',$LABORATORIOID);
+					Zend_Layout::getMvcInstance()->assign('LABORATORIODESCRIPCION',$LABORATORIODESCRIPCION);
+					Zend_Layout::getMvcInstance()->assign('PRODUCTOID',$PRODUCTOID);
+					Zend_Layout::getMvcInstance()->assign('DETALLESOLICITUD',$DETALLESOLICITUD);
+					Zend_Layout::getMvcInstance()->assign('NOMBRESOLICITANTE',$NOMBRESOLICITANTE);
+				}			
+			
+	
+	
 	
 	
     }
@@ -652,7 +723,7 @@ class IncidenteController extends Zend_Controller_Action
 			
 				//USUARIOS
 				////////////////////////////
-				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0";
+				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and SIS02_NIVELID not in (1,3,5)";
 				$rowset = $DB->fetchAll($sSQL);
 
 				foreach($rowset as $row_datosQuery)
@@ -1473,6 +1544,7 @@ class IncidenteController extends Zend_Controller_Action
 					3 - editar
 					4 - eliminar
 					5 - seguimiento
+					6 - generar incidente/asistencia
 					*/
 				
 					

@@ -129,28 +129,56 @@
 																								<li><a href="#" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED03_TICKETID"]?>">Detalle</a></li>
 																								<?php
 																								}
-																								if(isset($acceso_funcionalidades[3]) && trim($acceso_funcionalidades[3])=="1")
-																								{																								
-																								?>	
-																								<li><a href="#" onclick="carga_editar('<?php echo $valor["ED03_TICKETID"]?>')">Editar</a></li>
-																								<?php
-																								}
-																								if(isset($acceso_funcionalidades[4]) && trim($acceso_funcionalidades[4])=="1")
-																								{																								
-																								?>	
-																								<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED03_TICKETID"]?>')">Eliminar</a></li>
-																								<?php
-																								}
-																								?>
-																								<li class="divider"></li>
-																								<?php
-																								if(isset($acceso_funcionalidades[5]) && trim($acceso_funcionalidades[5])=="1")
-																								{																								
-																								?>	
-																								<li><a href="/Bitacora/agregarbitacora/incidenteid/<?php echo $valor["ED03_TICKETID"]?>">Seguimiento</a></li>
-																								<?php
+																							
+																								if($valor["ED03_ESTADO"]=="PENDIENTE")
+																								{ 
+																											if(isset($acceso_funcionalidades[3]) && trim($acceso_funcionalidades[3])=="1")
+																											{																								
+																											?>	
+																											<li><a href="#" onclick="carga_editar('<?php echo $valor["ED03_TICKETID"]?>')">Editar</a></li>
+																											<?php
+																											}
+																											if(isset($acceso_funcionalidades[4]) && trim($acceso_funcionalidades[4])=="1")
+																											{																								
+																											?>	
+																											<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED03_TICKETID"]?>')">Eliminar</a></li>
+																											<?php
+																											}
 																								}
 																								?>
+																											<li class="divider"></li>
+																											<?php
+																											
+																											
+																											//4 estados
+																											//Pendiente : no se ha hecho nada
+																											//Derivado : cuando se generó incidente
+																											//Resuelto : cuando está todo ok
+																											//Asistencia : cuando se generó asistencia
+																											
+																											
+																											if($valor["ED03_ESTADO"]=="DERIVADO")
+																											{ 
+																													if(isset($acceso_funcionalidades[5]) && trim($acceso_funcionalidades[5])=="1")
+																													{																								
+																													?>	
+																													<li><a href="/Bitacora/agregarbitacora/incidenteid/<?php echo $valor["ED03_TICKETID"]?>">Seguimiento</a></li>
+																													<?php
+																													}
+																											}
+																											
+																											
+																											if(isset($acceso_funcionalidades[6]) && trim($acceso_funcionalidades[6])=="1")
+																											{																								
+																												if($valor["ED03_ESTADO"]!="ASISTENCIA")
+																												{ 
+																												?>
+																													<li><a href="#" onclick="accion_generar('<?php echo $valor["ED03_TICKETID"]?>')">Generar Asistencia</a></li>
+																												<?php
+																												}
+																											}
+																											?>
+																							
 																							</ul>
 																						</div>
 																						

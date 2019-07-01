@@ -613,6 +613,7 @@ class UsuarioController extends Zend_Controller_Action
 					3 - editar
 					4 - eliminar
 					5 - seguimiento
+					6 - generar incidente/asistencia
 					*/
 				
 					

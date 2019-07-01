@@ -123,18 +123,37 @@
 																								<li><a href="#" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED02_SOLICITUDID"]?>">Detalle</a></li>
 																								<?php
 																								}
-																								if(isset($acceso_funcionalidades[3]) && trim($acceso_funcionalidades[3])=="1")
-																								{																								
-																								?>	
-																								<li><a href="#" onclick="carga_editar('<?php echo $valor["ED02_SOLICITUDID"]?>')">Editar</a></li>
-																								<?php
-																								}
-																								if(isset($acceso_funcionalidades[4]) && trim($acceso_funcionalidades[4])=="1")
-																								{																								
-																								?>	
-																								<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED02_SOLICITUDID"]?>')">Eliminar</a></li>
-																								<?php
-																								}
+																								
+																								
+																								//3 estados
+																								//Pendiente : no se ha hecho nada
+																								//Derivado : cuando se generó incidente
+																								//Resuelto : cuando está todo ok
+																								if($valor["ED02_ESTADO"]=="PENDIENTE")
+																								{ 
+																										if(isset($acceso_funcionalidades[3]) && trim($acceso_funcionalidades[3])=="1")
+																										{																								
+																										?>	
+																										<li><a href="#" onclick="carga_editar('<?php echo $valor["ED02_SOLICITUDID"]?>')">Editar</a></li>
+																										<?php
+																										}
+																										if(isset($acceso_funcionalidades[4]) && trim($acceso_funcionalidades[4])=="1")
+																										{																								
+																										?>	
+																										<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED02_SOLICITUDID"]?>')">Eliminar</a></li>
+																										<?php
+																										}
+																										?>
+																										<li class="divider"></li>
+																										<?php
+																										if(isset($acceso_funcionalidades[6]) && trim($acceso_funcionalidades[6])=="1")
+																										{																								
+																										?>	
+																										<li><a href="#" onclick="accion_generar('<?php echo $valor["ED02_SOLICITUDID"]?>','1')">Generar Incidente</a></li>
+																										<li><a href="#" onclick="accion_generar('<?php echo $valor["ED02_SOLICITUDID"]?>','2')">Generar Asistencia</a></li>
+																										<?php
+																										}																					
+																								}		
 																								?>
 																						</ul>
 																					  </div>
