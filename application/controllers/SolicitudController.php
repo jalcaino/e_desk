@@ -313,10 +313,12 @@ class SolicitudController extends Zend_Controller_Action
 												##MAILS A SOPORTE
 												#################################
 												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE SIS02_NIVELID in (2,3)";
+												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='".$edesk_session->USUARIOID."') ";
 												$rowset = $DB->fetchAll($sSQL);
 												$email="";																	
 
+												
+												
 												
 												foreach($rowset as $row_datosQuery)
 												{
@@ -753,7 +755,7 @@ class SolicitudController extends Zend_Controller_Action
 												##MAILS A SOPORTE
 												#################################
 												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE SIS02_NIVELID in (2,3)";
+												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='".$edesk_session->USUARIOID."') ";
 												$rowset = $DB->fetchAll($sSQL);
 												$email="";																	
 

@@ -279,6 +279,15 @@ class IncidenteController extends Zend_Controller_Action
 		
 					$edesk_session = new Zend_Session_Namespace('edeskses');
 	
+	
+	
+					$solicitudid=$this->_request->getParam('solicitudid');
+					if(!isset($solicitudid) || $solicitudid=="")
+					   $solicitudid=0;
+				
+	
+	
+	
 					$colegio=$this->_request->getPost('colegio');
 					$producto=$this->_request->getPost('producto');
 					$calendario=$this->_request->getPost('calendario');
@@ -468,7 +477,7 @@ class IncidenteController extends Zend_Controller_Action
 												##MAILS A SOPORTE
 												#################################
 												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE SIS02_NIVELID in (2,3)";
+												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='$derivado' or ED01_USUARIOID='".$edesk_session->USUARIOID."')";
 												$rowset = $DB->fetchAll($sSQL);
 												$email="";																	
 
@@ -513,6 +522,34 @@ class IncidenteController extends Zend_Controller_Action
 
 
 
+												######################################
+												##INICIO ASOCIACION INCIDENTE SOLICITUD
+												######################################
+
+												if($solicitudid!=0)
+												{
+													$data_solicitud_ticket = array(
+														'ED02_SOLICITUDID' => $solicitudid,
+														'ED03_TICKETID' => $nueva_solicitud
+													);
+											
+											
+													$data_solicitud_ticket_estado = array(
+														'ED02_ESTADO' => 'DERIVADO'
+													);
+											
+											
+													$where_estado['ED02_SOLICITUDID = ?'] = $solicitudid;
+											
+												}	
+
+												######################################
+												##FIN ASOCIACION INCIDENTE SOLICITUD
+												######################################
+
+
+
+
 												#################################
 												##ASOCIACION A USUARIO
 												#################################
@@ -552,6 +589,15 @@ class IncidenteController extends Zend_Controller_Action
 													{
 														$DB->insert('e_desk.ED07_USUARIO_TICKET',$data_usuario2);
 													}
+
+
+													if($solicitudid!=0)
+													{
+														$DB->insert('e_desk.ED14_SOLICITUD_TICKET',$data_solicitud_ticket);
+														$DB->update('e_desk.ED02_SOLICITUD', $data_solicitud_ticket_estado, $where_estado);
+													}	
+
+
 								
 													//hay que consultar por solicitudes asociadas
 													//relación
@@ -1117,7 +1163,7 @@ class IncidenteController extends Zend_Controller_Action
 												##MAILS A SOPORTE
 												#################################
 												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE SIS02_NIVELID in (2,3)";
+												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='$derivado' or ED01_USUARIOID='".$edesk_session->USUARIOID."')";
 												$rowset = $DB->fetchAll($sSQL);
 												$email="";																	
 

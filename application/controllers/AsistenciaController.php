@@ -244,6 +244,17 @@ class AsistenciaController extends Zend_Controller_Action
 		
 					$edesk_session = new Zend_Session_Namespace('edeskses');
 	
+	
+					$solicitudid=$this->_request->getParam('solicitudid');
+					if(!isset($solicitudid) || $solicitudid=="")
+					   $solicitudid=0;
+
+					$incidenteid=$this->_request->getParam('incidenteid');
+					if(!isset($incidenteid) || $incidenteid=="")
+					   $incidenteid=0;
+	
+	
+	
 					$colegio=$this->_request->getPost('colegio');
 					$calendario=$this->_request->getPost('calendario');
 					$detalle=$this->_request->getPost('detalle');
@@ -419,7 +430,7 @@ class AsistenciaController extends Zend_Controller_Action
 												##MAILS A SOPORTE
 												#################################
 												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE SIS02_NIVELID in (2,3)";
+												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID=2 or ED01_USUARIOID='$derivado' or ED01_USUARIOID='".$edesk_session->USUARIOID."')";
 												$rowset = $DB->fetchAll($sSQL);
 												$email="";																	
 
@@ -463,6 +474,57 @@ class AsistenciaController extends Zend_Controller_Action
 												#############################
 
 
+												######################################
+												##INICIO ASOCIACION ASISTENCIA SOLICITUD
+												######################################
+
+												if($solicitudid!=0)
+												{
+													$data_solicitud_asistencia = array(
+														'ED02_SOLICITUDID' => $solicitudid,
+														'ED05_ASISTENCIAID' => $nueva_solicitud
+													);
+												
+													$data_solicitud_asistencia_estado = array(
+														'ED02_ESTADO' => 'DERIVADO'
+													);
+											
+													$where_estado['ED02_SOLICITUDID = ?'] = $solicitudid;
+
+												}	
+
+												######################################
+												##FIN ASOCIACION ASISTENCIA SOLICITUD
+												######################################
+
+
+
+
+												######################################
+												##INICIO ASOCIACION ASISTENCIA INCIDENTE
+												######################################
+
+												if($incidenteid!=0)
+												{
+													$data_incidente_asistencia = array(
+														'ED03_TICKETID' => $incidenteid,
+														'ED05_ASISTENCIAID' => $nueva_solicitud
+													);
+
+
+													$data_asistencia_ticket_estado = array(
+														'ED03_ESTADO' => 'DERIVADO'
+													);
+											
+													$where_estado['ED03_TICKETID = ?'] = $incidenteid;
+
+												}	
+
+												######################################
+												##FIN ASOCIACION ASISTENCIA SOLICITUD
+												######################################
+
+
 
 												#################################
 												##ASOCIACION A USUARIO
@@ -504,10 +566,24 @@ class AsistenciaController extends Zend_Controller_Action
 														$DB->insert('e_desk.ED11_USUARIO_ASISTENCIA_TECNICA',$data_usuario2);
 													}
 								
+													if($solicitudid!=0)
+													{
+														$DB->insert('e_desk.ED16_SOLICITUD_ASISTENCIA',$data_solicitud_asistencia);
+														$DB->update('e_desk.ED02_SOLICITUD', $data_solicitud_asistencia_estado, $where_estado);
+
+													}	
+
+													if($incidenteid!=0)
+													{
+														$DB->insert('e_desk.ED13_TICKET_ASISTENCIA_TECNICA',$data_incidente_asistencia);
+														$DB->update('e_desk.ED03_TICKET', $data_asistencia_ticket_estado, $where_estado);
+													}	
+								
+								
+								
 													//hay que consultar por solicitudes asociadas
 													//relación
 													//y hacer insert
-								
 								
 								
 													$DB->commit();
@@ -931,7 +1007,7 @@ class AsistenciaController extends Zend_Controller_Action
 												##MAILS A SOPORTE
 												#################################
 												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE SIS02_NIVELID in (2,3)";
+												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID=2 or ED01_USUARIOID='$derivado' or ED01_USUARIOID='".$edesk_session->USUARIOID."')";
 												$rowset = $DB->fetchAll($sSQL);
 												$email="";																	
 
