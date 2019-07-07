@@ -304,7 +304,8 @@ class AsistenciaController extends Zend_Controller_Action
 									
 												} catch (Zend_Exception $e) {
 									
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 											
 												}
@@ -401,7 +402,8 @@ class AsistenciaController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -581,11 +583,6 @@ class AsistenciaController extends Zend_Controller_Action
 								
 								
 								
-													//hay que consultar por solicitudes asociadas
-													//relación
-													//y hacer insert
-								
-								
 													$DB->commit();
 							
 													echo("OK|");
@@ -594,7 +591,8 @@ class AsistenciaController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -865,7 +863,8 @@ class AsistenciaController extends Zend_Controller_Action
 									
 												} catch (Zend_Exception $e) {
 									
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 											
 												}
@@ -980,6 +979,99 @@ class AsistenciaController extends Zend_Controller_Action
 														);
 										
 
+												###########BUSCAMOS SOLICITUDES ASOCIADAS###################
+												###########BUSCAMOS SOLICITUDES ASOCIADAS###################
+												###########BUSCAMOS SOLICITUDES ASOCIADAS###################
+												
+
+												$sSQL="SELECT ED02_SOLICITUDID FROM e_desk.ED16_SOLICITUD_ASISTENCIA WHERE ED05_ASISTENCIAID='$asistenciaid'";
+
+												$rowset = $DB->fetchAll($sSQL);
+												$SOLICITUD_ASOCIADA_DIRECTA=0;
+												foreach($rowset as $row_datosQuery)
+												{
+													if(trim($row_datosQuery["ED02_SOLICITUDID"])!="")
+													{
+														$SOLICITUD_ASOCIADA_DIRECTA=$row_datosQuery["ED02_SOLICITUDID"];
+													}								
+												}
+						
+												if($SOLICITUD_ASOCIADA_DIRECTA!=0)
+												{													
+													$data_solicitud_directa_estado = array(
+														'ED02_ESTADO' => $estado
+													);
+											
+											
+													$where_directa_estado['ED02_SOLICITUDID = ?'] = $SOLICITUD_ASOCIADA_DIRECTA;
+												}
+				
+
+												###########BUSCAMOS INCIDENTES ASOCIADOS###################
+												###########BUSCAMOS INCIDENTES ASOCIADOS###################
+												###########BUSCAMOS INCIDENTES ASOCIADOS###################
+												
+
+												$sSQL="SELECT ED03_TICKETID FROM e_desk.ED13_TICKET_ASISTENCIA_TECNICA WHERE ED05_ASISTENCIAID='$asistenciaid'";
+												$rowset = $DB->fetchAll($sSQL);
+												$INCIDENTE_ASOCIADO=0;
+												foreach($rowset as $row_datosQuery)
+												{
+													if(trim($row_datosQuery["ED03_TICKETID"])!="")
+													{
+														$INCIDENTE_ASOCIADO=$row_datosQuery["ED03_TICKETID"];
+													}								
+												}
+				
+				
+												if($INCIDENTE_ASOCIADO!=0)
+												{													
+													$data_incidente_asociado_estado = array(
+														'ED03_ESTADO' => $estado
+													);
+											
+													$where_incidente_asociado_estado['ED03_TICKETID = ?'] = $INCIDENTE_ASOCIADO;
+												}
+		
+				
+				
+												###########FIN BUSCAMOS INCIDENTES ASOCIADOS###################
+												###########FIN BUSCAMOS INCIDENTES ASOCIADOS###################
+												###########FIN BUSCAMOS INCIDENTES ASOCIADOS###################
+															
+				
+				
+											
+												$SOLICITUD_ASOCIADA=0;
+												if($INCIDENTE_ASOCIADO!=0)
+												{
+														//INICIO INCIDENTE ASOCIADO A SOLICITUD
+														//////////////////////////////////////
+														$sSQL="SELECT ED02_SOLICITUDID FROM e_desk.ED14_SOLICITUD_TICKET WHERE ED03_TICKETID='$INCIDENTE_ASOCIADO' ";
+														$rowset = $DB->fetchAll($sSQL);
+														foreach($rowset as $row_datosQuery)
+														{
+															if(trim($row_datosQuery["ED02_SOLICITUDID"])!="")
+															{
+																$SOLICITUD_ASOCIADA=$row_datosQuery["ED02_SOLICITUDID"];
+															}								
+														}
+								
+														if($SOLICITUD_ASOCIADA!=0)
+														{													
+															$data_solicitud_ticket_estado = array(
+																'ED02_ESTADO' => $estado
+															);
+													
+													
+															$where_estado['ED02_SOLICITUDID = ?'] = $SOLICITUD_ASOCIADA;
+														}
+																	
+														//FIN INCIDENTE ASOCIADO A SOLICITUD
+														//////////////////////////////////////
+												}																
+
+
 												try {
 							
 													$DB->getConnection();
@@ -987,12 +1079,31 @@ class AsistenciaController extends Zend_Controller_Action
 													$DB->update('e_desk.ED05_ASISTENCIA_TECNICA', $data, $where);
 													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 													
+
+													if($SOLICITUD_ASOCIADA!=0 && $estado!="PENDIENTE")
+													{													
+														$DB->update('e_desk.ED02_SOLICITUD', $data_solicitud_ticket_estado, $where_estado);
+													}	
+
+													if($SOLICITUD_ASOCIADA_DIRECTA!=0 && $estado!="PENDIENTE")
+													{													
+														$DB->update('e_desk.ED02_SOLICITUD', $data_solicitud_directa_estado, $where_directa_estado);
+													}	
+
+
+													if($INCIDENTE_ASOCIADO!=0 && $estado!="PENDIENTE")
+													{													
+														$DB->update('e_desk.ED03_TICKET', $data_incidente_asociado_estado, $where_incidente_asociado_estado);
+													}	
+
+
 													$DB->commit();
 													
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -1112,7 +1223,8 @@ class AsistenciaController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -1175,7 +1287,8 @@ class AsistenciaController extends Zend_Controller_Action
 
 						} catch (Zend_Exception $e) {
 
-							echo $e->getMessage();
+							//echo $e->getMessage();
+							echo "KO|Se ha producido un error..";
 
 						}
 		
@@ -1209,6 +1322,49 @@ class AsistenciaController extends Zend_Controller_Action
 								$CONTADOR_INI=(($lapagina*15)+1)-15;
 								$CONTADOR_FIN=($lapagina*15);
 						}
+			
+			
+			
+					//INICIO ASISTENCIAS ASOCIADAS A SOLICITUD
+					//////////////////////////////////////////
+					
+					$sSQL="SELECT ED02_SOLICITUDID,ED05_ASISTENCIAID FROM e_desk.ED16_SOLICITUD_ASISTENCIA";
+					$rowset = $DB->fetchAll($sSQL);
+					$SOLICITUD_ASOCIADA_DIRECTA=0;
+					foreach($rowset as $row_datosQuery)
+					{
+						if(trim($row_datosQuery["ED05_ASISTENCIAID"])!="")
+						{
+							$IDENTIFICA=$row_datosQuery["ED05_ASISTENCIAID"];
+							$matriz_match_solicitud_asistencia[$IDENTIFICA]=$row_datosQuery["ED02_SOLICITUDID"];
+						}								
+					}
+					
+					//FIN ASISTENCIAS ASOCIADAS A SOLICITUD
+					//////////////////////////////////////////
+					
+					//INICIO INCIDENTES ASOCIADAS A ASISTENCIAS
+					//////////////////////////////////////////
+					
+					$sSQL="SELECT ED03_TICKETID,ED05_ASISTENCIAID FROM e_desk.ED13_TICKET_ASISTENCIA_TECNICA";
+					$rowset = $DB->fetchAll($sSQL);
+					foreach($rowset as $row_datosQuery)
+					{
+						if(trim($row_datosQuery["ED05_ASISTENCIAID"])!="")
+						{
+							$IDENTIFICA=$row_datosQuery["ED05_ASISTENCIAID"];
+							$matriz_match_asistencia_incidente[$IDENTIFICA]=$row_datosQuery["ED03_TICKETID"];
+						}								
+					}
+
+
+					//FIN INCIDENTES ASOCIADAS A SOLICITUD
+					//////////////////////////////////////////
+					
+				
+			
+			
+			
 			
 						
 
@@ -1286,6 +1442,18 @@ class AsistenciaController extends Zend_Controller_Action
 										$datosasistencias["$ID"]["ED05_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED05_TIPOARCHIVOADJUNTO"];
 										$datosasistencias["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
 										
+										$datosasistencias["$ID"]["TEXTO_ASOCIADOS"]="";
+				
+										if(isset($matriz_match_solicitud_asistencia[$ID]))
+											$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>- Asociada a solicitud  : <strong>".$matriz_match_solicitud_asistencia[$ID]."</strong>";
+										
+										if(isset($matriz_match_asistencia_incidente[$ID]))
+											$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>- Asociada a  incidente  : <strong>".$matriz_match_asistencia_incidente[$ID]."</strong>";
+										
+				
+								
+								
+								
 								
 								}						
 							}								

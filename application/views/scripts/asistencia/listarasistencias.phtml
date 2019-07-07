@@ -63,7 +63,7 @@
 						
 		<div class="panel-footer">
 			<div class="input-group">
-				<input type="text" name="busqueda" id="busqueda" class="form-control" value="<?php echo $busqueda?>" placeholder="" data-toggle="tooltip" title="Puedes buscar por : RBD / NUM ASISTENCIA / ESTADO (PEN - DER - RES)" />
+				<input type="text" name="busqueda" id="busqueda" class="form-control" value="<?php echo $busqueda?>" placeholder="" data-toggle="tooltip" title="Puedes buscar por : RBD / NUM ASISTENCIA / ESTADO (PEN - DER - RES - MEJ - GES)" />
 				<span class="input-group-btn">
 					<button class="btn btn-success" type="button" id="realizar_busqueda_asistencias">BUSCAR</button>
 				</span>
@@ -129,18 +129,26 @@
 																								<li><a href="#" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED05_ASISTENCIAID"]?>">Detalle</a></li>
 																								<?php
 																								}
-																								if(isset($acceso_funcionalidades[3]) && trim($acceso_funcionalidades[3])=="1")
-																								{																								
-																								?>	
-																								<li><a href="#" onclick="carga_editar('<?php echo $valor["ED05_ASISTENCIAID"]?>')">Editar</a></li>
-																								<?php
+
+																								if($valor["ED05_ESTADO"]=="PENDIENTE" || $valor["ED05_ESTADO"]=="GESTIONADO")
+																								{ 
+																										if(isset($acceso_funcionalidades[3]) && trim($acceso_funcionalidades[3])=="1")
+																										{																								
+																										?>	
+																										<li><a href="#" onclick="carga_editar('<?php echo $valor["ED05_ASISTENCIAID"]?>')">Editar</a></li>
+																										<?php
+																										}
+																								
 																								}
-																								if(isset($acceso_funcionalidades[4]) && trim($acceso_funcionalidades[4])=="1")
-																								{																								
-																								?>	
-																								<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED05_ASISTENCIAID"]?>')">Eliminar</a></li>
-																								<?php
-																								}
+																								if($valor["ED05_ESTADO"]=="PENDIENTE")
+																								{ 
+																										if(isset($acceso_funcionalidades[4]) && trim($acceso_funcionalidades[4])=="1")
+																										{																								
+																										?>	
+																										<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED05_ASISTENCIAID"]?>')">Eliminar</a></li>
+																										<?php
+																										}
+																								}		
 																								?>
 																								<li class="divider"></li>
 																								<?php
@@ -162,7 +170,7 @@
 																								
 																														<div class="modal-header">
 																															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-																															<h4 class="modal-title" id="myModalLabel">Asistencia n&uacute;mero : <?php echo $valor["ED05_ASISTENCIAID"]?></h4>
+																															<h4 class="modal-title" id="myModalLabel"><strong>ASISTENCIA NUMERO : <?php echo $valor["ED05_ASISTENCIAID"]?></strong><?php echo $valor["TEXTO_ASOCIADOS"]?></h4>
 																														</div>
 																														<div class="modal-body">
 																					

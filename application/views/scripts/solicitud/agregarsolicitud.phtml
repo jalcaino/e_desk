@@ -118,7 +118,8 @@
 								data: form_data,                         
 								type: 'post',
 								beforeSend: function () {
-															$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando solicitud..</h4></div>");
+															$("#divNotificaciones").html("<div class='panel panel-primary'><div class='panel-heading'>Procesando solicitud..</div></div>");
+
 														},
 		
 								success:  function (response) { 
@@ -128,14 +129,17 @@
 									
 											if(res[0]=='OK')
 											{
-													$("#divNotificaciones").html("<div class='panel-body'><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
+													$("#divNotificaciones").html("<div class='panel panel-success'><div class='panel-heading'>Datos almacenados correctamente</div></div>");
+
 													$('#volver_bot').focus();
 													//limpia formulario
 													$('#oForm').trigger("reset");
+													$("#detalle").val("");
 											
 											}else{
 												
-													$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
+													$("#divNotificaciones").html("<div class='panel panel-primary'><div class='panel-heading'>"+res[1]+"</div></div>");
+
 												
 											}
 										
@@ -156,18 +160,18 @@
 					 <div class="col-md-6 col-sm-6 col-xs-12">
 											
 						   <div id="divNotificaciones">
-							    <div class='panel-body'>
-									<a href="/Solicitud"><button type="button" class="btn btn-danger">Volver</button></a>
-                           		</div>
 						   </div>	
 				
 				
-							<div class="panel panel-danger">
+							<div class="panel panel-default">
 				
 									<div class="panel-heading">
-                                       <strong>INGRESO SOLICITUD</strong>
-                                    </div>
-                                    <div class="panel-body">
+                                        <button type="button" class="btn btn btn-default">INGRESO SOLICITUD</button>
+										<a href="/Solicitud"><button type="button" class="btn btn btn-danger" id="volver_bot">VOLVER</button></a>
+							        </div>
+                    			
+								
+								    <div class="panel-body">
 				
 				                            <form role="form" id="oForm" name="oForm" enctype="multipart/form-data">
 												 

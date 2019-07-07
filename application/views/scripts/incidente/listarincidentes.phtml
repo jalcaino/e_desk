@@ -63,7 +63,7 @@
 						
 		<div class="panel-footer">
 			<div class="input-group">
-				<input type="text" name="busqueda" id="busqueda" class="form-control" value="<?php echo $busqueda?>" placeholder="" data-toggle="tooltip" title="Puedes buscar por : RBD / NUM INCIDENTE / ESTADO (PEN - DER - RES)" />
+				<input type="text" name="busqueda" id="busqueda" class="form-control" value="<?php echo $busqueda?>" placeholder="" data-toggle="tooltip" title="Puedes buscar por : RBD / NUM INCIDENTE / ESTADO (PEN - DER - RES - MEJ - GES)" />
 				<span class="input-group-btn">
 					<button class="btn btn-success" type="button" id="realizar_busqueda_incidentes">BUSCAR</button>
 				</span>
@@ -130,7 +130,7 @@
 																								<?php
 																								}
 																							
-																								if($valor["ED03_ESTADO"]=="PENDIENTE")
+																								if($valor["ED03_ESTADO"]=="PENDIENTE" || $valor["ED03_ESTADO"]=="GESTIONADO")
 																								{ 
 																											if(isset($acceso_funcionalidades[3]) && trim($acceso_funcionalidades[3])=="1")
 																											{																								
@@ -138,6 +138,11 @@
 																											<li><a href="#" onclick="carga_editar('<?php echo $valor["ED03_TICKETID"]?>')">Editar</a></li>
 																											<?php
 																											}
+																							
+																								}
+																								if($valor["ED03_ESTADO"]=="PENDIENTE")
+																								{ 
+																								
 																											if(isset($acceso_funcionalidades[4]) && trim($acceso_funcionalidades[4])=="1")
 																											{																								
 																											?>	
@@ -156,7 +161,6 @@
 																											//Resuelto : cuando está todo ok
 																											//Asistencia / es derivado: cuando se generó asistencia
 																											// hay que poner query aqui para saber si está asociado a auna 
-																											//asistencia, el estado derivado NO EXISTE
 																											
 																											if($valor["ED03_ESTADO"]=="DERIVADO")
 																											{ 
@@ -168,11 +172,10 @@
 																													}
 																											}
 																											
-																											
-																											if(isset($acceso_funcionalidades[6]) && trim($acceso_funcionalidades[6])=="1")
-																											{																								
-																												if($valor["ED03_ESTADO"]!="ASISTENCIA")
-																												{ 
+																											if($valor["ED03_ESTADO"]=="PENDIENTE") 
+																											{ 
+																												if(isset($acceso_funcionalidades[6]) && trim($acceso_funcionalidades[6])=="1")
+																												{																								
 																												?>
 																													<li><a href="#" onclick="accion_generar('<?php echo $valor["ED03_TICKETID"]?>')">Generar Asistencia</a></li>
 																												<?php
@@ -191,7 +194,7 @@
 																								
 																														<div class="modal-header">
 																															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-																															<h4 class="modal-title" id="myModalLabel">Incidente n&uacute;mero : <?php echo $valor["ED03_TICKETID"]?></h4>
+																															<h4 class="modal-title" id="myModalLabel"><strong>INCIDENTE NUMERO : <?php echo $valor["ED03_TICKETID"]?></strong><?php echo $valor["TEXTO_ASOCIADOS"]?></h4>
 																														</div>
 																														<div class="modal-body">
 																					

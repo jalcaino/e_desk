@@ -126,7 +126,8 @@ class UsuarioController extends Zend_Controller_Action
 						
 									} catch (Zend_Exception $e) {
 						
-										echo("KO|".$e->getMessage());
+										//echo("KO|".$e->getMessage());
+										echo "KO|Se ha producido un error..";
 										exit;	
 								
 									}
@@ -207,7 +208,8 @@ class UsuarioController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -430,7 +432,8 @@ class UsuarioController extends Zend_Controller_Action
 								} catch (Zend_Exception $e) {
 			
 									$DB->rollBack();
-									echo("KO|".$e->getMessage());
+									//echo("KO|".$e->getMessage());
+									echo "KO|Se ha producido un error..";
 									exit;	
 								}
 
@@ -476,7 +479,8 @@ class UsuarioController extends Zend_Controller_Action
 
 						} catch (Zend_Exception $e) {
 
-							echo $e->getMessage();
+							//echo $e->getMessage();
+							echo "KO|Se ha producido un error..";
 
 						}
 		
@@ -599,6 +603,9 @@ class UsuarioController extends Zend_Controller_Action
 						
 						if(isset($CONTADOR_USUARIOS_FIN))
 								Zend_Layout::getMvcInstance()->assign('usuario_fin',$CONTADOR_USUARIOS_FIN);
+						
+						
+						Zend_Layout::getMvcInstance()->assign('USUARIOACTUAL',$edesk_session->USUARIOID);
 						
 						
 												

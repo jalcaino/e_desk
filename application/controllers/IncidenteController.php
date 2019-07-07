@@ -345,7 +345,8 @@ class IncidenteController extends Zend_Controller_Action
 									
 												} catch (Zend_Exception $e) {
 									
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 											
 												}
@@ -448,7 +449,8 @@ class IncidenteController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -599,12 +601,6 @@ class IncidenteController extends Zend_Controller_Action
 
 
 								
-													//hay que consultar por solicitudes asociadas
-													//relación
-													//y hacer insert
-								
-								
-								
 													$DB->commit();
 							
 													echo("OK|");
@@ -613,7 +609,8 @@ class IncidenteController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -1006,7 +1003,8 @@ class IncidenteController extends Zend_Controller_Action
 									
 												} catch (Zend_Exception $e) {
 									
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 											
 												}
@@ -1134,6 +1132,35 @@ class IncidenteController extends Zend_Controller_Action
 													'ED08_MASINFO' => 'NUM:'.$incidenteid
 												);
 		
+															
+												
+												
+												//INICIO INCIDENTE ASOCIADO A SOLICITUD
+												//////////////////////////////////////
+												$sSQL="SELECT ED02_SOLICITUDID FROM e_desk.ED14_SOLICITUD_TICKET WHERE ED03_TICKETID='$incidenteid' ";
+												$rowset = $DB->fetchAll($sSQL);
+												$SOLICITUD_ASOCIADA=0;
+												foreach($rowset as $row_datosQuery)
+												{
+													if(trim($row_datosQuery["ED02_SOLICITUDID"])!="")
+													{
+														$SOLICITUD_ASOCIADA=$row_datosQuery["ED02_SOLICITUDID"];
+													}								
+												}
+						
+												if($SOLICITUD_ASOCIADA!=0)
+												{													
+													$data_solicitud_ticket_estado = array(
+														'ED02_ESTADO' => $estado
+													);
+											
+											
+													$where_estado['ED02_SOLICITUDID = ?'] = $SOLICITUD_ASOCIADA;
+												}
+															
+												//FIN INCIDENTE ASOCIADO A SOLICITUD
+												//////////////////////////////////////
+															
 																				
 
 												try {
@@ -1143,12 +1170,20 @@ class IncidenteController extends Zend_Controller_Action
 													$DB->update('e_desk.ED03_TICKET', $data, $where);
 													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 													
+													if($SOLICITUD_ASOCIADA!=0 && $estado!="PENDIENTE")
+													{													
+														$DB->update('e_desk.ED02_SOLICITUD', $data_solicitud_ticket_estado, $where_estado);
+													}	
+											
+											
+											
 													$DB->commit();
 													
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -1254,10 +1289,7 @@ class IncidenteController extends Zend_Controller_Action
 													{
 														$DB->insert('e_desk.ED07_USUARIO_TICKET',$data_usuario2);
 													}
-													//hay que consultar por solicitudes asociadas
-													//relación
-													//y hacer insert
-								
+													
 								
 															
 													$DB->commit();
@@ -1268,7 +1300,8 @@ class IncidenteController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -1332,7 +1365,8 @@ class IncidenteController extends Zend_Controller_Action
 
 						} catch (Zend_Exception $e) {
 
-							echo $e->getMessage();
+							//echo $e->getMessage();
+							echo "KO|Se ha producido un error..";
 
 						}
 		
@@ -1367,8 +1401,49 @@ class IncidenteController extends Zend_Controller_Action
 								$CONTADOR_FIN=($lapagina*15);
 						}
 			
-						
+			
+			
+			
+					//INICIO INCIDENTES ASOCIADAS A SOLICITUD
+					//////////////////////////////////////////
+					
+					$sSQL="SELECT ED02_SOLICITUDID,ED03_TICKETID FROM e_desk.ED14_SOLICITUD_TICKET";
+					$rowset = $DB->fetchAll($sSQL);
+					foreach($rowset as $row_datosQuery)
+					{
+						if(trim($row_datosQuery["ED03_TICKETID"])!="")
+						{
+							$IDENTIFICA=$row_datosQuery["ED03_TICKETID"];
+							$matriz_match_solicitud_incidente[$IDENTIFICA]=$row_datosQuery["ED02_SOLICITUDID"];
+						}								
+					}
 
+					//FIN INCIDENTES ASOCIADAS A SOLICITUD
+					//////////////////////////////////////////
+					
+				
+
+					//INICIO INCIDENTES ASOCIADAS A ASISTENCIAS
+					//////////////////////////////////////////
+					
+					$sSQL="SELECT ED03_TICKETID,ED05_ASISTENCIAID FROM e_desk.ED13_TICKET_ASISTENCIA_TECNICA";
+					$rowset = $DB->fetchAll($sSQL);
+					foreach($rowset as $row_datosQuery)
+					{
+						if(trim($row_datosQuery["ED03_TICKETID"])!="")
+						{
+							$IDENTIFICA=$row_datosQuery["ED03_TICKETID"];
+							$matriz_match_asistencia_incidente[$IDENTIFICA]=$row_datosQuery["ED05_ASISTENCIAID"];
+						}								
+					}
+
+
+					//FIN INCIDENTES ASOCIADAS A SOLICITUD
+					//////////////////////////////////////////
+
+			
+			
+			
 						$CONTADOR_FILAS=0;
 					
 						//INCIDENTES
@@ -1459,6 +1534,20 @@ class IncidenteController extends Zend_Controller_Action
 										$datossolicitudes["$ID"]["ED03_ESTADO"]=$row_datosQuery["ED03_ESTADO"];
 								
 								
+								
+										$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"]="";
+				
+										if(isset($matriz_match_asistencia_incidente[$ID]))
+											$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>- Asociado a asistencia  : <strong>".$matriz_match_asistencia_incidente[$ID]."</strong>";
+										
+										if(isset($matriz_match_solicitud_incidente[$ID]))
+											$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>- Asociado a solicitud  : <strong>".$matriz_match_solicitud_incidente[$ID]."</strong>";
+								
+								
+								
+			
+			
+								
 								}						
 							}								
 						}
@@ -1495,6 +1584,7 @@ class IncidenteController extends Zend_Controller_Action
 							
 							}								
 						}
+			
 			
 
 

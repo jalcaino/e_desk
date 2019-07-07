@@ -186,7 +186,8 @@ class SolicitudController extends Zend_Controller_Action
 									
 												} catch (Zend_Exception $e) {
 									
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 											
 												}
@@ -284,7 +285,8 @@ class SolicitudController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -382,7 +384,8 @@ class SolicitudController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -617,7 +620,8 @@ class SolicitudController extends Zend_Controller_Action
 									
 												} catch (Zend_Exception $e) {
 									
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 											
 												}
@@ -740,7 +744,8 @@ class SolicitudController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -814,7 +819,8 @@ class SolicitudController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 							
 													$DB->rollBack();
-													echo("KO|".$e->getMessage());
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
 													exit;	
 												}
 
@@ -877,7 +883,8 @@ class SolicitudController extends Zend_Controller_Action
 
 						} catch (Zend_Exception $e) {
 
-							echo $e->getMessage();
+							//echo $e->getMessage();
+							echo "KO|Se ha producido un error..";
 
 						}
 		
@@ -914,6 +921,53 @@ class SolicitudController extends Zend_Controller_Action
 						}
 			
 						
+
+
+					//INICIO ASISTENCIAS ASOCIADAS A SOLICITUD
+					//////////////////////////////////////////
+					
+					$sSQL="SELECT ED02_SOLICITUDID,ED05_ASISTENCIAID FROM e_desk.ED16_SOLICITUD_ASISTENCIA";
+					$rowset = $DB->fetchAll($sSQL);
+					$SOLICITUD_ASOCIADA_DIRECTA=0;
+					foreach($rowset as $row_datosQuery)
+					{
+						if(trim($row_datosQuery["ED02_SOLICITUDID"])!="")
+						{
+							$IDENTIFICA=$row_datosQuery["ED02_SOLICITUDID"];
+							$matriz_match_solicitud_asistencia[$IDENTIFICA]=$row_datosQuery["ED05_ASISTENCIAID"];
+						}								
+					}
+					
+					//FIN ASISTENCIAS ASOCIADAS A SOLICITUD
+					//////////////////////////////////////////
+					
+					//INICIO INCIDENTES ASOCIADAS A SOLICITUD
+					//////////////////////////////////////////
+					
+					$sSQL="SELECT ED02_SOLICITUDID,ED03_TICKETID FROM e_desk.ED14_SOLICITUD_TICKET";
+					$rowset = $DB->fetchAll($sSQL);
+					foreach($rowset as $row_datosQuery)
+					{
+						if(trim($row_datosQuery["ED02_SOLICITUDID"])!="")
+						{
+							$IDENTIFICA=$row_datosQuery["ED02_SOLICITUDID"];
+							$matriz_match_solicitud_incidente[$IDENTIFICA]=$row_datosQuery["ED03_TICKETID"];
+						}								
+					}
+
+					//FIN INCIDENTES ASOCIADAS A SOLICITUD
+					//////////////////////////////////////////
+					
+				
+
+
+
+
+
+
+
+
+
 
 						$CONTADOR_FILAS=0;
 					
@@ -970,13 +1024,20 @@ class SolicitudController extends Zend_Controller_Action
 									$datossolicitudes["$ID"]["FECHAINGRESO"]=$row_datosQuery["FECHAINGRESO"];
 									$datossolicitudes["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
 									$datossolicitudes["$ID"]["ED02_ESTADO"]=$row_datosQuery["ED02_ESTADO"];
+				
+									$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"]="";
+				
+									if(isset($matriz_match_solicitud_asistencia[$ID]))
+										$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>- Gesti&oacute;n en asistencia  : <strong>".$matriz_match_solicitud_asistencia[$ID]."</strong>";
+									
+									if(isset($matriz_match_solicitud_incidente[$ID]))
+										$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>- Gesti&oacute;n en incidente  : <strong>".$matriz_match_solicitud_incidente[$ID]."</strong>";
+									
+				
 							
 								}						
 							}								
 						}
-					
-					
-					
 					
 					
 					
