@@ -28,6 +28,11 @@ class SolicitudController extends Zend_Controller_Action
 						##fin validacion sesion
 						###########################		
 					
+					
+						$busqueda=$this->_request->getParam('busqueda');
+						if(isset($busqueda) && $busqueda!="")
+							Zend_Layout::getMvcInstance()->assign('busqueda',$busqueda);
+			
 	
 	}
 
@@ -315,22 +320,36 @@ class SolicitudController extends Zend_Controller_Action
 												##MAILS A SOPORTE
 												#################################
 												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='".$edesk_session->USUARIOID."') ";
+												$sSQL="SELECT ED01_USUARIOID,ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='".$edesk_session->USUARIOID."') ";
 												$rowset = $DB->fetchAll($sSQL);
+												
 												$email="";																	
-
-												
-												
+												$id_usuarios="";
 												
 												foreach($rowset as $row_datosQuery)
 												{
 													if(trim($row_datosQuery["ED01_EMAIL"])!="")
 													{
 														if($email=="")
-															$email=$row_datosQuery["ED01_EMAIL"];
-														else
-															$email.=",".$row_datosQuery["ED01_EMAIL"];
+																$email=$row_datosQuery["ED01_EMAIL"];
 														
+														else
+																$email.=",".$row_datosQuery["ED01_EMAIL"];
+															
+												
+														if($id_usuarios=="")
+														{
+																//no notifico al que crea la solicitud, sólo mando mail
+																if(trim($row_datosQuery["ED01_USUARIOID"])!=trim($edesk_session->USUARIOID))
+																	$id_usuarios=$row_datosQuery["ED01_USUARIOID"];
+														
+														}else{
+																//no notifico al que crea la solicitud, sólo mando mail
+																if(trim($row_datosQuery["ED01_USUARIOID"])!=trim($edesk_session->USUARIOID))
+																	$id_usuarios.=",".$row_datosQuery["ED01_USUARIOID"];
+															}
+											
+
 													}
 												}	
 											
@@ -368,13 +387,49 @@ class SolicitudController extends Zend_Controller_Action
 												#############################
 
 
+
+												#################################
+												##NOTIFICACION A USUARIO
+												#################################
+
+												$lista_de_usuarios = explode(",",$id_usuarios);
+
+												if(isset($lista_de_usuarios) && count($lista_de_usuarios)>0)
+												{
+													foreach ($lista_de_usuarios as $clave => $valor)
+													{
+													
+														$data_usuario[$valor] = array(
+																  'ED02_SOLICITUDID' => $nueva_solicitud,
+																  'ED01_USUARIOID' => $valor,
+																  'ED17_TIPONOTIFICACION' => '1',
+																  'ED17_LEIDO' => '0',
+																  'ED17_FECHANOTIFICACION' => date("Ymdhis")
+															);
+		
+													}
+												}
+												
+
+
 												try {
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
 													$DB->insert('bd_correos.correos_soporte', $data_email);
 													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
+	
 													
+													//notificaciones a usuarios
+													if(isset($lista_de_usuarios) && count($lista_de_usuarios)>0)
+													{
+														foreach ($lista_de_usuarios as $clave => $valor)
+														{
+															$DB->insert('e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD',$data_usuario[$valor]);
+														}
+													}
+								
+							
 							
 													$DB->commit();
 							
@@ -760,23 +815,65 @@ class SolicitudController extends Zend_Controller_Action
 												##MAILS A SOPORTE
 												#################################
 												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='".$edesk_session->USUARIOID."') ";
+												$sSQL="SELECT ED01_EMAIL,ED01_USUARIOID FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='".$edesk_session->USUARIOID."') ";
 												$rowset = $DB->fetchAll($sSQL);
+												
 												$email="";																	
-
+												$id_usuarios="";
 												
 												foreach($rowset as $row_datosQuery)
 												{
 													if(trim($row_datosQuery["ED01_EMAIL"])!="")
 													{
 														if($email=="")
-															$email=$row_datosQuery["ED01_EMAIL"];
-														else
-															$email.=",".$row_datosQuery["ED01_EMAIL"];
+																$email=$row_datosQuery["ED01_EMAIL"];
 														
+														else
+																$email.=",".$row_datosQuery["ED01_EMAIL"];
+															
+												
+														if($id_usuarios=="")
+														{
+																//no notifico al que crea la solicitud, sólo mando mail
+																if(trim($row_datosQuery["ED01_USUARIOID"])!=trim($edesk_session->USUARIOID))
+																	$id_usuarios=$row_datosQuery["ED01_USUARIOID"];
+														
+														}else{
+																//no notifico al que crea la solicitud, sólo mando mail
+																if(trim($row_datosQuery["ED01_USUARIOID"])!=trim($edesk_session->USUARIOID))
+																	$id_usuarios.=",".$row_datosQuery["ED01_USUARIOID"];
+															}
+											
+
 													}
 												}	
 											
+							
+												#################################
+												##NOTIFICACION A USUARIO
+												#################################
+
+												$lista_de_usuarios = explode(",",$id_usuarios);
+
+												if(isset($lista_de_usuarios) && count($lista_de_usuarios)>0)
+												{
+													foreach ($lista_de_usuarios as $clave => $valor)
+													{
+													
+														$data_usuario[$valor] = array(
+																  'ED02_SOLICITUDID' => $nueva_solicitud,
+																  'ED01_USUARIOID' => $valor,
+																  'ED17_TIPONOTIFICACION' => '1',
+																  'ED17_LEIDO' => '0',
+																  'ED17_FECHANOTIFICACION' => date("Ymdhis")
+															);
+		
+													}
+												}
+												
+							
+							
+							
 							
 							
 												$from="helpdesk@compumat.cl";
@@ -811,6 +908,17 @@ class SolicitudController extends Zend_Controller_Action
 													$DB->beginTransaction();
 													$DB->insert('bd_correos.correos_soporte', $data_email);
 							
+								
+													//notificaciones a usuarios
+													if(isset($lista_de_usuarios) && count($lista_de_usuarios)>0)
+													{
+														foreach ($lista_de_usuarios as $clave => $valor)
+														{
+															$DB->insert('e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD',$data_usuario[$valor]);
+														}
+													}
+								
+								
 													$DB->commit();
 							
 													echo("OK|");
@@ -864,7 +972,6 @@ class SolicitudController extends Zend_Controller_Action
 					
 						$where['ED02_SOLICITUDID = ?'] = $solicitudid;
 			
-			
 						$data_actividad = array(
 									'ED01_USUARIOID' => $edesk_session->USUARIOID,
 									'ED08_ACCION' => 'ELIMINAR SOLICITUD',
@@ -875,10 +982,10 @@ class SolicitudController extends Zend_Controller_Action
 						try {
 
 							$n = $DB->delete("e_desk.ED02_SOLICITUD", $where);
+							$n2 = $DB->delete("e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD", $where);
 							$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
-													
-							//FALTA AQUI LOG DE ACCION
-
+									
+			
 							echo "Solicitud eliminada correctamente...";
 
 						} catch (Zend_Exception $e) {
@@ -911,8 +1018,7 @@ class SolicitudController extends Zend_Controller_Action
 
 						$lapagina=$this->_request->getPost('pagina');
 						$busqueda=$this->_request->getPost('busqueda');
-						
-						
+										
 						if($lapagina!="")
 						{
 								$PAGINA=$lapagina;
@@ -992,10 +1098,12 @@ class SolicitudController extends Zend_Controller_Action
 								LEFT JOIN
 								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID ";
 								
-						
+								
+				
 						if(trim($busqueda)!="")
-								$sSQL.=" WHERE s.ED02_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID like '".$busqueda."' OR s.ED02_SOLICITUDID like '".$busqueda."' ";		
+								$sSQL.=" WHERE s.ED02_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID='".$busqueda."' OR s.ED02_SOLICITUDID='".$busqueda."' ";		
 							
+				
 						$sSQL.=" ORDER BY ED02_SOLICITUDID desc ";
 					
 					

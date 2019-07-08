@@ -126,7 +126,7 @@
 																								if(isset($acceso_funcionalidades[1]) && trim($acceso_funcionalidades[1])=="1")
 																								{																								
 																								?>
-																								<li><a href="#" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED05_ASISTENCIAID"]?>">Detalle</a></li>
+																								<li><a href="#" onclick="graba_lectura_notificaciones('<?php echo $valor["ED05_ASISTENCIAID"]?>');" data-toggle="modal" data-target="#myModal_<?php echo $valor["ED05_ASISTENCIAID"]?>">Detalle</a></li>
 																								<?php
 																								}
 

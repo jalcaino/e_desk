@@ -22,9 +22,18 @@ class AsistenciaController extends Zend_Controller_Action
 							exit;		
 						}
 					
+						
 						###########################		
 						##fin validacion sesion
 						###########################		
+	
+						$busqueda=$this->_request->getParam('busqueda');
+						if(isset($busqueda) && $busqueda!="")
+							Zend_Layout::getMvcInstance()->assign('busqueda',$busqueda);
+			
+					
+	
+	
 	}
 					
     public function agregarasistenciaAction()
@@ -1315,7 +1324,7 @@ class AsistenciaController extends Zend_Controller_Action
 						$lapagina=$this->_request->getPost('pagina');
 						$busqueda=$this->_request->getPost('busqueda');
 						
-						
+					
 						if($lapagina!="")
 						{
 								$PAGINA=$lapagina;
@@ -1394,11 +1403,11 @@ class AsistenciaController extends Zend_Controller_Action
 								LEFT JOIN
 								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID ";
 																
-								
-						
-						if(trim($busqueda)!="")
-								$sSQL.=" WHERE s.ED05_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID like '".$busqueda."' OR s.ED05_ASISTENCIAID like '".$busqueda."' ";		
 							
+						if(trim($busqueda)!="")
+								$sSQL.=" WHERE s.ED05_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID='".$busqueda."' OR s.ED05_ASISTENCIAID='".$busqueda."' ";		
+						
+					
 						$sSQL.=" ORDER BY ED05_ASISTENCIAID desc ";
 					
 						

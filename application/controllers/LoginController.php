@@ -344,9 +344,315 @@ class LoginController extends Zend_Controller_Action
 		public function notificacionAction()
 		{
 						
-						$this->_helper->layout->disableLayout();
-						$session = new Zend_Session_Namespace('edeskses');
+				$config = Zend_Registry::get('config');
+				$DB = Zend_Db_Table::getDefaultAdapter();
+			
+					
+			
+				###########################		
+				##inicio validacion sesion
+				###########################		
+				
+				$edesk_session = new Zend_Session_Namespace('edeskses');
+	
+				if(trim($edesk_session->ID)=="" || trim($edesk_session->USUARIOID)=="" || trim($edesk_session->NIVELID)=="")
+				{
+					header('location:/');
+					exit;		
+				}
+			
+				###########################		
+				##fin validacion sesion
+				###########################		
+				
+				$tipo=$this->_request->getPost('tipo');
+						
+				if($tipo=="0")
+				{
+					$TIPO_DESPLIEGUE=0;	
+					$this->_helper->layout->disableLayout();
+			
+				}elseif($tipo=="3")
+				{
+					$this->_helper->layout->disableLayout();
+			
+			
+					$valores=$this->_request->getPost('valores');
+					$concepto=$this->_request->getPost('concepto');
+				
+					if($concepto=="solicitud")
+					{
+				
+							$sSQL = "SELECT 
+									E.ED02_SOLICITUDID as SEGID
+									FROM 
+									e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD E
+									INNER JOIN
+									e_desk.ED02_SOLICITUD T on E.ED02_SOLICITUDID=T.ED02_SOLICITUDID
+									WHERE
+									E.ED17_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."' and E.ED02_SOLICITUDID='".$valores."'";
+							
+							$rowset = $DB->fetchAll($sSQL);
+				
+							foreach($rowset as $row_datosQuery)
+							{
+									if(trim($row_datosQuery["SEGID"])!="")
+									{
 										
+											$data = array(
+															'ED17_LEIDO' => '1'
+														 );
+				
+											
+											$where['ED01_USUARIOID = ?'] = trim($edesk_session->USUARIOID);
+											$where['ED02_SOLICITUDID = ?'] = trim($row_datosQuery["SEGID"]);
+																
+								
+									   	    $DB->update('e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD', $data, $where);
+									
+									}
+			
+							}
+				
+				
+					
+					}
+				 
+				
+				
+					if($concepto=="asistencia")
+					{
+				
+						$sSQL = "SELECT 
+						E.ED06_SEGASISTENCIAID as SEGID
+						FROM 
+						e_desk.ED12_USUARIO_NOTIFICADO_SEG_ASIS E
+						INNER JOIN
+						e_desk.ED06_SEGUIMIENTO_ASISTENCIA_TECNICA T on E.ED06_SEGASISTENCIAID=T.ED06_SEGASISTENCIAID
+						WHERE
+						E.ED12_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."' and T.ED05_ASISTENCIAID='".$valores."'";
+						
+							
+							$rowset = $DB->fetchAll($sSQL);
+				
+							foreach($rowset as $row_datosQuery)
+							{
+									if(trim($row_datosQuery["SEGID"])!="")
+									{
+										
+											$data = array(
+															'ED12_LEIDO' => '1'
+														 );
+				
+											
+											$where['ED01_USUARIOID = ?'] = trim($edesk_session->USUARIOID);
+											$where['ED06_SEGASISTENCIAID = ?'] = trim($row_datosQuery["SEGID"]);
+																
+								
+									   	    $DB->update('e_desk.ED12_USUARIO_NOTIFICADO_SEG_ASIS', $data, $where);
+									
+									}
+			
+							}
+				
+				
+					
+					}
+				 
+				
+				
+				
+				
+					if($concepto=="incidente")
+					{
+				
+							$sSQL = "SELECT 
+							E.ED04_SEGTICKETID as SEGID
+							FROM 
+							e_desk.ED09_USUARIO_NOTIFICADO_SEG_TICKET E
+							INNER JOIN
+							e_desk.ED04_SEGUIMIENTO_TICKET T on E.ED04_SEGTICKETID=T.ED04_SEGTICKETID
+							WHERE
+							E.ED09_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."' and T.ED03_TICKETID='".$valores."'";
+
+								
+							$rowset = $DB->fetchAll($sSQL);
+				
+							foreach($rowset as $row_datosQuery)
+							{
+									if(trim($row_datosQuery["SEGID"])!="")
+									{
+										
+											$data = array(
+															'ED09_LEIDO' => '1'
+														 );
+				
+											
+											$where['ED01_USUARIOID = ?'] = trim($edesk_session->USUARIOID);
+											$where['ED04_SEGTICKETID = ?'] = trim($row_datosQuery["SEGID"]);
+																
+								
+									   	    $DB->update('e_desk.ED09_USUARIO_NOTIFICADO_SEG_TICKET', $data, $where);
+									
+									}
+			
+							}
+				
+				
+					
+					}
+				 
+				
+				
+					 exit;	
+				}else{
+						$TIPO_DESPLIEGUE=1;	
+					 }	
+						
+				
+		
+				$CONTADOR_NOTIFICACIONES=0;
+		
+				//incidentes
+				////////////////
+				$sSQL = "SELECT 
+						E.ED04_SEGTICKETID as SEGID, 
+						DATE_FORMAT(E.ED09_FECHANOTIFICACION, '%d/%m/%Y') as FECHANOTIFICACION,
+						T.ED03_TICKETID as MAESTROID,
+						T.ED04_SEGCOMENTARIOS as SEGCOMENTARIOS,
+						T.ED01_USUARIOID as USUARIO_ORIGEN,
+						E.ED09_FECHANOTIFICACION as FECHA_TEMS
+						FROM 
+						e_desk.ED09_USUARIO_NOTIFICADO_SEG_TICKET E
+						INNER JOIN
+						e_desk.ED04_SEGUIMIENTO_TICKET T on E.ED04_SEGTICKETID=T.ED04_SEGTICKETID
+						WHERE
+						E.ED09_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."'
+						ORDER BY
+						E.ED09_FECHANOTIFICACION asc";			
+				
+				
+				$rowset = $DB->fetchAll($sSQL);
+	
+				foreach($rowset as $row_datosQuery)
+				{
+						if(trim($row_datosQuery["SEGID"])!="")
+						{
+							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							$matriz_notificacion["$ID"]["SEGID"]=$ID;
+							$matriz_notificacion["$ID"]["TIPO"]="1";
+							$matriz_notificacion["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
+							$matriz_notificacion["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
+							$matriz_notificacion["$ID"]["SEGCOMENTARIOS"]=trim($row_datosQuery["SEGCOMENTARIOS"]);
+							$matriz_notificacion["$ID"]["USUARIO_ORIGEN"]=trim($row_datosQuery["USUARIO_ORIGEN"]);
+							$CONTADOR_NOTIFICACIONES++;
+						}
+
+				}
+		
+		
+				//asistencias
+				////////////////
+				
+		
+				$sSQL = "SELECT 
+						E.ED06_SEGASISTENCIAID as SEGID, 
+						DATE_FORMAT(E.ED12_FECHANOTIFICACION, '%d/%m/%Y') as FECHANOTIFICACION,
+						T.ED05_ASISTENCIAID as MAESTROID,
+						T.ED06_SEGCOMENTARIOS as SEGCOMENTARIOS,
+						T.ED01_USUARIOID as USUARIO_ORIGEN,
+						E.ED12_FECHANOTIFICACION as FECHA_TEMS
+						FROM 
+						e_desk.ED12_USUARIO_NOTIFICADO_SEG_ASIS E
+						INNER JOIN
+						e_desk.ED06_SEGUIMIENTO_ASISTENCIA_TECNICA T on E.ED06_SEGASISTENCIAID=T.ED06_SEGASISTENCIAID
+						WHERE
+						E.ED12_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."'
+						ORDER BY
+						E.ED12_FECHANOTIFICACION asc";			
+				
+				
+				$rowset = $DB->fetchAll($sSQL);
+	
+				foreach($rowset as $row_datosQuery)
+				{
+						if(trim($row_datosQuery["SEGID"])!="")
+						{
+							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							$matriz_notificacion["$ID"]["SEGID"]=$ID;
+							$matriz_notificacion["$ID"]["TIPO"]="2";
+							$matriz_notificacion["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
+							$matriz_notificacion["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
+							$matriz_notificacion["$ID"]["SEGCOMENTARIOS"]=trim($row_datosQuery["SEGCOMENTARIOS"]);
+							$matriz_notificacion["$ID"]["USUARIO_ORIGEN"]=trim($row_datosQuery["USUARIO_ORIGEN"]);
+						
+							$CONTADOR_NOTIFICACIONES++;
+						
+						}
+
+				}
+		
+		
+		
+		
+				//solicitudes
+				////////////////
+				
+				$sSQL = "SELECT 
+						E.ED02_SOLICITUDID as SEGID, 
+						DATE_FORMAT(E.ED17_FECHANOTIFICACION, '%d/%m/%Y') as FECHANOTIFICACION,
+						T.ED02_SOLICITUDID as MAESTROID,
+						T.ED02_DETALLESOLICITUD as SEGCOMENTARIOS,
+						T.ED01_USUARIOID as USUARIO_ORIGEN,
+						E.ED17_FECHANOTIFICACION as FECHA_TEMS
+						FROM 
+						e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD E
+						INNER JOIN
+						e_desk.ED02_SOLICITUD T on E.ED02_SOLICITUDID=T.ED02_SOLICITUDID
+						WHERE
+						E.ED17_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."'
+						ORDER BY
+						E.ED17_FECHANOTIFICACION asc";			
+				
+				
+				$rowset = $DB->fetchAll($sSQL);
+	
+				foreach($rowset as $row_datosQuery)
+				{
+						if(trim($row_datosQuery["SEGID"])!="")
+						{
+							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							$matriz_notificacion_sol["$ID"]["SEGID"]=$ID;
+							$matriz_notificacion_sol["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
+							$matriz_notificacion_sol["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
+							$matriz_notificacion_sol["$ID"]["SEGCOMENTARIOS"]=trim($row_datosQuery["SEGCOMENTARIOS"]);
+							$matriz_notificacion_sol["$ID"]["USUARIO_ORIGEN"]=trim($row_datosQuery["USUARIO_ORIGEN"]);
+						
+							$CONTADOR_NOTIFICACIONES++;
+						
+						}
+
+				}
+				
+				
+			
+				if(isset($matriz_notificacion))
+				{
+					ksort($matriz_notificacion);
+					
+					Zend_Layout::getMvcInstance()->assign('matriz_notificacion',$matriz_notificacion);
+				}					
+			
+				if(isset($matriz_notificacion_sol))
+					Zend_Layout::getMvcInstance()->assign('matriz_notificacion_sol',$matriz_notificacion_sol);
+	
+				
+				
+				Zend_Layout::getMvcInstance()->assign('CONTADOR_NOTIFICACIONES',$CONTADOR_NOTIFICACIONES);
+				
+				Zend_Layout::getMvcInstance()->assign('TIPO_DESPLIEGUE',$TIPO_DESPLIEGUE);
+									
+						
 						
 		}
 

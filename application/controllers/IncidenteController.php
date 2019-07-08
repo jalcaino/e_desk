@@ -25,6 +25,14 @@ class IncidenteController extends Zend_Controller_Action
 						###########################		
 						##fin validacion sesion
 						###########################		
+						
+						
+						$busqueda=$this->_request->getParam('busqueda');
+						if(isset($busqueda) && $busqueda!="")
+							Zend_Layout::getMvcInstance()->assign('busqueda',$busqueda);
+			
+			
+			
 					
     }
 
@@ -1392,8 +1400,7 @@ class IncidenteController extends Zend_Controller_Action
 
 						$lapagina=$this->_request->getPost('pagina');
 						$busqueda=$this->_request->getPost('busqueda');
-						
-						
+										
 						if($lapagina!="")
 						{
 								$PAGINA=$lapagina;
@@ -1480,10 +1487,11 @@ class IncidenteController extends Zend_Controller_Action
 								e_desk.SIS07_CLASIFICADOR c ON s.SIS07_CLASIFICADORID=c.SIS07_CLASIFICADORID ";
 																
 								
-						
 						if(trim($busqueda)!="")
-								$sSQL.=" WHERE s.ED03_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID like '".$busqueda."' OR s.ED03_TICKETID like '".$busqueda."' ";		
-							
+								$sSQL.=" WHERE s.ED03_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID='".$busqueda."' OR s.ED03_TICKETID='".$busqueda."' ";		
+
+					
+									
 						$sSQL.=" ORDER BY ED03_TICKETID desc ";
 					
 						

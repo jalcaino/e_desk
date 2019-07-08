@@ -1,4 +1,36 @@
+<?php
+if(isset($this->layout()->busqueda))
+		$busqueda=$this->layout()->busqueda;
+else	
+		$busqueda="PENDIENTE";
+?>
 <script type="text/javascript">
+ 
+ 
+ 
+	 	function graba_lectura_notificaciones(valores)
+		{
+		
+				var parametros = {
+								 tipo:'3',
+								 concepto:'solicitud',
+								 valores:valores
+								 };
+		
+				$.ajax({
+							data:  parametros,
+							url:   '/Login/notificacion', 
+							type:  'post', 
+							evalscripts : true,
+							success:  function (response) { 
+						
+						
+							}
+						});
+		
+		}					
+
+ 
  
  
  	   function accion_generar(solicitudid,tipo)
@@ -91,7 +123,7 @@
 
 
 		//carga inicial
-		carga_pagina('1','PENDIENTE');
+		carga_pagina('1','<?php echo $busqueda?>');
 </script>
 <div id="formulario">
 		
