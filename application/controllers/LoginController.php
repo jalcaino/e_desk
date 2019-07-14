@@ -39,7 +39,8 @@ class LoginController extends Zend_Controller_Action
 						$this->_helper->layout->disableLayout();
 						$DB = Zend_Db_Table::getDefaultAdapter();
 						$config = Zend_Registry::get('config');
-
+						$functions = new ZendExt_RutinasPhp();
+												
 
 						###########################		
 						##inicio validacion sesion
@@ -346,8 +347,9 @@ class LoginController extends Zend_Controller_Action
 						
 				$config = Zend_Registry::get('config');
 				$DB = Zend_Db_Table::getDefaultAdapter();
-			
-					
+				$functions = new ZendExt_RutinasPhp();
+						
+								
 			
 				###########################		
 				##inicio validacion sesion
@@ -662,7 +664,8 @@ class LoginController extends Zend_Controller_Action
 						$this->_helper->layout->disableLayout();
 						$DB = Zend_Db_Table::getDefaultAdapter();
 				        $config = Zend_Registry::get('config');
-
+						$functions = new ZendExt_RutinasPhp();
+						
 						###########################		
 						##inicio validacion sesion
 						###########################	

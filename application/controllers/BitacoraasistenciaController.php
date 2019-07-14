@@ -37,9 +37,9 @@ class BitacoraasistenciaController extends Zend_Controller_Action
 	
 					
         		$config = Zend_Registry::get('config');
-				
 				$DB = Zend_Db_Table::getDefaultAdapter();
-			
+				$functions = new ZendExt_RutinasPhp();
+				
 			
 				###########################		
 				##inicio validacion sesion

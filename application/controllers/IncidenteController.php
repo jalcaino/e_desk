@@ -42,7 +42,8 @@ class IncidenteController extends Zend_Controller_Action
 				$config = Zend_Registry::get('config');
 				
 				$DB = Zend_Db_Table::getDefaultAdapter();
-			
+				$functions = new ZendExt_RutinasPhp();
+						
 			
 				###########################		
 				##inicio validacion sesion
@@ -442,8 +443,10 @@ class IncidenteController extends Zend_Controller_Action
 												  		'SIS05_CODIGOMODULO' => $modulo,
 												  		'ED03_NUMEJERCICIO' => $num_pregunta,
 												  		'ED03_ESTADO' => $estado,
-												  		'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
-												);
+												  		'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
+														'ED01_USUARIOID' => $edesk_session->USUARIOID,
+												  		'ED03_DERIVADO' => $derivado
+												 );
 												  		
 					
 												try {
@@ -564,21 +567,6 @@ class IncidenteController extends Zend_Controller_Action
 												##ASOCIACION A USUARIO
 												#################################
 								
-												//1 propietario
-												$data_usuario1 = array(
-														'ED03_TICKETID' => $nueva_solicitud,
-														'ED01_USUARIOID' => $edesk_session->USUARIOID,
-														'ED07_TIPOASIGNACION' => '1'
-													);
-								
-												//2 derivado
-												$data_usuario2 = array(
-														'ED03_TICKETID' => $nueva_solicitud,
-														'ED01_USUARIOID' => $derivado,
-														'ED07_TIPOASIGNACION' => '2'
-													);
-																
-
 												$data_actividad = array(
 													'ED01_USUARIOID' => $edesk_session->USUARIOID,
 													'ED08_ACCION' => 'INSERTAR TICKET INCIDENTE',
@@ -591,16 +579,8 @@ class IncidenteController extends Zend_Controller_Action
 													$DB->getConnection();
 													$DB->beginTransaction();
 													$DB->insert('bd_correos.correos_soporte', $data_email);
-													$DB->insert('e_desk.ED07_USUARIO_TICKET',$data_usuario1);
 													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
-														
-																
-													if(trim($derivado)!="")
-													{
-														$DB->insert('e_desk.ED07_USUARIO_TICKET',$data_usuario2);
-													}
-
-
+								
 													if($solicitudid!=0)
 													{
 														$DB->insert('e_desk.ED14_SOLICITUD_TICKET',$data_solicitud_ticket);
@@ -650,6 +630,8 @@ class IncidenteController extends Zend_Controller_Action
 					$this->_helper->layout->disableLayout();
 					$config = Zend_Registry::get('config');
 					$DB = Zend_Db_Table::getDefaultAdapter();
+					$functions = new ZendExt_RutinasPhp();
+						
 					
 					$incidenteid=$this->_request->getPost('incidenteid');
 			
@@ -699,7 +681,8 @@ class IncidenteController extends Zend_Controller_Action
 								s.ED03_NIVELDELPROGRAMA,
 								s.SIS05_CODIGOMODULO,
 								s.ED03_NUMEJERCICIO,
-								s.ED03_ESTADO
+								s.ED03_ESTADO,
+								s.ED03_DERIVADO 
 								FROM 
 								e_desk.ED03_TICKET s
 								LEFT JOIN
@@ -710,9 +693,12 @@ class IncidenteController extends Zend_Controller_Action
 								s.ED03_TICKETID = '$incidenteid' ";
 								
 								
-								
-								
 							$rowset = $DB->fetchAll($sSQL);
+
+
+
+							$USUARIOSELECCIONADO=0;
+		
 
 							foreach($rowset as $row_datosQuery)
 							{
@@ -741,7 +727,7 @@ class IncidenteController extends Zend_Controller_Action
 											$CODIGOMODULO=$row_datosQuery["SIS05_CODIGOMODULO"];
 											$NUMEJERCICIO=$row_datosQuery["ED03_NUMEJERCICIO"];
 											$ESTADO=$row_datosQuery["ED03_ESTADO"];		
-									
+											$USUARIOSELECCIONADO=$row_datosQuery["ED03_DERIVADO"];
 				
 									}
 
@@ -786,33 +772,6 @@ class IncidenteController extends Zend_Controller_Action
 						$datosusuarios["$ID"]["ED01_NOMBREAPELLIDO"]=$row_datosQuery["ED01_NOMBREAPELLIDO"];
 					}								
 				}
-			
-				
-				$USUARIOSELECCIONADO=0;
-
-				$sSQL="SELECT
-						ED01_USUARIOID
-						FROM
-						e_desk.ED07_USUARIO_TICKET
-						WHERE
-						ED07_TIPOASIGNACION=2 and
-						ED03_TICKETID='$incidenteid'
-						order by
-						ED07_FECHAASIGNACION desc
-						limit 0,1";
-					
-				$rowset = $DB->fetchAll($sSQL);
-
-				foreach($rowset as $row_datosQuery)
-				{
-					if(trim($row_datosQuery["ED01_USUARIOID"])!="")
-					{
-						$USUARIOSELECCIONADO=$row_datosQuery["ED01_USUARIOID"];
-					}								
-				}
-			
-			
-					
 			
 			
 			
@@ -1102,7 +1061,8 @@ class IncidenteController extends Zend_Controller_Action
 															'SIS05_CODIGOMODULO' => $modulo,
 															'ED03_NUMEJERCICIO' => $num_pregunta,
 															'ED03_ESTADO' => $estado,
-															'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
+															'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
+															'ED03_DERIVADO' => $derivado
 														);
 												
 			
@@ -1125,7 +1085,8 @@ class IncidenteController extends Zend_Controller_Action
 															'SIS05_CODIGOMODULO' => $modulo,
 															'ED03_NUMEJERCICIO' => $num_pregunta,
 															'ED03_ESTADO' => $estado,
-															'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
+															'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
+															'ED03_DERIVADO' => $derivado
 														);
 													
 												}
@@ -1250,54 +1211,12 @@ class IncidenteController extends Zend_Controller_Action
 												##FIN MAIL CREACION USUARIO
 												#############################
 
-
-												#################################
-												##ASOCIACION A USUARIO
-												#################################
-								
-												$USUARIOSELECCIONADO="XX";
-	
-												$sSQL="SELECT
-														ED01_USUARIOID
-														FROM
-														e_desk.ED07_USUARIO_TICKET
-														WHERE
-														ED07_TIPOASIGNACION=2 and
-														ED03_TICKETID='$incidenteid'
-														order by
-														ED07_FECHAASIGNACION desc
-														limit 0,1";
-													
-												$rowset = $DB->fetchAll($sSQL);
-								
-												foreach($rowset as $row_datosQuery)
-												{
-													if(trim($row_datosQuery["ED01_USUARIOID"])!="")
-													{
-														$USUARIOSELECCIONADO=$row_datosQuery["ED01_USUARIOID"];
-													}								
-												}
-											
-								
-												//2 derivado
-												$data_usuario2 = array(
-														'ED03_TICKETID' => $incidenteid,
-														'ED01_USUARIOID' => $derivado,
-														'ED07_TIPOASIGNACION' => '2'
-													);
-
 												
 												try {
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
 													$DB->insert('bd_correos.correos_soporte', $data_email);
-																
-													if(trim($derivado)!=trim($USUARIOSELECCIONADO))
-													{
-														$DB->insert('e_desk.ED07_USUARIO_TICKET',$data_usuario2);
-													}
-													
 								
 															
 													$DB->commit();
@@ -1341,8 +1260,9 @@ class IncidenteController extends Zend_Controller_Action
     
 						$this->_helper->layout->disableLayout();
 						$config = Zend_Registry::get('config');
-						
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$functions = new ZendExt_RutinasPhp();
+											
 						$edesk_session = new Zend_Session_Namespace('edeskses');
 	
 				
@@ -1361,7 +1281,6 @@ class IncidenteController extends Zend_Controller_Action
 						try {
 
 							$n = $DB->delete("e_desk.ED03_TICKET", $where);
-							$n2 = $DB->delete("e_desk.ED07_USUARIO_TICKET", $where);
 							$n3 = $DB->delete("e_desk.ED14_SOLICITUD_TICKET", $where);
 							$n4 = $DB->delete("e_desk.ED04_SEGUIMIENTO_TICKET", $where);
 							$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
@@ -1389,8 +1308,9 @@ class IncidenteController extends Zend_Controller_Action
 	
 						$this->_helper->layout->disableLayout();
 						$config = Zend_Registry::get('config');
-						
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$functions = new ZendExt_RutinasPhp();
+						
 						$edesk_session = new Zend_Session_Namespace('edeskses');
 					
 					
@@ -1478,7 +1398,8 @@ class IncidenteController extends Zend_Controller_Action
 								s.SIS05_CODIGOMODULO,
 								s.ED03_NUMEJERCICIO,
 								s.ED03_ESTADO,
-								DATE_FORMAT(s.ED03_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION
+								DATE_FORMAT(s.ED03_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION,
+								s.ED03_DERIVADO 
 								FROM 
 								e_desk.ED03_TICKET s
 								LEFT JOIN
@@ -1541,15 +1462,16 @@ class IncidenteController extends Zend_Controller_Action
 										$datossolicitudes["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
 										$datossolicitudes["$ID"]["ED03_ESTADO"]=$row_datosQuery["ED03_ESTADO"];
 								
-								
+										$datos_derivados["$ID"]["ED03_TICKETID"]=$ID;
+										$datos_derivados["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED03_DERIVADO"];
 								
 										$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"]="";
 				
 										if(isset($matriz_match_asistencia_incidente[$ID]))
-											$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>- Asociado a asistencia  : <strong>".$matriz_match_asistencia_incidente[$ID]."</strong>";
+											$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociado a asistencia  : <strong>".$matriz_match_asistencia_incidente[$ID]." ]</strong>";
 										
 										if(isset($matriz_match_solicitud_incidente[$ID]))
-											$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>- Asociado a solicitud  : <strong>".$matriz_match_solicitud_incidente[$ID]."</strong>";
+											$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociado a solicitud  : <strong>".$matriz_match_solicitud_incidente[$ID]." ]</strong>";
 								
 								
 								
@@ -1562,37 +1484,8 @@ class IncidenteController extends Zend_Controller_Action
 					
 
 
-
-						$sSQL="SELECT
-								ED01_USUARIOID,
-								ED03_TICKETID
-								FROM
-								e_desk.ED07_USUARIO_TICKET
-								WHERE
-								ED07_TIPOASIGNACION=2 
-								order by
-								ED07_FECHAASIGNACION desc, 
-								ED03_TICKETID ";
-							
-						$rowset = $DB->fetchAll($sSQL);
-		
-						foreach($rowset as $row_datosQuery)
-						{
-							if(trim($row_datosQuery["ED01_USUARIOID"])!="")
-							{
-							
-								$ID=$row_datosQuery["ED03_TICKETID"];
 								
-								if(!isset($datos_derivados["$ID"]))
-								{
-									$datos_derivados["$ID"]["ED03_TICKETID"]=$row_datosQuery["ED03_TICKETID"];
-									$datos_derivados["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED01_USUARIOID"];
-							
-								}	
-							
-							}								
-						}
-			
+								
 			
 
 
@@ -1680,141 +1573,15 @@ class IncidenteController extends Zend_Controller_Action
 					#############################
 					##INICIO RESCATE PERMISOS
 					#############################
-					
-					//permisos
-					/*
-					1 - ver
-					2 - agregar
-					3 - editar
-					4 - eliminar
-					5 - seguimiento
-					6 - generar incidente/asistencia
-					*/
-				
-					
-						
 					$menu=$config['vectorMenu'];
 					$submenu=$config['vectorSubMenu'];
 					$permisos=$config['vectorPermisos'];
 					$nivelid=trim($edesk_session->NIVELID);
 					$sectorid=trim($edesk_session->SECTORID);
+					$referer=$_SERVER['HTTP_REFERER'];
 				
-					$nivel_compuesto="N".$nivelid."ACC";
-					$sector_compuesto=$sectorid;
-				
-					if(isset($sector_compuesto) && isset($permisos) && isset($permisos[$sector_compuesto]))
-					$arreglo=$permisos[$sector_compuesto];
-					
-					$ACCESOS="";
-				
-					if(isset($arreglo))
-					{
-						foreach($arreglo as $clave => $valor)
-						{
-							if($clave==$nivel_compuesto)
-							{
-								$ACCESOS=$valor;
-							}
-						}
-					}
-					
-					
-					$IDFINAL=0;
-					$parte_link = explode("/",$_SERVER['HTTP_REFERER']);
-					$ELCONTROLLER=trim($parte_link[3]);
-				
-					foreach($menu as $clave => $valor)
-					{
-							$ELLINK="";
-							$ELSUB=0;
-							$ELID=0;
-				
-							foreach($valor as $clave2 => $valor2)
-							{
-								if($clave2=="LINK") $ELLINK=$valor2;
-								if($clave2=="SUB") $ELSUB=$valor2;
-								if($clave2=="ID") $ELID=$valor2;
-							}
-				
-							if($ELSUB==0)
-							{
-							
-								if($ELCONTROLLER==trim(str_replace('/', '',$ELLINK)))
-								{  
-										$IDFINAL=$ELID;
-										break;
-								} 
-							
-							}else{
-										foreach($submenu as $clave3 => $valor3)
-										{
-												$ELLINK2="";
-												$ELPADRE="";
-												$ELID2=0;
-				
-												foreach($valor3 as $clave3 => $valor3)
-												{
-													if($clave3=="LINK") $ELLINK2=$valor3;
-													if($clave3=="PADRE") $ELPADRE=$valor3;
-													if($clave3=="ID") $ELID2=$valor3;
-				
-												}
-									
-												if($ELPADRE==$ELID)
-												{
-													if($ELCONTROLLER==trim(str_replace('/', '',$ELLINK2)))
-													{ 
-														$IDFINAL=$ELID2;
-														break;
-													} 
-												
-												}
-									
-										}				
-												
-								}
-					
-					}	
-				
-					$PERMISOSFINAL=0;
-				
-					$arregloacceso = explode("@@",$ACCESOS);
-					foreach($arregloacceso as $llave => $valores)
-					{
-						$arregloaccesoper = explode("-",$valores);
-						if($arregloaccesoper[0]==$IDFINAL)
-						{
-						   $PERMISOSFINAL=$arregloaccesoper[1];				
-							
-						   $arreglopermisos = explode("#",$PERMISOSFINAL);
-						
-							if(count($arreglopermisos)>1)
-							{
-							
-								for($i=0;$i<count($arreglopermisos);$i++)
-								{
-									$IDENPER=$arreglopermisos[$i];
-									$acceso_funcionalidades[$IDENPER]=1;
-						   		}
-							
-							
-							
-							}else{
-							
-								for($i=1;$i<=$PERMISOSFINAL;$i++)
-								{
-									$acceso_funcionalidades[$i]=1;
-						   		}
-							
-							}
-						 
-						
-							break;
-						
-						}
-					}
-					
-					
+			        $acceso_funcionalidades=$functions->rescate_permisos($menu,$submenu,$permisos,$nivelid,$sectorid,$referer);
+				   
 					if(isset($acceso_funcionalidades))
 						Zend_Layout::getMvcInstance()->assign('acceso_funcionalidades',$acceso_funcionalidades);
 					
@@ -1842,8 +1609,8 @@ class IncidenteController extends Zend_Controller_Action
 				$config = Zend_Registry::get('config');
 				
 				$DB = Zend_Db_Table::getDefaultAdapter();
-			
-			
+				$functions = new ZendExt_RutinasPhp();
+				
 				
 				$tipo=$this->_request->getPost('tipo');
 				$nivel=$this->_request->getPost('nivel');

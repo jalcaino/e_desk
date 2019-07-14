@@ -40,9 +40,9 @@ class AsistenciaController extends Zend_Controller_Action
     {
     
 				$config = Zend_Registry::get('config');
-				
 				$DB = Zend_Db_Table::getDefaultAdapter();
-			
+				$functions = new ZendExt_RutinasPhp();
+				
 			
 			
 				###########################		
@@ -396,7 +396,9 @@ class AsistenciaController extends Zend_Controller_Action
 												  		'ED05_TIPOARCHIVOADJUNTO' => $fileType,
 												  		'ED05_FECHAREALIZARCE' => $calendario_ingles,
 												  		'ED05_ESTADO' => $estado,
-												  		'ED05_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
+												  		'ED05_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
+												  		'ED01_USUARIOID' => $edesk_session->USUARIOID,
+														'ED05_DERIVADO' => $derivado
 												);
 												  		
 					
@@ -541,20 +543,6 @@ class AsistenciaController extends Zend_Controller_Action
 												##ASOCIACION A USUARIO
 												#################################
 								
-												//1 propietario
-												$data_usuario1 = array(
-														'ED05_ASISTENCIAID' => $nueva_solicitud,
-														'ED01_USUARIOID' => $edesk_session->USUARIOID,
-														'ED11_TIPOASIGNACION' => '1'
-													);
-								
-												//2 derivado
-												$data_usuario2 = array(
-														'ED05_ASISTENCIAID' => $nueva_solicitud,
-														'ED01_USUARIOID' => $derivado,
-														'ED11_TIPOASIGNACION' => '2'
-													);
-											
 											
 												$data_actividad = array(
 															'ED01_USUARIOID' => $edesk_session->USUARIOID,
@@ -568,15 +556,9 @@ class AsistenciaController extends Zend_Controller_Action
 													$DB->getConnection();
 													$DB->beginTransaction();
 													$DB->insert('bd_correos.correos_soporte', $data_email);
-													$DB->insert('e_desk.ED11_USUARIO_ASISTENCIA_TECNICA',$data_usuario1);
 													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 													
-																
-													if(trim($derivado)!="")
-													{
-														$DB->insert('e_desk.ED11_USUARIO_ASISTENCIA_TECNICA',$data_usuario2);
-													}
-								
+											
 													if($solicitudid!=0)
 													{
 														$DB->insert('e_desk.ED16_SOLICITUD_ASISTENCIA',$data_solicitud_asistencia);
@@ -633,7 +615,7 @@ class AsistenciaController extends Zend_Controller_Action
 					$this->_helper->layout->disableLayout();
 					$config = Zend_Registry::get('config');
 					$DB = Zend_Db_Table::getDefaultAdapter();
-					
+					$functions = new ZendExt_RutinasPhp();
 					$asistenciaid=$this->_request->getPost('asistenciaid');
 			
 					$LABORATORIOID="";
@@ -670,7 +652,8 @@ class AsistenciaController extends Zend_Controller_Action
 								s.ED05_ARCHIVOADJUNTO,
 								s.ED05_NOMBREARCHIVOADJUNTO,
 								s.ED05_TIPOARCHIVOADJUNTO,
-								DATE_FORMAT(s.ED05_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION
+								DATE_FORMAT(s.ED05_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION,
+								s.ED05_DERIVADO 
 								FROM 
 								e_desk.ED05_ASISTENCIA_TECNICA s
 								LEFT JOIN
@@ -678,9 +661,10 @@ class AsistenciaController extends Zend_Controller_Action
 								WHERE 
 								s.ED05_ASISTENCIAID = '$asistenciaid' ";	
 							
-						
 								
 							$rowset = $DB->fetchAll($sSQL);
+
+							$USUARIOSELECCIONADO=0;
 
 							foreach($rowset as $row_datosQuery)
 							{
@@ -701,6 +685,7 @@ class AsistenciaController extends Zend_Controller_Action
 											$NOMBREARCHIVOADJUNTO=$row_datosQuery["ED05_NOMBREARCHIVOADJUNTO"];
 											$TIPOARCHIVOADJUNTO=$row_datosQuery["ED05_TIPOARCHIVOADJUNTO"];
 											$ESTADO=$row_datosQuery["ED05_ESTADO"];		
+											$USUARIOSELECCIONADO=$row_datosQuery["ED05_DERIVADO"];
 							
 									}
 
@@ -750,33 +735,7 @@ class AsistenciaController extends Zend_Controller_Action
 					}								
 				}
 			
-			
-			
-				
-				
-				$USUARIOSELECCIONADO=0;
-
-				$sSQL="SELECT
-						ED01_USUARIOID
-						FROM
-						e_desk.ED11_USUARIO_ASISTENCIA_TECNICA
-						WHERE
-						ED11_TIPOASIGNACION=2 and
-						ED05_ASISTENCIAID='$asistenciaid'
-						order by
-						ED11_FECHAASIGNACION desc
-						limit 0,1";
-					
-				$rowset = $DB->fetchAll($sSQL);
-
-				foreach($rowset as $row_datosQuery)
-				{
-					if(trim($row_datosQuery["ED01_USUARIOID"])!="")
-					{
-						$USUARIOSELECCIONADO=$row_datosQuery["ED01_USUARIOID"];
-					}								
-				}
-			
+		
 			
 				
 				if(isset($datoscolegio))
@@ -956,7 +915,8 @@ class AsistenciaController extends Zend_Controller_Action
 															'ED05_TIPOARCHIVOADJUNTO' => $fileType,
 															'ED05_FECHAREALIZARCE' => $calendario_ingles,
 															'ED05_ESTADO' => $estado,
-															'ED05_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
+															'ED05_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
+															'ED05_DERIVADO' => $derivado
 														);
 												
 			
@@ -972,7 +932,8 @@ class AsistenciaController extends Zend_Controller_Action
 															'ED05_TIPOCONTACTO' => $tipocontacto,
 															'ED05_FECHAREALIZARCE' => $calendario_ingles,
 															'ED05_ESTADO' => $estado,
-															'ED05_FECHAULTIMAACTUALIZACION' => date("Ymdhis")
+															'ED05_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
+															'ED05_DERIVADO' => $derivado
 														);
 													
 												}
@@ -1170,43 +1131,7 @@ class AsistenciaController extends Zend_Controller_Action
 												#############################
 												##FIN MAIL CREACION USUARIO
 												#############################
-
-
-												#################################
-												##ASOCIACION A USUARIO
-												#################################
-								
-												$USUARIOSELECCIONADO="XX";
-	
-												$sSQL="SELECT
-														ED01_USUARIOID
-														FROM
-														e_desk.ED11_USUARIO_ASISTENCIA_TECNICA
-														WHERE
-														ED11_TIPOASIGNACION=2 and
-														ED05_ASISTENCIAID='$asistenciaid'
-														order by
-														ED11_FECHAASIGNACION desc
-														limit 0,1";
-													
-												$rowset = $DB->fetchAll($sSQL);
-								
-												foreach($rowset as $row_datosQuery)
-												{
-													if(trim($row_datosQuery["ED01_USUARIOID"])!="")
-													{
-														$USUARIOSELECCIONADO=$row_datosQuery["ED01_USUARIOID"];
-													}								
-												}
-											
-								
-												//2 derivado
-												$data_usuario2 = array(
-														'ED05_ASISTENCIAID' => $asistenciaid,
-														'ED01_USUARIOID' => $derivado,
-														'ED11_TIPOASIGNACION' => '2'
-													);
-
+			
 												
 												try {
 							
@@ -1214,14 +1139,7 @@ class AsistenciaController extends Zend_Controller_Action
 													$DB->beginTransaction();
 													$DB->insert('bd_correos.correos_soporte', $data_email);
 																
-													if(trim($derivado)!=trim($USUARIOSELECCIONADO))
-													{
-														$DB->insert('e_desk.ED11_USUARIO_ASISTENCIA_TECNICA',$data_usuario2);
-													}
-													//hay que consultar por solicitudes asociadas
-													//relación
-													//y hacer insert
-								
+											
 								
 															
 													$DB->commit();
@@ -1267,6 +1185,8 @@ class AsistenciaController extends Zend_Controller_Action
 						$config = Zend_Registry::get('config');
 						
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$functions = new ZendExt_RutinasPhp();
+					
 						$edesk_session = new Zend_Session_Namespace('edeskses');
 				
 				
@@ -1285,7 +1205,6 @@ class AsistenciaController extends Zend_Controller_Action
 						try {
 
 							$n = $DB->delete("e_desk.ED05_ASISTENCIA_TECNICA", $where);
-							$n2 = $DB->delete("e_desk.ED11_USUARIO_ASISTENCIA_TECNICA", $where);
 							$n3 = $DB->delete("e_desk.ED13_TICKET_ASISTENCIA_TECNICA", $where);
 							$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 													
@@ -1312,8 +1231,9 @@ class AsistenciaController extends Zend_Controller_Action
 	
 						$this->_helper->layout->disableLayout();
 						$config = Zend_Registry::get('config');
-						
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$functions = new ZendExt_RutinasPhp();
+						
 						$edesk_session = new Zend_Session_Namespace('edeskses');
 					
 					
@@ -1397,7 +1317,8 @@ class AsistenciaController extends Zend_Controller_Action
 								s.ED05_ARCHIVOADJUNTO,
 								s.ED05_NOMBREARCHIVOADJUNTO,
 								s.ED05_TIPOARCHIVOADJUNTO,
-								DATE_FORMAT(s.ED05_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION
+								DATE_FORMAT(s.ED05_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION,
+								s.ED05_DERIVADO
 								FROM 
 								e_desk.ED05_ASISTENCIA_TECNICA s
 								LEFT JOIN
@@ -1451,13 +1372,18 @@ class AsistenciaController extends Zend_Controller_Action
 										$datosasistencias["$ID"]["ED05_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED05_TIPOARCHIVOADJUNTO"];
 										$datosasistencias["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
 										
+							
+										$datos_derivados["$ID"]["ED05_ASISTENCIAID"]=$ID;
+										$datos_derivados["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED05_DERIVADO"];
+															
+							
 										$datosasistencias["$ID"]["TEXTO_ASOCIADOS"]="";
 				
 										if(isset($matriz_match_solicitud_asistencia[$ID]))
-											$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>- Asociada a solicitud  : <strong>".$matriz_match_solicitud_asistencia[$ID]."</strong>";
+											$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociada a solicitud  : <strong>".$matriz_match_solicitud_asistencia[$ID]." ]</strong>";
 										
 										if(isset($matriz_match_asistencia_incidente[$ID]))
-											$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>- Asociada a  incidente  : <strong>".$matriz_match_asistencia_incidente[$ID]."</strong>";
+											$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociada a  incidente  : <strong>".$matriz_match_asistencia_incidente[$ID]." ]</strong>";
 										
 				
 								
@@ -1469,39 +1395,7 @@ class AsistenciaController extends Zend_Controller_Action
 						}
 					
 
-
-						$sSQL="SELECT
-								ED01_USUARIOID,
-								ED05_ASISTENCIAID
-								FROM
-								e_desk.ED11_USUARIO_ASISTENCIA_TECNICA
-								WHERE
-								ED11_TIPOASIGNACION=2 
-								order by
-								ED11_FECHAASIGNACION desc, 
-								ED05_ASISTENCIAID ";
-							
-						$rowset = $DB->fetchAll($sSQL);
-		
-						foreach($rowset as $row_datosQuery)
-						{
-							if(trim($row_datosQuery["ED01_USUARIOID"])!="")
-							{
-							
-								$ID=$row_datosQuery["ED05_ASISTENCIAID"];
-								
-								if(!isset($datos_derivados["$ID"]))
-								{
-									$datos_derivados["$ID"]["ED05_ASISTENCIAID"]=$row_datosQuery["ED05_ASISTENCIAID"];
-									$datos_derivados["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED01_USUARIOID"];
-							
-								}	
-							
-							}								
-						}
-			
-			
-			
+					
 						//INICIO SEGUIMIENTO
 						/////////////////////////////
 						$sSQL="SELECT
@@ -1584,141 +1478,15 @@ class AsistenciaController extends Zend_Controller_Action
 					#############################
 					##INICIO RESCATE PERMISOS
 					#############################
-					
-					//permisos
-					/*
-					1 - ver
-					2 - agregar
-					3 - editar
-					4 - eliminar
-					5 - seguimiento
-					6 - generar incidente/asistencia
-					*/
-				
-					
-						
 					$menu=$config['vectorMenu'];
 					$submenu=$config['vectorSubMenu'];
 					$permisos=$config['vectorPermisos'];
 					$nivelid=trim($edesk_session->NIVELID);
 					$sectorid=trim($edesk_session->SECTORID);
+					$referer=$_SERVER['HTTP_REFERER'];
 				
-					$nivel_compuesto="N".$nivelid."ACC";
-					$sector_compuesto=$sectorid;
-				
-					if(isset($sector_compuesto) && isset($permisos) && isset($permisos[$sector_compuesto]))
-					$arreglo=$permisos[$sector_compuesto];
-					
-					$ACCESOS="";
-				
-					if(isset($arreglo))
-					{
-						foreach($arreglo as $clave => $valor)
-						{
-							if($clave==$nivel_compuesto)
-							{
-								$ACCESOS=$valor;
-							}
-						}
-					}
-					
-					
-					$IDFINAL=0;
-					$parte_link = explode("/",$_SERVER['HTTP_REFERER']);
-					$ELCONTROLLER=trim($parte_link[3]);
-				
-					foreach($menu as $clave => $valor)
-					{
-							$ELLINK="";
-							$ELSUB=0;
-							$ELID=0;
-				
-							foreach($valor as $clave2 => $valor2)
-							{
-								if($clave2=="LINK") $ELLINK=$valor2;
-								if($clave2=="SUB") $ELSUB=$valor2;
-								if($clave2=="ID") $ELID=$valor2;
-							}
-				
-							if($ELSUB==0)
-							{
-							
-								if($ELCONTROLLER==trim(str_replace('/', '',$ELLINK)))
-								{  
-										$IDFINAL=$ELID;
-										break;
-								} 
-							
-							}else{
-										foreach($submenu as $clave3 => $valor3)
-										{
-												$ELLINK2="";
-												$ELPADRE="";
-												$ELID2=0;
-				
-												foreach($valor3 as $clave3 => $valor3)
-												{
-													if($clave3=="LINK") $ELLINK2=$valor3;
-													if($clave3=="PADRE") $ELPADRE=$valor3;
-													if($clave3=="ID") $ELID2=$valor3;
-				
-												}
-									
-												if($ELPADRE==$ELID)
-												{
-													if($ELCONTROLLER==trim(str_replace('/', '',$ELLINK2)))
-													{ 
-														$IDFINAL=$ELID2;
-														break;
-													} 
-												
-												}
-									
-										}				
-												
-								}
-					
-					}	
-				
-					$PERMISOSFINAL=0;
-				
-					$arregloacceso = explode("@@",$ACCESOS);
-					foreach($arregloacceso as $llave => $valores)
-					{
-						$arregloaccesoper = explode("-",$valores);
-						if($arregloaccesoper[0]==$IDFINAL)
-						{
-						   $PERMISOSFINAL=$arregloaccesoper[1];				
-							
-						   $arreglopermisos = explode("#",$PERMISOSFINAL);
-						
-							if(count($arreglopermisos)>1)
-							{
-							
-								for($i=0;$i<count($arreglopermisos);$i++)
-								{
-									$IDENPER=$arreglopermisos[$i];
-									$acceso_funcionalidades[$IDENPER]=1;
-						   		}
-							
-							
-							
-							}else{
-							
-								for($i=1;$i<=$PERMISOSFINAL;$i++)
-								{
-									$acceso_funcionalidades[$i]=1;
-						   		}
-							
-							}
-						 
-						
-							break;
-						
-						}
-					}
-					
-					
+			        $acceso_funcionalidades=$functions->rescate_permisos($menu,$submenu,$permisos,$nivelid,$sectorid,$referer);
+				   
 					if(isset($acceso_funcionalidades))
 						Zend_Layout::getMvcInstance()->assign('acceso_funcionalidades',$acceso_funcionalidades);
 					

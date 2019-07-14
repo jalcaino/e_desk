@@ -34,7 +34,8 @@ class UsuarioController extends Zend_Controller_Action
 						$config = Zend_Registry::get('config');
 						
 						$DB = Zend_Db_Table::getDefaultAdapter();
-					
+						$functions = new ZendExt_RutinasPhp();
+
 					
 					
 						###########################		
@@ -241,7 +242,7 @@ class UsuarioController extends Zend_Controller_Action
 						$this->_helper->layout->disableLayout();
 						$config = Zend_Registry::get('config');
 						$DB = Zend_Db_Table::getDefaultAdapter();
-						
+						$functions = new ZendExt_RutinasPhp();
 			
 			
 						$loginusuario=$this->_request->getPost('loginusuario');
@@ -457,6 +458,8 @@ class UsuarioController extends Zend_Controller_Action
 						$config = Zend_Registry::get('config');
 						
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$functions = new ZendExt_RutinasPhp();
+						
 						$edesk_session = new Zend_Session_Namespace('edeskses');
 			
 						$loginusuario=$this->_request->getPost('loginusuario');
@@ -494,8 +497,10 @@ class UsuarioController extends Zend_Controller_Action
 						
 						$this->_helper->layout->disableLayout();
 						$config = Zend_Registry::get('config');
-						
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$functions = new ZendExt_RutinasPhp();
+
+					
 						$edesk_session = new Zend_Session_Namespace('edeskses');
 					
 						$CONTADOR_USUARIOS_INI=1;
@@ -612,141 +617,15 @@ class UsuarioController extends Zend_Controller_Action
 					#############################
 					##INICIO RESCATE PERMISOS
 					#############################
-					
-					//permisos
-					/*
-					1 - ver
-					2 - agregar
-					3 - editar
-					4 - eliminar
-					5 - seguimiento
-					6 - generar incidente/asistencia
-					*/
-				
-					
-						
 					$menu=$config['vectorMenu'];
 					$submenu=$config['vectorSubMenu'];
 					$permisos=$config['vectorPermisos'];
 					$nivelid=trim($edesk_session->NIVELID);
 					$sectorid=trim($edesk_session->SECTORID);
+					$referer=$_SERVER['HTTP_REFERER'];
 				
-					$nivel_compuesto="N".$nivelid."ACC";
-					$sector_compuesto=$sectorid;
-				
-					if(isset($sector_compuesto) && isset($permisos) && isset($permisos[$sector_compuesto]))
-					$arreglo=$permisos[$sector_compuesto];
-					
-					$ACCESOS="";
-				
-					if(isset($arreglo))
-					{
-						foreach($arreglo as $clave => $valor)
-						{
-							if($clave==$nivel_compuesto)
-							{
-								$ACCESOS=$valor;
-							}
-						}
-					}
-					
-					
-					$IDFINAL=0;
-					$parte_link = explode("/",$_SERVER['HTTP_REFERER']);
-					$ELCONTROLLER=trim($parte_link[3]);
-				
-					foreach($menu as $clave => $valor)
-					{
-							$ELLINK="";
-							$ELSUB=0;
-							$ELID=0;
-				
-							foreach($valor as $clave2 => $valor2)
-							{
-								if($clave2=="LINK") $ELLINK=$valor2;
-								if($clave2=="SUB") $ELSUB=$valor2;
-								if($clave2=="ID") $ELID=$valor2;
-							}
-				
-							if($ELSUB==0)
-							{
-							
-								if($ELCONTROLLER==trim(str_replace('/', '',$ELLINK)))
-								{  
-										$IDFINAL=$ELID;
-										break;
-								} 
-							
-							}else{
-										foreach($submenu as $clave3 => $valor3)
-										{
-												$ELLINK2="";
-												$ELPADRE="";
-												$ELID2=0;
-				
-												foreach($valor3 as $clave3 => $valor3)
-												{
-													if($clave3=="LINK") $ELLINK2=$valor3;
-													if($clave3=="PADRE") $ELPADRE=$valor3;
-													if($clave3=="ID") $ELID2=$valor3;
-				
-												}
-									
-												if($ELPADRE==$ELID)
-												{
-													if($ELCONTROLLER==trim(str_replace('/', '',$ELLINK2)))
-													{ 
-														$IDFINAL=$ELID2;
-														break;
-													} 
-												
-												}
-									
-										}				
-												
-								}
-					
-					}	
-				
-					$PERMISOSFINAL=0;
-				
-					$arregloacceso = explode("@@",$ACCESOS);
-					foreach($arregloacceso as $llave => $valores)
-					{
-						$arregloaccesoper = explode("-",$valores);
-						if($arregloaccesoper[0]==$IDFINAL)
-						{
-						   $PERMISOSFINAL=$arregloaccesoper[1];				
-							
-						   $arreglopermisos = explode("#",$PERMISOSFINAL);
-						
-							if(count($arreglopermisos)>1)
-							{
-							
-								for($i=0;$i<count($arreglopermisos);$i++)
-								{
-									$IDENPER=$arreglopermisos[$i];
-									$acceso_funcionalidades[$IDENPER]=1;
-						   		}
-							
-							
-							
-							}else{
-							
-								for($i=1;$i<=$PERMISOSFINAL;$i++)
-								{
-									$acceso_funcionalidades[$i]=1;
-						   		}
-							
-							}
-						 
-						
-							break;
-						
-						}
-					}
-					
-					
+			        $acceso_funcionalidades=$functions->rescate_permisos($menu,$submenu,$permisos,$nivelid,$sectorid,$referer);
+				   
 					if(isset($acceso_funcionalidades))
 						Zend_Layout::getMvcInstance()->assign('acceso_funcionalidades',$acceso_funcionalidades);
 					
@@ -772,8 +651,9 @@ class UsuarioController extends Zend_Controller_Action
 				$this->_helper->layout->disableLayout();
 				
 				$config = Zend_Registry::get('config');
-				
 				$DB = Zend_Db_Table::getDefaultAdapter();
+				$functions = new ZendExt_RutinasPhp();
+
 			
 				$tipo=$this->_request->getPost('tipo');
 				$nivel=$this->_request->getPost('nivel');
