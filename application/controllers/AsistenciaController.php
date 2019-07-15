@@ -39,8 +39,8 @@ class AsistenciaController extends Zend_Controller_Action
     public function agregarasistenciaAction()
     {
     
-				$config = Zend_Registry::get('config');
 				$DB = Zend_Db_Table::getDefaultAdapter();
+				$config = Zend_Registry::get('config');
 				$functions = new ZendExt_RutinasPhp();
 				
 			
@@ -241,18 +241,18 @@ class AsistenciaController extends Zend_Controller_Action
     {
     
 	
-					$uploads = '/var/www/html/edesk/public/archivos_upload';
-					$uploads_public = '/archivos_upload';
-					$separador = '/';
-				   
-
-    
 					$this->_helper->layout->disableLayout();
 					$DB = Zend_Db_Table::getDefaultAdapter();
-				
-		
+					$config = Zend_Registry::get('config');
+					$functions = new ZendExt_RutinasPhp();
 					$edesk_session = new Zend_Session_Namespace('edeskses');
-	
+					
+					
+					
+					$uploads = $config['ruta_path'];
+					$uploads_public = $config['ruta_carpeta'];
+					$separador = '/';
+
 	
 					$solicitudid=$this->_request->getParam('solicitudid');
 					if(!isset($solicitudid) || $solicitudid=="")
@@ -435,62 +435,7 @@ class AsistenciaController extends Zend_Controller_Action
 												}	
 																
 
-												#############################
-												##MAIL CREACION SOLICITUD
-												#############################
-							
-												#################################
-												##MAILS A SOPORTE
-												#################################
 												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID=2 or ED01_USUARIOID='$derivado' or ED01_USUARIOID='".$edesk_session->USUARIOID."')";
-												$rowset = $DB->fetchAll($sSQL);
-												$email="";																	
-
-												
-												foreach($rowset as $row_datosQuery)
-												{
-													if(trim($row_datosQuery["ED01_EMAIL"])!="")
-													{
-														if($email=="")
-															$email=$row_datosQuery["ED01_EMAIL"];
-														else
-															$email.=",".$row_datosQuery["ED01_EMAIL"];
-														
-													}
-												}	
-											
-							
-							
-												$from="helpdesk@compumat.cl";
-												$to=$email;
-												$subject="INTERNO - CREACION DE ASISTENCIA E-DESK";
-												$body="<u>Estimado Usuario</u><br><br>
-													   Con fecha de hoy ".date("d/m/Y")." se ha generado el asistencia numero : <strong>$nueva_solicitud</strong> <br><br>
-													   por el usuario E-DESK Login : ($edesk_session->USUARIOID) <br><br>
-													   Atte.<br>Equipo Compumat.";
-												
-							
-												$data_email = array(
-														'origen' => $from,
-														'destinatarios' => $to,
-														'f_ingreso' => date("Ymdhis"),
-														'app_origen' => 'E-DESK',
-														'encabezado' => $subject,
-														'contenido' => $body,
-														'estado_correo' => '0'
-													);
-								
-					
-												#############################
-												##FIN MAIL CREACION USUARIO
-												#############################
-
-
-												######################################
-												##INICIO ASOCIACION ASISTENCIA SOLICITUD
-												######################################
-
 												if($solicitudid!=0)
 												{
 													$data_solicitud_asistencia = array(
@@ -538,12 +483,7 @@ class AsistenciaController extends Zend_Controller_Action
 												######################################
 
 
-
-												#################################
-												##ASOCIACION A USUARIO
-												#################################
-								
-											
+				
 												$data_actividad = array(
 															'ED01_USUARIOID' => $edesk_session->USUARIOID,
 															'ED08_ACCION' => 'AGREGAR ASISTENCIA',
@@ -555,7 +495,6 @@ class AsistenciaController extends Zend_Controller_Action
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
-													$DB->insert('bd_correos.correos_soporte', $data_email);
 													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 													
 											
@@ -576,6 +515,113 @@ class AsistenciaController extends Zend_Controller_Action
 								
 													$DB->commit();
 							
+													
+												} catch (Zend_Exception $e) {
+							
+													$DB->rollBack();
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
+													exit;	
+												}
+
+
+
+
+
+												#################################
+												##INICIO NOTIFICACIONES
+												#################################
+											
+												$email="";
+												
+												$destinadatarios=$functions->notificaciones_asistencias_seg($nueva_solicitud,$edesk_session->USUARIOID,$edesk_session->EMAIL);	
+												if($destinadatarios!="0")
+												{
+													
+														if(isset($destinadatarios[0]))
+														{
+															foreach($destinadatarios[0] as $clave => $valor)
+															{
+																$MAILS_A_NOTIFICAR["$valor"]=$valor;
+																if($email=="")
+																	$email=$valor;
+																else
+																	$email.=",".$valor;
+															}
+														}
+					
+					
+														if(isset($destinadatarios[1]))
+														{
+															foreach($destinadatarios[1] as $clave => $valor)
+															{
+																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																$data_usuario[$valor] = array(
+																	   'ED01_USUARIOID' => $valor,
+																	   'ED05_ASISTENCIAID' => $nueva_solicitud,
+																	   'ED11_TIPONOTIFICACION' => '1',
+																	   'ED11_LEIDO' => '0',
+																	   'ED11_FECHANOTIFICACION' => date("Ymdhis")
+																	);
+
+															}
+														}
+					
+					
+												}
+
+												#################################
+												##FIN NOTIFICACIONES
+												#################################
+							
+
+											
+							
+							
+												#################################
+												##ENVIO DE EMAILS
+												#################################
+												if($email!="")
+												{
+													$subject="INTERNO - CREACION DE ASISTENCIA E-DESK";
+													$body="<u>Estimado Usuario</u><br><br>
+														   Con fecha de hoy ".date("d/m/Y")." se ha generado el asistencia numero : <strong>$nueva_solicitud</strong> <br><br>
+														   por el usuario E-DESK Login : ($edesk_session->USUARIOID) <br><br>
+														   Atte.<br>Equipo Compumat.";
+													
+								
+													$RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+												}							
+								
+
+												######################################
+												##INICIO ASOCIACION ASISTENCIA SOLICITUD
+												######################################
+
+
+
+												try {
+							
+													$DB->getConnection();
+													$DB->beginTransaction();
+
+
+													//INICIO NOTIFICACIONES USUARIO
+													/////////////////////////////////
+													if(isset($USUARIOS_A_NOTIFICAR) && count($USUARIOS_A_NOTIFICAR)>0)
+													{
+														foreach($USUARIOS_A_NOTIFICAR as $clave => $valor)
+														{
+															$DB->insert('e_desk.ED11_USUARIO_NOTIFICADO_ASISTENCIA',$data_usuario[$valor]);
+														}
+													}												
+													//FIN NOTIFICACIONES USUARIO
+													/////////////////////////////////
+												
+
+
+													$DB->commit();
+							
 													echo("OK|");
 													exit;
 													
@@ -586,6 +632,12 @@ class AsistenciaController extends Zend_Controller_Action
 													echo "KO|Se ha producido un error..";
 													exit;	
 												}
+
+
+
+
+
+
 
 
 
@@ -613,9 +665,10 @@ class AsistenciaController extends Zend_Controller_Action
     {
     
 					$this->_helper->layout->disableLayout();
-					$config = Zend_Registry::get('config');
 					$DB = Zend_Db_Table::getDefaultAdapter();
+					$config = Zend_Registry::get('config');
 					$functions = new ZendExt_RutinasPhp();
+				
 					$asistenciaid=$this->_request->getPost('asistenciaid');
 			
 					$LABORATORIOID="";
@@ -770,15 +823,17 @@ class AsistenciaController extends Zend_Controller_Action
     {
     
 
-					$uploads = '/var/www/html/edesk/public/archivos_upload';
-					$uploads_public = '/archivos_upload';
-					$separador = '/';
-    
+
 					$this->_helper->layout->disableLayout();
 					$DB = Zend_Db_Table::getDefaultAdapter();
-
-		
+					$config = Zend_Registry::get('config');
+					$functions = new ZendExt_RutinasPhp();
 					$edesk_session = new Zend_Session_Namespace('edeskses');
+					$uploads = $config['ruta_path'];
+					$uploads_public = $config['ruta_carpeta'];
+					$separador = '/';
+
+
 	
 					$asistenciaid=$this->_request->getPost('asistenciaid');
 					$colegio=$this->_request->getPost('colegio');
@@ -1078,37 +1133,59 @@ class AsistenciaController extends Zend_Controller_Action
 												}
 
 
-																
 
-												#############################
-												##MAIL CREACION SOLICITUD
-												#############################
-							
 												#################################
-												##MAILS A SOPORTE
+												##INICIO NOTIFICACIONES
 												#################################
-												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID=2 or ED01_USUARIOID='$derivado' or ED01_USUARIOID='".$edesk_session->USUARIOID."')";
-												$rowset = $DB->fetchAll($sSQL);
-												$email="";																	
-
-												
-												foreach($rowset as $row_datosQuery)
-												{
-													if(trim($row_datosQuery["ED01_EMAIL"])!="")
-													{
-														if($email=="")
-															$email=$row_datosQuery["ED01_EMAIL"];
-														else
-															$email.=",".$row_datosQuery["ED01_EMAIL"];
-														
-													}
-												}	
 											
+												$email="";
+												
+												$destinadatarios=$functions->notificaciones_asistencias_seg($asistenciaid,$edesk_session->USUARIOID,$edesk_session->EMAIL);	
+												if($destinadatarios!="0")
+												{
+													
+														if(isset($destinadatarios[0]))
+														{
+															foreach($destinadatarios[0] as $clave => $valor)
+															{
+																$MAILS_A_NOTIFICAR["$valor"]=$valor;
+																if($email=="")
+																	$email=$valor;
+																else
+																	$email.=",".$valor;
+															}
+														}
+					
+					
+														if(isset($destinadatarios[1]))
+														{
+															foreach($destinadatarios[1] as $clave => $valor)
+															{
+																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																$data_usuario[$valor] = array(
+																	   'ED01_USUARIOID' => $valor,
+																	   'ED05_ASISTENCIAID' => $asistenciaid,
+																	   'ED11_TIPONOTIFICACION' => '1',
+																	   'ED11_LEIDO' => '0',
+																	   'ED11_FECHANOTIFICACION' => date("Ymdhis")
+																	);
+
+															}
+														}
+					
+					
+												}
+
+												#################################
+												##FIN NOTIFICACIONES
+												#################################
+																				
 							
-							
-												$from="helpdesk@compumat.cl";
-												$to=$email;
+												#################################
+												##ENVIO DE EMAILS
+												#################################
+												if($email!="")
+												{
 												$subject="INTERNO - ACTUALIZACION DE ASISTENCIA E-DESK";
 												$body="<u>Estimado Usuario</u><br><br>
 													   Con fecha de hoy ".date("d/m/Y")." se ha actualizado el asistencia numero : <strong>$asistenciaid</strong> <br><br>
@@ -1116,32 +1193,30 @@ class AsistenciaController extends Zend_Controller_Action
 													   Atte.<br>Equipo Compumat.";
 												
 							
-												$data_email = array(
-														'origen' => $from,
-														'destinatarios' => $to,
-														'f_ingreso' => date("Ymdhis"),
-														'app_origen' => 'E-DESK',
-														'encabezado' => $subject,
-														'contenido' => $body,
-														'estado_correo' => '0'
-													);
+													$RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+												}							
 								
-					
-					
-												#############################
-												##FIN MAIL CREACION USUARIO
-												#############################
-			
-												
+							
 												try {
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
-													$DB->insert('bd_correos.correos_soporte', $data_email);
-																
-											
-								
-															
+
+
+													//INICIO NOTIFICACIONES USUARIO
+													/////////////////////////////////
+													if(isset($USUARIOS_A_NOTIFICAR) && count($USUARIOS_A_NOTIFICAR)>0)
+													{
+														foreach($USUARIOS_A_NOTIFICAR as $clave => $valor)
+														{
+															$DB->insert('e_desk.ED11_USUARIO_NOTIFICADO_ASISTENCIA',$data_usuario[$valor]);
+														}
+													}												
+													//FIN NOTIFICACIONES USUARIO
+													/////////////////////////////////
+												
+
+
 													$DB->commit();
 							
 													echo("OK|");
@@ -1182,11 +1257,10 @@ class AsistenciaController extends Zend_Controller_Action
     {
     
 						$this->_helper->layout->disableLayout();
-						$config = Zend_Registry::get('config');
-						
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$config = Zend_Registry::get('config');
 						$functions = new ZendExt_RutinasPhp();
-					
+						
 						$edesk_session = new Zend_Session_Namespace('edeskses');
 				
 				
@@ -1206,6 +1280,7 @@ class AsistenciaController extends Zend_Controller_Action
 
 							$n = $DB->delete("e_desk.ED05_ASISTENCIA_TECNICA", $where);
 							$n3 = $DB->delete("e_desk.ED13_TICKET_ASISTENCIA_TECNICA", $where);
+							$n5 = $DB->delete("e_desk.ED11_USUARIO_NOTIFICADO_ASISTENCIA", $where);
 							$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 													
 							

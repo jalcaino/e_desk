@@ -39,11 +39,10 @@ class IncidenteController extends Zend_Controller_Action
     public function agregarincidenteAction()
     {
     
-				$config = Zend_Registry::get('config');
-				
 				$DB = Zend_Db_Table::getDefaultAdapter();
+				$config = Zend_Registry::get('config');
 				$functions = new ZendExt_RutinasPhp();
-						
+							
 			
 				###########################		
 				##inicio validacion sesion
@@ -109,19 +108,6 @@ class IncidenteController extends Zend_Controller_Action
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-								
 				//COLEGIOS
 				////////////////////////////
 				$sSQL="SELECT
@@ -144,24 +130,6 @@ class IncidenteController extends Zend_Controller_Action
 						$datoscolegio["$ID"]["SIS03_LABORATORIODESCRIPCION"]=$row_datosQuery["SIS03_LABORATORIODESCRIPCION"];
 					}								
 				}
-			
-			
-				//USUARIOS
-				////////////////////////////
-				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and SIS02_NIVELID not in (1,3,5)";
-				$rowset = $DB->fetchAll($sSQL);
-
-				foreach($rowset as $row_datosQuery)
-				{
-					if(trim($row_datosQuery["ED01_USUARIOID"])!="")
-					{
-						$ID=$row_datosQuery["ED01_USUARIOID"];
-						$datosusuarios["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED01_USUARIOID"];
-						$datosusuarios["$ID"]["ED01_NOMBREAPELLIDO"]=$row_datosQuery["ED01_NOMBREAPELLIDO"];
-					}								
-				}
-			
-			
 			
 			
 			
@@ -234,6 +202,35 @@ class IncidenteController extends Zend_Controller_Action
 				}
 			
 					
+				
+				//SECTOR
+				////////////////////////////
+				$sSQL="SELECT
+						SIS01_SECTORID,
+						SIS01_SECTORDESCRIPCION
+						FROM
+						e_desk.SIS01_SECTOR";
+			
+			
+				$rowset = $DB->fetchAll($sSQL);
+
+				foreach($rowset as $row_datosQuery)
+				{
+					if(trim($row_datosQuery["SIS01_SECTORID"])!="")
+					{
+						$ID=$row_datosQuery["SIS01_SECTORID"];
+						$datossector["$ID"]["SIS01_SECTORID"]=$row_datosQuery["SIS01_SECTORID"];
+						$datossector["$ID"]["SIS01_SECTORDESCRIPCION"]=$row_datosQuery["SIS01_SECTORDESCRIPCION"];
+					}								
+				}
+						
+				
+					
+				if(isset($datossector))
+					Zend_Layout::getMvcInstance()->assign('datossector',$datossector);
+					
+					
+					
 			
 				if(isset($datosproducto))
 					Zend_Layout::getMvcInstance()->assign('datosproducto',$datosproducto);
@@ -251,9 +248,6 @@ class IncidenteController extends Zend_Controller_Action
 					Zend_Layout::getMvcInstance()->assign('datosmodulos',$datosmodulos);
 		
 	
-				if(isset($datosusuarios))
-						Zend_Layout::getMvcInstance()->assign('datosusuarios',$datosusuarios);
-		
 	
 	
 				if($solicitudid!=0)
@@ -276,18 +270,15 @@ class IncidenteController extends Zend_Controller_Action
     {
     
 	
-					$uploads = '/var/www/html/edesk/public/archivos_upload';
-					$uploads_public = '/archivos_upload';
-					$separador = '/';
-				   
-
-    
 					$this->_helper->layout->disableLayout();
 					$DB = Zend_Db_Table::getDefaultAdapter();
-
-		
+					$config = Zend_Registry::get('config');
+					$functions = new ZendExt_RutinasPhp();
 					$edesk_session = new Zend_Session_Namespace('edeskses');
-	
+				
+					$uploads = $config['ruta_path'];
+					$uploads_public = $config['ruta_carpeta'];
+					$separador = '/';
 	
 	
 					$solicitudid=$this->_request->getParam('solicitudid');
@@ -314,6 +305,7 @@ class IncidenteController extends Zend_Controller_Action
 					$nivel=$this->_request->getPost('nivel');
 					$estado=$this->_request->getPost('estado');
 					$derivado=$this->_request->getPost('derivado');
+					$sector=$this->_request->getPost('sector');
 					$archivo=$this->_request->getPost('archivo');
 					$accion=$this->_request->getPost('accion');
 			
@@ -445,7 +437,9 @@ class IncidenteController extends Zend_Controller_Action
 												  		'ED03_ESTADO' => $estado,
 												  		'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
 														'ED01_USUARIOID' => $edesk_session->USUARIOID,
-												  		'ED03_DERIVADO' => $derivado
+												  		'ED03_DERIVADO' => $derivado,
+														'SIS01_SECTORID' => $sector
+														
 												 );
 												  		
 					
@@ -481,59 +475,6 @@ class IncidenteController extends Zend_Controller_Action
 													}
 												}	
 																
-
-												#############################
-												##MAIL CREACION SOLICITUD
-												#############################
-							
-												#################################
-												##MAILS A SOPORTE
-												#################################
-												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='$derivado' or ED01_USUARIOID='".$edesk_session->USUARIOID."')";
-												$rowset = $DB->fetchAll($sSQL);
-												$email="";																	
-
-												
-												foreach($rowset as $row_datosQuery)
-												{
-													if(trim($row_datosQuery["ED01_EMAIL"])!="")
-													{
-														if($email=="")
-															$email=$row_datosQuery["ED01_EMAIL"];
-														else
-															$email.=",".$row_datosQuery["ED01_EMAIL"];
-														
-													}
-												}	
-											
-							
-							
-												$from="helpdesk@compumat.cl";
-												$to=$email;
-												$subject="INTERNO - CREACION DE INCIDENTE E-DESK";
-												$body="<u>Estimado Usuario</u><br><br>
-													   Con fecha de hoy ".date("d/m/Y")." se ha generado el incidente numero : <strong>$nueva_solicitud</strong> <br><br>
-													   por el usuario E-DESK Login : ($edesk_session->USUARIOID) <br><br>
-													   Atte.<br>Equipo Compumat.";
-												
-							
-												$data_email = array(
-														'origen' => $from,
-														'destinatarios' => $to,
-														'f_ingreso' => date("Ymdhis"),
-														'app_origen' => 'E-DESK',
-														'encabezado' => $subject,
-														'contenido' => $body,
-														'estado_correo' => '0'
-													);
-								
-					
-												#############################
-												##FIN MAIL CREACION USUARIO
-												#############################
-
-
 
 												######################################
 												##INICIO ASOCIACION INCIDENTE SOLICITUD
@@ -578,7 +519,6 @@ class IncidenteController extends Zend_Controller_Action
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
-													$DB->insert('bd_correos.correos_soporte', $data_email);
 													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 								
 													if($solicitudid!=0)
@@ -587,8 +527,113 @@ class IncidenteController extends Zend_Controller_Action
 														$DB->update('e_desk.ED02_SOLICITUD', $data_solicitud_ticket_estado, $where_estado);
 													}	
 
+													$DB->commit();
+													
+												} catch (Zend_Exception $e) {
+							
+													$DB->rollBack();
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..";
+													exit;	
+												}
 
+
+
+
+
+												#################################
+												##INICIO NOTIFICACIONES
+												#################################
+											
+												$email="";
+												
+												$destinadatarios=$functions->notificaciones_incidentes_seg($nueva_solicitud,$edesk_session->USUARIOID,$edesk_session->EMAIL);	
+												if($destinadatarios!="0")
+												{
+													
+														if(isset($destinadatarios[0]))
+														{
+															foreach($destinadatarios[0] as $clave => $valor)
+															{
+																$MAILS_A_NOTIFICAR["$valor"]=$valor;
+																if($email=="")
+																	$email=$valor;
+																else
+																	$email.=",".$valor;
+															}
+														}
+					
+					
+														if(isset($destinadatarios[1]))
+														{
+															foreach($destinadatarios[1] as $clave => $valor)
+															{
+																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																$data_usuario[$valor] = array(
+																		  'ED01_USUARIOID' => $valor,
+																		  'ED03_TICKETID' => $nueva_solicitud,
+																		  'ED10_TIPONOTIFICACION' => '1',
+																		  'ED10_LEIDO' => '0',
+																		  'ED10_FECHANOTIFICACION' => date("Ymdhis")
+																	);
+
+															}
+														}
+					
+					
+					
+					
+												}
+
+												#################################
+												##FIN NOTIFICACIONES
+												#################################
+							
+
+												
+							
+							
+												#################################
+												##ENVIO DE EMAILS
+												#################################
+												if($email!="")
+												{
+												$subject="INTERNO - CREACION DE INCIDENTE E-DESK";
+												$body="<u>Estimado Usuario</u><br><br>
+													   Con fecha de hoy ".date("d/m/Y")." se ha generado el incidente numero : <strong>$nueva_solicitud</strong> <br><br>
+													   por el usuario E-DESK Login : ($edesk_session->USUARIOID) <br><br>
+													   Atte.<br>Equipo Compumat.";
+												
+							
+												
+													$RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+												}							
 								
+					
+												#############################
+												##FIN MAIL CREACION USUARIO
+												#############################
+
+
+												try {
+							
+													$DB->getConnection();
+													$DB->beginTransaction();
+
+
+													//INICIO NOTIFICACIONES USUARIO
+													/////////////////////////////////
+													if(isset($USUARIOS_A_NOTIFICAR) && count($USUARIOS_A_NOTIFICAR)>0)
+													{
+														foreach($USUARIOS_A_NOTIFICAR as $clave => $valor)
+														{
+															$DB->insert('e_desk.ED10_USUARIO_NOTIFICADO_TICKET',$data_usuario[$valor]);
+														}
+													}												
+													//FIN NOTIFICACIONES USUARIO
+													/////////////////////////////////
+
+
 													$DB->commit();
 							
 													echo("OK|");
@@ -628,10 +673,9 @@ class IncidenteController extends Zend_Controller_Action
     {
     
 					$this->_helper->layout->disableLayout();
-					$config = Zend_Registry::get('config');
 					$DB = Zend_Db_Table::getDefaultAdapter();
+					$config = Zend_Registry::get('config');
 					$functions = new ZendExt_RutinasPhp();
-						
 					
 					$incidenteid=$this->_request->getPost('incidenteid');
 			
@@ -682,7 +726,8 @@ class IncidenteController extends Zend_Controller_Action
 								s.SIS05_CODIGOMODULO,
 								s.ED03_NUMEJERCICIO,
 								s.ED03_ESTADO,
-								s.ED03_DERIVADO 
+								s.ED03_DERIVADO,
+								s.SIS01_SECTORID 
 								FROM 
 								e_desk.ED03_TICKET s
 								LEFT JOIN
@@ -728,6 +773,7 @@ class IncidenteController extends Zend_Controller_Action
 											$NUMEJERCICIO=$row_datosQuery["ED03_NUMEJERCICIO"];
 											$ESTADO=$row_datosQuery["ED03_ESTADO"];		
 											$USUARIOSELECCIONADO=$row_datosQuery["ED03_DERIVADO"];
+											$SECTOR=$row_datosQuery["SIS01_SECTORID"];
 				
 									}
 
@@ -756,24 +802,6 @@ class IncidenteController extends Zend_Controller_Action
 						$datoscolegio["$ID"]["SIS03_LABORATORIODESCRIPCION"]=$row_datosQuery["SIS03_LABORATORIODESCRIPCION"];
 					}								
 				}
-			
-			
-				//USUARIOS
-				////////////////////////////
-				$sSQL="SELECT ED01_USUARIOID,ED01_NOMBREAPELLIDO FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and SIS02_NIVELID not in (1,3,5)";
-				$rowset = $DB->fetchAll($sSQL);
-
-				foreach($rowset as $row_datosQuery)
-				{
-					if(trim($row_datosQuery["ED01_USUARIOID"])!="")
-					{
-						$ID=$row_datosQuery["ED01_USUARIOID"];
-						$datosusuarios["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED01_USUARIOID"];
-						$datosusuarios["$ID"]["ED01_NOMBREAPELLIDO"]=$row_datosQuery["ED01_NOMBREAPELLIDO"];
-					}								
-				}
-			
-			
 			
 			
 			
@@ -846,6 +874,35 @@ class IncidenteController extends Zend_Controller_Action
 					}								
 				}
 			
+			
+			
+				//SECTOR
+				////////////////////////////
+				$sSQL="SELECT
+						SIS01_SECTORID,
+						SIS01_SECTORDESCRIPCION
+						FROM
+						e_desk.SIS01_SECTOR";
+			
+			
+				$rowset = $DB->fetchAll($sSQL);
+
+				foreach($rowset as $row_datosQuery)
+				{
+					if(trim($row_datosQuery["SIS01_SECTORID"])!="")
+					{
+						$ID=$row_datosQuery["SIS01_SECTORID"];
+						$datossector["$ID"]["SIS01_SECTORID"]=$row_datosQuery["SIS01_SECTORID"];
+						$datossector["$ID"]["SIS01_SECTORDESCRIPCION"]=$row_datosQuery["SIS01_SECTORDESCRIPCION"];
+					}								
+				}
+						
+				
+					
+				if(isset($datossector))
+					Zend_Layout::getMvcInstance()->assign('datossector',$datossector);
+					
+
 					
 			
 				if(isset($datosproducto))
@@ -864,10 +921,7 @@ class IncidenteController extends Zend_Controller_Action
 					Zend_Layout::getMvcInstance()->assign('datosmodulos',$datosmodulos);
 		
 	
-				if(isset($datosusuarios))
-						Zend_Layout::getMvcInstance()->assign('datosusuarios',$datosusuarios);
-
-		
+			
 		
 				Zend_Layout::getMvcInstance()->assign('INCIDENTEID',$incidenteid);
 				Zend_Layout::getMvcInstance()->assign('LABORATORIOID',$LABORATORIOID);
@@ -881,6 +935,7 @@ class IncidenteController extends Zend_Controller_Action
 				Zend_Layout::getMvcInstance()->assign('DETALLETICKET',$DETALLETICKET);
 				Zend_Layout::getMvcInstance()->assign('TIPOCONTACTO',$TIPOCONTACTO);
 				Zend_Layout::getMvcInstance()->assign('NIVELSOPORTE',$NIVELSOPORTE);
+				Zend_Layout::getMvcInstance()->assign('SECTOR',$SECTOR);
 				Zend_Layout::getMvcInstance()->assign('CLASIFICADORID',$CLASIFICADORID);
 				Zend_Layout::getMvcInstance()->assign('CLASIFICADORDESCRIPCION',$CLASIFICADORDESCRIPCION);
 				Zend_Layout::getMvcInstance()->assign('ARCHIVOADJUNTO',$ARCHIVOADJUNTO);
@@ -901,15 +956,16 @@ class IncidenteController extends Zend_Controller_Action
     {
     
 
-					$uploads = '/var/www/html/edesk/public/archivos_upload';
-					$uploads_public = '/archivos_upload';
-					$separador = '/';
-    
+			
 					$this->_helper->layout->disableLayout();
+				
 					$DB = Zend_Db_Table::getDefaultAdapter();
-
-		
+					$config = Zend_Registry::get('config');
+					$functions = new ZendExt_RutinasPhp();
 					$edesk_session = new Zend_Session_Namespace('edeskses');
+					$uploads = $config['ruta_path'];
+					$uploads_public = $config['ruta_carpeta'];
+					$separador = '/';
 	
 
 					$incidenteid=$this->_request->getPost('incidenteid');
@@ -930,6 +986,7 @@ class IncidenteController extends Zend_Controller_Action
 					$nivel=$this->_request->getPost('nivel');
 					$estado=$this->_request->getPost('estado');
 					$derivado=$this->_request->getPost('derivado');
+					$sector=$this->_request->getPost('sector');
 					$archivo=$this->_request->getPost('archivo');
 					$accion=$this->_request->getPost('accion');
 			
@@ -1062,7 +1119,8 @@ class IncidenteController extends Zend_Controller_Action
 															'ED03_NUMEJERCICIO' => $num_pregunta,
 															'ED03_ESTADO' => $estado,
 															'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
-															'ED03_DERIVADO' => $derivado
+															'ED03_DERIVADO' => $derivado,
+															'SIS01_SECTORID' => $sector
 														);
 												
 			
@@ -1086,7 +1144,8 @@ class IncidenteController extends Zend_Controller_Action
 															'ED03_NUMEJERCICIO' => $num_pregunta,
 															'ED03_ESTADO' => $estado,
 															'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
-															'ED03_DERIVADO' => $derivado
+															'ED03_DERIVADO' => $derivado,
+															'SIS01_SECTORID' => $sector
 														);
 													
 												}
@@ -1158,36 +1217,63 @@ class IncidenteController extends Zend_Controller_Action
 
 
 																
-
-												#############################
-												##MAIL CREACION SOLICITUD
-												#############################
-							
 												#################################
-												##MAILS A SOPORTE
+												##INICIO NOTIFICACIONES
 												#################################
+											
+												$email="";
 												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='$derivado' or ED01_USUARIOID='".$edesk_session->USUARIOID."')";
-												$rowset = $DB->fetchAll($sSQL);
-												$email="";																	
-
-												
-												foreach($rowset as $row_datosQuery)
+												$destinadatarios=$functions->notificaciones_incidentes_seg($incidenteid,$edesk_session->USUARIOID,$edesk_session->EMAIL);	
+												if($destinadatarios!="0")
 												{
-													if(trim($row_datosQuery["ED01_EMAIL"])!="")
-													{
-														if($email=="")
-															$email=$row_datosQuery["ED01_EMAIL"];
-														else
-															$email.=",".$row_datosQuery["ED01_EMAIL"];
-														
-													}
-												}	
+													
+														if(isset($destinadatarios[0]))
+														{
+															foreach($destinadatarios[0] as $clave => $valor)
+															{
+																$MAILS_A_NOTIFICAR["$valor"]=$valor;
+																if($email=="")
+																	$email=$valor;
+																else
+																	$email.=",".$valor;
+															}
+														}
+					
+					
+														if(isset($destinadatarios[1]))
+														{
+															foreach($destinadatarios[1] as $clave => $valor)
+															{
+																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																$data_usuario[$valor] = array(
+																		  'ED01_USUARIOID' => $valor,
+																		  'ED03_TICKETID' => $incidenteid,
+																		  'ED10_TIPONOTIFICACION' => '1',
+																		  'ED10_LEIDO' => '0',
+																		  'ED10_FECHANOTIFICACION' => date("Ymdhis")
+																	);
+
+															}
+														}
+					
+					
+					
+					
+												}
+
+												#################################
+												##FIN NOTIFICACIONES
+												#################################
+							
+
 											
 							
 							
-												$from="helpdesk@compumat.cl";
-												$to=$email;
+												#################################
+												##ENVIO DE EMAILS
+												#################################
+												if($email!="")
+												{
 												$subject="INTERNO - ACTUALIZACION DE INCIDENTE E-DESK";
 												$body="<u>Estimado Usuario</u><br><br>
 													   Con fecha de hoy ".date("d/m/Y")." se ha actualizado el incidente numero : <strong>$incidenteid</strong> <br><br>
@@ -1195,30 +1281,34 @@ class IncidenteController extends Zend_Controller_Action
 													   Atte.<br>Equipo Compumat.";
 												
 							
-												$data_email = array(
-														'origen' => $from,
-														'destinatarios' => $to,
-														'f_ingreso' => date("Ymdhis"),
-														'app_origen' => 'E-DESK',
-														'encabezado' => $subject,
-														'contenido' => $body,
-														'estado_correo' => '0'
-													);
+													$RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+												}							
 								
-					
 					
 												#############################
 												##FIN MAIL CREACION USUARIO
 												#############################
 
-												
+
 												try {
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
-													$DB->insert('bd_correos.correos_soporte', $data_email);
-								
-															
+
+
+													//INICIO NOTIFICACIONES USUARIO
+													/////////////////////////////////
+													if(isset($USUARIOS_A_NOTIFICAR) && count($USUARIOS_A_NOTIFICAR)>0)
+													{
+														foreach($USUARIOS_A_NOTIFICAR as $clave => $valor)
+														{
+															$DB->insert('e_desk.ED10_USUARIO_NOTIFICADO_TICKET',$data_usuario[$valor]);
+														}
+													}												
+													//FIN NOTIFICACIONES USUARIO
+													/////////////////////////////////
+
+
 													$DB->commit();
 							
 													echo("OK|");
@@ -1232,7 +1322,8 @@ class IncidenteController extends Zend_Controller_Action
 													exit;	
 												}
 
-
+											
+											
 
 									}else{
 									
@@ -1259,13 +1350,13 @@ class IncidenteController extends Zend_Controller_Action
     {
     
 						$this->_helper->layout->disableLayout();
-						$config = Zend_Registry::get('config');
+				
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$config = Zend_Registry::get('config');
 						$functions = new ZendExt_RutinasPhp();
-											
+				
 						$edesk_session = new Zend_Session_Namespace('edeskses');
 	
-				
 						$incidenteid=$this->_request->getPost('incidenteid');
 					
 						$where['ED03_TICKETID = ?'] = $incidenteid;
@@ -1283,6 +1374,7 @@ class IncidenteController extends Zend_Controller_Action
 							$n = $DB->delete("e_desk.ED03_TICKET", $where);
 							$n3 = $DB->delete("e_desk.ED14_SOLICITUD_TICKET", $where);
 							$n4 = $DB->delete("e_desk.ED04_SEGUIMIENTO_TICKET", $where);
+							$n5 = $DB->delete("e_desk.ED10_USUARIO_NOTIFICADO_TICKET", $where);
 							$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 													
 							
@@ -1307,8 +1399,9 @@ class IncidenteController extends Zend_Controller_Action
 	
 	
 						$this->_helper->layout->disableLayout();
-						$config = Zend_Registry::get('config');
+	
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$config = Zend_Registry::get('config');
 						$functions = new ZendExt_RutinasPhp();
 						
 						$edesk_session = new Zend_Session_Namespace('edeskses');
@@ -1399,7 +1492,8 @@ class IncidenteController extends Zend_Controller_Action
 								s.ED03_NUMEJERCICIO,
 								s.ED03_ESTADO,
 								DATE_FORMAT(s.ED03_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION,
-								s.ED03_DERIVADO 
+								s.ED03_DERIVADO,
+								s.SIS01_SECTORID 
 								FROM 
 								e_desk.ED03_TICKET s
 								LEFT JOIN
@@ -1461,6 +1555,7 @@ class IncidenteController extends Zend_Controller_Action
 										$datossolicitudes["$ID"]["ED03_NUMEJERCICIO"]=$row_datosQuery["ED03_NUMEJERCICIO"];
 										$datossolicitudes["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
 										$datossolicitudes["$ID"]["ED03_ESTADO"]=$row_datosQuery["ED03_ESTADO"];
+										$datossolicitudes["$ID"]["SECTOR"]=$row_datosQuery["SIS01_SECTORID"];
 								
 										$datos_derivados["$ID"]["ED03_TICKETID"]=$ID;
 										$datos_derivados["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED03_DERIVADO"];
@@ -1473,11 +1568,7 @@ class IncidenteController extends Zend_Controller_Action
 										if(isset($matriz_match_solicitud_incidente[$ID]))
 											$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociado a solicitud  : <strong>".$matriz_match_solicitud_incidente[$ID]." ]</strong>";
 								
-								
-								
-			
-			
-								
+										
 								}						
 							}								
 						}
@@ -1606,9 +1697,8 @@ class IncidenteController extends Zend_Controller_Action
         
 				$this->_helper->layout->disableLayout();
 				
-				$config = Zend_Registry::get('config');
-				
 				$DB = Zend_Db_Table::getDefaultAdapter();
+				$config = Zend_Registry::get('config');
 				$functions = new ZendExt_RutinasPhp();
 				
 				

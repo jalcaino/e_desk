@@ -1,0 +1,26 @@
+<?php
+	
+	if(isset($this->layout()->derivado))
+		$derivado=$this->layout()->derivado;
+	
+	if(isset($this->layout()->datosusuarios))
+		$datosusuarios=$this->layout()->datosusuarios;
+	
+?>
+<div class="form-group">
+	<label>Derivado a : (*)</label>
+	<select class="form-control" id="derivado" name="derivado">
+		<option value="">[SELECCIONE]</option>
+		<?php
+		if(isset($datosusuarios))
+		{
+			foreach($datosusuarios as $clave => $valor)
+			{
+			?>
+				<option value="<?php echo $valor["ED01_USUARIOID"]?>" <?php if($derivado==$valor["ED01_USUARIOID"]) echo "selected";?>><?php echo $valor["ED01_NOMBREAPELLIDO"]?></option>
+			<?
+			}
+		}		
+		?>
+	</select>
+</div>

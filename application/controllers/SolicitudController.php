@@ -40,11 +40,10 @@ class SolicitudController extends Zend_Controller_Action
     public function agregarsolicitudAction()
     {
     
-				$config = Zend_Registry::get('config');
-				
 				$DB = Zend_Db_Table::getDefaultAdapter();
+				$config = Zend_Registry::get('config');
 				$functions = new ZendExt_RutinasPhp();
-			
+				
 					
 			
 				###########################		
@@ -137,19 +136,21 @@ class SolicitudController extends Zend_Controller_Action
     public function agregarsolicitudprocessAction()
     {
 
-
-					$uploads = '/var/www/html/edesk/public/archivos_upload';
-					$uploads_public = '/archivos_upload';
-					$separador = '/';
 				   
 
     
 					$this->_helper->layout->disableLayout();
+				
 					$DB = Zend_Db_Table::getDefaultAdapter();
-
-		
+					$config = Zend_Registry::get('config');
+					$functions = new ZendExt_RutinasPhp();
 					$edesk_session = new Zend_Session_Namespace('edeskses');
-	
+
+					$uploads = $config['ruta_path'];
+					$uploads_public = $config['ruta_carpeta'];
+					$separador = '/';
+
+
 					$colegio=$this->_request->getPost('colegio');
 					$producto=$this->_request->getPost('producto');
 					$calendario=$this->_request->getPost('calendario');
@@ -313,124 +314,114 @@ class SolicitudController extends Zend_Controller_Action
 													}
 												}	
 																
-
-												#############################
-												##MAIL CREACION SOLICITUD
-												#############################
-							
+											
 												#################################
-												##MAILS A SOPORTE
+												##INICIO NOTIFICACIONES
 												#################################
+											
+												$email="";
 												
-												$sSQL="SELECT ED01_USUARIOID,ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='".$edesk_session->USUARIOID."') ";
-												$rowset = $DB->fetchAll($sSQL);
-												
-												$email="";																	
-												$id_usuarios="";
-												
-												foreach($rowset as $row_datosQuery)
+												$destinadatarios=$functions->notificaciones_solicitudes($ELCOLEGIO,$edesk_session->USUARIOID,$edesk_session->EMAIL);	
+												if($destinadatarios!="0")
 												{
-													if(trim($row_datosQuery["ED01_EMAIL"])!="")
-													{
-														if($email=="")
-																$email=$row_datosQuery["ED01_EMAIL"];
-														
-														else
-																$email.=",".$row_datosQuery["ED01_EMAIL"];
-															
-												
-														if($id_usuarios=="")
-														{
-																//no notifico al que crea la solicitud, sólo mando mail
-																if(trim($row_datosQuery["ED01_USUARIOID"])!=trim($edesk_session->USUARIOID))
-																	$id_usuarios=$row_datosQuery["ED01_USUARIOID"];
-														
-														}else{
-																//no notifico al que crea la solicitud, sólo mando mail
-																if(trim($row_datosQuery["ED01_USUARIOID"])!=trim($edesk_session->USUARIOID))
-																	$id_usuarios.=",".$row_datosQuery["ED01_USUARIOID"];
-															}
-											
-
-													}
-												}	
-											
-							
-							
-												$from="helpdesk@compumat.cl";
-												$to=$email;
-												$subject="INTERNO - CREACION DE SOLICITUD E-DESK";
-												$body="<u>Estimado Usuario</u><br><br>
-													   Con fecha de hoy ".date("d/m/Y")." se ha generado la solicitud numero : <strong>$nueva_solicitud</strong> <br><br>
-													   por el usuario E-DESK Login : ($edesk_session->USUARIOID) <br><br>
-													   Atte.<br>Equipo Compumat.";
-												
-							
-												$data_email = array(
-														'origen' => $from,
-														'destinatarios' => $to,
-														'f_ingreso' => date("Ymdhis"),
-														'app_origen' => 'E-DESK',
-														'encabezado' => $subject,
-														'contenido' => $body,
-														'estado_correo' => '0'
-													);
-								
-								
-												$data_actividad = array(
-															'ED01_USUARIOID' => $edesk_session->USUARIOID,
-															'ED08_ACCION' => 'AGREGAR SOLICITUD',
-															'ED08_MASINFO' => 'NUM:'.$nueva_solicitud
-															);
-											
-								
-												#############################
-												##FIN MAIL CREACION USUARIO
-												#############################
-
-
-
-												#################################
-												##NOTIFICACION A USUARIO
-												#################################
-
-												$lista_de_usuarios = explode(",",$id_usuarios);
-
-												if(isset($lista_de_usuarios) && count($lista_de_usuarios)>0)
-												{
-													foreach ($lista_de_usuarios as $clave => $valor)
-													{
 													
-														$data_usuario[$valor] = array(
-																  'ED02_SOLICITUDID' => $nueva_solicitud,
-																  'ED01_USUARIOID' => $valor,
-																  'ED17_TIPONOTIFICACION' => '1',
-																  'ED17_LEIDO' => '0',
-																  'ED17_FECHANOTIFICACION' => date("Ymdhis")
-															);
-		
-													}
-												}
-												
+														if(isset($destinadatarios[0]))
+														{
+															foreach($destinadatarios[0] as $clave => $valor)
+															{
+																$MAILS_A_NOTIFICAR["$valor"]=$valor;
+																if($email=="")
+																	$email=$valor;
+																else
+																	$email.=",".$valor;
+															}
+														}
+					
+					
+														if(isset($destinadatarios[1]))
+														{
+															foreach($destinadatarios[1] as $clave => $valor)
+															{
+																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																$data_usuario[$valor] = array(
+																		  'ED02_SOLICITUDID' => $nueva_solicitud,
+																		  'ED01_USUARIOID' => $valor,
+																		  'ED17_TIPONOTIFICACION' => '1',
+																		  'ED17_LEIDO' => '0',
+																		  'ED17_FECHANOTIFICACION' => date("Ymdhis")
+																	);
 
+															}
+														}
+					
+					
+					
+					
+												}
+
+												#################################
+												##FIN NOTIFICACIONES
+												#################################
+										
+
+												#################################
+												##REGISTRO_ACTIVIDAD_USUARIO
+												#################################
+
+										
+												$data_actividad = array(
+																'ED01_USUARIOID' => $edesk_session->USUARIOID,
+																'ED08_ACCION' => 'AGREGAR SOLICITUD',
+																'ED08_MASINFO' => 'NUM:'.$nueva_solicitud
+																);
+
+
+
+												#################################
+												##ENVIO DE EMAILS
+												#################################
+												if($email!="")
+												{
+													$subject="INTERNO - CREACION DE SOLICITUD E-DESK";
+													$body="<u>Estimado Usuario</u><br><br>
+														   Con fecha de hoy ".date("d/m/Y")." se ha generado la solicitud numero : <strong>$nueva_solicitud</strong> <br><br>
+														   por el usuario E-DESK Login : ($edesk_session->USUARIOID) <br><br>
+														   Atte.<br>Equipo Compumat.";
+													
+								
+													$RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+												}							
+								
+
+
+
+															
 
 												try {
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
-													$DB->insert('bd_correos.correos_soporte', $data_email);
+												
+												
+													//USUARIO ACTIVIDAD
+													/////////////////////////////
+												
 													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 	
 													
-													//notificaciones a usuarios
-													if(isset($lista_de_usuarios) && count($lista_de_usuarios)>0)
+													//INICIO NOTIFICACIONES USUARIO
+													/////////////////////////////////
+													if(isset($USUARIOS_A_NOTIFICAR) && count($USUARIOS_A_NOTIFICAR)>0)
 													{
-														foreach ($lista_de_usuarios as $clave => $valor)
+														foreach($USUARIOS_A_NOTIFICAR as $clave => $valor)
 														{
 															$DB->insert('e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD',$data_usuario[$valor]);
 														}
-													}
-								
+													}												
+													//FIN NOTIFICACIONES USUARIO
+													/////////////////////////////////
+													
+							
 							
 							
 													$DB->commit();
@@ -474,10 +465,11 @@ class SolicitudController extends Zend_Controller_Action
     
 						
 					$this->_helper->layout->disableLayout();
-					$config = Zend_Registry::get('config');
-					$DB = Zend_Db_Table::getDefaultAdapter();
-					$functions = new ZendExt_RutinasPhp();
 
+					$DB = Zend_Db_Table::getDefaultAdapter();
+					$config = Zend_Registry::get('config');
+					$functions = new ZendExt_RutinasPhp();
+				
 					
 					$solicitudid=$this->_request->getPost('solicitudid');
 			
@@ -621,18 +613,18 @@ class SolicitudController extends Zend_Controller_Action
     {
     			
 		
-					$uploads = '/var/www/html/edesk/public/archivos_upload';
-					$uploads_public = '/archivos_upload';
-					$separador = '/';
-				   
-
     
 					$this->_helper->layout->disableLayout();
 					$DB = Zend_Db_Table::getDefaultAdapter();
-
-		
+					$config = Zend_Registry::get('config');
+					$functions = new ZendExt_RutinasPhp();
+					
 					$edesk_session = new Zend_Session_Namespace('edeskses');
-	
+					
+					$uploads = $config['ruta_path'];
+					$uploads_public = $config['ruta_carpeta'];
+					$separador = '/';
+
 
 					$solicitudid=$this->_request->getPost('solicitudid');
 					$colegio=$this->_request->getPost('colegio');
@@ -808,98 +800,72 @@ class SolicitudController extends Zend_Controller_Action
 													exit;	
 												}
 
-
-																
-
-												#############################
-												##MAIL CREACION SOLICITUD
-												#############################
-							
+												
 												#################################
-												##MAILS A SOPORTE
+												##INICIO NOTIFICACIONES
 												#################################
-												
-												$sSQL="SELECT ED01_EMAIL,ED01_USUARIOID FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='".$edesk_session->USUARIOID."') ";
-												$rowset = $DB->fetchAll($sSQL);
-												
-												$email="";																	
-												$id_usuarios="";
-												
-												foreach($rowset as $row_datosQuery)
-												{
-													if(trim($row_datosQuery["ED01_EMAIL"])!="")
-													{
-														if($email=="")
-																$email=$row_datosQuery["ED01_EMAIL"];
-														
-														else
-																$email.=",".$row_datosQuery["ED01_EMAIL"];
-															
-												
-														if($id_usuarios=="")
-														{
-																//no notifico al que crea la solicitud, sólo mando mail
-																if(trim($row_datosQuery["ED01_USUARIOID"])!=trim($edesk_session->USUARIOID))
-																	$id_usuarios=$row_datosQuery["ED01_USUARIOID"];
-														
-														}else{
-																//no notifico al que crea la solicitud, sólo mando mail
-																if(trim($row_datosQuery["ED01_USUARIOID"])!=trim($edesk_session->USUARIOID))
-																	$id_usuarios.=",".$row_datosQuery["ED01_USUARIOID"];
-															}
 											
-
-													}
-												}	
-											
-							
-												#################################
-												##NOTIFICACION A USUARIO
-												#################################
-
-												$lista_de_usuarios = explode(",",$id_usuarios);
-
-												if(isset($lista_de_usuarios) && count($lista_de_usuarios)>0)
+												$email="";
+												
+												$destinadatarios=$functions->notificaciones_solicitudes($ELCOLEGIO,$edesk_session->USUARIOID,$edesk_session->EMAIL);	
+												if($destinadatarios!="0")
 												{
-													foreach ($lista_de_usuarios as $clave => $valor)
-													{
 													
-														$data_usuario[$valor] = array(
-																  'ED02_SOLICITUDID' => $nueva_solicitud,
-																  'ED01_USUARIOID' => $valor,
-																  'ED17_TIPONOTIFICACION' => '1',
-																  'ED17_LEIDO' => '0',
-																  'ED17_FECHANOTIFICACION' => date("Ymdhis")
-															);
-		
-													}
+														if(isset($destinadatarios[0]))
+														{
+															foreach($destinadatarios[0] as $clave => $valor)
+															{
+																$MAILS_A_NOTIFICAR["$valor"]=$valor;
+																if($email=="")
+																	$email=$valor;
+																else
+																	$email.=",".$valor;
+															}
+														}
+					
+					
+														if(isset($destinadatarios[1]))
+														{
+															foreach($destinadatarios[1] as $clave => $valor)
+															{
+																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																$data_usuario[$valor] = array(
+																		  'ED02_SOLICITUDID' => $solicitudid,
+																		  'ED01_USUARIOID' => $valor,
+																		  'ED17_TIPONOTIFICACION' => '1',
+																		  'ED17_LEIDO' => '0',
+																		  'ED17_FECHANOTIFICACION' => date("Ymdhis")
+																	);
+
+															}
+														}
+					
+					
+					
+					
 												}
-												
+
+												#################################
+												##FIN NOTIFICACIONES
+												#################################
 							
 							
 							
-							
-							
-												$from="helpdesk@compumat.cl";
-												$to=$email;
+												#################################
+												##ENVIO DE EMAILS
+												#################################
+												if($email!="")
+												{
 												$subject="INTERNO - ACTUALIZACION DE SOLICITUD E-DESK";
 												$body="<u>Estimado Usuario</u><br><br>
 													   Con fecha de hoy ".date("d/m/Y")." se ha actualizado la solicitud numero : <strong>$solicitudid</strong> <br><br>
 													   por el usuario E-DESK Login : ($edesk_session->USUARIOID) <br><br>
 													   Atte.<br>Equipo Compumat.";
 												
-							
-												$data_email = array(
-														'origen' => $from,
-														'destinatarios' => $to,
-														'f_ingreso' => date("Ymdhis"),
-														'app_origen' => 'E-DESK',
-														'encabezado' => $subject,
-														'contenido' => $body,
-														'estado_correo' => '0'
-													);
+											
+													$RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+												}							
 								
-					
 					
 												#############################
 												##FIN MAIL CREACION USUARIO
@@ -910,19 +876,22 @@ class SolicitudController extends Zend_Controller_Action
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
-													$DB->insert('bd_correos.correos_soporte', $data_email);
-							
+													
 								
-													//notificaciones a usuarios
-													if(isset($lista_de_usuarios) && count($lista_de_usuarios)>0)
+													//INICIO NOTIFICACIONES USUARIO
+													/////////////////////////////////
+													if(isset($USUARIOS_A_NOTIFICAR) && count($USUARIOS_A_NOTIFICAR)>0)
 													{
-														foreach ($lista_de_usuarios as $clave => $valor)
+														foreach($USUARIOS_A_NOTIFICAR as $clave => $valor)
 														{
 															$DB->insert('e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD',$data_usuario[$valor]);
 														}
-													}
-								
-								
+													}												
+													//FIN NOTIFICACIONES USUARIO
+													/////////////////////////////////
+
+
+
 													$DB->commit();
 							
 													echo("OK|");
@@ -966,11 +935,11 @@ class SolicitudController extends Zend_Controller_Action
     
 	
 						$this->_helper->layout->disableLayout();
-						$config = Zend_Registry::get('config');
-						
+				
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$config = Zend_Registry::get('config');
 						$functions = new ZendExt_RutinasPhp();
-
+				
 						
 						$edesk_session = new Zend_Session_Namespace('edeskses');
 	
@@ -1012,11 +981,11 @@ class SolicitudController extends Zend_Controller_Action
     
 						
 						$this->_helper->layout->disableLayout();
-						$config = Zend_Registry::get('config');
-					 	
+						
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$config = Zend_Registry::get('config');
 						$functions = new ZendExt_RutinasPhp();
-
+				
 					
 						$edesk_session = new Zend_Session_Namespace('edeskses');
 					

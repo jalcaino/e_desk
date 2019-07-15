@@ -46,11 +46,11 @@ class FichacolegioController extends Zend_Controller_Action
 
 
 						$this->_helper->layout->disableLayout();
-						$config = Zend_Registry::get('config');
-						
+					
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$config = Zend_Registry::get('config');
 						$functions = new ZendExt_RutinasPhp();
-						
+					
 					
 						//con parametros
 						$S_COLEGIO = trim($this->_request->getParam('Colegio'));

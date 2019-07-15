@@ -25,7 +25,10 @@
 	//////////////////////////
 	
 	
-	
+	if(isset($this->layout()->datossector))
+		$datossector=$this->layout()->datossector;
+
+		
 	if(isset($this->layout()->datoscolegio))
 		$datoscolegio=$this->layout()->datoscolegio;
 
@@ -38,8 +41,6 @@
 	if(isset($this->layout()->datosmodulos))
 		$datosmodulos=$this->layout()->datosmodulos;
 
-	if(isset($this->layout()->datosusuarios))
-		$datosusuarios=$this->layout()->datosusuarios;
 	
 
 ?>
@@ -69,6 +70,19 @@
 						});			
 					});
 			   });
+		
+		
+			  $("#sector").on('change', function () {
+					$("#sector option:selected").each(function () {
+						elegido=$(this).val();
+						$.post("/Usuario/usuarioxsector",{sector:elegido,derivado:'0',filtronivel:'1,4,5'}, function(data){
+							$("#comboderivados").html(data);
+						});			
+					});
+			   });
+		
+		
+		
 		
 		
 		
@@ -174,14 +188,29 @@
 						return false;
 					}			
 	
+	
+					if(!$("#sector").val())
+					{
+						alert("Debe Seleccionar Departamento");
+						$("#sector").focus();
+						return false;
+					}			
+	
 					if(!$("#clasificadores").val())
 					{
 						alert("Debe Seleccionar Clasificador");
 						$("#clasificadores").focus();
 						return false;
 					}			
+		
+					if(!$("#derivado").val())
+					{
+						alert("Debe Seleccionar Derivado/Resuelto X:");
+						$("#derivado").focus();
+						return false;
+					}			
 	
-
+		
 					if (!confirm("Desea Guardar el Incidente?")) 
 					{
 					
@@ -222,6 +251,7 @@
 				form_data.append('num_alumnos', $("#num_alumnos").val());
 				form_data.append('nivel', $("#nivel").val());
 				form_data.append('archivo', $("#archivo").val());
+				form_data.append('sector', $("#sector").val());
 				form_data.append('derivado', $("#derivado").val());
 				form_data.append('estado', $("#estado").val());
 				form_data.append('accion', 'grabar');
@@ -312,11 +342,17 @@
 									
 									<div class="panel-body">
 				
-											 <div style="height: 1050px; overflow-y: scroll;">
 											 
 															<form role="form" id="oForm" name="oForm" enctype="multipart/form-data">
 																 
-																		<div class="form-group">
+													
+							
+																<div class="row">
+															
+																	<div class="col-md-12">
+
+
+																			<div class="form-group">
 																			<label>Colegio (*)</label>
 																			<?php 
 																			if(isset($LABORATORIOID) && $LABORATORIOID!=""){ 
@@ -349,7 +385,18 @@
 																			?>																
 
 																		</div>
+							
+																
+																
+																
 																	  
+																	</div>  
+																</div>		
+							
+																<div class="row">
+																	<div class="col-md-4 col-sm-4">
+                													 
+													
 																	   <div class="form-group">
 																			<label>Producto (*)</label>
 																			<select class="form-control" id="producto" name="producto">
@@ -366,29 +413,66 @@
 																				?>
 																			</select>
 																		</div>
-																	  
 																  
+																	</div>												 
+																	<div class="col-md-4 col-sm-4">
+                		  
+													
 																	   <div class="form-group">
 																			<label>Fecha Incidente (*)</label>
 																			<input type="text" class="form-control" id="calendario" readonly="readonly">
 																	   </div>
 																	  
-																
+													
+																	</div>  
+															</div>		  
+													
+													
+															<div class="row">
+																<div class="col-md-4 col-sm-4">
+                													
 																	   <div class="form-group">
 																			<label>Nombre Solicitante (*)</label>
 																			<input class="form-control" type="text" id="nombreapellido" maxlength="100"  name="nombreapellido" value="<?php if(isset($NOMBRESOLICITANTE) && $NOMBRESOLICITANTE!="") echo $NOMBRESOLICITANTE;?>">
 																	   </div>
-																	 
+							
+																</div>												 
+																<div class="col-md-4 col-sm-4">
+                		  										 
 																	   <div class="form-group">
 																			<label>Tel&eacute;fono Solicitante</label>
 																			<input class="form-control" type="text" id="telefono" maxlength="50"  name="telefono">
 																	   </div>
+												
+																</div>  
+															</div>		  
+							
+							
 																	  
+																	  
+														
+														<div class="row">
+													
+															<div class="col-md-12">
+                		  								
+														
 																	   <div class="form-group">
 																			<label>E-mail Solicitante</label>
 																			<input class="form-control" type="text" id="email" maxlength="100"  name="email">
 																	   </div>
-																	  
+														
+															  
+															</div>  
+														</div>		
+														
+														
+														
+														
+														
+														
+															<div class="row">
+																<div class="col-md-4 col-sm-4">
+                													
 																		<div class="form-group">
 																			<label>Prioridad (*)</label>
 																			<select class="form-control" id="prioridad" name="prioridad">
@@ -396,35 +480,44 @@
 																				<option value="0">BAJA</option>
 																			</select>
 																		</div>
-																												  
-																		<div class="form-group">
-																			<label>Detalle Incidente (*)</label>
-																			<textarea class="form-control" rows="5" id="detalle" name="detalle"><?php if(isset($DETALLESOLICITUD) && $DETALLESOLICITUD!="") echo $DETALLESOLICITUD;?></textarea>
-																		</div>
-															  
-															  
+														
+																</div>												 
+																<div class="col-md-4 col-sm-4">
+                		  																						  
+																		
 																		<div class="form-group">
 																			<label>Tipo Contacto (*)</label>
 																			<select class="form-control" id="tipocontacto" name="tipocontacto">
 																				<option value="CHAT">CHAT</option>
 																				<option value="TELEFONO">TELEFONO</option>
+																				<option value="EMAIL">EMAIL</option>
 																			</select>
 																		</div>
 																		
+																</div>  
+															</div>		  
 																		
+																		
+																		
+														<div class="row">
+													
+															<div class="col-md-12">
+                		  												
 																		<div class="form-group">
-																			<label>Nivel Soporte (*)</label>
-																			<select class="form-control" id="nivelsoporte" name="nivelsoporte">
-																				<option value="">[SELECCIONE]</option>
-																				<option value="1">Soporte 1er Nivel Mesa de Ayuda</option>
-																				<option value="2">Soporte 2do Nivel</option>
-																			</select>
+																			<label>Detalle Incidente (*)</label>
+																			<textarea class="form-control" rows="5" id="detalle" name="detalle"><?php if(isset($DETALLESOLICITUD) && $DETALLESOLICITUD!="") echo $DETALLESOLICITUD;?></textarea>
 																		</div>
-																	
-																	
-																		<div id="comboclasificador">
-																		</div>
+															  
+															</div>  
+														</div>		
 														
+															
+													
+													
+														
+															<div class="row">
+																<div class="col-md-4 col-sm-4">
+                										
 														
 																		<div class="form-group">
 																			<label>M&oacute;dulo</label>
@@ -443,19 +536,29 @@
 																				?>
 																			</datalist>
 																		</div>
-																
+															
+																</div>												 
+																<div class="col-md-4 col-sm-4">
+                		  										
 																		<div class="form-group">
 																			<label>N&uacute;mero Pregunta</label>
 																			<input class="form-control" type="text" id="num_pregunta" maxlength="3"  name="num_pregunta">
 																		</div>
-																
-																	
+															
+																</div>  
+															</div>		  
+															
+															<div class="row">
+																<div class="col-md-4 col-sm-4">
+                										
 																		<div class="form-group">
-																			<label>Num Alumnos Afectados</label>
+																			<label>Alumnos-Afectados</label>
 																			<input class="form-control" type="text" id="num_alumnos" maxlength="3"  name="num_alumnos">
 																		</div>
-																		
-															  
+															
+																</div>												 
+																<div class="col-md-4 col-sm-4">
+                		  									  
 																		<div class="form-group">
 																			<label>Nivel (*)</label>
 																			<select class="form-control" id="nivel" name="nivel">
@@ -473,36 +576,88 @@
 																				<option value="IV MEDIO">IV MEDIO</option>
 																			</select>
 																		</div>
-																			 
-																		 <div class="form-group">
+															
+																</div>  
+															</div>		  
+															
+															
+															
+															<div class="row">
+														
+																<div class="col-md-12">
+															
+																		 <div class="form-group" style="background-color:#EEEEEE">
 																			<label class="control-label col-lg-4">Adjunto</label>
-																			<div class="">
-																				 <input type="file" name="archivo" id="archivo" class="btn btn-info">
-																			</div>
+																			 <input type="file" name="archivo" id="archivo" class="btn btn-info">
 																		</div>
-																		 
+																  
+																</div>  
+															</div>		
+								
+															
 														
-														
-														 				<div class="form-group">
-																			<label>Derivado a: (*)</label>
-																			<select class="form-control" id="derivado" name="derivado">
+														<div class="row">
+															  <div class="col-md-4 col-sm-4">
+																		
+																		<div class="form-group">
+																			<label>Nivel Soporte (*)</label>
+																			<select class="form-control" id="nivelsoporte" name="nivelsoporte">
+																				<option value="">[SELECCIONE]</option>
+																				<option value="1">Soporte 1er Nivel Mesa de Ayuda</option>
+																				<option value="2">Soporte 2do Nivel</option>
+																			</select>
+																		</div>
+																	
+																</div>												 
+																<div class="col-md-4 col-sm-4">
+																	 <div class="form-group">
+																			<label>Departamento (*)</label>
+																			 <select class="form-control" id="sector" name="sector">
 																				<option value="">[SELECCIONE]</option>
 																				<?php
-																				if(isset($datosusuarios))
+																				if(isset($datossector))
 																				{
-																					foreach($datosusuarios as $clave => $valor)
+																					foreach($datossector as $clave => $valor)
 																					{
 																					?>
-																						<option value="<?php echo $valor["ED01_USUARIOID"]?>"><?php echo $valor["ED01_NOMBREAPELLIDO"]?></option>
+																						<option value="<?php echo $valor["SIS01_SECTORID"]?>"><?php echo $valor["SIS01_SECTORDESCRIPCION"]?></option>
 																					<?
 																					}
 																				}		
 																				?>
 																			</select>
+																	</div>	
+																</div>	
+														</div>		  
+															
+														<div class="row">
+															<div class="col-md-12">
+																<div id="comboclasificador">
+																</div>
+															</div>  
+														</div>		
+																		 
+
+														<div class="row">
+														
+																<div class="col-md-4 col-sm-4">
+															
+														 				<div id="comboderivados">
+																		
+																			<div class="form-group">
+																				<label>Derivado a : (*)</label>
+																				<select class="form-control" id="derivado" name="derivado">
+																					<option value="">[SELECCIONE]</option>
+																				</select>
+																			</div>
+																		
 																		</div>
-																	  
+															
+																  
+																</div>  
 														
-														
+																<div class="col-md-4 col-sm-4">
+															
 																		<div class="form-group">
 																			<label>Estado (*)</label>
 																			<select class="form-control" id="estado" name="estado">
@@ -512,20 +667,29 @@
 																				<option value="MEJORA-FUTURA">MEJORA-FUTURA</option>
 																			</select>
 																		</div>
+																  
+																</div>  
+														
+														
+														</div>		
+
+														<div class="row">
+														
+																<div class="col-md-12">
 															
 																	  <button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
+																
+																</div>  
+														</div>		
 				
-				
-				
-															</form>
-        			                            </div>
+													</form>
+        			                            
+												</div>
 	
 										</div>
 				
 								</div>
 				
-					 </div>
-				 
 				 
 				 </div>
 

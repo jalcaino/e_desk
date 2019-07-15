@@ -108,8 +108,16 @@
 							evalscripts : true,
 							success:  function (response) { 
 						
-									$("#idNumNotificaciones").html(response);
+										 $("#idNumNotificaciones").html(response);
 						
+										setTimeout(function(){
+				
+													trae_notificaciones();
+				
+										},60000); 
+										
+									  
+
 							}
 						});
 		

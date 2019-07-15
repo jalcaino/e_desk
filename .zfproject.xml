@@ -24,6 +24,8 @@
           <actionMethod actionName="eliminarusuario"/>
           <actionMethod actionName="listarusuarios"/>
           <actionMethod actionName="utilidades"/>
+          <actionMethod actionName="usuarioxnivel"/>
+          <actionMethod actionName="usuarioxsector"/>
         </controllerFile>
         <controllerFile controllerName="Login">
           <actionMethod actionName="index"/>
@@ -294,6 +296,12 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Infcolegio">
             <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuario">
+            <viewScriptFile forActionName="usuarioxnivel"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuario">
+            <viewScriptFile forActionName="usuarioxsector"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

@@ -31,12 +31,10 @@ class UsuarioController extends Zend_Controller_Action
 		public function agregarusuarioAction()
 		{
 						
-						$config = Zend_Registry::get('config');
-						
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$config = Zend_Registry::get('config');
 						$functions = new ZendExt_RutinasPhp();
-
-					
+				
 					
 						###########################		
 						##inicio validacion sesion
@@ -92,6 +90,9 @@ class UsuarioController extends Zend_Controller_Action
 
 					$this->_helper->layout->disableLayout();
 					$DB = Zend_Db_Table::getDefaultAdapter();
+					$config = Zend_Registry::get('config');
+					$functions = new ZendExt_RutinasPhp();
+				
 					$edesk_session = new Zend_Session_Namespace('edeskses');
 			
 
@@ -153,13 +154,12 @@ class UsuarioController extends Zend_Controller_Action
 												);
 							
 							
-							
-												#############################
-												##MAIL CREACION USUARIO
-												#############################
-							
-												$from="helpdesk@compumat.cl";
-												$to=$email;
+												
+												#################################
+												##ENVIO DE EMAILS
+												#################################
+												if($email!="")
+												{
 												$subject="INTERNO - CREACION DE USUARIO E-DESK";
 												$body="<u>Estimado Usuario</u><br><br>
 													   Con fecha de hoy ".date("d/m/Y")." se ha procedido a la creaci&oacute;n<br><br>
@@ -167,17 +167,10 @@ class UsuarioController extends Zend_Controller_Action
 													   Atte.<br>Equipo Compumat.";
 												
 							
-												$data_email = array(
-														'origen' => $from,
-														'destinatarios' => $to,
-														'f_ingreso' => date("Ymdhis"),
-														'app_origen' => 'E-DESK',
-														'encabezado' => $subject,
-														'contenido' => $body,
-														'estado_correo' => '0'
-													);
+											
+													$RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+												}							
 								
-					
 					
 												#############################
 												##FIN MAIL CREACION USUARIO
@@ -197,7 +190,6 @@ class UsuarioController extends Zend_Controller_Action
 													$DB->getConnection();
 													$DB->beginTransaction();
 													$DB->insert('e_desk.ED01_USUARIO', $data);
-													$DB->insert('bd_correos.correos_soporte', $data_email);
 													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 													
 							
@@ -240,11 +232,11 @@ class UsuarioController extends Zend_Controller_Action
 						
 						
 						$this->_helper->layout->disableLayout();
-						$config = Zend_Registry::get('config');
+				
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$config = Zend_Registry::get('config');
 						$functions = new ZendExt_RutinasPhp();
-			
-			
+							
 						$loginusuario=$this->_request->getPost('loginusuario');
 				
 				
@@ -338,10 +330,14 @@ class UsuarioController extends Zend_Controller_Action
 		public function editarusuarioprocessAction()
 		{
 					$this->_helper->layout->disableLayout();
+			
 					$DB = Zend_Db_Table::getDefaultAdapter();
+					$config = Zend_Registry::get('config');
+					$functions = new ZendExt_RutinasPhp();
+				
+			
 					$edesk_session = new Zend_Session_Namespace('edeskses');
 			
-
 					$login=$this->_request->getPost('login');
 					$nivel=$this->_request->getPost('nivel');
 					$sector=$this->_request->getPost('sector');
@@ -383,29 +379,21 @@ class UsuarioController extends Zend_Controller_Action
 			
 	
 	
-								#############################
-								##MAIL EDICION USUARIO
-								#############################
-			
-								$from="helpdesk@compumat.cl";
-								$to=$email;
+								#################################
+								##ENVIO DE EMAILS
+								#################################
+								if($email!="")
+								{
 								$subject="INTERNO - EDICION DE USUARIO E-DESK";
 								$body="<u>Estimado Usuario</u><br><br>
 									   Con fecha de hoy ".date("d/m/Y")." se ha procedido a la modificaci&oacute;n<br><br>
 									   del usuario E-DESK Login : ($login) , Clave : ($clave)  asociado a su email $email<br><br>
 									   Atte.<br>Equipo Compumat.";
 								
-			
-								$data_email = array(
-										'origen' => $from,
-										'destinatarios' => $to,
-										'f_ingreso' => date("Ymdhis"),
-										'app_origen' => 'E-DESK',
-										'encabezado' => $subject,
-										'contenido' => $body,
-										'estado_correo' => '0'
-									);
-				
+								
+										$RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+								}							
+								
 	
 	
 								#############################
@@ -421,7 +409,6 @@ class UsuarioController extends Zend_Controller_Action
 									$DB->getConnection();
 									$DB->beginTransaction();
 								    $DB->update('e_desk.ED01_USUARIO', $data, $where);
-									$DB->insert('bd_correos.correos_soporte', $data_email);
 									$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 													
 									
@@ -455,11 +442,11 @@ class UsuarioController extends Zend_Controller_Action
 		{
 						
 						$this->_helper->layout->disableLayout();
-						$config = Zend_Registry::get('config');
-						
+					
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$config = Zend_Registry::get('config');
 						$functions = new ZendExt_RutinasPhp();
-						
+					
 						$edesk_session = new Zend_Session_Namespace('edeskses');
 			
 						$loginusuario=$this->_request->getPost('loginusuario');
@@ -650,10 +637,10 @@ class UsuarioController extends Zend_Controller_Action
     
 				$this->_helper->layout->disableLayout();
 				
-				$config = Zend_Registry::get('config');
 				$DB = Zend_Db_Table::getDefaultAdapter();
+				$config = Zend_Registry::get('config');
 				$functions = new ZendExt_RutinasPhp();
-
+				
 			
 				$tipo=$this->_request->getPost('tipo');
 				$nivel=$this->_request->getPost('nivel');
@@ -699,6 +686,63 @@ class UsuarioController extends Zend_Controller_Action
 			
 					
 	}
+
+    public function usuarioxnivelAction()
+    {
+        // action body
+    }
+
+    public function usuarioxsectorAction()
+    {
+      
+   				// action body
+    			$this->_helper->layout->disableLayout();
+				
+				$DB = Zend_Db_Table::getDefaultAdapter();
+				$config = Zend_Registry::get('config');
+				$functions = new ZendExt_RutinasPhp();
+				
+			
+				$sector=$this->_request->getPost('sector');
+				$derivado=$this->_request->getPost('derivado');
+				$filtronivel=$this->_request->getPost('filtronivel');
+	
+
+				//USUARIOS
+				////////////////////////////
+				$sSQL="SELECT 
+						ED01_USUARIOID,
+						ED01_NOMBREAPELLIDO 
+						FROM 
+						e_desk.ED01_USUARIO 
+						WHERE 
+						ED01_ESPRIVADO=0 and SIS01_SECTORID='$sector' ";
+				
+				if($filtronivel!="")		
+				   $sSQL.=" and SIS02_NIVELID not in ($filtronivel) ";
+								
+								
+				$rowset = $DB->fetchAll($sSQL);
+
+				foreach($rowset as $row_datosQuery)
+				{
+					if(trim($row_datosQuery["ED01_USUARIOID"])!="")
+					{
+						$ID=$row_datosQuery["ED01_USUARIOID"];
+						$datosusuarios["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED01_USUARIOID"];
+						$datosusuarios["$ID"]["ED01_NOMBREAPELLIDO"]=$row_datosQuery["ED01_NOMBREAPELLIDO"];
+					}								
+				}
+			
+				if(isset($datosusuarios))
+							Zend_Layout::getMvcInstance()->assign('datosusuarios',$datosusuarios);
+			
+			
+				if(isset($sector))
+							Zend_Layout::getMvcInstance()->assign('derivado',$derivado);
+			
+   
+    }
 
 
 }

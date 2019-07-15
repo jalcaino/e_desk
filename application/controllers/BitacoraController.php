@@ -35,11 +35,10 @@ class BitacoraController extends Zend_Controller_Action
 
     public function agregarbitacoraAction()
     {
-        		$config = Zend_Registry::get('config');
-				
 				$DB = Zend_Db_Table::getDefaultAdapter();
+				$config = Zend_Registry::get('config');
 				$functions = new ZendExt_RutinasPhp();
-						
+										
 			
 				###########################		
 				##inicio validacion sesion
@@ -71,18 +70,15 @@ class BitacoraController extends Zend_Controller_Action
     {
     // action body
     
-					$uploads = '/var/www/html/edesk/public/archivos_upload';
-					$uploads_public = '/archivos_upload';
-					$separador = '/';
-				   
-
-    
 					$this->_helper->layout->disableLayout();
+				
 					$DB = Zend_Db_Table::getDefaultAdapter();
-
-		
+					$config = Zend_Registry::get('config');
+					$functions = new ZendExt_RutinasPhp();
 					$edesk_session = new Zend_Session_Namespace('edeskses');
-	
+					$uploads = $config['ruta_path'];
+					$uploads_public = $config['ruta_carpeta'];
+					$separador = '/';
 	
 	
 					$incidenteid=$this->_request->getPost('incidenteid');
@@ -230,36 +226,64 @@ class BitacoraController extends Zend_Controller_Action
 													}
 												}	
 																
-
-												#############################
-												##MAIL CREACION SOLICITUD
-												#############################
-							
-												#################################
-												##MAILS A SOPORTE
-												#################################
 												
-												$sSQL="SELECT ED01_EMAIL FROM e_desk.ED01_USUARIO WHERE ED01_ESPRIVADO=0 and (SIS02_NIVELID in (2,3) or ED01_USUARIOID='".$edesk_session->USUARIOID."') ";
-												$rowset = $DB->fetchAll($sSQL);
-												$email="";																	
-
-												
-												foreach($rowset as $row_datosQuery)
-												{
-													if(trim($row_datosQuery["ED01_EMAIL"])!="")
-													{
-														if($email=="")
-															$email=$row_datosQuery["ED01_EMAIL"];
-														else
-															$email.=",".$row_datosQuery["ED01_EMAIL"];
-														
-													}
-												}	
+												#################################
+												##INICIO NOTIFICACIONES
+												#################################
 											
+												$email="";
+												
+												$destinadatarios=$functions->notificaciones_incidentes_seg($incidenteid,$edesk_session->USUARIOID,$edesk_session->EMAIL);	
+												if($destinadatarios!="0")
+												{
+													
+														if(isset($destinadatarios[0]))
+														{
+															foreach($destinadatarios[0] as $clave => $valor)
+															{
+																$MAILS_A_NOTIFICAR["$valor"]=$valor;
+																if($email=="")
+																	$email=$valor;
+																else
+																	$email.=",".$valor;
+															}
+														}
+					
+					
+														if(isset($destinadatarios[1]))
+														{
+															foreach($destinadatarios[1] as $clave => $valor)
+															{
+																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																$data_usuario[$valor] = array(
+																		  'ED01_USUARIOID' => $valor,
+																		  'ED04_SEGTICKETID' => $nueva_solicitud,
+																		  'ED09_TIPONOTIFICACION' => '1',
+																		  'ED09_LEIDO' => '0',
+																		  'ED09_FECHANOTIFICACION' => date("Ymdhis")
+																	);
+
+															}
+														}
+					
+					
+					
+					
+												}
+
+												#################################
+												##FIN NOTIFICACIONES
+												#################################
+							
+
+
 							
 							
-												$from="helpdesk@compumat.cl";
-												$to=$email;
+												#################################
+												##ENVIO DE EMAILS
+												#################################
+												if($email!="")
+												{
 												$subject="INTERNO - GESTION DE INCIDENTE E-DESK";
 												$body="<u>Estimado Usuario</u><br><br>
 													   Con fecha de hoy ".date("d/m/Y")." se ha generado gestion del incidente numero : <strong>$incidenteid</strong> <br><br>
@@ -267,33 +291,14 @@ class BitacoraController extends Zend_Controller_Action
 													   Atte.<br>Equipo Compumat.";
 												
 							
-												$data_email = array(
-														'origen' => $from,
-														'destinatarios' => $to,
-														'f_ingreso' => date("Ymdhis"),
-														'app_origen' => 'E-DESK',
-														'encabezado' => $subject,
-														'contenido' => $body,
-														'estado_correo' => '0'
-													);
+													$RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+												}							
 								
 					
 												#############################
 												##FIN MAIL CREACION USUARIO
 												#############################
 
-												#################################
-												##NOTIFICACION A USUARIO
-												#################################
-												$data_usuario1 = array(
-														  'ED01_USUARIOID' => $edesk_session->USUARIOID,
-														  'ED04_SEGTICKETID' => $nueva_solicitud,
-														  'ED09_TIPONOTIFICACION' => '1',
-														  'ED09_LEIDO' => '0',
-														  'ED09_FECHANOTIFICACION' => date("Ymdhis")
-													);
-								
-								
 												$data_actividad = array(
 																	'ED01_USUARIOID' => $edesk_session->USUARIOID,
 																	'ED08_ACCION' => 'AGREGAR BITACORA TICKET INCIDENTE',
@@ -306,16 +311,22 @@ class BitacoraController extends Zend_Controller_Action
 							
 													$DB->getConnection();
 													$DB->beginTransaction();
-													$DB->insert('bd_correos.correos_soporte', $data_email);
-													$DB->insert('e_desk.ED09_USUARIO_NOTIFICADO_SEG_TICKET',$data_usuario1);
+													
 													$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
-																	
-												
-													//hay que consultar por solicitudes asociadas
-													//relación
-													//y hacer insert
-								
-								
+													
+													//INICIO NOTIFICACIONES USUARIO
+													/////////////////////////////////
+													if(isset($USUARIOS_A_NOTIFICAR) && count($USUARIOS_A_NOTIFICAR)>0)
+													{
+														foreach($USUARIOS_A_NOTIFICAR as $clave => $valor)
+														{
+															$DB->insert('e_desk.ED09_USUARIO_NOTIFICADO_SEG_TICKET',$data_usuario[$valor]);
+														}
+													}												
+													//FIN NOTIFICACIONES USUARIO
+													/////////////////////////////////
+
+										
 								
 													$DB->commit();
 							
@@ -375,16 +386,4 @@ class BitacoraController extends Zend_Controller_Action
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -37,10 +37,11 @@ class LoginController extends Zend_Controller_Action
 		{
 						
 						$this->_helper->layout->disableLayout();
+					
 						$DB = Zend_Db_Table::getDefaultAdapter();
 						$config = Zend_Registry::get('config');
 						$functions = new ZendExt_RutinasPhp();
-												
+											
 
 						###########################		
 						##inicio validacion sesion
@@ -221,7 +222,11 @@ class LoginController extends Zend_Controller_Action
 						//////////////////////////////////////////////
 						
 						$this->_helper->layout->disableLayout();
+						
 						$DB = Zend_Db_Table::getDefaultAdapter();
+						$config = Zend_Registry::get('config');
+						$functions = new ZendExt_RutinasPhp();
+				
 
 						$email=$this->_request->getPost('email');
 						
@@ -267,29 +272,22 @@ class LoginController extends Zend_Controller_Action
 										$where['ED01_USUARIOID = ?'] = $USUARIOID;
 											
 					
-										#############################
-										##MAIL EDICION USUARIO
-										#############################
-					
-										$from="helpdesk@compumat.cl";
-										$to=$email;
+									
+										#################################
+										##ENVIO DE EMAILS
+										#################################
+										if($email!="")
+										{
+												
 										$subject="INTERNO - RECORDAR CLAVE DE USUARIO E-DESK";
 										$body="<u>Estimado Usuario</u><br><br>
 											   Con fecha de hoy ".date("d/m/Y")." se ha procedido a la recuperaci&oacute;n<br><br>
 											   de la clave E-DESK Login : (<strong>$USUARIOID</strong>) , Nueva Clave : (<strong>$clave</strong>)  asociado a su email $email<br><br>
 											   Atte.<br>Equipo Compumat.";
 										
-					
-										$data_email = array(
-												'origen' => $from,
-												'destinatarios' => $to,
-												'f_ingreso' => date("Ymdhis"),
-												'app_origen' => 'E-DESK',
-												'encabezado' => $subject,
-												'contenido' => $body,
-												'estado_correo' => '0'
-											);
-						
+												$RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+										}							
+								
 			
 										#############################
 										##FIN MAIL EDICION USUARIO
@@ -314,7 +312,6 @@ class LoginController extends Zend_Controller_Action
 											$DB->getConnection();
 											$DB->beginTransaction();
 											$DB->update('e_desk.ED01_USUARIO', $data, $where);
-											$DB->insert('bd_correos.correos_soporte', $data_email);
 											$DB->insert('e_desk.ED08_USUARIO_ACTIVIDAD', $data_actividad);
 												
 											
@@ -345,10 +342,9 @@ class LoginController extends Zend_Controller_Action
 		public function notificacionAction()
 		{
 						
-				$config = Zend_Registry::get('config');
 				$DB = Zend_Db_Table::getDefaultAdapter();
+				$config = Zend_Registry::get('config');
 				$functions = new ZendExt_RutinasPhp();
-						
 								
 			
 				###########################		
@@ -374,6 +370,7 @@ class LoginController extends Zend_Controller_Action
 					$TIPO_DESPLIEGUE=0;	
 					$this->_helper->layout->disableLayout();
 			
+				
 				}elseif($tipo=="3")
 				{
 					$this->_helper->layout->disableLayout();
@@ -384,39 +381,33 @@ class LoginController extends Zend_Controller_Action
 				
 					if($concepto=="solicitud")
 					{
+							$data3 = array(
+											'ED17_LEIDO' => '1'
+										 );
+
 				
-							$sSQL = "SELECT 
-									E.ED02_SOLICITUDID as SEGID
-									FROM 
-									e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD E
-									INNER JOIN
-									e_desk.ED02_SOLICITUD T on E.ED02_SOLICITUDID=T.ED02_SOLICITUDID
-									WHERE
-									E.ED17_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."' and E.ED02_SOLICITUDID='".$valores."'";
+							$where3['ED02_SOLICITUDID = ?'] = $valores;
+							$where3['ED01_USUARIOID = ?'] = trim($edesk_session->USUARIOID);
 							
-							$rowset = $DB->fetchAll($sSQL);
-				
-							foreach($rowset as $row_datosQuery)
-							{
-									if(trim($row_datosQuery["SEGID"])!="")
-									{
-										
-											$data = array(
-															'ED17_LEIDO' => '1'
-														 );
-				
-											
-											$where['ED01_USUARIOID = ?'] = trim($edesk_session->USUARIOID);
-											$where['ED02_SOLICITUDID = ?'] = trim($row_datosQuery["SEGID"]);
-																
-								
-									   	    $DB->update('e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD', $data, $where);
-									
-									}
+					
+							try {
 			
-							}
+									$DB->getConnection();
+									$DB->beginTransaction();
 				
-				
+									$DB->update('e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD', $data3, $where3);
+					
+			
+									$DB->commit();
+									
+								} catch (Zend_Exception $e) {
+			
+									$DB->rollBack();
+									echo("KO|".$e->getMessage());
+									//echo "KO|Se ha producido un error..";
+									exit;	
+								}
+
 					
 					}
 				 
@@ -425,14 +416,30 @@ class LoginController extends Zend_Controller_Action
 					if($concepto=="asistencia")
 					{
 				
+				
+						///ASISTEBCIA
+						$data1 = array(
+										'ED11_LEIDO' => '1'
+									 );
+							
+						$where1['ED05_ASISTENCIAID = ?'] = trim($valores);
+						$where1['ED01_USUARIOID = ?'] = trim($edesk_session->USUARIOID);
+						
+						$DB->update('e_desk.ED11_USUARIO_NOTIFICADO_ASISTENCIA', $data1, $where1);
+						///ASISTEBCIA
+									
+				
+				
 						$sSQL = "SELECT 
-						E.ED06_SEGASISTENCIAID as SEGID
-						FROM 
-						e_desk.ED12_USUARIO_NOTIFICADO_SEG_ASIS E
-						INNER JOIN
-						e_desk.ED06_SEGUIMIENTO_ASISTENCIA_TECNICA T on E.ED06_SEGASISTENCIAID=T.ED06_SEGASISTENCIAID
-						WHERE
-						E.ED12_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."' and T.ED05_ASISTENCIAID='".$valores."'";
+								E.ED06_SEGASISTENCIAID as SEGID
+								FROM 
+								e_desk.ED12_USUARIO_NOTIFICADO_SEG_ASIS E
+								INNER JOIN
+								e_desk.ED06_SEGUIMIENTO_ASISTENCIA_TECNICA T on E.ED06_SEGASISTENCIAID=T.ED06_SEGASISTENCIAID
+								WHERE
+								E.ED12_LEIDO=0 and 
+								E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."' and 
+								T.ED05_ASISTENCIAID='".$valores."'";
 						
 							
 							$rowset = $DB->fetchAll($sSQL);
@@ -468,14 +475,29 @@ class LoginController extends Zend_Controller_Action
 					if($concepto=="incidente")
 					{
 				
+						
+							///INCIDENTE
+							$data1 = array(
+											'ED10_LEIDO' => '1'
+										 );
+								
+							$where1['ED03_TICKETID = ?'] = trim($valores);
+							$where1['ED01_USUARIOID = ?'] = trim($edesk_session->USUARIOID);
+							$DB->update('e_desk.ED10_USUARIO_NOTIFICADO_TICKET', $data1, $where1);
+							///INCIDENTE
+							
+						
+						
 							$sSQL = "SELECT 
-							E.ED04_SEGTICKETID as SEGID
-							FROM 
-							e_desk.ED09_USUARIO_NOTIFICADO_SEG_TICKET E
-							INNER JOIN
-							e_desk.ED04_SEGUIMIENTO_TICKET T on E.ED04_SEGTICKETID=T.ED04_SEGTICKETID
-							WHERE
-							E.ED09_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."' and T.ED03_TICKETID='".$valores."'";
+										E.ED04_SEGTICKETID as SEGID
+										FROM 
+										e_desk.ED09_USUARIO_NOTIFICADO_SEG_TICKET E
+										INNER JOIN
+										e_desk.ED04_SEGUIMIENTO_TICKET T on E.ED04_SEGTICKETID=T.ED04_SEGTICKETID
+										WHERE
+										E.ED09_LEIDO=0 and 
+										E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."' and 
+										T.ED03_TICKETID='".$valores."'";
 
 								
 							$rowset = $DB->fetchAll($sSQL);
@@ -493,9 +515,12 @@ class LoginController extends Zend_Controller_Action
 											$where['ED01_USUARIOID = ?'] = trim($edesk_session->USUARIOID);
 											$where['ED04_SEGTICKETID = ?'] = trim($row_datosQuery["SEGID"]);
 																
+				
 								
 									   	    $DB->update('e_desk.ED09_USUARIO_NOTIFICADO_SEG_TICKET', $data, $where);
 									
+				
+				
 									}
 			
 							}
@@ -507,6 +532,7 @@ class LoginController extends Zend_Controller_Action
 				
 				
 					 exit;	
+				
 				}else{
 						$TIPO_DESPLIEGUE=1;	
 					 }	
@@ -515,6 +541,7 @@ class LoginController extends Zend_Controller_Action
 		
 				$CONTADOR_NOTIFICACIONES=0;
 		
+
 				//incidentes
 				////////////////
 				$sSQL = "SELECT 
@@ -541,7 +568,6 @@ class LoginController extends Zend_Controller_Action
 						if(trim($row_datosQuery["SEGID"])!="")
 						{
 							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
-							$matriz_notificacion["$ID"]["SEGID"]=$ID;
 							$matriz_notificacion["$ID"]["TIPO"]="1";
 							$matriz_notificacion["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
 							$matriz_notificacion["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
@@ -551,6 +577,45 @@ class LoginController extends Zend_Controller_Action
 						}
 
 				}
+		
+		
+
+				$sSQL = "SELECT
+							E.ED03_TICKETID as SEGID,
+							DATE_FORMAT(T.ED10_FECHANOTIFICACION, '%d/%m/%Y') as FECHANOTIFICACION,
+							E.ED03_TICKETID as MAESTROID,
+							E.ED03_DETALLETICKET as SEGCOMENTARIOS,
+							T.ED01_USUARIOID as USUARIO_ORIGEN,
+							T.ED10_FECHANOTIFICACION as FECHA_TEMS
+							FROM
+							e_desk.ED03_TICKET E
+							INNER JOIN e_desk.ED10_USUARIO_NOTIFICADO_TICKET T ON E.ED03_TICKETID=T.ED03_TICKETID
+							WHERE
+							T.ED10_LEIDO=0 and T.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."'
+							ORDER BY
+							T.ED10_FECHANOTIFICACION asc ";
+
+
+				
+				$rowset = $DB->fetchAll($sSQL);
+	
+				foreach($rowset as $row_datosQuery)
+				{
+						if(trim($row_datosQuery["SEGID"])!="")
+						{
+							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							$matriz_notificacion["$ID"]["TIPO"]="1";
+							$matriz_notificacion["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
+							$matriz_notificacion["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
+							$matriz_notificacion["$ID"]["SEGCOMENTARIOS"]=trim($row_datosQuery["SEGCOMENTARIOS"]);
+							$matriz_notificacion["$ID"]["USUARIO_ORIGEN"]=trim($row_datosQuery["USUARIO_ORIGEN"]);
+							$CONTADOR_NOTIFICACIONES++;
+						
+						}
+
+				}
+		
+		
 		
 		
 				//asistencias
@@ -581,7 +646,6 @@ class LoginController extends Zend_Controller_Action
 						if(trim($row_datosQuery["SEGID"])!="")
 						{
 							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
-							$matriz_notificacion["$ID"]["SEGID"]=$ID;
 							$matriz_notificacion["$ID"]["TIPO"]="2";
 							$matriz_notificacion["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
 							$matriz_notificacion["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
@@ -593,6 +657,46 @@ class LoginController extends Zend_Controller_Action
 						}
 
 				}
+
+
+				$sSQL = "SELECT
+							E.ED05_ASISTENCIAID as SEGID,
+							DATE_FORMAT(T.ED11_TIPONOTIFICACION, '%d/%m/%Y') as FECHANOTIFICACION,
+							E.ED05_ASISTENCIAID as MAESTROID,
+							E.ED05_DETALLEASISTENCIAREALIZAR as SEGCOMENTARIOS,
+							T.ED01_USUARIOID as USUARIO_ORIGEN,
+							T.ED11_TIPONOTIFICACION as FECHA_TEMS
+							FROM
+							e_desk.ED05_ASISTENCIA_TECNICA E
+							INNER JOIN e_desk.ED11_USUARIO_NOTIFICADO_ASISTENCIA T ON E.ED05_ASISTENCIAID=T.ED05_ASISTENCIAID
+							WHERE
+							T.ED11_LEIDO=0 and T.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."'
+							ORDER BY
+							T.ED11_TIPONOTIFICACION asc";
+
+
+				$rowset = $DB->fetchAll($sSQL);
+	
+				foreach($rowset as $row_datosQuery)
+				{
+						if(trim($row_datosQuery["SEGID"])!="")
+						{
+							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							$matriz_notificacion["$ID"]["TIPO"]="2";
+							$matriz_notificacion["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
+							$matriz_notificacion["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
+							$matriz_notificacion["$ID"]["SEGCOMENTARIOS"]=trim($row_datosQuery["SEGCOMENTARIOS"]);
+							$matriz_notificacion["$ID"]["USUARIO_ORIGEN"]=trim($row_datosQuery["USUARIO_ORIGEN"]);
+						
+							$CONTADOR_NOTIFICACIONES++;
+						
+						}
+
+				}
+
+		
+		
+		
 		
 		
 		
@@ -662,8 +766,9 @@ class LoginController extends Zend_Controller_Action
 		{
 						
 						$this->_helper->layout->disableLayout();
+				
 						$DB = Zend_Db_Table::getDefaultAdapter();
-				        $config = Zend_Registry::get('config');
+						$config = Zend_Registry::get('config');
 						$functions = new ZendExt_RutinasPhp();
 						
 						###########################		
@@ -700,8 +805,11 @@ class LoginController extends Zend_Controller_Action
 		{
 		
 						$this->_helper->layout->disableLayout();
+						
 						$DB = Zend_Db_Table::getDefaultAdapter();
-
+						$config = Zend_Registry::get('config');
+						$functions = new ZendExt_RutinasPhp();
+				
 
 						###########################		
 						##inicio validacion sesion

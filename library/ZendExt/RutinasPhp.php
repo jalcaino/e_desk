@@ -1,11 +1,52 @@
 <?php
+
 class ZendExt_RutinasPhp
 {
+	//ENVIO CORREOS
+	function envio_correos($from,$to,$subject,$body)
+    {
+        
+						$DB = Zend_Registry::get('db1');
+
+						$data_email = array(
+												'origen' => $from,
+												'destinatarios' => $to,
+												'f_ingreso' => date("Ymdhis"),
+												'app_origen' => 'E-DESK',
+												'encabezado' => $subject,
+												'contenido' => $body,
+												'estado_correo' => '0'
+											);
+							
+						
+											try {
+							
+													$DB->getConnection();
+													$DB->beginTransaction();
+													$DB->insert('bd_correos.correos_soporte', $data_email);
+													$DB->commit();
+										
+													return "OK|";
+													
+													
+												} catch (Zend_Exception $e) {
+							
+													$DB->rollBack();
+													//return ("KO|".$e->getMessage());
+													return "KO|Se ha producido un error..";
+	
+												}
+				
+						
+    }
+	
+	
+	
+	
 	////////////////////////////////////////////
 	//TIPOS DE USUARIOS PARA NOTIFICACIONES
 	////////////////////////////////////////////
 	
-
     function obtiene_usuarios_mesa_ayuda()
     {
         
@@ -40,13 +81,20 @@ class ZendExt_RutinasPhp
 							{
 								  $ID=$row_datosQuery["ED01_USUARIOID"];	
 							
-								  $LISTAUSUARIOS["$ID"]["EMAIL"]=$row_datosQuery["ED01_EMAIL"];
+								  $LISTAUSUARIOS["$ID"]=$row_datosQuery["ED01_EMAIL"];
 							}								
 						}
 				  
-						if (isset($LISTAUSUARIOS))
-							return $LISTAUSUARIOS;
 				  
+				  		if (isset($LISTAUSUARIOS))
+							return $LISTAUSUARIOS;
+				  		else
+							return "0";
+				  	
+					
+					
+					
+					
 
     }
 
@@ -85,13 +133,15 @@ class ZendExt_RutinasPhp
 							if(trim($row_datosQuery["ED01_USUARIOID"])!="")
 							{
 								  $ID=$row_datosQuery["ED01_USUARIOID"];
-								  $LISTAUSUARIOS["$ID"]["EMAIL"]=$row_datosQuery["ED01_EMAIL"];
+								  $LISTAUSUARIOS["$ID"]=$row_datosQuery["ED01_EMAIL"];
 							}								
 						}
 				  
 						if (isset($LISTAUSUARIOS))
 							return $LISTAUSUARIOS;
-				  
+				  		else
+							return "0";
+				  	
 
     }
 
@@ -130,13 +180,15 @@ class ZendExt_RutinasPhp
 							if(trim($row_datosQuery["ED01_USUARIOID"])!="")
 							{
 								  $ID=$row_datosQuery["ED01_USUARIOID"];
-								  $LISTAUSUARIOS["$ID"]["EMAIL"]=$row_datosQuery["ED01_EMAIL"];
+								  $LISTAUSUARIOS["$ID"]=$row_datosQuery["ED01_EMAIL"];
 							}								
 						}
 				  
 						if (isset($LISTAUSUARIOS))
 							return $LISTAUSUARIOS;
-				  
+				  		else
+							return "0";
+				  	
 
     }
 
@@ -175,13 +227,15 @@ class ZendExt_RutinasPhp
 							if(trim($row_datosQuery["ED01_USUARIOID"])!="")
 							{
 								  $ID=$row_datosQuery["ED01_USUARIOID"];
-								  $LISTAUSUARIOS["$ID"]["EMAIL"]=$row_datosQuery["ED01_EMAIL"];
+								  $LISTAUSUARIOS["$ID"]=$row_datosQuery["ED01_EMAIL"];
 							}								
 						}
 				  
 						if (isset($LISTAUSUARIOS))
 							return $LISTAUSUARIOS;
-				  
+				  		else
+							return "0";
+				  	
 
     }
 
@@ -190,20 +244,18 @@ class ZendExt_RutinasPhp
 	//USUARIOS ASOCIADOS A SOLICITUDES, INCIDENTES, ASISTENCIAS
 	/////////////////////////////////////////////////////////////
 
-
-
-
-	function obtiene_colegio_asesor()
+	function obtiene_colegio_asesor($RBD)
     {
         
 						$DB = Zend_Registry::get('db1');
       					
 						$sSQL="SELECT
-								E.SIS03_LABORATORIOID,
-								E.ED07_MAILASESOR
+								SIS03_LABORATORIOID,
+								ED07_MAILASESOR
 								FROM
-								e_desk.ED07_LABORATORIO_ASESOR";
-					
+								e_desk.ED07_LABORATORIO_ASESOR
+								WHERE 
+								SIS03_LABORATORIOID='$RBD' ";
 					
 						$rowset = $DB->fetchAll($sSQL);
 				
@@ -212,21 +264,19 @@ class ZendExt_RutinasPhp
 							if(trim($row_datosQuery["SIS03_LABORATORIOID"])!="")
 							{
 								  $ID=$row_datosQuery["SIS03_LABORATORIOID"];
-								  $LISTAUSUARIOS["$ID"]["EMAIL"]=$row_datosQuery["ED07_MAILASESOR"];
+								  $LISTAUSUARIOS["$ID"]=$row_datosQuery["ED07_MAILASESOR"];
 							}								
 						}
-				  
-						if (isset($LISTAUSUARIOS))
+				  		
+				  		if (isset($LISTAUSUARIOS))
 							return $LISTAUSUARIOS;
-				  
-
+				  		else
+							return "0";
+				  		
     }
 
 
-
-
-
-	function obtiene_usuarios_solicitud_ticket()
+	function obtiene_usuarios_solicitud_ticket($SOLICITUDID,$TICKETID)
     {
         
 						$DB = Zend_Registry::get('db1');
@@ -249,6 +299,15 @@ class ZendExt_RutinasPhp
 								LEFT JOIN
 								e_desk.ED01_USUARIO U2 on T.ED03_DERIVADO=U2.ED01_USUARIOID";
 					
+						if(trim($SOLICITUDID)!="")
+						   $sSQL.=" WHERE S.ED02_SOLICITUDID='$SOLICITUDID'";
+					
+					
+						if(trim($TICKETID)!="")
+						   $sSQL.=" WHERE T.ED03_TICKETID='$TICKETID'";
+										
+					
+					
 					
 						$rowset = $DB->fetchAll($sSQL);
 				
@@ -256,30 +315,37 @@ class ZendExt_RutinasPhp
 						{
 							if(trim($row_datosQuery["ED02_SOLICITUDID"])!="")
 							{
-								  $ID=$row_datosQuery["ED02_SOLICITUDID"];
-								  $ID2=$row_datosQuery["ED03_TICKETID"];
-								  
-								  $LISTAUSUARIOS["$ID"]["SOLICITUD"]->USUARIOID=$row_datosQuery["userid1"];
-								  $LISTAUSUARIOS["$ID"]["SOLICITUD"]->EMAIL=$row_datosQuery["email1"];
+								  $LISTAUSUARIOS1["USUARIOID"]=$row_datosQuery["userid1"];
+								  $LISTAUSUARIOS1["EMAIL"]=$row_datosQuery["email1"];
 								  
 								  if(trim($row_datosQuery["userid2"])!="")
 								  {
-									  $LISTAUSUARIOS["$ID"]["TICKET"]->USUARIOID=$row_datosQuery["userid2"];
-									  $LISTAUSUARIOS["$ID"]["TICKET"]->EMAIL=$row_datosQuery["email2"];
+									  $LISTAUSUARIOS2["USUARIOID"]=$row_datosQuery["userid2"];
+									  $LISTAUSUARIOS2["EMAIL"]=$row_datosQuery["email2"];
 								  }
 		
 							}								
 						}
 				  
-						if (isset($LISTAUSUARIOS))
-							return $LISTAUSUARIOS;
 				  
+				  		if(isset($LISTAUSUARIOS1))
+						   $MATRIZ_NOTIFICACIONES[0]=$LISTAUSUARIOS1;
+						
+						if(isset($LISTAUSUARIOS2))
+						   $MATRIZ_NOTIFICACIONES[1]=$LISTAUSUARIOS2;
+		
+		
+						if(isset($MATRIZ_NOTIFICACIONES))
+						   return $MATRIZ_NOTIFICACIONES;
+						else   
+						   return "0";
+					
 
     }
 
 
 
-	function obtiene_usuarios_solicitud_asistencia()
+	function obtiene_usuarios_solicitud_asistencia($SOLICITUDID,$ASISTENCIAID)
     {
         
 						$DB = Zend_Registry::get('db1');
@@ -304,37 +370,57 @@ class ZendExt_RutinasPhp
 								";
 					
 					
+					
+						if(trim($SOLICITUDID)!="")
+						   $sSQL.=" WHERE S.ED02_SOLICITUDID='$SOLICITUDID'";
+					
+					
+						if(trim($ASISTENCIAID)!="")
+						   $sSQL.=" WHERE T.ED05_ASISTENCIAID='$ASISTENCIAID'";
+										
+					
+					
+					
+					
 						$rowset = $DB->fetchAll($sSQL);
 				
 						foreach($rowset as $row_datosQuery)
 						{
 							if(trim($row_datosQuery["ED02_SOLICITUDID"])!="")
 							{
-								  $ID=$row_datosQuery["ED02_SOLICITUDID"];
-								  $ID2=$row_datosQuery["ED05_ASISTENCIAID"];
 								  
-								  $LISTAUSUARIOS["$ID"]["SOLICITUD"]->USUARIOID=$row_datosQuery["userid1"];
-								  $LISTAUSUARIOS["$ID"]["SOLICITUD"]->EMAIL=$row_datosQuery["email1"];
+								  $LISTAUSUARIOS1["USUARIOID"]=$row_datosQuery["userid1"];
+								  $LISTAUSUARIOS1["EMAIL"]=$row_datosQuery["email1"];
 								  
 								  if(trim($row_datosQuery["userid2"])!="")
 								  {
-									  $LISTAUSUARIOS["$ID"]["ASISTENCIA"]->USUARIOID=$row_datosQuery["userid2"];
-									  $LISTAUSUARIOS["$ID"]["ASISTENCIA"]->EMAIL=$row_datosQuery["email2"];
+									  $LISTAUSUARIOS2["USUARIOID"]=$row_datosQuery["userid2"];
+									  $LISTAUSUARIOS2["EMAIL"]=$row_datosQuery["email2"];
 								  }
 		
 							}								
 						}
 				  
-						if (isset($LISTAUSUARIOS))
-							return $LISTAUSUARIOS;
-				  
+					
+						if(isset($LISTAUSUARIOS1))
+						   $MATRIZ_NOTIFICACIONES[0]=$LISTAUSUARIOS1;
+						
+						if(isset($LISTAUSUARIOS2))
+						   $MATRIZ_NOTIFICACIONES[1]=$LISTAUSUARIOS2;
+		
+		
+						if(isset($MATRIZ_NOTIFICACIONES))
+						   return $MATRIZ_NOTIFICACIONES;
+						else   
+						   return "0";
+					
 
     }
 
 
 
 
-	function obtiene_usuarios_incidente_asistencia()
+	function obtiene_usuarios_incidente_asistencia($TICKETID,$ASISTENCIAID)
     {
         
 						$DB = Zend_Registry::get('db1');
@@ -342,10 +428,10 @@ class ZendExt_RutinasPhp
 						$sSQL="SELECT
 								S.ED03_TICKETID,
 								T.ED05_ASISTENCIAID,
-								U1.ED01_USUARIOID,
-								U1.ED01_EMAIL,
-								U2.ED01_USUARIOID,
-								U2.ED01_EMAIL
+								U1.ED01_USUARIOID as userid1,
+								U1.ED01_EMAIL as email1,
+								U2.ED01_USUARIOID as userid2,
+								U2.ED01_EMAIL as email2
 								FROM
 								e_desk.ED03_TICKET S
 								LEFT JOIN
@@ -358,30 +444,44 @@ class ZendExt_RutinasPhp
 								e_desk.ED01_USUARIO U2 on T.ED05_DERIVADO=U2.ED01_USUARIOID	";
 					
 					
+						if(trim($TICKETID)!="")
+						   $sSQL.=" WHERE S.ED03_TICKETID='$TICKETID'";
+					
+					
+						if(trim($ASISTENCIAID)!="")
+						   $sSQL.=" WHERE T.ED05_ASISTENCIAID='$ASISTENCIAID'";
+										
+					
 						$rowset = $DB->fetchAll($sSQL);
 				
 						foreach($rowset as $row_datosQuery)
 						{
 							if(trim($row_datosQuery["ED03_TICKETID"])!="")
 							{
-								  $ID=$row_datosQuery["ED03_TICKETID"];
-								  $ID2=$row_datosQuery["ED05_ASISTENCIAID"];
-								  
-								  $LISTAUSUARIOS["$ID"]["TICKET"]->USUARIOID=$row_datosQuery["userid1"];
-								  $LISTAUSUARIOS["$ID"]["TICKET"]->EMAIL=$row_datosQuery["email1"];
+								  $LISTAUSUARIOS1["USUARIOID"]=$row_datosQuery["userid1"];
+								  $LISTAUSUARIOS1["EMAIL"]=$row_datosQuery["email1"];
 								  
 								  if(trim($row_datosQuery["userid2"])!="")
 								  {
-									  $LISTAUSUARIOS["$ID"]["ASISTENCIA"]->USUARIOID=$row_datosQuery["userid2"];
-									  $LISTAUSUARIOS["$ID"]["ASISTENCIA"]->EMAIL=$row_datosQuery["email2"];
+									  $LISTAUSUARIOS2["USUARIOID"]=$row_datosQuery["userid2"];
+									  $LISTAUSUARIOS2["EMAIL"]=$row_datosQuery["email2"];
 								  }
 		
 							}								
 						}
 				  
-						if (isset($LISTAUSUARIOS))
-							return $LISTAUSUARIOS;
 				  
+						if(isset($LISTAUSUARIOS1))
+						   $MATRIZ_NOTIFICACIONES[0]=$LISTAUSUARIOS1;
+						
+						if(isset($LISTAUSUARIOS2))
+						   $MATRIZ_NOTIFICACIONES[1]=$LISTAUSUARIOS2;
+		
+		
+						if(isset($MATRIZ_NOTIFICACIONES))
+						   return $MATRIZ_NOTIFICACIONES;
+						else   
+						   return "0";
 
     }
 
@@ -402,6 +502,12 @@ class ZendExt_RutinasPhp
 	
 					//permisos
 					/*
+					
+					SETEADOS EN APLICATION INI
+					
+					vectorPermisos.LAB.N3 = Operador Mesa de ayuda
+					vectorPermisos.LAB.N3ACC = 1-1@@5-1#6@@6-6@@7-1@@8-1@@9-1@@10-1@@11-1@@12-1
+				
 					1 - ver
 					2 - agregar
 					3 - editar
@@ -528,14 +634,398 @@ class ZendExt_RutinasPhp
 					}
 				
 				
-				
 					return $acceso_funcionalidades;
-				
-				
 					
 		}
 
 
+		///////////////////////NOTIFICACIONES/////////////////////////
+		///////////////////////NOTIFICACIONES/////////////////////////
+		
+		
+		function notificaciones_solicitudes($ELCOLEGIO,$USUARIO,$EMAIL)
+		{
+        
+						#################################
+						##NOTIFICACIONES
+						#################################
+						//ASESOR COLEGIO
+						$destinadatario1=$this->obtiene_colegio_asesor($ELCOLEGIO);	
+						if($destinadatario1!="0")
+						{
+							foreach($destinadatario1 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+								   $MAILS_A_NOTIFICAR["$valor"]=$valor;
+							}
+						}
+						//SUPERVISOR SAC
+						$destinadatario2=$this->obtiene_usuarios_supervisor_sac();
+						if($destinadatario2!="0")
+						{
+							foreach($destinadatario2 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+									$MAILS_A_NOTIFICAR["$valor"]=$valor;
+							
+								if(trim($USUARIO)!=trim($clave))
+									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
+							}
+						}
+						//SUPERVISOR MESA AYUDA
+						$destinadatario3=$this->obtiene_usuarios_supervisor_mesa_ayuda();
+						if($destinadatario3!="0")
+						{
+							foreach($destinadatario3 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+									$MAILS_A_NOTIFICAR["$valor"]=$valor;
+								
+								if(trim($USUARIO)!=trim($clave))
+									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
+							}
+						}													
+						//SUPERVISOR USUARIO NESA AYUDA
+						$destinadatario4=$this->obtiene_usuarios_mesa_ayuda();
+						if($destinadatario4!="0")
+						{
+							foreach($destinadatario4 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+									$MAILS_A_NOTIFICAR["$valor"]=$valor;
+						
+								if(trim($USUARIO)!=trim($clave))
+									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
+							}
+						}												
+
+			
+						if(isset($MAILS_A_NOTIFICAR))
+						   $MATRIZ_NOTIFICACIONES[0]=$MAILS_A_NOTIFICAR;
+						
+						if(isset($USUARIOS_A_NOTIFICAR))
+						   $MATRIZ_NOTIFICACIONES[1]=$USUARIOS_A_NOTIFICAR;
+		
+		
+						if(isset($MATRIZ_NOTIFICACIONES))
+						   return $MATRIZ_NOTIFICACIONES;
+						else   
+						   return "0";
+							
+
+		}
+
+
+
+		
+		function notificaciones_incidentes_seg($incidenteid,$USUARIO,$EMAIL)
+		{
+        
+					$DB = Zend_Registry::get('db1');
+      
+					//validamos que no exista usuario
+					$sSQL = "	SELECT 
+								s.ED03_TICKETID,
+								s.SIS03_LABORATORIOID
+								FROM 
+								e_desk.ED03_TICKET s
+								WHERE 
+								s.ED03_TICKETID = '$incidenteid' ";
+								
+								
+							$rowset = $DB->fetchAll($sSQL);
+							foreach($rowset as $row_datosQuery)
+							{
+									if(trim($row_datosQuery["ED03_TICKETID"])!="")
+									{
+										$ELCOLEGIO=$row_datosQuery["SIS03_LABORATORIOID"];
+									}
+							}
+							
+		
+		
+						#################################
+						##NOTIFICACIONES
+						#################################
+						$destinadatario00=$this->obtiene_usuarios_incidente_asistencia($incidenteid,'');
+						if($destinadatario00!="0")
+						{
+								if(isset($destinadatario00[0]))
+								{
+									foreach($destinadatario00[0] as $clave => $valor)
+									{
+										if($clave=="USUARIOID")
+											$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+										if($clave=="EMAIL")
+											$MAILS_A_NOTIFICAR["$valor"]=$valor;
+									}
+								}
+
+								if(isset($destinadatario00[1]))
+								{
+									foreach($destinadatario00[1] as $clave => $valor)
+									{
+										if($clave=="USUARIOID")
+											$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+										if($clave=="EMAIL")
+											$MAILS_A_NOTIFICAR["$valor"]=$valor;
+								
+									}
+								}
+
+						}
+
+		
+						$destinadatario0=$this->obtiene_usuarios_solicitud_ticket('',$incidenteid);
+						if($destinadatario0!="0")
+						{
+								if(isset($destinadatario0[0]))
+								{
+									foreach($destinadatario0[0] as $clave => $valor)
+									{
+										if($clave=="USUARIOID")
+											$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+										if($clave=="EMAIL")
+											$MAILS_A_NOTIFICAR["$valor"]=$valor;
+									}
+								}
+
+								if(isset($destinadatario0[1]))
+								{
+									foreach($destinadatario0[1] as $clave => $valor)
+									{
+										if($clave=="USUARIOID")
+											$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+										if($clave=="EMAIL")
+											$MAILS_A_NOTIFICAR["$valor"]=$valor;
+								
+									}
+								}
+
+						}
+
+						
+						//ASESOR COLEGIO
+						$destinadatario1=$this->obtiene_colegio_asesor($ELCOLEGIO);	
+						if($destinadatario1!="0")
+						{
+							foreach($destinadatario1 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+								   $MAILS_A_NOTIFICAR["$valor"]=$valor;
+							}
+						}
+						//SUPERVISOR SAC
+						$destinadatario2=$this->obtiene_usuarios_supervisor_sac();
+						if($destinadatario2!="0")
+						{
+							foreach($destinadatario2 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+									$MAILS_A_NOTIFICAR["$valor"]=$valor;
+							
+								if(trim($USUARIO)!=trim($clave))
+									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
+							}
+						}
+						//SUPERVISOR MESA AYUDA
+						$destinadatario3=$this->obtiene_usuarios_supervisor_mesa_ayuda();
+						if($destinadatario3!="0")
+						{
+							foreach($destinadatario3 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+									$MAILS_A_NOTIFICAR["$valor"]=$valor;
+								
+								if(trim($USUARIO)!=trim($clave))
+									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
+							}
+						}													
+						//SUPERVISOR USUARIO NESA AYUDA
+						$destinadatario4=$this->obtiene_usuarios_mesa_ayuda();
+						if($destinadatario4!="0")
+						{
+							foreach($destinadatario4 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+									$MAILS_A_NOTIFICAR["$valor"]=$valor;
+						
+								if(trim($USUARIO)!=trim($clave))
+									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
+							}
+						}												
+
+			
+						if(isset($MAILS_A_NOTIFICAR))
+						   $MATRIZ_NOTIFICACIONES[0]=$MAILS_A_NOTIFICAR;
+						
+						if(isset($USUARIOS_A_NOTIFICAR))
+						   $MATRIZ_NOTIFICACIONES[1]=$USUARIOS_A_NOTIFICAR;
+		
+		
+						if(isset($MATRIZ_NOTIFICACIONES))
+						   return $MATRIZ_NOTIFICACIONES;
+						else   
+						   return "0";
+							
+
+		}
+
+
+
+		function notificaciones_asistencias_seg($asistenciaid,$USUARIO,$EMAIL)
+		{
+        			
+						$DB = Zend_Registry::get('db1');
+      
+					
+						$sSQL="SELECT 
+								s.ED05_ASISTENCIAID,
+								s.SIS03_LABORATORIOID
+								FROM 
+								e_desk.ED05_ASISTENCIA_TECNICA s
+								WHERE 
+								s.ED05_ASISTENCIAID = '$asistenciaid' ";	
+							
+								
+							$rowset = $DB->fetchAll($sSQL);
+							foreach($rowset as $row_datosQuery)
+							{
+									if(trim($row_datosQuery["ED05_ASISTENCIAID"])!="")
+									{
+											$ELCOLEGIO=$row_datosQuery["SIS03_LABORATORIOID"];
+									}
+
+							}
+						
+				
+					
+						#################################
+						##NOTIFICACIONES
+						#################################
+						$destinadatario00=$this->obtiene_usuarios_incidente_asistencia('',$asistenciaid);
+						if($destinadatario00!="0")
+						{
+								if(isset($destinadatario00[0]))
+								{
+									foreach($destinadatario00[0] as $clave => $valor)
+									{
+										if($clave=="USUARIOID")
+											$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+										if($clave=="EMAIL")
+											$MAILS_A_NOTIFICAR["$valor"]=$valor;
+									}
+								}
+
+								if(isset($destinadatario00[1]))
+								{
+									foreach($destinadatario00[1] as $clave => $valor)
+									{
+										if($clave=="USUARIOID")
+											$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+										if($clave=="EMAIL")
+											$MAILS_A_NOTIFICAR["$valor"]=$valor;
+								
+									}
+								}
+
+						}
+
+		
+						$destinadatario0=$this->obtiene_usuarios_solicitud_asistencia('',$asistenciaid);
+						if($destinadatario0!="0")
+						{
+								if(isset($destinadatario0[0]))
+								{
+									foreach($destinadatario0[0] as $clave => $valor)
+									{
+										if($clave=="USUARIOID")
+											$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+										if($clave=="EMAIL")
+											$MAILS_A_NOTIFICAR["$valor"]=$valor;
+									}
+								}
+
+								if(isset($destinadatario0[1]))
+								{
+									foreach($destinadatario0[1] as $clave => $valor)
+									{
+										if($clave=="USUARIOID")
+											$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+										if($clave=="EMAIL")
+											$MAILS_A_NOTIFICAR["$valor"]=$valor;
+								
+									}
+								}
+
+						}
+
+
+						//ASESOR COLEGIO
+						$destinadatario1=$this->obtiene_colegio_asesor($ELCOLEGIO);	
+						if($destinadatario1!="0")
+						{
+							foreach($destinadatario1 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+								   $MAILS_A_NOTIFICAR["$valor"]=$valor;
+							}
+						}
+						//SUPERVISOR SAC
+						$destinadatario2=$this->obtiene_usuarios_supervisor_sac();
+						if($destinadatario2!="0")
+						{
+							foreach($destinadatario2 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+									$MAILS_A_NOTIFICAR["$valor"]=$valor;
+							
+								if(trim($USUARIO)!=trim($clave))
+									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
+							}
+						}
+						//SUPERVISOR MESA AYUDA
+						$destinadatario3=$this->obtiene_usuarios_supervisor_mesa_ayuda();
+						if($destinadatario3!="0")
+						{
+							foreach($destinadatario3 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+									$MAILS_A_NOTIFICAR["$valor"]=$valor;
+								
+								if(trim($USUARIO)!=trim($clave))
+									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
+							}
+						}													
+						//SUPERVISOR USUARIO NESA AYUDA
+						$destinadatario4=$this->obtiene_usuarios_mesa_ayuda();
+						if($destinadatario4!="0")
+						{
+							foreach($destinadatario4 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+									$MAILS_A_NOTIFICAR["$valor"]=$valor;
+						
+								if(trim($USUARIO)!=trim($clave))
+									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
+							}
+						}												
+
+			
+						if(isset($MAILS_A_NOTIFICAR))
+						   $MATRIZ_NOTIFICACIONES[0]=$MAILS_A_NOTIFICAR;
+						
+						if(isset($USUARIOS_A_NOTIFICAR))
+						   $MATRIZ_NOTIFICACIONES[1]=$USUARIOS_A_NOTIFICAR;
+		
+		
+						if(isset($MATRIZ_NOTIFICACIONES))
+						   return $MATRIZ_NOTIFICACIONES;
+						else   
+						   return "0";
+							
+
+		}
 
 
 
