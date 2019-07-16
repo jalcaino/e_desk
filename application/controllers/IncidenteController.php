@@ -347,7 +347,7 @@ class IncidenteController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 									
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(13)";
 													exit;	
 											
 												}
@@ -455,7 +455,7 @@ class IncidenteController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(14)";
 													exit;	
 												}
 
@@ -533,7 +533,7 @@ class IncidenteController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(15)";
 													exit;	
 												}
 
@@ -643,7 +643,7 @@ class IncidenteController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(16)";
 													exit;	
 												}
 
@@ -1028,7 +1028,7 @@ class IncidenteController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 									
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(17)";
 													exit;	
 											
 												}
@@ -1211,7 +1211,7 @@ class IncidenteController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(18)";
 													exit;	
 												}
 
@@ -1318,7 +1318,7 @@ class IncidenteController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(19)";
 													exit;	
 												}
 
@@ -1385,7 +1385,7 @@ class IncidenteController extends Zend_Controller_Action
 						} catch (Zend_Exception $e) {
 
 							//echo $e->getMessage();
-							echo "KO|Se ha producido un error..";
+							echo "KO|Se ha producido un error..(20)";
 
 						}
 		
@@ -1503,7 +1503,7 @@ class IncidenteController extends Zend_Controller_Action
 																
 								
 						if(trim($busqueda)!="")
-								$sSQL.=" WHERE s.ED03_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID='".$busqueda."' OR s.ED03_TICKETID='".$busqueda."' ";		
+								$sSQL.=" WHERE s.ED03_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID='".$busqueda."' OR s.ED03_TICKETID='".$busqueda."' OR s.SIS05_CODIGOMODULO='".$busqueda."' ";		
 
 					
 									

@@ -209,7 +209,7 @@ class BitacoraasistenciaController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(9)";
 													exit;	
 												}
 
@@ -334,7 +334,7 @@ class BitacoraasistenciaController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(10)";
 													exit;	
 												}
 

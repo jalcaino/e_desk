@@ -195,7 +195,7 @@ class SolicitudController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 									
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(23)";
 													exit;	
 											
 												}
@@ -294,7 +294,7 @@ class SolicitudController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(24)";
 													exit;	
 												}
 
@@ -433,7 +433,7 @@ class SolicitudController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(25)";
 													exit;	
 												}
 
@@ -672,7 +672,7 @@ class SolicitudController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 									
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(26)";
 													exit;	
 											
 												}
@@ -796,7 +796,7 @@ class SolicitudController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(27)";
 													exit;	
 												}
 
@@ -901,7 +901,7 @@ class SolicitudController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(28)";
 													exit;	
 												}
 
@@ -967,7 +967,7 @@ class SolicitudController extends Zend_Controller_Action
 						} catch (Zend_Exception $e) {
 
 							//echo $e->getMessage();
-							echo "KO|Se ha producido un error..";
+							echo "KO|Se ha producido un error..(29)";
 
 						}
 		

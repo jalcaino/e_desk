@@ -314,7 +314,7 @@ class AsistenciaController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 									
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(1)";
 													exit;	
 											
 												}
@@ -414,7 +414,7 @@ class AsistenciaController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(2)";
 													exit;	
 												}
 
@@ -520,7 +520,7 @@ class AsistenciaController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(3)";
 													exit;	
 												}
 
@@ -629,7 +629,7 @@ class AsistenciaController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(4)";
 													exit;	
 												}
 
@@ -887,7 +887,7 @@ class AsistenciaController extends Zend_Controller_Action
 												} catch (Zend_Exception $e) {
 									
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(5)";
 													exit;	
 											
 												}
@@ -1128,7 +1128,7 @@ class AsistenciaController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(6)";
 													exit;	
 												}
 
@@ -1226,7 +1226,7 @@ class AsistenciaController extends Zend_Controller_Action
 							
 													$DB->rollBack();
 													//echo("KO|".$e->getMessage());
-													echo "KO|Se ha producido un error..";
+													echo "KO|Se ha producido un error..(7)";
 													exit;	
 												}
 
@@ -1291,7 +1291,7 @@ class AsistenciaController extends Zend_Controller_Action
 						} catch (Zend_Exception $e) {
 
 							//echo $e->getMessage();
-							echo "KO|Se ha producido un error..";
+							echo "KO|Se ha producido un error..(8)";
 
 						}
 		

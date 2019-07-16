@@ -324,7 +324,7 @@ class LoginController extends Zend_Controller_Action
 					
 											$DB->rollBack();
 											//echo("KO|".$e->getMessage());
-											echo "KO|Se ha producido un error..";
+											echo "KO|Se ha producido un error..(21)";
 											exit;	
 										}
 				
@@ -403,8 +403,8 @@ class LoginController extends Zend_Controller_Action
 								} catch (Zend_Exception $e) {
 			
 									$DB->rollBack();
-									echo("KO|".$e->getMessage());
-									//echo "KO|Se ha producido un error..";
+									//echo("KO|".$e->getMessage());
+									echo "KO|Se ha producido un error..(22)";
 									exit;	
 								}
 
