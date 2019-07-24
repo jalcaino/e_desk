@@ -507,7 +507,7 @@ class UsuarioController extends Zend_Controller_Action
 
 						$CONTADOR_USUARIOS=0;
 					
-						//ALUMNOS
+						//USUARIOS
 						////////////////////////////
 						$sSQL="SELECT
 								u.ED01_USUARIOID,

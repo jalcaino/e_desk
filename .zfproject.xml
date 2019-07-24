@@ -114,6 +114,11 @@
           <actionMethod actionName="imprimir"/>
           <actionMethod actionName="grafico"/>
         </controllerFile>
+        <controllerFile controllerName="Tareas">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="avisonotificaciones"/>
+          <actionMethod actionName="avisoincidenteretraso"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory>
@@ -121,7 +126,9 @@
           <layoutScriptFile layoutName="layout"/>
         </layoutScriptsDirectory>
       </layoutsDirectory>
-      <modelsDirectory/>
+      <modelsDirectory>
+        <modelFile modelName="Ed01usuario"/>
+      </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <servicesDirectory enabled="false"/>
       <viewsDirectory>
@@ -362,6 +369,15 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Infcolegio">
             <viewScriptFile forActionName="grafico"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Tareas">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Tareas">
+            <viewScriptFile forActionName="avisonotificaciones"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Tareas">
+            <viewScriptFile forActionName="avisoincidenteretraso"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

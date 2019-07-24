@@ -661,7 +661,7 @@ class LoginController extends Zend_Controller_Action
 
 				$sSQL = "SELECT
 							E.ED05_ASISTENCIAID as SEGID,
-							DATE_FORMAT(T.ED11_TIPONOTIFICACION, '%d/%m/%Y') as FECHANOTIFICACION,
+							DATE_FORMAT(T.ED11_FECHANOTIFICACION, '%d/%m/%Y') as FECHANOTIFICACION,
 							E.ED05_ASISTENCIAID as MAESTROID,
 							E.ED05_DETALLEASISTENCIAREALIZAR as SEGCOMENTARIOS,
 							T.ED01_USUARIOID as USUARIO_ORIGEN,
@@ -672,7 +672,7 @@ class LoginController extends Zend_Controller_Action
 							WHERE
 							T.ED11_LEIDO=0 and T.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."'
 							ORDER BY
-							T.ED11_TIPONOTIFICACION asc";
+							T.ED11_FECHANOTIFICACION asc";
 
 
 				$rowset = $DB->fetchAll($sSQL);
