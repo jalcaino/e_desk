@@ -119,6 +119,10 @@
           <actionMethod actionName="avisonotificaciones"/>
           <actionMethod actionName="avisoincidenteretraso"/>
         </controllerFile>
+        <controllerFile controllerName="Loginusuario">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="validarusuario"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory>
@@ -378,6 +382,12 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Tareas">
             <viewScriptFile forActionName="avisoincidenteretraso"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Loginusuario">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Loginusuario">
+            <viewScriptFile forActionName="validarusuario"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
