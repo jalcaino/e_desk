@@ -46,7 +46,73 @@ CREATE TABLE `SIS03_LABORATORIO` (
   `SIS03_NIVELES` varchar(255),
   `SIS03_PRODUCTOS` varchar(255),
   `SIS03_CONEMATLOCAL` int(10),
-  `SIS03_INTALADONEMATLOCAL` int(10)
+  `SIS03_INTALADONEMATLOCAL` int(10),
+  `SIS03_DISTRIBUIDO` int(11),
+  `SIS03_INFO_DISTRIBUIDO` text,
+  `SIS03_TIPO_CONTACTO_1` int(10),
+  `SIS03_NOMBRE_CONTACTO_1` varchar(50),
+  `SIS03_FONO_CONTACTO_1` varchar(50),
+  `SIS03_CELULAR_CONTACTO_1` varchar(50),
+  `SIS03_EMAIL_CONTACTO_1` varchar(100),
+  `SIS03_TIPO_CONTACTO_2` int(10),
+  `SIS03_NOMBRE_CONTACTO_2` varchar(50),
+  `SIS03_FONO_CONTACTO_2` varchar(50),
+  `SIS03_CELULAR_CONTACTO_2` varchar(50),
+  `SIS03_EMAIL_CONTACTO_2` varchar(100),
+  `SIS03_TIPO_CONTACTO_3` int(10) unsigned,
+  `SIS03_NOMBRE_CONTACTO_3` varchar(50),
+  `SIS03_FONO_CONTACTO_3` varchar(50),
+  `SIS03_CELULAR_CONTACTO_3` varchar(50),
+  `SIS03_EMAIL_CONTACTO_3` varchar(100),
+  `SIS03_RUT_ASESOR` varchar(45),
+  `SIS03_FONO_COLEGIO` varchar(50),
+  `SIS03_OBSERVACIONES` text,
+  `SIS03_CHECKLIST_1` longblob,
+  `SIS03_NOMBRE_ARCHIVO_CHECKLIST_1` varchar(255),
+  `SIS03_PESO_CHECKLIST_1` int(10),
+  `SIS03_TIPO_ARCHIVO_CHECKLIST_1` varchar(45),
+  `SIS03_CHECKLIST_2` longblob,
+  `SIS03_NOMBRE_ARCHIVO_CHECKLIST_2` varchar(255),
+  `SIS03_PESO_CHECKLIST_2` int(10),
+  `SIS03_TIPO_ARCHIVO_CHECKLIST_2` varchar(45),
+  `SIS03_FECHA_OPERATIVO` datetime,
+  `SIS03_OTROS_DISPOSITIVOS` varchar(255),
+  `SIS03_OTROS_DISPOSITIVOS_INFO` text,
+  `SIS03_SEGMENTO_VALOR` varchar(255),
+  `SIS03_COMUNA_ID` int(11),
+  `SIS03_REGION_ID` int(11),
+  `SIS03_DEPENDENCIA` varchar(10),
+  `SIS03_NUM_ALUMNOS` int(10),
+  `SIS03_NUM_PROFESORES` int(10),
+  `SIS03_PAGO_MENSUALIDAD_ALUMNO` varchar(255),
+  `SIS03_MONTO_SEP` int(10),
+  `SIS03_NUM_SUCURSALES` int(10) unsigned,
+  `SIS03_NOMBRE_EJECUTIVO_VENTAS` varchar(100),
+  `SIS03_DETALLE_CURSOS_NIVELES` text,
+  `SIS03_NUM_LABORATORIOS` int(10),
+  `SIS03_TIPO_LABORATORIO` varchar(45),
+  `SIS03_DISPOSITIVOS` varchar(255),
+  `SIS03_PROVEEDOR_INTERNET` varchar(100),
+  `SIS03_COMPU_X_ALUMNO` int(11),
+  `SIS03_PLATAFORMAS_EN_USO` text,
+  `SIS03_ULTIMA_VIGENCIA` varchar(255),
+  `SIS03_EVENTOS_DEL_ANIO` text,
+  `SIS03_TIPO_CONTRATO` varchar(255),
+  `SIS03_FORMA_PAGO` varchar(100),
+  `SIS03_PRIMER_ANIO_VENTA` varchar(50),
+  `SIS03_ULTIMO_ANIO_VENTA` varchar(50),
+  `SIS03_MOTIVO_NO_RENUEVA` text,
+  `SIS03_MOTIVO_NO_COMPRA` text,
+  `SIS03_PERFIL_CLIENTE` varchar(255),
+  `SIS03_ANTIGUEDAD` varchar(45),
+  `SIS03_MEDIO_COUMNICACION` text,
+  `SIS03_DESCRIPT_TOPOLOGIA` text,
+  `SIS03_NOMBRE_ARCHIVO_TPOLOGIA` varchar(255),
+  `SIS03_PESO_ARCHIVO_TPOLOGIA` int(10),
+  `SIS03_TIPO_ARCHIVO_TPOLOGIA` varchar(45),
+  `SIS03_ARCHIVO_TPOLOGIA` longblob,
+  `SIS03_FECHA_INSERT` datetime,
+  `SIS03_FECHA_UPDATE` timestamp
 );
 
 --
@@ -78,7 +144,7 @@ INSERT INTO `ED01_USUARIO` (`ED01_USUARIOID`,`SIS02_NIVELID`,`SIS01_SECTORID`,`E
  ('aaedo',6,'INF','Alejandra Aedo','aaedo@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-07-01','2019-07-01 10:08:54'),
  ('aaguero',2,'LAB','Ana Aguero','ana.aguero@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-07-01','2019-07-01 10:01:30'),
  ('ayanez',7,'SAC','America Yañez','ayanez@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-07-10','2019-07-10 11:49:53'),
- ('cherrera',1,'INF','Claudia Herrera','cherrerarojas2019@gmail.com','b929f9b4dab8b5c6ffc571eb47ae1d27',0,1,'2019-07-06','2019-07-06 02:36:37'),
+ ('cherrera',1,'INF','Claudia Herrera','cherrerarojas2019@gmail.com','2b88ca8af91331b8cdb0d07ea7409806',0,1,'2019-07-06','2019-07-27 07:01:17'),
  ('emartinez',3,'LAB','Eduardo Martinez','emartinez@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-06-29','2019-06-29 10:16:17'),
  ('gpiaggio',7,'SAC','Gabriela Piaggio','gpiaggio@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-07-01','2019-07-01 10:03:54'),
  ('isegovia',6,'INF','Jean Segovia','isegovia@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-07-01','2019-07-01 10:10:26'),
@@ -110,7 +176,7 @@ CREATE TABLE `ED02_SOLICITUD` (
   `ED02_ESTADO` varchar(50) DEFAULT NULL,
   `ED01_USUARIOID` varchar(50) NOT NULL,
   PRIMARY KEY (`ED02_SOLICITUDID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1683 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1684 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ED02_SOLICITUD`
@@ -163,7 +229,8 @@ INSERT INTO `ED02_SOLICITUD` (`ED02_SOLICITUDID`,`SIS03_LABORATORIOID`,`SIS04_PR
  (1679,'10247','EMAT-INICIAL','2019-07-14','el detalle solicitud',NULL,NULL,NULL,'José Alcaíno','2019-07-14','2019-07-14 09:17:49','PENDIENTE','jalcaino'),
  (1680,'10019','EMAT-INICIAL','2019-07-14','prueba',0x2F6172636869766F735F75706C6F61642F68756E647265642E646F6378,'hundred.docx','application/vnd.openxmlformats-officedocument.word','America Yañez','2019-07-14','2019-07-14 09:21:40','PENDIENTE','ayanez'),
  (1681,'10247','EMAT-INICIAL','2019-07-14','prueba\r\nprobando2',0x2F6172636869766F735F75706C6F61642F68756E647265642E646F6378,'hundred.docx','application/vnd.openxmlformats-officedocument.word','ayanez','2019-07-14','2019-07-14 09:56:14','PENDIENTE','ayanez'),
- (1682,'10010','EMAT-INICIAL','2019-07-15','solicitud detalle 1\r\ndsdssdsd',0x2F6172636869766F735F75706C6F61642F6C6F67696E2E706466,'login.pdf','application/pdf','jalcaino','2019-07-15','2019-07-15 01:48:45','PENDIENTE','jalcaino');
+ (1682,'10010','EMAT-INICIAL','2019-07-15','solicitud detalle 1\r\ndsdssdsd',0x2F6172636869766F735F75706C6F61642F6C6F67696E2E706466,'login.pdf','application/pdf','jalcaino','2019-07-15','2019-07-15 01:48:45','PENDIENTE','jalcaino'),
+ (1683,'100','EMAT-MEDIA','2019-07-29','el detalle 1',0x2F6172636869766F735F75706C6F61642F6C6F67696E322E706466,'login2.pdf','application/pdf','jalcaino','2019-07-28','2019-07-28 15:07:05','DERIVADO','jalcaino');
 /*!40000 ALTER TABLE `ED02_SOLICITUD` ENABLE KEYS */;
 
 
@@ -198,7 +265,7 @@ CREATE TABLE `ED03_TICKET` (
   `ED03_DERIVADO` varchar(50) DEFAULT NULL,
   `SIS01_SECTORID` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ED03_TICKETID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7652 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7653 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ED03_TICKET`
@@ -212,7 +279,8 @@ INSERT INTO `ED03_TICKET` (`ED03_TICKETID`,`SIS03_LABORATORIOID`,`SIS04_PRODUCTO
  (7647,'10010','EMAT-BASICA','2019-07-15','nombre 1','87878787','lolo@lolo.cl',1,'el detalle','CHAT','1',142,0x2F6172636869766F735F75706C6F61642F6C6F67696E322E706466,'login2.pdf','application/pdf',10,'1 BASICO','DMA1',10,'PENDIENTE','2019-07-15 01:09:51','jalcaino','isegovia','INF'),
  (7649,'10010','EMAT-BASICA','2019-07-15','nombre 1','87878787','lolo@lolo.cl',1,'el detalle','CHAT','1',142,0x2F6172636869766F735F75706C6F61642F6C6F67696E322E706466,'login2.pdf','application/pdf',10,'1 BASICO','DMA1',10,'DERIVADO','2019-07-15 01:53:43','jalcaino','isegovia','INF'),
  (7650,'10010','EMAT-BASICA','2019-07-15','nombre 1','87878787','lolo@lolo.cl',1,'el detalle','CHAT','1',142,0x2F6172636869766F735F75706C6F61642F6C6F67696E322E706466,'login2.pdf','application/pdf',10,'1 BASICO','DMA1',10,'DERIVADO','2019-07-15 01:49:08','jalcaino','isegovia','INF'),
- (7651,'25475','EMAT-BASICA','2019-07-15','jsddsjk','11111','lolo@lolo.cl',1,'klsklasks\r\nsd','CHAT','1',141,0x2F6172636869766F735F75706C6F61642F66696368615F636F6C6567696F2E706466,'ficha_colegio.pdf','application/pdf',0,'1 BASICO','K1A2',10,'DERIVADO','2019-07-15 01:47:34','jalcaino','aaedo','INF');
+ (7651,'25475','EMAT-BASICA','2019-07-15','jsddsjk','11111','lolo@lolo.cl',1,'klsklasks\r\nsd','CHAT','1',141,0x2F6172636869766F735F75706C6F61642F66696368615F636F6C6567696F2E706466,'ficha_colegio.pdf','application/pdf',0,'1 BASICO','K1A2',10,'DERIVADO','2019-07-15 01:47:34','jalcaino','aaedo','INF'),
+ (7652,'100','EMAT-MEDIA','2019-07-01','jalcaino','','lolo@lolo.cl',1,'el detalle 1','CHAT','1',142,NULL,NULL,NULL,0,'1 BASICO','',0,'PENDIENTE','2019-07-28 03:03:22','jalcaino','aaedo','INF');
 /*!40000 ALTER TABLE `ED03_TICKET` ENABLE KEYS */;
 
 
@@ -277,8 +345,8 @@ CREATE TABLE `ED05_ASISTENCIA_TECNICA` (
 
 /*!40000 ALTER TABLE `ED05_ASISTENCIA_TECNICA` DISABLE KEYS */;
 INSERT INTO `ED05_ASISTENCIA_TECNICA` (`ED05_ASISTENCIAID`,`SIS03_LABORATORIOID`,`ED05_FECHAINGRESO`,`ED05_NOMBRESOLICITANTE`,`ED05_TELEFONOSOLICITANTE`,`ED05_EMAILSOLICITANTE`,`ED05_PRIORIDAD`,`ED05_DETALLEASISTENCIAREALIZAR`,`ED05_FECHAREALIZARCE`,`ED05_TIPOCONTACTO`,`ED05_ESTADO`,`ED05_ARCHIVOADJUNTO`,`ED05_NOMBREARCHIVOADJUNTO`,`ED05_TIPOARCHIVOADJUNTO`,`ED05_FECHAULTIMAACTUALIZACION`,`ED01_USUARIOID`,`ED05_DERIVADO`) VALUES 
- (327,'13637','2019-07-13','jjkjkjk','weweewwe','',0,'qwwqwq\r\nqwqwwq\r\n','2019-07-13','TELEFONO','PENDIENTE',NULL,NULL,NULL,'2019-07-13 09:06:00','jalcaino','aaguero'),
- (329,'10019','2019-07-15','kkllk','llklk','lolo@lolol.cl',1,'llññl\r\n\r\nlññlñl','2019-07-15','TELEFONO','PENDIENTE',NULL,NULL,NULL,'2019-07-15 02:12:13','jalcaino','aaguero');
+ (327,'13637','2019-07-13','jjkjkjk','weweewwe','',0,'qwwqwq\r\nqwqwwq\r\n','2019-07-30','TELEFONO','PENDIENTE',NULL,NULL,NULL,'2019-07-27 19:09:15','jalcaino','jalcaino'),
+ (329,'10019','2019-07-15','kkllk','llklk','lolo@lolol.cl',1,'llññl\r\n\r\nlññlñl','2019-07-28','TELEFONO','PENDIENTE',NULL,NULL,NULL,'2019-07-27 19:07:04','jalcaino','jalcaino');
 /*!40000 ALTER TABLE `ED05_ASISTENCIA_TECNICA` ENABLE KEYS */;
 
 
@@ -331,6 +399,7 @@ CREATE TABLE `ED08_USUARIO_ACTIVIDAD` (
 
 /*!40000 ALTER TABLE `ED08_USUARIO_ACTIVIDAD` DISABLE KEYS */;
 INSERT INTO `ED08_USUARIO_ACTIVIDAD` (`ED01_USUARIOID`,`ED08_FECHAHORA`,`ED08_ACCION`,`ED08_MASINFO`) VALUES 
+ ('aaedo','2019-07-25 17:26:43','LOGIN',''),
  ('aaguero','2019-07-15 03:38:52','LOGIN',''),
  ('aaguero','2019-07-15 04:10:48','LOGIN',''),
  ('aaguero','2019-07-15 13:39:38','LOGIN',''),
@@ -349,6 +418,8 @@ INSERT INTO `ED08_USUARIO_ACTIVIDAD` (`ED01_USUARIOID`,`ED08_FECHAHORA`,`ED08_AC
  ('ayanez','2019-07-14 21:39:20','AGREGAR SOLICITUD','NUM:1681'),
  ('ayanez','2019-07-14 21:59:07','LOGIN',''),
  ('ayanez','2019-07-14 21:59:38','EDITAR SOLICITUD','NUM:1681'),
+ ('cherrera','2019-07-27 07:01:17','RECORDAR CLAVE','NUEVA CLAVE:mhpu134m66'),
+ ('cherrera','2019-07-27 07:01:56','LOGIN',''),
  ('emartinez','2019-07-14 08:55:22','LOGIN',''),
  ('emartinez','2019-07-14 13:06:56','LOGIN',''),
  ('emartinez','2019-07-14 13:14:51','LOGIN',''),
@@ -356,6 +427,8 @@ INSERT INTO `ED08_USUARIO_ACTIVIDAD` (`ED01_USUARIOID`,`ED08_FECHAHORA`,`ED08_AC
  ('emartinez','2019-07-14 21:22:44','LOGIN',''),
  ('emartinez','2019-07-17 10:29:49','LOGIN',''),
  ('emartinez','2019-07-23 16:09:31','LOGIN',''),
+ ('emartinez','2019-07-24 08:12:49','LOGIN',''),
+ ('gpiaggio','2019-07-25 15:38:17','LOGIN',''),
  ('jalcaino','2019-07-13 21:03:33','LOGIN',''),
  ('jalcaino','2019-07-13 21:05:36','AGREGAR SOLICITUD','NUM:1637'),
  ('jalcaino','2019-07-13 21:06:55','INSERTAR TICKET INCIDENTE','NUM:7644'),
@@ -411,7 +484,30 @@ INSERT INTO `ED08_USUARIO_ACTIVIDAD` (`ED01_USUARIOID`,`ED08_FECHAHORA`,`ED08_AC
  ('jalcaino','2019-07-15 17:15:58','LOGIN',''),
  ('jalcaino','2019-07-16 18:53:32','LOGIN',''),
  ('jalcaino','2019-07-22 21:42:10','LOGIN',''),
- ('jortiz','2019-07-14 22:00:21','LOGIN','');
+ ('jalcaino','2019-07-24 14:25:57','LOGIN',''),
+ ('jalcaino','2019-07-25 15:36:38','LOGIN',''),
+ ('jalcaino','2019-07-25 22:54:41','LOGIN',''),
+ ('jalcaino','2019-07-25 23:00:04','LOGIN',''),
+ ('jalcaino','2019-07-25 23:28:55','LOGIN',''),
+ ('jalcaino','2019-07-26 19:44:58','LOGIN',''),
+ ('jalcaino','2019-07-26 19:47:32','LOGIN',''),
+ ('jalcaino','2019-07-26 19:57:40','LOGIN',''),
+ ('jalcaino','2019-07-26 21:38:46','LOGIN',''),
+ ('jalcaino','2019-07-26 21:38:57','LOGIN',''),
+ ('jalcaino','2019-07-26 21:53:35','LOGIN',''),
+ ('jalcaino','2019-07-26 22:08:15','LOGIN',''),
+ ('jalcaino','2019-07-27 19:28:44','LOGIN',''),
+ ('jalcaino','2019-07-28 09:42:41','LOGIN',''),
+ ('jalcaino','2019-07-28 15:03:20','LOGIN',''),
+ ('jalcaino','2019-07-28 15:06:02','AGREGAR SOLICITUD','NUM:1683'),
+ ('jalcaino','2019-07-28 15:06:17','EDITAR SOLICITUD','NUM:1683'),
+ ('jalcaino','2019-07-28 15:07:05','INSERTAR TICKET INCIDENTE','NUM:7652'),
+ ('jortiz','2019-07-14 22:00:21','LOGIN',''),
+ ('{','2019-07-25 23:26:38','LOGIN',''),
+ ('{','2019-07-26 19:35:29','LOGIN',''),
+ ('{','2019-07-26 19:36:23','LOGIN',''),
+ ('{','2019-07-26 19:41:17','LOGIN',''),
+ ('{','2019-07-26 19:42:05','LOGIN','');
 /*!40000 ALTER TABLE `ED08_USUARIO_ACTIVIDAD` ENABLE KEYS */;
 
 
@@ -435,7 +531,7 @@ CREATE TABLE `ED09_USUARIO_NOTIFICADO_SEG_TICKET` (
 
 /*!40000 ALTER TABLE `ED09_USUARIO_NOTIFICADO_SEG_TICKET` DISABLE KEYS */;
 INSERT INTO `ED09_USUARIO_NOTIFICADO_SEG_TICKET` (`ED04_SEGTICKETID`,`ED01_USUARIOID`,`ED09_TIPONOTIFICACION`,`ED09_LEIDO`,`ED09_FECHANOTIFICACION`) VALUES 
- (15578,'aaedo',1,0,'2019-07-15 02:01:41'),
+ (15578,'aaedo',1,1,'2019-07-25 17:27:39'),
  (15578,'aaguero',1,1,'2019-07-15 04:34:27'),
  (15578,'ayanez',1,0,'2019-07-15 02:01:41'),
  (15578,'emartinez',1,0,'2019-07-15 02:01:41'),
@@ -464,18 +560,25 @@ CREATE TABLE `ED10_USUARIO_NOTIFICADO_TICKET` (
 
 /*!40000 ALTER TABLE `ED10_USUARIO_NOTIFICADO_TICKET` DISABLE KEYS */;
 INSERT INTO `ED10_USUARIO_NOTIFICADO_TICKET` (`ED01_USUARIOID`,`ED03_TICKETID`,`ED10_TIPONOTIFICACION`,`ED10_LEIDO`,`ED10_FECHANOTIFICACION`) VALUES 
- ('aaedo',7651,1,0,'2019-07-15 01:47:34'),
+ ('aaedo',7651,1,1,'2019-07-25 17:27:39'),
+ ('aaedo',7652,1,0,'2019-07-28 03:03:22'),
  ('aaguero',7650,1,1,'2019-07-15 03:59:28'),
  ('aaguero',7651,1,1,'2019-07-15 04:34:27'),
+ ('aaguero',7652,1,0,'2019-07-28 03:03:22'),
  ('ayanez',7650,1,0,'2019-07-15 01:49:08'),
  ('ayanez',7651,1,0,'2019-07-15 01:47:34'),
+ ('ayanez',7652,1,0,'2019-07-28 03:03:22'),
  ('emartinez',7650,1,0,'2019-07-15 01:49:08'),
  ('emartinez',7651,1,0,'2019-07-15 01:47:34'),
+ ('emartinez',7652,1,0,'2019-07-28 03:03:22'),
  ('gpiaggio',7650,1,0,'2019-07-15 01:49:08'),
  ('gpiaggio',7651,1,0,'2019-07-15 01:47:34'),
+ ('gpiaggio',7652,1,0,'2019-07-28 03:03:22'),
  ('isegovia',7650,1,0,'2019-07-15 01:49:08'),
+ ('jalcaino',7652,1,1,'2019-07-28 15:07:41'),
  ('jortiz',7650,1,0,'2019-07-15 01:49:08'),
- ('jortiz',7651,1,0,'2019-07-15 01:47:34');
+ ('jortiz',7651,1,0,'2019-07-15 01:47:34'),
+ ('jortiz',7652,1,0,'2019-07-28 03:03:22');
 /*!40000 ALTER TABLE `ED10_USUARIO_NOTIFICADO_TICKET` ENABLE KEYS */;
 
 
@@ -502,7 +605,7 @@ INSERT INTO `ED11_USUARIO_NOTIFICADO_ASISTENCIA` (`ED01_USUARIOID`,`ED05_ASISTEN
  ('aaguero',329,1,1,'2019-07-15 03:59:12'),
  ('ayanez',329,1,0,'2019-07-15 02:12:13'),
  ('emartinez',329,1,0,'2019-07-15 02:12:13'),
- ('gpiaggio',329,1,0,'2019-07-15 02:12:13'),
+ ('gpiaggio',329,1,1,'2019-07-15 02:12:13'),
  ('jortiz',329,1,0,'2019-07-15 02:12:13');
 /*!40000 ALTER TABLE `ED11_USUARIO_NOTIFICADO_ASISTENCIA` ENABLE KEYS */;
 
@@ -580,7 +683,8 @@ INSERT INTO `ED14_SOLICITUD_TICKET` (`ED02_SOLICITUDID`,`ED03_TICKETID`) VALUES
  (1627,7640),
  (1635,7642),
  (1636,7643),
- (1637,7644);
+ (1637,7644),
+ (1683,7652);
 /*!40000 ALTER TABLE `ED14_SOLICITUD_TICKET` ENABLE KEYS */;
 
 
@@ -640,7 +744,17 @@ INSERT INTO `ED17_USUARIO_NOTIFICADO_SOLICITUD` (`ED02_SOLICITUDID`,`ED01_USUARI
  (1682,'gpiaggio',1,0,'2019-07-15 01:48:45'),
  (1682,'jortiz',1,0,'2019-07-15 01:07:51'),
  (1682,'jortiz',1,0,'2019-07-15 01:48:24'),
- (1682,'jortiz',1,0,'2019-07-15 01:48:45');
+ (1682,'jortiz',1,0,'2019-07-15 01:48:45'),
+ (1683,'aaguero',1,0,'2019-07-28 03:02:19'),
+ (1683,'aaguero',1,0,'2019-07-28 03:02:34'),
+ (1683,'ayanez',1,0,'2019-07-28 03:02:19'),
+ (1683,'ayanez',1,0,'2019-07-28 03:02:34'),
+ (1683,'emartinez',1,0,'2019-07-28 03:02:19'),
+ (1683,'emartinez',1,0,'2019-07-28 03:02:34'),
+ (1683,'gpiaggio',1,0,'2019-07-28 03:02:19'),
+ (1683,'gpiaggio',1,0,'2019-07-28 03:02:34'),
+ (1683,'jortiz',1,0,'2019-07-28 03:02:19'),
+ (1683,'jortiz',1,0,'2019-07-28 03:02:34');
 /*!40000 ALTER TABLE `ED17_USUARIO_NOTIFICADO_SOLICITUD` ENABLE KEYS */;
 
 
@@ -2775,7 +2889,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`compumat`@`%` SQL SECURITY DEFINER VIEW `ED0
 
 DROP TABLE IF EXISTS `SIS03_LABORATORIO`;
 DROP VIEW IF EXISTS `SIS03_LABORATORIO`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`compumat`@`%` SQL SECURITY DEFINER VIEW `SIS03_LABORATORIO` AS select `c`.`RBD` AS `SIS03_LABORATORIOID`,`c`.`nombreinstitucion` AS `SIS03_LABORATORIODESCRIPCION`,`c`.`estado` AS `SIS03_ESTADO`,'' AS `SIS03_COLORETIQUETA`,`c`.`cursos_por_nivel` AS `SIS03_CURSOS`,`a`.`nombreAsesor` AS `SIS03_ASESOR`,`c`.`niveles_colegio` AS `SIS03_NIVELES`,`c`.`productos` AS `SIS03_PRODUCTOS`,`c`.`tiene_emat_local` AS `SIS03_CONEMATLOCAL`,`c`.`instalado_emat_local` AS `SIS03_INTALADONEMATLOCAL` from (`helpdesk1`.`colegio_compumat` `c` left join `helpdesk1`.`tblasesores` `a` on((convert(`c`.`rut_asesor` using utf8) = `a`.`rutAsesor`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`compumat`@`%` SQL SECURITY DEFINER VIEW `SIS03_LABORATORIO` AS select `c`.`RBD` AS `SIS03_LABORATORIOID`,`c`.`nombreinstitucion` AS `SIS03_LABORATORIODESCRIPCION`,`c`.`estado` AS `SIS03_ESTADO`,'' AS `SIS03_COLORETIQUETA`,`c`.`cursos_por_nivel` AS `SIS03_CURSOS`,`a`.`nombreAsesor` AS `SIS03_ASESOR`,`c`.`niveles_colegio` AS `SIS03_NIVELES`,`c`.`productos` AS `SIS03_PRODUCTOS`,`c`.`tiene_emat_local` AS `SIS03_CONEMATLOCAL`,`c`.`instalado_emat_local` AS `SIS03_INTALADONEMATLOCAL`,`c`.`es_distribuido` AS `SIS03_DISTRIBUIDO`,`c`.`info_distribuido` AS `SIS03_INFO_DISTRIBUIDO`,`c`.`tipo_contacto_1` AS `SIS03_TIPO_CONTACTO_1`,`c`.`contacto` AS `SIS03_NOMBRE_CONTACTO_1`,`c`.`fono_contacto` AS `SIS03_FONO_CONTACTO_1`,`c`.`celular_contacto` AS `SIS03_CELULAR_CONTACTO_1`,`c`.`email_contacto` AS `SIS03_EMAIL_CONTACTO_1`,`c`.`tipo_contacto_2` AS `SIS03_TIPO_CONTACTO_2`,`c`.`contacto2` AS `SIS03_NOMBRE_CONTACTO_2`,`c`.`fono_contacto2` AS `SIS03_FONO_CONTACTO_2`,`c`.`celular_contacto2` AS `SIS03_CELULAR_CONTACTO_2`,`c`.`email_contacto_2` AS `SIS03_EMAIL_CONTACTO_2`,`c`.`tipo_contacto_3` AS `SIS03_TIPO_CONTACTO_3`,`c`.`contacto3` AS `SIS03_NOMBRE_CONTACTO_3`,`c`.`fono_contacto3` AS `SIS03_FONO_CONTACTO_3`,`c`.`celular_contacto3` AS `SIS03_CELULAR_CONTACTO_3`,`c`.`email_contacto3` AS `SIS03_EMAIL_CONTACTO_3`,`c`.`rut_asesor` AS `SIS03_RUT_ASESOR`,`c`.`fono_colegio` AS `SIS03_FONO_COLEGIO`,`c`.`observaciones` AS `SIS03_OBSERVACIONES`,`c`.`checklist_1` AS `SIS03_CHECKLIST_1`,`c`.`nombre_archivo_checklist_1` AS `SIS03_NOMBRE_ARCHIVO_CHECKLIST_1`,`c`.`peso_checklist_1` AS `SIS03_PESO_CHECKLIST_1`,`c`.`tipo_archivo_checklist_1` AS `SIS03_TIPO_ARCHIVO_CHECKLIST_1`,`c`.`checklist_2` AS `SIS03_CHECKLIST_2`,`c`.`nombre_archivo_checklist_2` AS `SIS03_NOMBRE_ARCHIVO_CHECKLIST_2`,`c`.`peso_checklist_2` AS `SIS03_PESO_CHECKLIST_2`,`c`.`tipo_archivo_checklist_2` AS `SIS03_TIPO_ARCHIVO_CHECKLIST_2`,`c`.`fecha_operativo` AS `SIS03_FECHA_OPERATIVO`,`c`.`otros_dispositivos` AS `SIS03_OTROS_DISPOSITIVOS`,`c`.`otros_dispositivos_info` AS `SIS03_OTROS_DISPOSITIVOS_INFO`,`c`.`segmento_de_valor` AS `SIS03_SEGMENTO_VALOR`,`c`.`comuna_id` AS `SIS03_COMUNA_ID`,`c`.`region_id` AS `SIS03_REGION_ID`,`c`.`dependencia` AS `SIS03_DEPENDENCIA`,`c`.`num_alumnos` AS `SIS03_NUM_ALUMNOS`,`c`.`num_profesores` AS `SIS03_NUM_PROFESORES`,`c`.`pago_mensualidad_alumno` AS `SIS03_PAGO_MENSUALIDAD_ALUMNO`,`c`.`monto_sep` AS `SIS03_MONTO_SEP`,`c`.`num_sucursales` AS `SIS03_NUM_SUCURSALES`,`c`.`nombre_ejecutivo_ventas` AS `SIS03_NOMBRE_EJECUTIVO_VENTAS`,`c`.`detalle_cursos_niveles` AS `SIS03_DETALLE_CURSOS_NIVELES`,`c`.`num_laboratorios` AS `SIS03_NUM_LABORATORIOS`,`c`.`tipo_laboratorio` AS `SIS03_TIPO_LABORATORIO`,`c`.`dispositivos` AS `SIS03_DISPOSITIVOS`,`c`.`proveedor_internet` AS `SIS03_PROVEEDOR_INTERNET`,`c`.`disponibilidad_compu_x_alumno` AS `SIS03_COMPU_X_ALUMNO`,`c`.`plataformas_digitales_en_uso` AS `SIS03_PLATAFORMAS_EN_USO`,`c`.`ultima_vigencia` AS `SIS03_ULTIMA_VIGENCIA`,`c`.`eventos_del_anio` AS `SIS03_EVENTOS_DEL_ANIO`,`c`.`tipo_contrato` AS `SIS03_TIPO_CONTRATO`,`c`.`forma_de_pago` AS `SIS03_FORMA_PAGO`,`c`.`primer_anio_venta` AS `SIS03_PRIMER_ANIO_VENTA`,`c`.`ultimo_anio_contratado` AS `SIS03_ULTIMO_ANIO_VENTA`,`c`.`motivo_no_renueva` AS `SIS03_MOTIVO_NO_RENUEVA`,`c`.`motivo_no_compra` AS `SIS03_MOTIVO_NO_COMPRA`,`c`.`perfil_cliente` AS `SIS03_PERFIL_CLIENTE`,`c`.`antiguedad` AS `SIS03_ANTIGUEDAD`,`c`.`medio_comunicacion` AS `SIS03_MEDIO_COUMNICACION`,`c`.`descripcion_topologia` AS `SIS03_DESCRIPT_TOPOLOGIA`,`c`.`nombre_archivo_topologia` AS `SIS03_NOMBRE_ARCHIVO_TPOLOGIA`,`c`.`peso_archivo_topologia` AS `SIS03_PESO_ARCHIVO_TPOLOGIA`,`c`.`tipo_archivo_topologia` AS `SIS03_TIPO_ARCHIVO_TPOLOGIA`,`c`.`archivo_topologia` AS `SIS03_ARCHIVO_TPOLOGIA`,`c`.`insert_datetime` AS `SIS03_FECHA_INSERT`,`c`.`update_datetime` AS `SIS03_FECHA_UPDATE` from (`helpdesk1`.`colegio_compumat` `c` left join `helpdesk1`.`tblasesores` `a` on((convert(`c`.`rut_asesor` using utf8) = `a`.`rutAsesor`)));
 
 
 
