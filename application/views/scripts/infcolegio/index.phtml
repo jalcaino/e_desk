@@ -4,34 +4,47 @@ $action=$this->layout()->action;
 <script type="text/javascript">
  
  
- 	   function carga_listado(pagina,fechainicio,fechatermino,nivel)
+ 	   function carga_listado(rbd,excel)
 	   {
 
-					var parametros = {
-										"pagina" : pagina,
-										"fechainicio" : fechainicio,
-										"fechatermino" : fechatermino,
-										"nivel" : nivel
-										
-									};
+
+					if(excel=="1")
+					{
+				
+				
+							window.location.href="/Infcolegio/listar/Colegio/"+rbd+"/Excel/1";
+				
+				
+					}else{
 					
-					$.ajax({
-									data:  parametros,
-									url:   '<?php echo $action?>', 
-									type:  'post', 
-									evalscripts : true,
-									success:  function (response) { 
-									
-											$("#formulario").html(response);
-														
-									}
-							});
+					
+					
+						var parametros = {
+											"Colegio" : rbd,
+											"Excel" : excel
+										
+										};
+						
+						$.ajax({
+										data:  parametros,
+										url:   '<?php echo $action?>', 
+										type:  'post', 
+										evalscripts : true,
+										success:  function (response) { 
+										
+												$("#formulario").html(response);
+															
+										}
+								});
+				
+					
+					}
 
 		}	
 
 
 		//carga inicial
-		carga_listado('1','<?php echo date("d/m/Y",strtotime(date("d-m-Y")."- 7 days"))?>','<?php echo date("d/m/Y")?>','1');
+		carga_listado('10019','0');
 
 </script>
 <div id="formulario">

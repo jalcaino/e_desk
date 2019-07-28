@@ -1,48 +1,82 @@
 <?php
 
-	$texto_columna_1=$this->layout()->texto_columna_1;
-	$texto_columna_2=$this->layout()->texto_columna_2;
-	$texto_columna_3=$this->layout()->texto_columna_3;
-	$titulo_reporte=$this->layout()->titulo_reporte;
-	
+	//recupera paràmetros principales
+	$S_EXCEL=$this->layout()->S_EXCEL;
+	$LABORATORIOID=$this->layout()->LABORATORIOID;
+	$LABORATORIODESCRIPCION=$this->layout()->LABORATORIODESCRIPCION;
 
-	if(isset($this->layout()->datosinforme))
-		$datosinforme=$this->layout()->datosinforme;
 	
-	if(isset($this->layout()->total_filas))
-		$total_filas=$this->layout()->total_filas;
-	
-	if(isset($this->layout()->pagina))
-		$pagina=$this->layout()->pagina;
+	$SIS03_ESTADO=$this->layout()->SIS03_ESTADO;
+	$SIS03_CURSOS=$this->layout()->SIS03_CURSOS;
+	$SIS03_ASESOR=$this->layout()->SIS03_ASESOR;
+	$SIS03_PRODUCTOS=$this->layout()->SIS03_PRODUCTOS;
+	$SIS03_CONEMATLOCAL=$this->layout()->SIS03_CONEMATLOCAL;
+	$SIS03_INTALADONEMATLOCAL=$this->layout()->SIS03_INTALADONEMATLOCAL;
+	$SIS03_TIPO_CONTACTO_1=$this->layout()->SIS03_TIPO_CONTACTO_1;
+	$SIS03_NOMBRE_CONTACTO_1=$this->layout()->SIS03_NOMBRE_CONTACTO_1;
+	$SIS03_FONO_CONTACTO_1=$this->layout()->SIS03_FONO_CONTACTO_1;
+	$SIS03_CELULAR_CONTACTO_1=$this->layout()->SIS03_CELULAR_CONTACTO_1;
+	$SIS03_EMAIL_CONTACTO_1=$this->layout()->SIS03_EMAIL_CONTACTO_1;
+	$SIS03_TIPO_CONTACTO_2=$this->layout()->SIS03_TIPO_CONTACTO_2;
+	$SIS03_NOMBRE_CONTACTO_2=$this->layout()->SIS03_NOMBRE_CONTACTO_2; 
+	$SIS03_FONO_CONTACTO_2=$this->layout()->SIS03_FONO_CONTACTO_2;
+	$SIS03_CELULAR_CONTACTO_2=$this->layout()->SIS03_CELULAR_CONTACTO_2;
+	$SIS03_EMAIL_CONTACTO_2=$this->layout()->SIS03_EMAIL_CONTACTO_2;
+	$SIS03_TIPO_CONTACTO_3=$this->layout()->SIS03_TIPO_CONTACTO_3;
+	$SIS03_NOMBRE_CONTACTO_3=$this->layout()->SIS03_NOMBRE_CONTACTO_3; 
+	$SIS03_FONO_CONTACTO_3=$this->layout()->SIS03_FONO_CONTACTO_3;
+	$SIS03_CELULAR_CONTACTO_3=$this->layout()->SIS03_CELULAR_CONTACTO_3;
+	$SIS03_EMAIL_CONTACTO_3=$this->layout()->SIS03_EMAIL_CONTACTO_3;
+	$SIS03_NIVELES=$this->layout()->SIS03_NIVELES;
+	$SIS03_DISTRIBUIDO=$this->layout()->SIS03_DISTRIBUIDO;
+	$SIS03_INFO_DISTRIBUIDO=$this->layout()->SIS03_INFO_DISTRIBUIDO;
+	$SIS03_FECHA_OPERATIVO=$this->layout()->SIS03_FECHA_OPERATIVO;
+	$SIS03_OTROS_DISPOSITIVOS=$this->layout()->SIS03_OTROS_DISPOSITIVOS; 
+	$SIS03_OTROS_DISPOSITIVOS_INFO=$this->layout()->SIS03_OTROS_DISPOSITIVOS_INFO;
+	$SIS03_DEPENDENCIA=$this->layout()->SIS03_DEPENDENCIA;
+	$SIS03_NUM_ALUMNOS=$this->layout()->SIS03_NUM_ALUMNOS;
+	$SIS03_NUM_PROFESORES=$this->layout()->SIS03_NUM_PROFESORES; 
+	$SIS03_NUM_LABORATORIOS=$this->layout()->SIS03_NUM_LABORATORIOS;
+	$SIS03_TIPO_LABORATORIO=$this->layout()->SIS03_TIPO_LABORATORIO;
+	$SIS03_DISPOSITIVOS=$this->layout()->SIS03_DISPOSITIVOS;
+	$SIS03_PROVEEDOR_INTERNET=$this->layout()->SIS03_PROVEEDOR_INTERNET; 
+	$SIS03_COMPU_X_ALUMNO=$this->layout()->SIS03_COMPU_X_ALUMNO;
+	$SIS03_PLATAFORMAS_EN_USO=$this->layout()->SIS03_PLATAFORMAS_EN_USO;
 
-	if(isset($this->layout()->num_paginas))
-		$num_paginas=$this->layout()->num_paginas;
+	if($S_EXCEL=="1")
+	{
+			$SIS03_ESTADO=utf8_decode($SIS03_ESTADO);
+			$SIS03_ASESOR=utf8_decode($SIS03_ASESOR);
+			$SIS03_TIPO_CONTACTO_1=utf8_decode($SIS03_TIPO_CONTACTO_1);
+			$SIS03_NOMBRE_CONTACTO_1=utf8_decode($SIS03_NOMBRE_CONTACTO_1);
+			$SIS03_TIPO_CONTACTO_2=utf8_decode($SIS03_TIPO_CONTACTO_2);
+			$SIS03_NOMBRE_CONTACTO_2=utf8_decode($SIS03_NOMBRE_CONTACTO_2); 
+			$SIS03_TIPO_CONTACTO_3=utf8_decode($SIS03_TIPO_CONTACTO_3);
+			$SIS03_NOMBRE_CONTACTO_3=utf8_decode($SIS03_NOMBRE_CONTACTO_3); 
+			$SIS03_OTROS_DISPOSITIVOS=utf8_decode($SIS03_OTROS_DISPOSITIVOS); 
+			$SIS03_TIPO_LABORATORIO=utf8_decode($SIS03_TIPO_LABORATORIO);
+			$SIS03_DISPOSITIVOS=utf8_decode($SIS03_DISPOSITIVOS);
+			$SIS03_PROVEEDOR_INTERNET=utf8_decode($SIS03_PROVEEDOR_INTERNET); 
+	}
 
-	if(isset($this->layout()->registro_ini))
-		$registro_ini=$this->layout()->registro_ini;
-
-	if(isset($this->layout()->registro_fin))
-		$registro_fin=$this->layout()->registro_fin;
 	
-	if(isset($this->layout()->busqueda))
-		$busqueda=$this->layout()->busqueda;
-	
-	if(isset($this->layout()->fechainicio))
-		$fechainicio=$this->layout()->fechainicio;
 		
-	if(isset($this->layout()->fechatermino))
-		$fechatermino=$this->layout()->fechatermino;
+	if(isset($this->layout()->datosticket))
+		$datosticket=$this->layout()->datosticket;
 
-	if(isset($this->layout()->nivel))
-		$nivel=$this->layout()->nivel;
+	if(isset($this->layout()->datossolicitud))
+		$datossolicitud=$this->layout()->datossolicitud;
+	
+	if(isset($this->layout()->datosasistencias))
+	   $datosasistencias=$this->layout()->datosasistencias;
 		
-	
-	if($total_filas < $registro_fin)
-	   $ULTIMO_REG=$total_filas;
-	else   
-	   $ULTIMO_REG=$registro_fin;
+	if(isset($this->layout()->S_COLEGIO))
+	   $S_COLEGIO=$this->layout()->S_COLEGIO;
 	
 	
+	
+	if($S_EXCEL!="1")
+	{
 ?>
 <script type="text/javascript">
  
@@ -50,128 +84,722 @@
 			   $("#realizar_busqueda").click( function()
 			   {
 				
+						if(!$("#rbd").val())
+						{
+							alert("Debe Ingresar el RBD del Colegio");
+							$("#rbd").focus();
+							return false;
+						}
+					
+						if(!($('#excel').is(':checked'))) 
+							checkeo=0;
+						else
+							checkeo=1;
+					
 				
-						if($("#calendario1").val().length<10)
-						{
-								alert("Debe Ingresar Fecha Inicio");
-								$("#calendario1").focus();
-								return false;
-						}
-					
-						if($("#calendario2").val().length<10)
-						{
-								alert("Debe Ingresar Fecha Termino");
-								$("#calendario2").focus();
-								return false;
-						}
-					
-	
-						carga_listado('1',$("#calendario1").val(),$("#calendario2").val(),$("#nivel").val());
+						carga_listado($("#rbd").val(),checkeo);
 				 }
 				);
 	
 	
-				$("#calendario1").datepicker({dateFormat: 'dd/mm/yy'});
-	   			$("#calendario2").datepicker({dateFormat: 'dd/mm/yy'});
-	   
-	      
+			
 	
 	   
 </script>
+<?php
+	}else{	
+?>
+			
+			<style type="text/css">
+		
+				table {
+					  border-collapse: collapse;
+					  width: 100%;
+					}
+					th, td {
+					  padding: 0.25rem;
+					  text-align: left;
+					  border: 1px solid #ccc;
+					}
+		
+			</style>
+
+
+
+<?php
+	}	
+?>
 	   
 <div class="col-md-12">
 		   
 		<div id="divNotificacionesCentral">
 	    </div>									 
-						
-						
+		<?php
+		if($S_EXCEL!="1")
+		{
+		?>					
 		<div class="panel-footer">
-	
 			<div class="row">
+				
+				
 				<div class="col-md-4 col-sm-4">
-						<label>Fecha Desde (*)</label>
-						<input type="text" class="form-control" id="calendario1" readonly="readonly" value="<?php echo $fechainicio?>">
-				</div>												 
-				<div class="col-md-4 col-sm-4">
-						<label>Fecha Hasta (*)</label>
-						<input type="text" class="form-control" id="calendario2" readonly="readonly" value="<?php echo $fechatermino?>">
+				   		<label>RBD COLEGIO :</label>
 				</div>  
-		
 				<div class="col-md-4 col-sm-4">
-							<label>Nivel Soporte (*)</label>
-							<select class="form-control" id="nivel" name="nivel">
-								<option value="1" <?php if($nivel=="1") echo "Selected"?>>Soporte 1er Nivel Mesa de Ayuda</option>
-								<option value="2" <?php if($nivel=="2") echo "Selected"?>>Soporte 2do Nivel</option>
-							</select>
+						<input class="form-control" type="text" id="rbd" maxlength="50" name="rbd" value="<?php echo $S_COLEGIO?>">
 				</div>  
-		
-		
-			</div>		  
-			<div class="row">
+			
+				<div class="col-md-4 col-sm-4">
+						<input type="checkbox" id="excel" name="excel" value="1"> Exportar a Excel
+				</div>  
+			
 				<div class="col-md-4 col-sm-4">
 						<button class="btn btn-success" type="button" id="realizar_busqueda">BUSCAR</button>
 				</div>  
+			
 			</div>		  
 		 </div>
-															
-		
-		
-		
-							
-		   
-		   <div class="panel panel-info">
+		<?php
+		}
+		?>					
+	
+		 <div class="panel panel-info">
 																	
+						
+			<div id="" style="overflow:scroll; height:1100px;overflow-x: hidden;">
+						
+						
 						 <div class="row">
 							 <div class="col-lg-12 col-md-12 col-sm-12">
+								 <div class="table-responsive">
+		
+								 <div class="panel panel-success">
+									<div class="panel-heading">
+											<strong>[ INFORMACION COLEGIO ]</strong>
+									</div>
+									<div class="panel-body" style="padding: 0px;">
+										<div class="chat-widget-main">
+												<table class="table table-hover">
+													<tbody>
+													
+														<tr>
+															<td><strong>RBD : </strong></td>
+															<td><strong>NOMBRE COLEGIO : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $LABORATORIOID?></td>
+															<td><?php echo $LABORATORIODESCRIPCION?></td>
+														</tr>
+														<tr>
+															<td><strong>ESTADO : </strong></td>
+															<td><strong>CURSOS : </strong></td>
+													
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_ESTADO?></td>
+															<td><?php echo $SIS03_CURSOS?></td>
+														</tr>
+														<tr>
+															<td><strong>ASESOR : </strong></td>
+															<td><strong>PRODUCTOS : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_ASESOR?></td>
+															<td><?php echo $SIS03_PRODUCTOS?></td>
+														</tr>
+														<tr>
+															<td><strong>TIENE EMAT LOCAL : </strong></td>
+															<td><strong>INSTALADO EMAT LOCAL : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_CONEMATLOCAL?></td>
+															<td><?php echo $SIS03_INTALADONEMATLOCAL?></td>
+														</tr>
+														<tr>
+															<td><strong>TIPO CONTACTO 1 : </strong></td>
+															<td><strong>NOMBRE CONTACTO 1 : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_TIPO_CONTACTO_1?></td>
+															<td><?php echo $SIS03_NOMBRE_CONTACTO_1?></td>
+														</tr>
+														<tr>
+															<td><strong>FONO CONTACTO 1: </strong></td>
+															<td><strong>CELULAR CONTACTO 1 : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_FONO_CONTACTO_1?></td>
+															<td><?php echo $SIS03_CELULAR_CONTACTO_1?></td>
+														</tr>
+													
+														<tr>
+															<td><strong>EMAIL CONTACTO 1 : </strong></td>
+															<td></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_EMAIL_CONTACTO_1?></td>
+															<td></td>
+														</tr>
+														<tr>
+															<td><strong>TIPO CONTACTO 2 : </strong></td>
+															<td><strong>NOMBRE CONTACTO 2 : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_TIPO_CONTACTO_2?></td>
+															<td><?php echo $SIS03_NOMBRE_CONTACTO_2?></td>
+														</tr>
+														<tr>
+															<td><strong>FONO CONTACTO 2: </strong></td>
+															<td><strong>CELULAR CONTACTO 2 : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_FONO_CONTACTO_2?></td>
+															<td><?php echo $SIS03_CELULAR_CONTACTO_2?></td>
+														</tr>
+														<tr>
+															<td><strong>EMAIL CONTACTO 2 : </strong></td>
+															<td></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_EMAIL_CONTACTO_2?></td>
+															<td></td>
+														</tr>
+														<tr>
+															<td><strong>NIVELES : </strong></td>
+															<td><strong>ES DISTRIBUIDO : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_NIVELES?></td>
+															<td><?php echo $SIS03_DISTRIBUIDO?></td>
+														</tr>
+														<tr>
+															<td><strong>FECHA OPERATIVO : </strong></td>
+															<td><strong>OTROS DISPOSITIVOS : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_FECHA_OPERATIVO?></td>
+															<td><?php echo $SIS03_OTROS_DISPOSITIVOS?></td>
+														</tr>
+														<tr>
+															<td><strong>NUM ALUMNOS : </strong></td>
+															<td><strong>NUM LABORATORIOS : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_NUM_ALUMNOS?></td>
+															<td><?php echo $SIS03_NUM_LABORATORIOS?></td>
+														</tr>
+														<tr>
+															<td><strong>TIPO LABORATORIO : </strong></td>
+															<td><strong>DISPOSITIVOS : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_TIPO_LABORATORIO?></td>
+															<td><?php echo $SIS03_DISPOSITIVOS?></td>
+														</tr>
+														<tr>
+															<td><strong>PROVEEDOR INTERNET : </strong></td>
+															<td></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_PROVEEDOR_INTERNET?></td>
+															<td></td>
+														</tr>
+														<tr>
+															<td><strong>COMPUTADORES POR ALUMNO : </strong></td>
+															<td><strong>PLATAFORMAS EN USO : </strong></td>
+														</tr>
+														<tr>
+															<td><?php echo $SIS03_COMPU_X_ALUMNO?></td>
+															<td><?php echo $SIS03_PLATAFORMAS_EN_USO?></td>
+														</tr>
+													</tbody>
+												</table>
+										</div>
+									</div>
+								</div>  
 						
-										   <div class="table-responsive">
+		
+		
+		
+		
 									
-															<table class="table table-striped table-bordered table-hover">
-																<thead>
-																	<tr>
-																		<th colspan="4">- <?php echo $titulo_reporte?> (<?php echo $total_filas?>)<br> - Visualizando desde el <?php echo $registro_ini?> al <?php echo $ULTIMO_REG?><br> - Rango fecha <?php echo $fechainicio?> al <?php echo $fechatermino?><br> - Nivel soporte <?php echo $nivel?></th>
-																	</tr>
-																	<tr>
-																		<th><?php echo $texto_columna_1?></th>
-																		<th><?php echo $texto_columna_2?></th>
-																		<th><?php echo $texto_columna_3?></th>
-																	</tr>
-																</thead>
-																<tbody>
+								</div>
+							</div>
+						</div>
+
+						
+						
+						
+						
+						
+						
+						
+						
+						
+			
+						 <div class="row">
+							 <div class="col-lg-12 col-md-12 col-sm-12">
+								   <div class="table-responsive">
+		
+									
+									 <div class="panel panel-success">
+											<div class="panel-heading">
+													<strong>[ INCIDENTES ]</strong>
+											</div>
+											<div class="panel-body" style="padding: 0px;">
+												<div class="chat-widget-main">
+				
+														<table class="table table-hover">
+															<thead>
+																<tr>
+																	<?php
+																	if($S_EXCEL!="1")
+																	{
+																	?>					
+																	<th>#</th>
+																	<th>Fecha</th>
+																	<th>Solicitante</th>
+																	<th>Nivel</th>
+																	<th>Detalle</th>
+																	<?php
+																	}else{	
+																	?>					
+																		<th>RBD</th>
+																		<th>COLEGIO</th>
+																		<th>NUM INCIDENTE</th>
+																		<th>PRODUCTO</th>
+																		<th>FECHA TICKET</th>
+																		<th>TELEFONO SOLICITANTE</th>
+																		<th>EMAIL SOLICITANTE</th>
+																		<th>PRIORIDAD</th>
+																		<th>TIPO CONTACTO</th>
+																		<th>NIVEL</th>
+																		<th>CLASIFICADOR</th>
+																		<th>NUM ALUMNOS AFECTADOS</th>
+																		<th>NIVEL</th>
+																		<th>MODULO</th>
+																		<th>NUM EJERCICIO</th>
+																		<th>DETALLE</th>
+																		<th>SOLICITANTE</th>
+																		<th>ULTIMA ACTUALIZACI&Oacute;N</th>
+																		<th>ESTADO</th>
+																	<?php
+																	}	
+																	?>					
+																</tr>
+															</thead>
+															<tbody>
 																<?php
-																		if(isset($datosinforme))
+																if(isset($datosticket))
+																{
+																	foreach($datosticket as $clave => $valor)
+																	{
+																	?>
+																	<tr>
+																		<?php
+																		if($S_EXCEL!="1")
 																		{
-																			foreach($datosinforme as $clave => $valor)
-																			{
-																			?>
-																				<tr>
-																					<td><?php echo $valor["DESCRIPCION"]?></td>
-																					<td><?php echo $valor["NIVEL"]?></td>
-																					<td><?php echo $valor["CONTADOR"]?></td>
-																				</tr>
-																			<?
-																			}
-																		}		
+																		?>					
+																		<td><?php echo $valor["ED03_NIVELSOPORTE"]?></td>
+																		<td><?php echo $valor["ED03_TICKETID"]?></td>
+																		<td><?php echo $valor["ED03_FECHATICKET"]?></td>
+																		<td><?php echo $valor["ED03_NOMBRESOLICITANTE"]?></td>
+																		<td><a href="#" data-toggle="modal" data-target="#myModal_tic_<?php echo $valor["ED03_TICKETID"]?>">Detalle</a></td>
+																		<td>
+																			<div class="modal fade" id="myModal_tic_<?php echo $valor["ED03_TICKETID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																				<div class="modal-dialog">
+																					<div class="modal-content">
+																							<div class="modal-header">
+																									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+																									<h4 class="modal-title" id="myModalLabel"><strong>INCIDENTE NUMERO : <?php echo $valor["ED03_TICKETID"]?></strong></h4>
+																								</div>
+																								<div class="modal-body">
+																									
+																										<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
+																										<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
+																										<strong>NUM INCIDENTE : </strong><?php echo $valor["ED03_TICKETID"]?><br><br>
+																										<strong>PRODUCTO : </strong><?php echo $valor["SIS04_PRODUCTOID"]?><br><br>
+																										<strong>FECHA TICKET : </strong><?php echo $valor["ED03_FECHATICKET"]?><br><br>
+																										<strong>TELEFONO SOLICITANTE : </strong><?php echo $valor["ED03_TELEFONOSOLICITANTE"]?><br><br>
+																										<strong>EMAIL SOLICITANTE : </strong><?php echo $valor["ED03_EMAILSOLICITANTE"]?><br><br>
+																										<strong>PRIORIDAD : </strong><?php echo $valor["ED03_PRIORIDAD"]?><br><br>
+																										<strong>TIPO CONTACTO : </strong><?php echo $valor["ED03_TIPOCONTACTO"]?><br><br>
+																										<strong>NIVEL : </strong><?php echo $valor["ED03_NIVELSOPORTE"]?><br><br>
+																										<strong>CLASIFICADOR : </strong><?php echo $valor["SIS07_CLASIFICADORDESCRIPCION"]?><br><br>
+																										<strong>NUM ALUMNOS AFECTADOS : </strong><?php echo $valor["ED03_NUMALUMNOSAFECTADOS"]?><br><br>
+																										<strong>NIVEL: </strong><?php echo $valor["ED03_NIVELDELPROGRAMA"]?><br><br>
+																										<strong>MODULO : </strong><?php echo $valor["SIS05_CODIGOMODULO"]?><br><br>
+																										<strong>NUM EJERCICIO : </strong><?php echo $valor["ED03_NUMEJERCICIO"]?><br><br>
+																																															
+																										<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED03_DETALLETICKET"])?><br><br>
+																										<?php
+																										if(trim($valor["ED03_ARCHIVOADJUNTO"])!="")
+																										{	
+																										?>
+																										<strong>ARCHIVO ADJUNTO : </strong><br>
+																										
+																										<strong><a href="<?php echo $valor["ED03_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor["ED03_NOMBREARCHIVOADJUNTO"]?></a></strong>
+																										
+																										<br><br>
+																										
+																										<?php
+																										}
+																										?>
+																										<strong>SOLICITANTE : </strong><?php echo $valor["ED03_NOMBRESOLICITANTE"]?><br><br>
+																										<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
+																										<strong>ESTADO : </strong><?php echo $valor["ED03_ESTADO"]?><br><br>
+																							
+																									
+																									
+																									
+																								</div>
+																								<div class="modal-footer">
+																									<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+																								</div>
+																				
+																		
+																					</div>
+																				</div>
+																			</div>
+																		</td>
+																		<?php
+																		}else{	
+																		?>					
+																		<td><?php echo $valor["SIS03_LABORATORIOID"]?></td>
+																		<td><?php echo utf8_decode($valor["SIS03_LABORATORIODESCRIPCION"])?></td>
+																		<td><?php echo $valor["ED03_TICKETID"]?></td>
+																		<td><?php echo $valor["SIS04_PRODUCTOID"]?></td>
+																		<td><?php echo $valor["ED03_FECHATICKET"]?></td>
+																		<td><?php echo $valor["ED03_TELEFONOSOLICITANTE"]?></td>
+																		<td><?php echo $valor["ED03_EMAILSOLICITANTE"]?></td>
+																		<td><?php echo $valor["ED03_PRIORIDAD"]?></td>
+																		<td><?php echo utf8_decode($valor["ED03_TIPOCONTACTO"])?></td>
+																		<td><?php echo $valor["ED03_NIVELSOPORTE"]?></td>
+																		<td><?php echo utf8_decode($valor["SIS07_CLASIFICADORDESCRIPCION"])?></td>
+																		<td><?php echo $valor["ED03_NUMALUMNOSAFECTADOS"]?></td>
+																		<td><?php echo $valor["ED03_NIVELDELPROGRAMA"]?></td>
+																		<td><?php echo $valor["SIS05_CODIGOMODULO"]?></td>
+																		<td><?php echo $valor["ED03_NUMEJERCICIO"]?></td>
+																		<td><?php echo nl2br(utf8_decode($valor["ED03_DETALLETICKET"]))?></td>
+																		<td><?php echo utf8_decode($valor["ED03_NOMBRESOLICITANTE"])?></td>
+																		<td><?php echo $valor["FECHAULTIMAACTUALIZACION"]?></td>
+																		<td><?php echo $valor["ED03_ESTADO"]?></td>
+																		<?php
+																		}	
+																		?>					
+																	</tr>
+																	<?
+																	}
+																}
 																?>
-																</tbody>
-														   </table>
-												
-															<ul class="pagination">
-															  <?php
-															  for($i=1;$i<=$num_paginas;$i++)
-															  {
-															  ?>	
-															  <li <?php if(intval($pagina)==intval($i)){?>class="active"<?php }?>><a href="#" onclick="carga_listado('<?php echo $i;?>','<?php echo $fechainicio?>','<?php echo $fechatermino?>','<?php echo $nivel?>')"><?php echo $i;?> <?php if(intval($pagina)==intval($i)){?><span class="sr-only">(current)</span><?php }?></a></li>
-															  <?
-															  }
-															  ?>	
-															</ul>
-											   
-											   </div>
+															</tbody>
+														</table>
+												</div>
+											</div>
+										</div>
 
 								
-							 </div>
-						 </div>
-		
+								
+								
+								
+								
+								
+								
+								 <div class="panel panel-success">
+											<div class="panel-heading">
+												<strong>[ SOLICITUDES INTERNAS ]</strong>
+											</div>
+											<div class="panel-body" style="padding: 0px;">
+												<div class="chat-widget-main">
+				
+														<table class="table table-hover">
+															<thead>
+																<tr>
+																	<?php
+																	if($S_EXCEL!="1")
+																	{
+																	?>					
+																	<th>#</th>
+																	<th>Fecha</th>
+																	<th>Solicitante</th>
+																	<th>Detalle</th>
+																	<?php
+																	}else{	
+																	?>					
+																	<th>RBD</th>
+																	<th>COLEGIO</th>
+																	<th>PRODUCTO</th>
+																	<th>FECHA SOLICITUD</th>
+																	<th>DETALLE</th>
+																	<th>SOLICITANTE</th>
+																	<th>FECHA INGRESO</th>
+																	<th>ULTIMA ACTUALIZACI&Oacute;N</th>
+																	<th>ESTADO</th>
+																	<?php
+																	}	
+																	?>					
+																</tr>
+															</thead>
+															<tbody>
+																<?php
+																if(isset($datossolicitud))
+																{
+																	foreach($datossolicitud as $clave => $valor)
+																	{
+																	?>
+																	<tr>
+																		<?php
+																		if($S_EXCEL!="1")
+																		{
+																		?>					
+																		<td><?php echo $valor["ED02_SOLICITUDID"]?></td>
+																		<td><?php echo $valor["ED02_FECHASOLICITUD"]?></td>
+																		<td><?php echo $valor["ED02_NOMBRESOLICITANTE"]?></td>
+																		<td><a href="#" data-toggle="modal" data-target="#myModal_sol_<?php echo $valor["ED02_SOLICITUDID"]?>">Detalle</a></td>
+																		<td>
+																			<div class="modal fade" id="myModal_sol_<?php echo $valor["ED02_SOLICITUDID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																				<div class="modal-dialog">
+																					<div class="modal-content">
+																							<div class="modal-header">
+																									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+																									<h4 class="modal-title" id="myModalLabel"><strong>SOLICITUD NUMERO : <?php echo $valor["ED02_SOLICITUDID"]?></strong></h4>
+																								</div>
+																								<div class="modal-body">
+																									
+																										<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
+																										<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
+																										<strong>PRODUCTO : </strong><?php echo $valor["SIS04_PRODUCTOID"]?><br><br>
+																										<strong>FECHA SOLICITUD : </strong><?php echo $valor["ED02_FECHASOLICITUD"]?><br><br>
+																										<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED02_DETALLESOLICITUD"])?><br><br>
+																										<?php
+																										if(trim($valor["ED02_ARCHIVOADJUNTO"])!="")
+																										{	
+																										?>
+																										<strong>ARCHIVO ADJUNTO : </strong><br>
+																										
+																										<strong><a href="<?php echo $valor["ED02_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor["ED02_NOMBREARCHIVOADJUNTO"]?></a></strong>
+																										
+																										<br><br>
+																										
+																										<?php
+																										}
+																										?>
+																										<strong>SOLICITANTE : </strong><?php echo $valor["ED02_NOMBRESOLICITANTE"]?><br><br>
+																										<strong>FECHA INGRESO : </strong><?php echo $valor["FECHAINGRESO"]?><br><br>
+																										<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
+																										<strong>ESTADO : </strong><?php echo $valor["ED02_ESTADO"]?><br><br>
+																							
+																									
+																									
+																								</div>
+																								<div class="modal-footer">
+																									<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+																								</div>
+																				
+																		
+																					</div>
+																				</div>
+																			</div>
+																		</td>
+																	<?php
+																	}else{	
+																	?>					
+																	<td><?php echo $valor["SIS03_LABORATORIOID"]?></td>
+																	<td><?php echo utf8_decode($valor["SIS03_LABORATORIODESCRIPCION"])?></td>
+																	<td><?php echo $valor["SIS04_PRODUCTOID"]?></td>
+																	<td><?php echo $valor["ED02_FECHASOLICITUD"]?></td>
+																	<td><?php echo nl2br(utf8_decode($valor["ED02_DETALLESOLICITUD"]))?></td>
+																	<td><?php echo utf8_decode($valor["ED02_NOMBRESOLICITANTE"])?></td>
+																	<td><?php echo $valor["FECHAINGRESO"]?></td>
+																	<td><?php echo $valor["FECHAULTIMAACTUALIZACION"]?></td>
+																	<td><?php echo $valor["ED02_ESTADO"]?></td>
+																	<?php
+																	}	
+																	?>					
+																	</tr>
+																	<?
+																	}
+																}
+																?>
+															</tbody>
+														</table>
+												</div>
+											</div>
+										</div>
+
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									 <div class="panel panel-success">
+											<div class="panel-heading">
+												<strong>[ ATENCIONES TECNICAS ]</strong>
+											</div>
+											<div class="panel-body" style="padding: 0px;">
+												<div class="chat-widget-main">
+				
+														<table class="table table-hover">
+															<thead>
+																<tr>
+																	<?php
+																	if($S_EXCEL!="1")
+																	{
+																	?>					
+																	<th>#</th>
+																	<th>Fecha</th>
+																	<th>Solicitante</th>
+																	<th>Detalle</th>
+																	<?php
+																	}else{	
+																	?>					
+																	<th>RBD</th>
+																	<th>COLEGIO</th>
+																	<th>NUM ASISTENCIA</th>
+																	<th>FECHA REGISTRO ASISTENCIA</th>
+																	<th>FECHA A REALIZAR ASISTENCIA</th>
+																	<th>TELEFONO SOLICITANTE</th>
+																	<th>EMAIL SOLICITANTE</th>
+																	<th>PRIORIDAD</th>
+																	<th>TIPO CONTACTO</th>
+																	<th>DETALLE</th>
+																	<th>SOLICITANTE</th>
+																	<th>ULTIMA ACTUALIZACI&Oacute;N</th>
+																	<th>ESTADO</th>
+																	<?php
+																	}	
+																	?>					
+																</tr>
+															</thead>
+															<tbody>
+																<?php
+																if(isset($datosasistencias))
+																{
+																	foreach($datosasistencias as $clave => $valor)
+																	{
+																	?>
+																	<tr>
+																		<?php
+																		if($S_EXCEL!="1")
+																		{
+																		?>					
+																		<td><?php echo $valor["ED05_ASISTENCIAID"]?></td>
+																		<td><?php echo $valor["ED05_FECHAINGRESO"]?></td>
+																		<td><?php echo $valor["ED05_NOMBRESOLICITANTE"]?></td>
+																		<td><a href="#" data-toggle="modal" data-target="#myModal_as_<?php echo $valor["ED05_ASISTENCIAID"]?>">Detalle</a></td>
+																		<td>
+																			<div class="modal fade" id="myModal_as_<?php echo $valor["ED05_ASISTENCIAID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																				<div class="modal-dialog">
+																					<div class="modal-content">
+																							<div class="modal-header">
+																									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+																									<h4 class="modal-title" id="myModalLabel"><strong>ASISTENCIA NUMERO : <?php echo $valor["ED05_ASISTENCIAID"]?></strong></h4>
+																								</div>
+																								<div class="modal-body">
+																									
+																									<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
+																									<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
+																									<strong>NUM ASISTENCIA : </strong><?php echo $valor["ED05_ASISTENCIAID"]?><br><br>
+																									<strong>FECHA REGISTRO ASISTENCIA : </strong><?php echo $valor["ED05_FECHAINGRESO"]?><br><br>
+																									<strong>FECHA A REALIZAR ASISTENCIA : </strong><?php echo $valor["FECHAREALIZARCE"]?><br><br>
+																									
+																									<strong>TELEFONO SOLICITANTE : </strong><?php echo $valor["ED05_TELEFONOSOLICITANTE"]?><br><br>
+																									<strong>EMAIL SOLICITANTE : </strong><?php echo $valor["ED05_EMAILSOLICITANTE"]?><br><br>
+																									<strong>PRIORIDAD : </strong><?php echo $valor["ED05_PRIORIDAD"]?><br><br>
+																									<strong>TIPO CONTACTO : </strong><?php echo $valor["ED05_TIPOCONTACTO"]?><br><br>
+																																														
+																									<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED05_DETALLEASISTENCIAREALIZAR"])?><br><br>
+																									<?php
+																									if(trim($valor["ED05_ARCHIVOADJUNTO"])!="")
+																									{	
+																									?>
+																									<strong>ARCHIVO ADJUNTO : </strong><br>
+																									
+																									<strong><a href="<?php echo $valor["ED05_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor["ED05_NOMBREARCHIVOADJUNTO"]?></a></strong>
+																									
+																									<br><br>
+																									
+																									<?php
+																									}
+																									?>
+																									<strong>SOLICITANTE : </strong><?php echo $valor["ED05_NOMBRESOLICITANTE"]?><br><br>
+																									<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
+																									<strong>ESTADO : </strong><?php echo $valor["ED05_ESTADO"]?><br><br>
+																						
+																								</div>
+																								<div class="modal-footer">
+																									<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+																								</div>
+																				
+																		
+																					</div>
+																				</div>
+																			</div>
+																		</td>
+
+																	<?php
+																	}else{	
+																	?>					
+																	<td><?php echo $valor["SIS03_LABORATORIOID"]?></td>
+																	<td><?php echo utf8_decode($valor["SIS03_LABORATORIODESCRIPCION"])?></td>
+																	<td><?php echo $valor["ED05_ASISTENCIAID"]?></td>
+																	<td><?php echo $valor["ED05_FECHAINGRESO"]?></td>
+																	<td><?php echo $valor["FECHAREALIZARCE"]?></td>
+																	<td><?php echo $valor["ED05_TELEFONOSOLICITANTE"]?></td>
+																	<td><?php echo $valor["ED05_EMAILSOLICITANTE"]?></td>
+																	<td><?php echo $valor["ED05_PRIORIDAD"]?></td>
+																	<td><?php echo utf8_decode($valor["ED05_TIPOCONTACTO"])?></td>
+																	<td><?php echo nl2br(utf8_decode($valor["ED05_DETALLEASISTENCIAREALIZAR"]))?></td>
+																	<td><?php echo utf8_decode($valor["ED05_NOMBRESOLICITANTE"])?></td>
+																	<td><?php echo $valor["FECHAULTIMAACTUALIZACION"]?></td>
+																	<td><?php echo $valor["ED05_ESTADO"]?></td>
+																	<?php
+																	}	
+																	?>					
+																	</tr>
+																	<?
+																	}
+																}		
+																?>
+															</tbody>
+														</table>
+												</div>
+											</div>
+										</div>
+
+
+
+
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+								 </div>
+							</div>							
+					   </div>
 				 </div>
-	 </div>
+			 </div>
+		</div>

@@ -74,7 +74,7 @@
 																	<th>Fecha</th>
 																	<th>Solicitante</th>
 																	<th>Nivel</th>
-																	<th>Clasificador</th>
+																	<th>Detalle</th>
 																</tr>
 															</thead>
 															<tbody>
@@ -89,7 +89,69 @@
 																		<td><?php echo $valor["ED03_FECHATICKET"]?></td>
 																		<td><?php echo $valor["ED03_NOMBRESOLICITANTE"]?></td>
 																		<td><?php echo $valor["ED03_NIVELSOPORTE"]?></td>
-																		<td><?php echo $valor["ED03_CLASIFICADOR"]?></td>
+																		<td><a href="#" data-toggle="modal" data-target="#myModal_tic_<?php echo $valor["ED03_TICKETID"]?>">Detalle</a></td>
+																		<td>
+																			<div class="modal fade" id="myModal_tic_<?php echo $valor["ED03_TICKETID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																				<div class="modal-dialog">
+																					<div class="modal-content">
+																							<div class="modal-header">
+																									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+																									<h4 class="modal-title" id="myModalLabel"><strong>INCIDENTE NUMERO : <?php echo $valor["ED03_TICKETID"]?></strong></h4>
+																								</div>
+																								<div class="modal-body">
+																									
+																										<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
+																										<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
+																										<strong>NUM INCIDENTE : </strong><?php echo $valor["ED03_TICKETID"]?><br><br>
+																										<strong>PRODUCTO : </strong><?php echo $valor["SIS04_PRODUCTOID"]?><br><br>
+																										<strong>FECHA TICKET : </strong><?php echo $valor["ED03_FECHATICKET"]?><br><br>
+																										<strong>TELEFONO SOLICITANTE : </strong><?php echo $valor["ED03_TELEFONOSOLICITANTE"]?><br><br>
+																										<strong>EMAIL SOLICITANTE : </strong><?php echo $valor["ED03_EMAILSOLICITANTE"]?><br><br>
+																										<strong>PRIORIDAD : </strong><?php echo $valor["ED03_PRIORIDAD"]?><br><br>
+																										<strong>TIPO CONTACTO : </strong><?php echo $valor["ED03_TIPOCONTACTO"]?><br><br>
+																										<strong>NIVEL : </strong><?php echo $valor["ED03_NIVELSOPORTE"]?><br><br>
+																										<strong>CLASIFICADOR : </strong><?php echo $valor["SIS07_CLASIFICADORDESCRIPCION"]?><br><br>
+																										<strong>NUM ALUMNOS AFECTADOS : </strong><?php echo $valor["ED03_NUMALUMNOSAFECTADOS"]?><br><br>
+																										<strong>NIVEL: </strong><?php echo $valor["ED03_NIVELDELPROGRAMA"]?><br><br>
+																										<strong>MODULO : </strong><?php echo $valor["SIS05_CODIGOMODULO"]?><br><br>
+																										<strong>NUM EJERCICIO : </strong><?php echo $valor["ED03_NUMEJERCICIO"]?><br><br>
+																																															
+																										<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED03_DETALLETICKET"])?><br><br>
+																										<?php
+																										if(trim($valor["ED03_ARCHIVOADJUNTO"])!="")
+																										{	
+																										?>
+																										<strong>ARCHIVO ADJUNTO : </strong><br>
+																										
+																										<strong><a href="<?php echo $valor["ED03_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor["ED03_NOMBREARCHIVOADJUNTO"]?></a></strong>
+																										
+																										<br><br>
+																										
+																										<?php
+																										}
+																										?>
+																										<strong>SOLICITANTE : </strong><?php echo $valor["ED03_NOMBRESOLICITANTE"]?><br><br>
+																										<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
+																										<strong>ESTADO : </strong><?php echo $valor["ED03_ESTADO"]?><br><br>
+																							
+																									
+																									
+																									
+																								</div>
+																								<div class="modal-footer">
+																									<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+																								</div>
+																				
+																		
+																					</div>
+																				</div>
+																			</div>
+																		</td>
+															
+																	
+																	
+																	
+																	
 																	</tr>
 																	<?
 																	}
@@ -135,7 +197,56 @@
 																		<td><?php echo $valor["ED02_SOLICITUDID"]?></td>
 																		<td><?php echo $valor["ED02_FECHASOLICITUD"]?></td>
 																		<td><?php echo $valor["ED02_NOMBRESOLICITANTE"]?></td>
-																		<td><?php echo $valor["ED02_DETALLESOLICITUD"]?></td>
+																		<td><a href="#" data-toggle="modal" data-target="#myModal_sol_<?php echo $valor["ED02_SOLICITUDID"]?>">Detalle</a></td>
+																		<td>
+																			<div class="modal fade" id="myModal_sol_<?php echo $valor["ED02_SOLICITUDID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																				<div class="modal-dialog">
+																					<div class="modal-content">
+																							<div class="modal-header">
+																									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+																									<h4 class="modal-title" id="myModalLabel"><strong>SOLICITUD NUMERO : <?php echo $valor["ED02_SOLICITUDID"]?></strong></h4>
+																								</div>
+																								<div class="modal-body">
+																									
+																										<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
+																										<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
+																										<strong>PRODUCTO : </strong><?php echo $valor["SIS04_PRODUCTOID"]?><br><br>
+																										<strong>FECHA SOLICITUD : </strong><?php echo $valor["ED02_FECHASOLICITUD"]?><br><br>
+																										<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED02_DETALLESOLICITUD"])?><br><br>
+																										<?php
+																										if(trim($valor["ED02_ARCHIVOADJUNTO"])!="")
+																										{	
+																										?>
+																										<strong>ARCHIVO ADJUNTO : </strong><br>
+																										
+																										<strong><a href="<?php echo $valor["ED02_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor["ED02_NOMBREARCHIVOADJUNTO"]?></a></strong>
+																										
+																										<br><br>
+																										
+																										<?php
+																										}
+																										?>
+																										<strong>SOLICITANTE : </strong><?php echo $valor["ED02_NOMBRESOLICITANTE"]?><br><br>
+																										<strong>FECHA INGRESO : </strong><?php echo $valor["FECHAINGRESO"]?><br><br>
+																										<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
+																										<strong>ESTADO : </strong><?php echo $valor["ED02_ESTADO"]?><br><br>
+																							
+																									
+																									
+																								</div>
+																								<div class="modal-footer">
+																									<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+																								</div>
+																				
+																		
+																					</div>
+																				</div>
+																			</div>
+																		</td>
+															
+																	
+																	
+																	
 																	</tr>
 																	<?
 																	}
@@ -180,7 +291,57 @@
 																		<td><?php echo $valor["ED05_ASISTENCIAID"]?></td>
 																		<td><?php echo $valor["ED05_FECHAINGRESO"]?></td>
 																		<td><?php echo $valor["ED05_NOMBRESOLICITANTE"]?></td>
-																		<td><?php echo $valor["ED05_DETALLEASISTENCIAREALIZAR"]?></td>
+																		<td><a href="#" data-toggle="modal" data-target="#myModal_as_<?php echo $valor["ED05_ASISTENCIAID"]?>">Detalle</a></td>
+																		<td>
+																			<div class="modal fade" id="myModal_as_<?php echo $valor["ED05_ASISTENCIAID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																				<div class="modal-dialog">
+																					<div class="modal-content">
+																							<div class="modal-header">
+																									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+																									<h4 class="modal-title" id="myModalLabel"><strong>ASISTENCIA NUMERO : <?php echo $valor["ED05_ASISTENCIAID"]?></strong></h4>
+																								</div>
+																								<div class="modal-body">
+																									
+																									<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
+																									<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
+																									<strong>NUM ASISTENCIA : </strong><?php echo $valor["ED05_ASISTENCIAID"]?><br><br>
+																									<strong>FECHA REGISTRO ASISTENCIA : </strong><?php echo $valor["ED05_FECHAINGRESO"]?><br><br>
+																									<strong>FECHA A REALIZAR ASISTENCIA : </strong><?php echo $valor["FECHAREALIZARCE"]?><br><br>
+																									
+																									<strong>TELEFONO SOLICITANTE : </strong><?php echo $valor["ED05_TELEFONOSOLICITANTE"]?><br><br>
+																									<strong>EMAIL SOLICITANTE : </strong><?php echo $valor["ED05_EMAILSOLICITANTE"]?><br><br>
+																									<strong>PRIORIDAD : </strong><?php echo $valor["ED05_PRIORIDAD"]?><br><br>
+																									<strong>TIPO CONTACTO : </strong><?php echo $valor["ED05_TIPOCONTACTO"]?><br><br>
+																																														
+																									<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED05_DETALLEASISTENCIAREALIZAR"])?><br><br>
+																									<?php
+																									if(trim($valor["ED05_ARCHIVOADJUNTO"])!="")
+																									{	
+																									?>
+																									<strong>ARCHIVO ADJUNTO : </strong><br>
+																									
+																									<strong><a href="<?php echo $valor["ED05_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor["ED05_NOMBREARCHIVOADJUNTO"]?></a></strong>
+																									
+																									<br><br>
+																									
+																									<?php
+																									}
+																									?>
+																									<strong>SOLICITANTE : </strong><?php echo $valor["ED05_NOMBRESOLICITANTE"]?><br><br>
+																									<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
+																									<strong>ESTADO : </strong><?php echo $valor["ED05_ESTADO"]?><br><br>
+																						
+																								</div>
+																								<div class="modal-footer">
+																									<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+																								</div>
+																				
+																		
+																					</div>
+																				</div>
+																			</div>
+																		</td>
+															
 																	</tr>
 																	<?
 																	}

@@ -354,6 +354,93 @@ class TareasController extends Zend_Controller_Action
 					}
 						
 	
+    }
+
+   
+   
+    public function avisoasistenciagendaAction()
+    {
+        			// action body
+    	
+					$this->_helper->layout->disableLayout();
+					
+		
+					$DB = Zend_Db_Table::getDefaultAdapter();
+					$config = Zend_Registry::get('config');
+					$functions = new ZendExt_RutinasPhp();
+			
+	
+	
+	
+					//USUARIOS
+					/////////////////
+					$sSQL="SELECT
+							u.ED01_USUARIOID,
+							u.ED01_EMAIL
+							FROM
+							e_desk.ED01_USUARIO u ";
+				
+				
+					$rowset = $DB->fetchAll($sSQL);
+	
+					foreach($rowset as $row_datosQuery)
+					{
+						if(trim($row_datosQuery["ED01_USUARIOID"])!="")
+						{
+						
+							   $ID=$row_datosQuery["ED01_USUARIOID"];
+							   $matriz_usuarios["$ID"]=$row_datosQuery["ED01_EMAIL"];
+						}
+					}
+	
+	
+	
+	
+					//ASISTENCIAS
+					/////////////////
+					//hasta 1 y 3 días
+					$sSQL="SELECT 
+							ED05_DERIVADO, 
+							DATE_FORMAT(ED05_FECHAREALIZARCE, '%d-%m-%Y') as FECHAREALIZARCE, 
+							ED05_ASISTENCIAID, 
+							SIS03_LABORATORIOID
+							FROM 
+							e_desk.ED05_ASISTENCIA_TECNICA 
+							WHERE
+							DATEDIFF(ED05_FECHAREALIZARCE,now()) > 0 and DATEDIFF(ED05_FECHAREALIZARCE,now()) < 4 ";
+			
+				
+					$rowset = $DB->fetchAll($sSQL);
+	
+					foreach($rowset as $row_datosQuery)
+					{
+						if(trim($row_datosQuery["ED05_ASISTENCIAID"])!="")
+						{
+						
+							   $IDDER=$row_datosQuery["ED05_DERIVADO"];
+					
+							   if(isset($matriz_usuarios["$IDDER"]))
+							   {
+							   
+							   		   $email=$matriz_usuarios["$IDDER"];
+			
+									   $subject="INTERNO - RECORDATORIO FUTURA ASISTENCIA TECNICA A REALIZAR - E-DESK";
+									   $body="<u>Estimado Usuario</u><br><br>
+									   Recuerda que en la fecha : ".$row_datosQuery["FECHAREALIZARCE"]." debes realizar la asistencia num : ".$row_datosQuery["ED05_ASISTENCIAID"]." <br><br>
+									   para el colegio RBD : ".$row_datosQuery["SIS03_LABORATORIOID"].". <br><br>
+									   Atte.<br>Equipo Compumat.";
+								
+						
+									   $RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+
+											
+
+							   }
+						}
+					}
+	
+	
+	
 	}
 
 
