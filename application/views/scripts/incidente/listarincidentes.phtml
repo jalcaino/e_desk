@@ -172,7 +172,7 @@
 																													}
 																											}
 																											
-																											if($valor["ED03_ESTADO"]=="PENDIENTE") 
+																											if($valor["ED03_ESTADO"]=="PENDIENTE" || $valor["ED03_ESTADO"]=="GESTIONADO") 
 																											{ 
 																												if(isset($acceso_funcionalidades[6]) && trim($acceso_funcionalidades[6])=="1")
 																												{																								
@@ -271,7 +271,8 @@
 																																				{
 																																				?>
 																																				<strong>DEPARTAMENTO : </strong><?php echo $valor["SECTOR"]?><br><br>
-																																				<strong>DERIVADO A : </strong><?php echo $datos_derivados["$IDTICKET"]["ED01_USUARIOID"]?><br><br>
+																																				<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados["$IDTICKET"]["ED01_USUARIOID"]?></button>
+																																				<br><br>	
 																																				<?php
 																																				}
 																																				?>

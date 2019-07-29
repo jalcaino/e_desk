@@ -101,11 +101,15 @@
 									
 											if(res[0]=='OK')
 											{
-													$("#divNotificaciones").html("<div class='panel panel-success'><div class='panel-heading'>Datos almacenados correctamente</div></div>");
-													
+												
+													$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>Datos almacenados correctamente<br><br><a href='/Incidente'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
 													$('#volver_bot').focus();
+										
+												
+													//$("#divNotificaciones").html("<div class='panel panel-success'><div class='panel-heading'>Datos almacenados correctamente</div></div>");
+													//$('#volver_bot').focus();
 													//limpia formulario
-													$('#oForm').trigger("reset");
+													//$('#oForm').trigger("reset");
 											
 											}else{
 												
@@ -124,8 +128,9 @@
 	
 	</script>
 
+<div id="formulario">
 
- <div class="col-md-12">
+	 <div class="col-md-12">
   			 <div class="row">
 					 <div class="col-md-6 col-sm-6 col-xs-12">
 											
@@ -192,4 +197,6 @@
 				 
 				 </div>
 
+ 		</div>
+ 
  </div>

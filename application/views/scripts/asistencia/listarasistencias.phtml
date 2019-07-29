@@ -148,16 +148,19 @@
 																										<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED05_ASISTENCIAID"]?>')">Eliminar</a></li>
 																										<?php
 																										}
-																								}		
-																								?>
-																								<li class="divider"></li>
-																								<?php
-																								if(isset($acceso_funcionalidades[5]) && trim($acceso_funcionalidades[5])=="1")
-																								{																								
-																								?>	
-																								<li><a href="/Bitacoraasistencia/agregarbitacoraasistencia/asistenciaid/<?php echo $valor["ED05_ASISTENCIAID"]?>">Seguimiento</a></li>
-																								<?php
 																								}
+																								if($valor["ED05_ESTADO"]=="DERIVADO")
+																								{ 
+																								?>
+																										<li class="divider"></li>
+																										<?php
+																										if(isset($acceso_funcionalidades[5]) && trim($acceso_funcionalidades[5])=="1")
+																										{																								
+																										?>	
+																										<li><a href="/Bitacoraasistencia/agregarbitacoraasistencia/asistenciaid/<?php echo $valor["ED05_ASISTENCIAID"]?>">Seguimiento</a></li>
+																										<?php
+																										}
+																								}			
 																								?>
 																							</ul>
 																						</div>
@@ -242,7 +245,8 @@
 																																				if(isset($datos_derivados["$IDTICKET"]["ED01_USUARIOID"]))
 																																				{
 																																				?>
-																																				<strong>DERIVADO A : </strong><?php echo $datos_derivados["$IDTICKET"]["ED01_USUARIOID"]?><br><br>
+																																				<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados["$IDTICKET"]["ED01_USUARIOID"]?></button>
+																																				<br><br>	
 																																				<?php
 																																				}
 																																				?>

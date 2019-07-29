@@ -100,6 +100,57 @@ class ZendExt_RutinasPhp
 
 
 
+	function obtiene_usuarios_mesa_ayuda_tecnico()
+    {
+        
+						$DB = Zend_Registry::get('db1');
+      
+	  					/*	
+						4 - tecnico
+						*/
+					
+						//USUARIOS
+						////////////////////////////
+						$sSQL="SELECT
+								ED01_USUARIOID,
+								SIS02_NIVELID,
+								ED01_EMAIL
+								FROM
+								e_desk.ED01_USUARIO
+								WHERE
+								SIS02_NIVELID=4
+								ORDER BY
+								SIS02_NIVELID";
+					
+					
+						$rowset = $DB->fetchAll($sSQL);
+				
+						foreach($rowset as $row_datosQuery)
+						{
+							if(trim($row_datosQuery["ED01_USUARIOID"])!="")
+							{
+								  $ID=$row_datosQuery["ED01_USUARIOID"];	
+							
+								  $LISTAUSUARIOS["$ID"]=$row_datosQuery["ED01_EMAIL"];
+							}								
+						}
+				  
+				  
+				  		if (isset($LISTAUSUARIOS))
+							return $LISTAUSUARIOS;
+				  		else
+							return "0";
+				  	
+					
+					
+					
+					
+
+    }
+
+
+
+
     function obtiene_usuarios_supervisor_mesa_ayuda()
     {
         
@@ -203,7 +254,7 @@ class ZendExt_RutinasPhp
 						2 - supervisor mesa ayuda
 						3 - mesa de ayuda
 						7 - supervisor sac
-						4,6,9 - otros usuarios
+						6,9 - otros usuarios
 						*/
 					
 						//USUARIOS
@@ -215,7 +266,7 @@ class ZendExt_RutinasPhp
 								FROM
 								e_desk.ED01_USUARIO
 								WHERE
-								SIS02_NIVELID in (4,6,9)
+								SIS02_NIVELID in (6,9)
 								ORDER BY
 								SIS02_NIVELID";
 					
@@ -997,6 +1048,7 @@ class ZendExt_RutinasPhp
 									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
 							}
 						}													
+				
 						//SUPERVISOR USUARIO NESA AYUDA
 						$destinadatario4=$this->obtiene_usuarios_mesa_ayuda();
 						if($destinadatario4!="0")
@@ -1010,6 +1062,22 @@ class ZendExt_RutinasPhp
 									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
 							}
 						}												
+
+
+						//TECNICO USUARIO NESA AYUDA
+						$destinadatario5=$this->obtiene_usuarios_mesa_ayuda_tecnico();
+						if($destinadatario5!="0")
+						{
+							foreach($destinadatario5 as $clave => $valor)
+							{
+								if(trim($EMAIL)!=trim($valor))
+									$MAILS_A_NOTIFICAR["$valor"]=$valor;
+						
+								if(trim($USUARIO)!=trim($clave))
+									$USUARIOS_A_NOTIFICAR["$clave"]=$clave;
+							}
+						}												
+
 
 			
 						if(isset($MAILS_A_NOTIFICAR))

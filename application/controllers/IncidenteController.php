@@ -30,7 +30,13 @@ class IncidenteController extends Zend_Controller_Action
 						$busqueda=$this->_request->getParam('busqueda');
 						if(isset($busqueda) && $busqueda!="")
 							Zend_Layout::getMvcInstance()->assign('busqueda',$busqueda);
-			
+						else{
+								if(isset($edesk_session->BUSQUEDA_INCI) && trim($edesk_session->BUSQUEDA_INCI)!="")
+								{
+									Zend_Layout::getMvcInstance()->assign('busqueda',$edesk_session->BUSQUEDA_INCI);
+								}
+							}
+		
 			
 			
 					
@@ -322,6 +328,7 @@ class IncidenteController extends Zend_Controller_Action
 					{
 					
 								  	$existe=0;
+								  	$existe_c=0;
 						
 									if(isset($porciones[0]) && trim($porciones[0])!="")
 									{
@@ -354,10 +361,39 @@ class IncidenteController extends Zend_Controller_Action
 			
 									}		
 		
-
+					
+									if(isset($porciones_clasificador[0]) && trim($porciones_clasificador[0])!="")
+									{
+		
+											$sSQL="SELECT
+													SIS07_CLASIFICADORID
+													FROM
+													e_desk.SIS07_CLASIFICADOR 
+													WHERE 
+													SIS07_CLASIFICADORID = '".trim($porciones_clasificador[0])."'";
+											
+											  try {
+									
+													$rowset = $DB->fetchAll($sSQL);
+													if (count($rowset) > 0) 
+													{
+														$existe_c=1;
+													}
+									
+												} catch (Zend_Exception $e) {
+									
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..(34)";
+													exit;	
+											
+												}
+			
+									}		
+		
+		
 									//existe laboratorio
 									/////////////////////
-									if($existe==1)
+									if($existe==1 && $existe_c==1)
 									{
 			
 												 $path = $uploads;
@@ -568,15 +604,18 @@ class IncidenteController extends Zend_Controller_Action
 														{
 															foreach($destinadatarios[1] as $clave => $valor)
 															{
-																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
-																$data_usuario[$valor] = array(
-																		  'ED01_USUARIOID' => $valor,
-																		  'ED03_TICKETID' => $nueva_solicitud,
-																		  'ED10_TIPONOTIFICACION' => '1',
-																		  'ED10_LEIDO' => '0',
-																		  'ED10_FECHANOTIFICACION' => date("Ymdhis")
-																	);
-
+																if(!isset($USUARIOS_A_NOTIFICAR["$valor"]))
+																{
+																
+																	$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																	$data_usuario[$valor] = array(
+																			  'ED01_USUARIOID' => $valor,
+																			  'ED03_TICKETID' => $nueva_solicitud,
+																			  'ED10_TIPONOTIFICACION' => '1',
+																			  'ED10_LEIDO' => '0',
+																			  'ED10_FECHANOTIFICACION' => date("Ymdhis")
+																		);
+																}
 															}
 														}
 					
@@ -651,7 +690,7 @@ class IncidenteController extends Zend_Controller_Action
 
 									}else{
 									
-											echo("KO|No existe el colegio a asociar la solicitud");
+											echo("KO|No existe el colegio / clasificador a asociar a la solicitud");
 											exit;
 
 									
@@ -1003,6 +1042,8 @@ class IncidenteController extends Zend_Controller_Action
 					{
 					
 								  	$existe=0;
+									$existe_c=0;
+						
 						
 									if(isset($porciones[0]) && trim($porciones[0])!="")
 									{
@@ -1035,10 +1076,39 @@ class IncidenteController extends Zend_Controller_Action
 			
 									}		
 		
-
+									if(isset($porciones_clasificador[0]) && trim($porciones_clasificador[0])!="")
+									{
+		
+											$sSQL="SELECT
+													SIS07_CLASIFICADORID
+													FROM
+													e_desk.SIS07_CLASIFICADOR 
+													WHERE 
+													SIS07_CLASIFICADORID = '".trim($porciones_clasificador[0])."'";
+									
+							
+											  try {
+									
+													$rowset = $DB->fetchAll($sSQL);
+													if (count($rowset) > 0) 
+													{
+														$existe_c=1;
+													}
+									
+												} catch (Zend_Exception $e) {
+									
+													//echo("KO|".$e->getMessage());
+													echo "KO|Se ha producido un error..(35)";
+													exit;	
+											
+												}
+			
+									}		
+		
+		
 									//existe laboratorio
 									/////////////////////
-									if($existe==1)
+									if($existe==1 && $existe_c==1)
 									{
 			
 												 $path = $uploads;
@@ -1244,15 +1314,18 @@ class IncidenteController extends Zend_Controller_Action
 														{
 															foreach($destinadatarios[1] as $clave => $valor)
 															{
-																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
-																$data_usuario[$valor] = array(
-																		  'ED01_USUARIOID' => $valor,
-																		  'ED03_TICKETID' => $incidenteid,
-																		  'ED10_TIPONOTIFICACION' => '1',
-																		  'ED10_LEIDO' => '0',
-																		  'ED10_FECHANOTIFICACION' => date("Ymdhis")
-																	);
-
+																
+																if(!isset($USUARIOS_A_NOTIFICAR["$valor"]))
+																{
+																	$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																	$data_usuario[$valor] = array(
+																			  'ED01_USUARIOID' => $valor,
+																			  'ED03_TICKETID' => $incidenteid,
+																			  'ED10_TIPONOTIFICACION' => '1',
+																			  'ED10_LEIDO' => '0',
+																			  'ED10_FECHANOTIFICACION' => date("Ymdhis")
+																		);
+																}	
 															}
 														}
 					
@@ -1327,7 +1400,7 @@ class IncidenteController extends Zend_Controller_Action
 
 									}else{
 									
-											echo("KO|No existe el colegio a asociar la solicitud");
+											echo("KO|No existe el colegio / clasificador a asociar a la solicitud");
 											exit;
 
 									
@@ -1413,6 +1486,9 @@ class IncidenteController extends Zend_Controller_Action
 
 						$lapagina=$this->_request->getPost('pagina');
 						$busqueda=$this->_request->getPost('busqueda');
+						$edesk_session->BUSQUEDA_INCI=$busqueda;
+						
+							
 										
 						if($lapagina!="")
 						{

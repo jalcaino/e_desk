@@ -33,6 +33,13 @@ class SolicitudController extends Zend_Controller_Action
 						$busqueda=$this->_request->getParam('busqueda');
 						if(isset($busqueda) && $busqueda!="")
 							Zend_Layout::getMvcInstance()->assign('busqueda',$busqueda);
+						else{
+								if(isset($edesk_session->BUSQUEDA_SOL) && trim($edesk_session->BUSQUEDA_SOL)!="")
+								{
+									Zend_Layout::getMvcInstance()->assign('busqueda',$edesk_session->BUSQUEDA_SOL);
+								}
+							}
+			
 			
 	
 	}
@@ -342,15 +349,19 @@ class SolicitudController extends Zend_Controller_Action
 														{
 															foreach($destinadatarios[1] as $clave => $valor)
 															{
-																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
-																$data_usuario[$valor] = array(
-																		  'ED02_SOLICITUDID' => $nueva_solicitud,
-																		  'ED01_USUARIOID' => $valor,
-																		  'ED17_TIPONOTIFICACION' => '1',
-																		  'ED17_LEIDO' => '0',
-																		  'ED17_FECHANOTIFICACION' => date("Ymdhis")
-																	);
+																if(!isset($USUARIOS_A_NOTIFICAR["$valor"]))
+																{
+																
+																	$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																	$data_usuario[$valor] = array(
+																			  'ED02_SOLICITUDID' => $nueva_solicitud,
+																			  'ED01_USUARIOID' => $valor,
+																			  'ED17_TIPONOTIFICACION' => '1',
+																			  'ED17_LEIDO' => '0',
+																			  'ED17_FECHANOTIFICACION' => date("Ymdhis")
+																		);
 
+																}
 															}
 														}
 					
@@ -828,15 +839,18 @@ class SolicitudController extends Zend_Controller_Action
 														{
 															foreach($destinadatarios[1] as $clave => $valor)
 															{
-																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
-																$data_usuario[$valor] = array(
-																		  'ED02_SOLICITUDID' => $solicitudid,
-																		  'ED01_USUARIOID' => $valor,
-																		  'ED17_TIPONOTIFICACION' => '1',
-																		  'ED17_LEIDO' => '0',
-																		  'ED17_FECHANOTIFICACION' => date("Ymdhis")
-																	);
-
+																if(!isset($USUARIOS_A_NOTIFICAR["$valor"]))
+																{
+																
+																	$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																	$data_usuario[$valor] = array(
+																			  'ED02_SOLICITUDID' => $solicitudid,
+																			  'ED01_USUARIOID' => $valor,
+																			  'ED17_TIPONOTIFICACION' => '1',
+																			  'ED17_LEIDO' => '0',
+																			  'ED17_FECHANOTIFICACION' => date("Ymdhis")
+																		);
+																}
 															}
 														}
 					
@@ -996,6 +1010,9 @@ class SolicitudController extends Zend_Controller_Action
 
 						$lapagina=$this->_request->getPost('pagina');
 						$busqueda=$this->_request->getPost('busqueda');
+						$edesk_session->BUSQUEDA_SOL=$busqueda;
+						
+							
 										
 						if($lapagina!="")
 						{

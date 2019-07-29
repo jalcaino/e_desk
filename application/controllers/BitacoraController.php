@@ -254,15 +254,19 @@ class BitacoraController extends Zend_Controller_Action
 														{
 															foreach($destinadatarios[1] as $clave => $valor)
 															{
-																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
-																$data_usuario[$valor] = array(
-																		  'ED01_USUARIOID' => $valor,
-																		  'ED04_SEGTICKETID' => $nueva_solicitud,
-																		  'ED09_TIPONOTIFICACION' => '1',
-																		  'ED09_LEIDO' => '0',
-																		  'ED09_FECHANOTIFICACION' => date("Ymdhis")
-																	);
-
+																
+																if(!isset($USUARIOS_A_NOTIFICAR["$valor"]))
+																{
+																
+																	$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																	$data_usuario[$valor] = array(
+																			  'ED01_USUARIOID' => $valor,
+																			  'ED04_SEGTICKETID' => $nueva_solicitud,
+																			  'ED09_TIPONOTIFICACION' => '1',
+																			  'ED09_LEIDO' => '0',
+																			  'ED09_FECHANOTIFICACION' => date("Ymdhis")
+																		);
+																}
 															}
 														}
 					

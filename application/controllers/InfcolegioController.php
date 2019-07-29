@@ -200,7 +200,16 @@ class InfcolegioController extends Zend_Controller_Action
 							$SIS03_CELULAR_CONTACTO_3 = $row["SIS03_CELULAR_CONTACTO_3"]; 
 							$SIS03_EMAIL_CONTACTO_3 = $row["SIS03_EMAIL_CONTACTO_3"];
 							$SIS03_NIVELES = $row["SIS03_NIVELES"];
-							$SIS03_DISTRIBUIDO = $row["SIS03_DISTRIBUIDO"];
+							
+							
+							$SIS03_DISTRIBUIDO="";
+							if($row["SIS03_DISTRIBUIDO"]=="0")
+							   $SIS03_DISTRIBUIDO="NO";
+							if($row["SIS03_DISTRIBUIDO"]=="1")
+							   $SIS03_DISTRIBUIDO="SI";
+
+
+							
 							$SIS03_INFO_DISTRIBUIDO = $row["SIS03_INFO_DISTRIBUIDO"]; 
 							$SIS03_FECHA_OPERATIVO = $row["SIS03_FECHA_OPERATIVO"];
 							$SIS03_OTROS_DISPOSITIVOS = $row["SIS03_OTROS_DISPOSITIVOS"]; 

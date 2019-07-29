@@ -148,7 +148,7 @@ INSERT INTO `ED01_USUARIO` (`ED01_USUARIOID`,`SIS02_NIVELID`,`SIS01_SECTORID`,`E
  ('emartinez',3,'LAB','Eduardo Martinez','emartinez@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-06-29','2019-06-29 10:16:17'),
  ('gpiaggio',7,'SAC','Gabriela Piaggio','gpiaggio@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-07-01','2019-07-01 10:03:54'),
  ('isegovia',6,'INF','Jean Segovia','isegovia@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-07-01','2019-07-01 10:10:26'),
- ('jalcaino',1,'INF','José Alcaíno','jalcaino@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',1,0,'2019-07-14','2019-07-14 08:22:37'),
+ ('jalcaino',1,'INF','José Alcaíno','jalcaino@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',1,0,'2019-07-28','2019-07-28 07:15:42'),
  ('jguzman',4,'LAB','Jorge Guzmán','tecnico@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-07-01','2019-07-01 10:08:04'),
  ('jolivos',4,'LAB','Javier Olivos','jolivos@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-06-30','2019-06-30 09:39:30'),
  ('jortiz',3,'LAB','José Ortiz','jortiz@compumat.cl','e11170b8cbd2d74102651cb967fa28e5',0,1,'2019-07-01','2019-07-01 10:05:57'),
@@ -176,7 +176,7 @@ CREATE TABLE `ED02_SOLICITUD` (
   `ED02_ESTADO` varchar(50) DEFAULT NULL,
   `ED01_USUARIOID` varchar(50) NOT NULL,
   PRIMARY KEY (`ED02_SOLICITUDID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1684 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1685 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ED02_SOLICITUD`
@@ -228,9 +228,10 @@ INSERT INTO `ED02_SOLICITUD` (`ED02_SOLICITUDID`,`SIS03_LABORATORIOID`,`SIS04_PR
  (1678,'1000','EMAT-PSU','2019-07-15','probando edesk',NULL,NULL,NULL,'José Alcaíno','2019-07-14','2019-07-14 09:08:09','PENDIENTE','jalcaino'),
  (1679,'10247','EMAT-INICIAL','2019-07-14','el detalle solicitud',NULL,NULL,NULL,'José Alcaíno','2019-07-14','2019-07-14 09:17:49','PENDIENTE','jalcaino'),
  (1680,'10019','EMAT-INICIAL','2019-07-14','prueba',0x2F6172636869766F735F75706C6F61642F68756E647265642E646F6378,'hundred.docx','application/vnd.openxmlformats-officedocument.word','America Yañez','2019-07-14','2019-07-14 09:21:40','PENDIENTE','ayanez'),
- (1681,'10247','EMAT-INICIAL','2019-07-14','prueba\r\nprobando2',0x2F6172636869766F735F75706C6F61642F68756E647265642E646F6378,'hundred.docx','application/vnd.openxmlformats-officedocument.word','ayanez','2019-07-14','2019-07-14 09:56:14','PENDIENTE','ayanez'),
- (1682,'10010','EMAT-INICIAL','2019-07-15','solicitud detalle 1\r\ndsdssdsd',0x2F6172636869766F735F75706C6F61642F6C6F67696E2E706466,'login.pdf','application/pdf','jalcaino','2019-07-15','2019-07-15 01:48:45','PENDIENTE','jalcaino'),
- (1683,'100','EMAT-MEDIA','2019-07-29','el detalle 1',0x2F6172636869766F735F75706C6F61642F6C6F67696E322E706466,'login2.pdf','application/pdf','jalcaino','2019-07-28','2019-07-28 15:07:05','DERIVADO','jalcaino');
+ (1681,'10247','EMAT-INICIAL','2019-07-14','prueba\r\nprobando2',0x2F6172636869766F735F75706C6F61642F68756E647265642E646F6378,'hundred.docx','application/vnd.openxmlformats-officedocument.word','ayanez','2019-07-14','2019-07-28 22:25:03','RESUELTO','ayanez'),
+ (1682,'10010','EMAT-INICIAL','2019-07-15','solicitud detalle 1\r\ndsdssdsd',0x2F6172636869766F735F75706C6F61642F6C6F67696E2E706466,'login.pdf','application/pdf','jalcaino','2019-07-15','2019-07-28 22:16:45','MEJORA-FUTURA','jalcaino'),
+ (1683,'100','EMAT-MEDIA','2019-07-29','el detalle 1',0x2F6172636869766F735F75706C6F61642F6C6F67696E322E706466,'login2.pdf','application/pdf','jalcaino','2019-07-28','2019-07-28 15:07:05','DERIVADO','jalcaino'),
+ (1684,'13637','EMAT-MEDIA','2019-07-28','kldskldskldskl',0x2F6172636869766F735F75706C6F61642F6C6F67696E2E706466,'login.pdf','application/pdf','jalcaino','2019-07-28','2019-07-28 20:37:58','RESUELTO','jalcaino');
 /*!40000 ALTER TABLE `ED02_SOLICITUD` ENABLE KEYS */;
 
 
@@ -265,7 +266,7 @@ CREATE TABLE `ED03_TICKET` (
   `ED03_DERIVADO` varchar(50) DEFAULT NULL,
   `SIS01_SECTORID` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ED03_TICKETID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7653 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7657 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ED03_TICKET`
@@ -273,14 +274,18 @@ CREATE TABLE `ED03_TICKET` (
 
 /*!40000 ALTER TABLE `ED03_TICKET` DISABLE KEYS */;
 INSERT INTO `ED03_TICKET` (`ED03_TICKETID`,`SIS03_LABORATORIOID`,`SIS04_PRODUCTOID`,`ED03_FECHATICKET`,`ED03_NOMBRESOLICITANTE`,`ED03_TELEFONOSOLICITANTE`,`ED03_EMAILSOLICITANTE`,`ED03_PRIORIDAD`,`ED03_DETALLETICKET`,`ED03_TIPOCONTACTO`,`ED03_NIVELSOPORTE`,`SIS07_CLASIFICADORID`,`ED03_ARCHIVOADJUNTO`,`ED03_NOMBREARCHIVOADJUNTO`,`ED03_TIPOARCHIVOADJUNTO`,`ED03_NUMALUMNOSAFECTADOS`,`ED03_NIVELDELPROGRAMA`,`SIS05_CODIGOMODULO`,`ED03_NUMEJERCICIO`,`ED03_ESTADO`,`ED03_FECHAULTIMAACTUALIZACION`,`ED01_USUARIOID`,`ED03_DERIVADO`,`SIS01_SECTORID`) VALUES 
- (7644,'10247','EMAT-INICIAL','2019-07-13','José Alcaíno','6766776','lolo@lolo.cl',1,'el detalle','CHAT','1',143,0x2F6172636869766F735F75706C6F61642F7265706F72742D7175616C697461746976652D636F7665726167652D6F766572766965772D3034303532303139313133382E706466,'report-qualitative-coverage-overview-040520191138.pdf','application/pdf',1,'1 BASICO','CUA2',1,'DERIVADO','2019-07-13 09:04:24','jalcaino','aaguero',NULL),
+ (7644,'10247','EMAT-INICIAL','2019-07-13','José Alcaíno','6766776','lolo@lolo.cl',1,'el detalle','CHAT','1',143,0x2F6172636869766F735F75706C6F61642F7265706F72742D7175616C697461746976652D636F7665726167652D6F766572766965772D3034303532303139313133382E706466,'report-qualitative-coverage-overview-040520191138.pdf','application/pdf',1,'1 BASICO','CUA2',1,'DERIVADO','2019-07-28 08:41:58','jalcaino','aaedo','INF'),
  (7645,'13637','EMAT-BASICA','2019-07-13','jjkjkjk','jjjjkkjkj','lolo.lolo@lolo.cl',1,'qwwqwq\r\nqwqwwq\r\n','CHAT','1',141,NULL,NULL,NULL,0,'1 BASICO','',0,'DERIVADO','2019-07-13 21:09:22','jalcaino','',NULL),
  (7646,'10162','EMAT-INICIAL','2019-07-14','Luis Paredes','6666666','lparedes@sonda.cl',0,'hay un probela en el ejercicio','EMAIL','1',125,0x2F6172636869766F735F75706C6F61642F66696368615F636F6C6567696F322E706466,'ficha_colegio2.pdf','application/pdf',10,'8 BASICO','CUA3',10,'DERIVADO','2019-07-14 12:57:20','jalcaino','isegovia','INF'),
  (7647,'10010','EMAT-BASICA','2019-07-15','nombre 1','87878787','lolo@lolo.cl',1,'el detalle','CHAT','1',142,0x2F6172636869766F735F75706C6F61642F6C6F67696E322E706466,'login2.pdf','application/pdf',10,'1 BASICO','DMA1',10,'PENDIENTE','2019-07-15 01:09:51','jalcaino','isegovia','INF'),
  (7649,'10010','EMAT-BASICA','2019-07-15','nombre 1','87878787','lolo@lolo.cl',1,'el detalle','CHAT','1',142,0x2F6172636869766F735F75706C6F61642F6C6F67696E322E706466,'login2.pdf','application/pdf',10,'1 BASICO','DMA1',10,'DERIVADO','2019-07-15 01:53:43','jalcaino','isegovia','INF'),
  (7650,'10010','EMAT-BASICA','2019-07-15','nombre 1','87878787','lolo@lolo.cl',1,'el detalle','CHAT','1',142,0x2F6172636869766F735F75706C6F61642F6C6F67696E322E706466,'login2.pdf','application/pdf',10,'1 BASICO','DMA1',10,'DERIVADO','2019-07-15 01:49:08','jalcaino','isegovia','INF'),
  (7651,'25475','EMAT-BASICA','2019-07-15','jsddsjk','11111','lolo@lolo.cl',1,'klsklasks\r\nsd','CHAT','1',141,0x2F6172636869766F735F75706C6F61642F66696368615F636F6C6567696F2E706466,'ficha_colegio.pdf','application/pdf',0,'1 BASICO','K1A2',10,'DERIVADO','2019-07-15 01:47:34','jalcaino','aaedo','INF'),
- (7652,'100','EMAT-MEDIA','2019-07-01','jalcaino','','lolo@lolo.cl',1,'el detalle 1','CHAT','1',142,NULL,NULL,NULL,0,'1 BASICO','',0,'PENDIENTE','2019-07-28 03:03:22','jalcaino','aaedo','INF');
+ (7652,'100','EMAT-MEDIA','2019-07-01','jalcaino','','lolo@lolo.cl',1,'el detalle 1','CHAT','1',142,NULL,NULL,NULL,0,'1 BASICO','',0,'PENDIENTE','2019-07-28 09:41:49','jalcaino','aaedo','INF'),
+ (7653,'13637','EMAT-MEDIA','2019-07-28','jalcaino','899888998','lolo@lolo.cl',1,'kldskldskldskl','CHAT','1',125,NULL,NULL,NULL,0,'1 BASICO','',0,'RESUELTO','2019-07-28 08:34:14','jalcaino','aaedo','INF'),
+ (7654,'10247','EMAT-BASICA','2019-07-28','dssdds','788787','lolo@lolo.cl',1,'ewre\r\n\r\nererer\r\n','CHAT','1',141,NULL,NULL,NULL,0,'1 BASICO','',0,'PENDIENTE','2019-07-28 09:41:09','jalcaino','aaedo','INF'),
+ (7655,'10019','EMAT-BASICA','2019-07-24','iioiioio','ioioioio','lolo@lolo.cl',1,'wweew\r\newewew\r\nkjkjjkjk','CHAT','1',149,NULL,NULL,NULL,10,'2 BASICO','4012019S',9,'RESUELTO','2019-07-28 09:53:09','jalcaino','aaedo','INF'),
+ (7656,'10010','EMAT-INICIAL','2019-07-28','jalcaino','90099009','lolo@lolo.cl',1,'solicitud detalle 1\r\ndsdssdsd','CHAT','1',125,NULL,NULL,NULL,0,'1 BASICO','',0,'MEJORA-FUTURA','2019-07-28 22:16:45','jalcaino','aaedo','INF');
 /*!40000 ALTER TABLE `ED03_TICKET` ENABLE KEYS */;
 
 
@@ -301,7 +306,7 @@ CREATE TABLE `ED04_SEGUIMIENTO_TICKET` (
   `ED04_FECHAULTIMAACTUALIZACION` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ED04_REGISTRODETALLECAMBIO` text,
   PRIMARY KEY (`ED04_SEGTICKETID`)
-) ENGINE=InnoDB AUTO_INCREMENT=15579 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15583 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ED04_SEGUIMIENTO_TICKET`
@@ -309,7 +314,11 @@ CREATE TABLE `ED04_SEGUIMIENTO_TICKET` (
 
 /*!40000 ALTER TABLE `ED04_SEGUIMIENTO_TICKET` DISABLE KEYS */;
 INSERT INTO `ED04_SEGUIMIENTO_TICKET` (`ED04_SEGTICKETID`,`ED03_TICKETID`,`ED01_USUARIOID`,`ED04_SEGFECHA`,`ED04_SEGCOMENTARIOS`,`ED04_ARCHIVOADJUNTO`,`ED04_NOMBREARCHIVOADJUNTO`,`ED04_TIPOARCHIVOADJUNTO`,`ED04_FECHAULTIMAACTUALIZACION`,`ED04_REGISTRODETALLECAMBIO`) VALUES 
- (15578,7651,'jalcaino','2019-07-15','sas\r\nasassa',0x2F6172636869766F735F75706C6F61642F66696368615F636F6C6567696F2E706466,'ficha_colegio.pdf','application/pdf','2019-07-15 02:01:41','Usuario introduce comentarios de incidente');
+ (15578,7651,'jalcaino','2019-07-15','sas\r\nasassa',0x2F6172636869766F735F75706C6F61642F66696368615F636F6C6567696F2E706466,'ficha_colegio.pdf','application/pdf','2019-07-15 02:01:41','Usuario introduce comentarios de incidente'),
+ (15579,7644,'jalcaino','2019-07-28','sakskldklds\r\ndsdssd',0x2F6172636869766F735F75706C6F61642F7265706F72742D7175616C697461746976652D636F7665726167652D6F766572766965772D3034303532303139313133332E706466,'report-qualitative-coverage-overview-040520191133.pdf','application/pdf','2019-07-28 08:36:31','Usuario introduce comentarios de incidente'),
+ (15580,7644,'jalcaino','2019-07-28','dsds\r\ndsds',0x2F6172636869766F735F75706C6F61642F646572697661725F696E69636964656E7465332E706466,'derivar_inicidente3.pdf','application/pdf','2019-07-28 08:38:12','Usuario introduce comentarios de incidente<br>Incidente queda en estado gestionado'),
+ (15581,7656,'jalcaino','2019-07-28','fffff',0x2F6172636869766F735F75706C6F61642F7265706F72742D7175616C697461746976652D636F7665726167652D6F766572766965772D3034303532303139313133332E706466,'report-qualitative-coverage-overview-040520191133.pdf','application/pdf','2019-07-28 10:05:24','Usuario introduce comentarios de incidente<br>Incidente queda en estado gestionado'),
+ (15582,7656,'jalcaino','2019-07-05','lñlññl',0x2F6172636869766F735F75706C6F61642F7265706F72742D7175616C697461746976652D636F7665726167652D6F766572766965772D3034303532303139313133332E706466,'report-qualitative-coverage-overview-040520191133.pdf','application/pdf','2019-07-28 10:06:09','Usuario introduce comentarios de incidente<br>Incidente queda en estado gestionado');
 /*!40000 ALTER TABLE `ED04_SEGUIMIENTO_TICKET` ENABLE KEYS */;
 
 
@@ -337,7 +346,7 @@ CREATE TABLE `ED05_ASISTENCIA_TECNICA` (
   `ED01_USUARIOID` varchar(50) NOT NULL,
   `ED05_DERIVADO` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ED05_ASISTENCIAID`)
-) ENGINE=InnoDB AUTO_INCREMENT=330 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=333 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ED05_ASISTENCIA_TECNICA`
@@ -345,8 +354,11 @@ CREATE TABLE `ED05_ASISTENCIA_TECNICA` (
 
 /*!40000 ALTER TABLE `ED05_ASISTENCIA_TECNICA` DISABLE KEYS */;
 INSERT INTO `ED05_ASISTENCIA_TECNICA` (`ED05_ASISTENCIAID`,`SIS03_LABORATORIOID`,`ED05_FECHAINGRESO`,`ED05_NOMBRESOLICITANTE`,`ED05_TELEFONOSOLICITANTE`,`ED05_EMAILSOLICITANTE`,`ED05_PRIORIDAD`,`ED05_DETALLEASISTENCIAREALIZAR`,`ED05_FECHAREALIZARCE`,`ED05_TIPOCONTACTO`,`ED05_ESTADO`,`ED05_ARCHIVOADJUNTO`,`ED05_NOMBREARCHIVOADJUNTO`,`ED05_TIPOARCHIVOADJUNTO`,`ED05_FECHAULTIMAACTUALIZACION`,`ED01_USUARIOID`,`ED05_DERIVADO`) VALUES 
- (327,'13637','2019-07-13','jjkjkjk','weweewwe','',0,'qwwqwq\r\nqwqwwq\r\n','2019-07-30','TELEFONO','PENDIENTE',NULL,NULL,NULL,'2019-07-27 19:09:15','jalcaino','jalcaino'),
- (329,'10019','2019-07-15','kkllk','llklk','lolo@lolol.cl',1,'llññl\r\n\r\nlññlñl','2019-07-28','TELEFONO','PENDIENTE',NULL,NULL,NULL,'2019-07-27 19:07:04','jalcaino','jalcaino');
+ (327,'13637','2019-07-13','jjkjkjk','weweewwe','',0,'qwwqwq\r\nqwqwwq\r\n','2019-07-13','TELEFONO','DERIVADO',NULL,NULL,NULL,'2019-07-29 12:10:30','jalcaino','jguzman'),
+ (329,'10019','2019-07-15','kkllk','llklk','lolo@lolol.cl',1,'llññl\r\n\r\nlññlñl','2019-07-15','TELEFONO','DERIVADO',NULL,NULL,NULL,'2019-07-29 12:10:16','jalcaino','jolivos'),
+ (330,'10010','2019-07-28','iñlññlñllñ','78878787','lolo@lolo.cl',1,'llklklkkl','2019-07-28','TELEFONO','RESUELTO',NULL,NULL,NULL,'2019-07-28 09:55:07','jalcaino','aaguero'),
+ (331,'10010','2019-07-28','jalcaino','99000990','lololo@lolo.cl',1,'solicitud detalle 1\r\ndsdssdsd','2019-07-28','TELEFONO','MEJORA-FUTURA',NULL,NULL,NULL,'2019-07-28 10:13:01','jalcaino','aaguero'),
+ (332,'10247','2019-07-28','ayanez','8989898989','lolo@lolo.cl',1,'prueba\r\nprobando2','2019-07-28','TELEFONO','RESUELTO',NULL,NULL,NULL,'2019-07-28 10:21:19','jalcaino','aaguero');
 /*!40000 ALTER TABLE `ED05_ASISTENCIA_TECNICA` ENABLE KEYS */;
 
 
@@ -367,7 +379,7 @@ CREATE TABLE `ED06_SEGUIMIENTO_ASISTENCIA_TECNICA` (
   `ED06_FECHAULTIMAACTUALIZACION` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ED06_REGISTRODETALLECAMBIO` text,
   PRIMARY KEY (`ED06_SEGASISTENCIAID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ED06_SEGUIMIENTO_ASISTENCIA_TECNICA`
@@ -376,7 +388,18 @@ CREATE TABLE `ED06_SEGUIMIENTO_ASISTENCIA_TECNICA` (
 /*!40000 ALTER TABLE `ED06_SEGUIMIENTO_ASISTENCIA_TECNICA` DISABLE KEYS */;
 INSERT INTO `ED06_SEGUIMIENTO_ASISTENCIA_TECNICA` (`ED06_SEGASISTENCIAID`,`ED05_ASISTENCIAID`,`ED01_USUARIOID`,`ED06_SEGFECHA`,`ED06_SEGCOMENTARIOS`,`ED06_ARCHIVOADJUNTO`,`ED06_NOMBREARCHIVOADJUNTO`,`ED06_TIPOARCHIVOADJUNTO`,`ED06_FECHAULTIMAACTUALIZACION`,`ED06_REGISTRODETALLECAMBIO`) VALUES 
  (9,328,'jalcaino','2019-07-15','un seguimiento',0x2F6172636869766F735F75706C6F61642F6C6F67696E332E706466,'login3.pdf','application/pdf','2019-07-15 01:54:45','Usuario introduce comentarios de asistencia'),
- (10,328,'jalcaino','2019-07-15','un seguimiento',0x2F6172636869766F735F75706C6F61642F6C6F67696E332E706466,'login3.pdf','application/pdf','2019-07-15 01:58:07','Usuario introduce comentarios de asistencia');
+ (10,328,'jalcaino','2019-07-15','un seguimiento',0x2F6172636869766F735F75706C6F61642F6C6F67696E332E706466,'login3.pdf','application/pdf','2019-07-15 01:58:07','Usuario introduce comentarios de asistencia'),
+ (11,330,'jalcaino','2019-07-22','kkllkkl',NULL,NULL,NULL,'2019-07-28 09:54:24','Usuario introduce comentarios de asistencia<br>Atencion queda en estado gestionado'),
+ (12,332,'jalcaino','2019-07-28','ssssss',NULL,NULL,NULL,'2019-07-28 10:19:58','Usuario introduce comentarios de asistencia<br>Atencion queda en estado gestionado'),
+ (13,332,'jalcaino','2019-07-28','aaaaa aaa',0x2F6172636869766F735F75706C6F61642F6C6F67696E332E706466,'login3.pdf','application/pdf','2019-07-28 10:21:02','Usuario introduce comentarios de asistencia<br>Atencion queda en estado gestionado'),
+ (14,329,'jolivos','2019-07-28','dsdsds',NULL,NULL,NULL,'2019-07-28 11:17:18','Usuario introduce comentarios de asistencia<br>Atencion queda en estado gestionado'),
+ (15,327,'jolivos','2019-07-16','dsdsds',NULL,NULL,NULL,'2019-07-28 11:17:38','Usuario introduce comentarios de asistencia<br>Atencion queda en estado gestionado'),
+ (16,327,'jolivos','2019-07-16','dsdsds',NULL,NULL,NULL,'2019-07-28 11:17:53','Usuario introduce comentarios de asistencia<br>Atencion queda en estado gestionado'),
+ (17,327,'jolivos','2019-07-16','dsdsds',NULL,NULL,NULL,'2019-07-28 11:19:35','Usuario introduce comentarios de asistencia<br>Atencion queda en estado gestionado'),
+ (18,329,'jolivos','2019-07-23','ewewew\r\newewew\r\n',NULL,NULL,NULL,'2019-07-28 11:30:59','Usuario introduce comentarios de asistencia<br>Atencion queda en estado gestionado'),
+ (19,327,'jolivos','2019-07-09','dsdsds\r\ndsds',NULL,NULL,NULL,'2019-07-28 11:31:20','Usuario introduce comentarios de asistencia<br>Atencion queda en estado gestionado'),
+ (20,329,'aaguero','2019-07-29','dssd\r\nwewewe\r\n\r\nweew',NULL,NULL,NULL,'2019-07-29 12:03:53','Usuario introduce comentarios de asistencia<br>Atencion queda en estado gestionado'),
+ (21,327,'aaguero','2019-07-29','sdsdsd\r\ndssdsd\r\n',NULL,NULL,NULL,'2019-07-29 12:04:12','Usuario introduce comentarios de asistencia<br>Atencion queda en estado gestionado');
 /*!40000 ALTER TABLE `ED06_SEGUIMIENTO_ASISTENCIA_TECNICA` ENABLE KEYS */;
 
 
@@ -404,6 +427,22 @@ INSERT INTO `ED08_USUARIO_ACTIVIDAD` (`ED01_USUARIOID`,`ED08_FECHAHORA`,`ED08_AC
  ('aaguero','2019-07-15 04:10:48','LOGIN',''),
  ('aaguero','2019-07-15 13:39:38','LOGIN',''),
  ('aaguero','2019-07-22 23:14:22','LOGIN',''),
+ ('aaguero','2019-07-28 23:00:03','LOGIN',''),
+ ('aaguero','2019-07-28 23:01:20','LOGIN',''),
+ ('aaguero','2019-07-28 23:01:39','EDITAR ASISTENCIA','NUM:329'),
+ ('aaguero','2019-07-28 23:01:56','EDITAR ASISTENCIA','NUM:327'),
+ ('aaguero','2019-07-28 23:23:57','LOGIN',''),
+ ('aaguero','2019-07-28 23:24:46','EDITAR ASISTENCIA','NUM:329'),
+ ('aaguero','2019-07-28 23:25:02','EDITAR ASISTENCIA','NUM:327'),
+ ('aaguero','2019-07-28 23:31:02','LOGIN',''),
+ ('aaguero','2019-07-28 23:44:20','LOGIN',''),
+ ('aaguero','2019-07-28 23:44:52','EDITAR ASISTENCIA','NUM:327'),
+ ('aaguero','2019-07-28 23:45:08','EDITAR ASISTENCIA','NUM:329'),
+ ('aaguero','2019-07-29 00:06:57','LOGIN',''),
+ ('aaguero','2019-07-29 00:07:38','AGREGAR BITACORA ASISTENCIA','SEGUIMIENTO NUM:20 / ASISTENCIA NUM:329'),
+ ('aaguero','2019-07-29 00:13:10','LOGIN',''),
+ ('aaguero','2019-07-29 00:14:00','EDITAR ASISTENCIA','NUM:329'),
+ ('aaguero','2019-07-29 00:14:14','EDITAR ASISTENCIA','NUM:327'),
  ('ayanez','2019-07-14 13:22:38','LOGIN',''),
  ('ayanez','2019-07-14 13:45:52','EDITAR SOLICITUD','NUM:1638'),
  ('ayanez','2019-07-14 13:46:48','AGREGAR SOLICITUD','NUM:1639'),
@@ -418,6 +457,7 @@ INSERT INTO `ED08_USUARIO_ACTIVIDAD` (`ED01_USUARIOID`,`ED08_FECHAHORA`,`ED08_AC
  ('ayanez','2019-07-14 21:39:20','AGREGAR SOLICITUD','NUM:1681'),
  ('ayanez','2019-07-14 21:59:07','LOGIN',''),
  ('ayanez','2019-07-14 21:59:38','EDITAR SOLICITUD','NUM:1681'),
+ ('ayanez','2019-07-28 22:34:57','LOGIN',''),
  ('cherrera','2019-07-27 07:01:17','RECORDAR CLAVE','NUEVA CLAVE:mhpu134m66'),
  ('cherrera','2019-07-27 07:01:56','LOGIN',''),
  ('emartinez','2019-07-14 08:55:22','LOGIN',''),
@@ -502,6 +542,50 @@ INSERT INTO `ED08_USUARIO_ACTIVIDAD` (`ED01_USUARIOID`,`ED08_FECHAHORA`,`ED08_AC
  ('jalcaino','2019-07-28 15:06:02','AGREGAR SOLICITUD','NUM:1683'),
  ('jalcaino','2019-07-28 15:06:17','EDITAR SOLICITUD','NUM:1683'),
  ('jalcaino','2019-07-28 15:07:05','INSERTAR TICKET INCIDENTE','NUM:7652'),
+ ('jalcaino','2019-07-28 19:10:30','LOGIN',''),
+ ('jalcaino','2019-07-28 19:19:26','EDITAR USUARIO','ID:jalcaino'),
+ ('jalcaino','2019-07-28 19:20:07','AGREGAR USUARIO','ID:jalcaino1'),
+ ('jalcaino','2019-07-28 19:41:06','ELIMINAR USUARIO','ID:jalcaino1'),
+ ('jalcaino','2019-07-28 19:41:56','AGREGAR USUARIO','ID:jalcaino1'),
+ ('jalcaino','2019-07-28 19:42:26','ELIMINAR USUARIO','ID:jalcaino1'),
+ ('jalcaino','2019-07-28 20:31:24','AGREGAR USUARIO','ID:jalcaino1'),
+ ('jalcaino','2019-07-28 20:31:40','ELIMINAR USUARIO','ID:jalcaino1'),
+ ('jalcaino','2019-07-28 20:33:07','AGREGAR SOLICITUD','NUM:1684'),
+ ('jalcaino','2019-07-28 20:33:49','EDITAR SOLICITUD','NUM:1684'),
+ ('jalcaino','2019-07-28 20:36:08','INSERTAR TICKET INCIDENTE','NUM:7653'),
+ ('jalcaino','2019-07-28 20:37:03','EDITAR TICKET INCIDENTE','NUM:7653'),
+ ('jalcaino','2019-07-28 20:37:58','EDITAR TICKET INCIDENTE','NUM:7653'),
+ ('jalcaino','2019-07-28 20:40:15','AGREGAR BITACORA TICKET INCIDENTE','SEGUIMIENTO NUM:15579 / INCIDENTE NUM:7644'),
+ ('jalcaino','2019-07-28 20:41:56','AGREGAR BITACORA TICKET INCIDENTE','SEGUIMIENTO NUM:15580 / INCIDENTE NUM:7644'),
+ ('jalcaino','2019-07-28 20:45:42','EDITAR TICKET INCIDENTE','NUM:7644'),
+ ('jalcaino','2019-07-28 21:01:30','LOGIN',''),
+ ('jalcaino','2019-07-28 21:44:53','INSERTAR TICKET INCIDENTE','NUM:7654'),
+ ('jalcaino','2019-07-28 21:45:33','EDITAR TICKET INCIDENTE','NUM:7652'),
+ ('jalcaino','2019-07-28 21:56:53','INSERTAR TICKET INCIDENTE','NUM:7655'),
+ ('jalcaino','2019-07-28 21:57:39','AGREGAR ASISTENCIA','NUM:330'),
+ ('jalcaino','2019-07-28 21:58:09','AGREGAR BITACORA ASISTENCIA','SEGUIMIENTO NUM:11 / ASISTENCIA NUM:330'),
+ ('jalcaino','2019-07-28 21:58:51','EDITAR ASISTENCIA','NUM:330'),
+ ('jalcaino','2019-07-28 22:07:40','INSERTAR TICKET INCIDENTE','NUM:7656'),
+ ('jalcaino','2019-07-28 22:08:11','EDITAR TICKET INCIDENTE','NUM:7656'),
+ ('jalcaino','2019-07-28 22:09:08','AGREGAR BITACORA TICKET INCIDENTE','SEGUIMIENTO NUM:15581 / INCIDENTE NUM:7656'),
+ ('jalcaino','2019-07-28 22:09:23','EDITAR TICKET INCIDENTE','NUM:7656'),
+ ('jalcaino','2019-07-28 22:09:53','AGREGAR BITACORA TICKET INCIDENTE','SEGUIMIENTO NUM:15582 / INCIDENTE NUM:7656'),
+ ('jalcaino','2019-07-28 22:15:15','AGREGAR ASISTENCIA','NUM:331'),
+ ('jalcaino','2019-07-28 22:16:45','EDITAR ASISTENCIA','NUM:331'),
+ ('jalcaino','2019-07-28 22:18:32','AGREGAR ASISTENCIA','NUM:332'),
+ ('jalcaino','2019-07-28 22:19:11','EDITAR ASISTENCIA','NUM:332'),
+ ('jalcaino','2019-07-28 22:23:42','AGREGAR BITACORA ASISTENCIA','SEGUIMIENTO NUM:12 / ASISTENCIA NUM:332'),
+ ('jalcaino','2019-07-28 22:24:14','EDITAR ASISTENCIA','NUM:332'),
+ ('jalcaino','2019-07-28 22:24:46','AGREGAR BITACORA ASISTENCIA','SEGUIMIENTO NUM:13 / ASISTENCIA NUM:332'),
+ ('jalcaino','2019-07-28 22:25:03','EDITAR ASISTENCIA','NUM:332'),
+ ('jolivos','2019-07-28 23:00:40','LOGIN',''),
+ ('jolivos','2019-07-28 23:02:03','LOGIN',''),
+ ('jolivos','2019-07-28 23:21:02','AGREGAR BITACORA ASISTENCIA','SEGUIMIENTO NUM:14 / ASISTENCIA NUM:329'),
+ ('jolivos','2019-07-28 23:26:07','LOGIN',''),
+ ('jolivos','2019-07-28 23:34:06','LOGIN',''),
+ ('jolivos','2019-07-28 23:34:43','AGREGAR BITACORA ASISTENCIA','SEGUIMIENTO NUM:18 / ASISTENCIA NUM:329'),
+ ('jolivos','2019-07-28 23:38:47','LOGIN',''),
+ ('jolivos','2019-07-29 00:12:41','LOGIN',''),
  ('jortiz','2019-07-14 22:00:21','LOGIN',''),
  ('{','2019-07-25 23:26:38','LOGIN',''),
  ('{','2019-07-26 19:35:29','LOGIN',''),
@@ -521,7 +605,7 @@ CREATE TABLE `ED09_USUARIO_NOTIFICADO_SEG_TICKET` (
   `ED01_USUARIOID` varchar(50) NOT NULL,
   `ED09_TIPONOTIFICACION` int(11) NOT NULL DEFAULT '0',
   `ED09_LEIDO` int(11) DEFAULT '0',
-  `ED09_FECHANOTIFICACION` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ED09_FECHANOTIFICACION` datetime NOT NULL,
   PRIMARY KEY (`ED04_SEGTICKETID`,`ED01_USUARIOID`,`ED09_TIPONOTIFICACION`,`ED09_FECHANOTIFICACION`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -533,10 +617,36 @@ CREATE TABLE `ED09_USUARIO_NOTIFICADO_SEG_TICKET` (
 INSERT INTO `ED09_USUARIO_NOTIFICADO_SEG_TICKET` (`ED04_SEGTICKETID`,`ED01_USUARIOID`,`ED09_TIPONOTIFICACION`,`ED09_LEIDO`,`ED09_FECHANOTIFICACION`) VALUES 
  (15578,'aaedo',1,1,'2019-07-25 17:27:39'),
  (15578,'aaguero',1,1,'2019-07-15 04:34:27'),
- (15578,'ayanez',1,0,'2019-07-15 02:01:41'),
+ (15578,'ayanez',1,1,'2019-07-28 22:37:56'),
  (15578,'emartinez',1,0,'2019-07-15 02:01:41'),
  (15578,'gpiaggio',1,0,'2019-07-15 02:01:41'),
- (15578,'jortiz',1,0,'2019-07-15 02:01:41');
+ (15578,'jortiz',1,0,'2019-07-15 02:01:41'),
+ (15579,'aaguero',1,0,'2019-07-28 08:36:31'),
+ (15579,'ayanez',1,1,'2019-07-28 22:37:19'),
+ (15579,'emartinez',1,0,'2019-07-28 08:36:31'),
+ (15579,'gpiaggio',1,0,'2019-07-28 08:36:31'),
+ (15579,'jalcaino',1,1,'2019-07-28 20:45:59'),
+ (15579,'jortiz',1,0,'2019-07-28 08:36:31'),
+ (15580,'aaguero',1,0,'2019-07-28 08:38:12'),
+ (15580,'ayanez',1,1,'2019-07-28 22:37:19'),
+ (15580,'emartinez',1,0,'2019-07-28 08:38:12'),
+ (15580,'gpiaggio',1,0,'2019-07-28 08:38:12'),
+ (15580,'jalcaino',1,1,'2019-07-28 20:45:59'),
+ (15580,'jortiz',1,0,'2019-07-28 08:38:12'),
+ (15581,'aaedo',1,0,'2019-07-28 10:05:24'),
+ (15581,'aaguero',1,0,'2019-07-28 10:05:24'),
+ (15581,'ayanez',1,0,'2019-07-28 10:05:24'),
+ (15581,'emartinez',1,0,'2019-07-28 10:05:24'),
+ (15581,'gpiaggio',1,0,'2019-07-28 10:05:24'),
+ (15581,'jalcaino',1,0,'2019-07-28 10:05:24'),
+ (15581,'jortiz',1,0,'2019-07-28 10:05:24'),
+ (15582,'aaedo',1,0,'2019-07-28 10:06:09'),
+ (15582,'aaguero',1,0,'2019-07-28 10:06:09'),
+ (15582,'ayanez',1,0,'2019-07-28 10:06:09'),
+ (15582,'emartinez',1,0,'2019-07-28 10:06:09'),
+ (15582,'gpiaggio',1,0,'2019-07-28 10:06:09'),
+ (15582,'jalcaino',1,0,'2019-07-28 10:06:09'),
+ (15582,'jortiz',1,0,'2019-07-28 10:06:09');
 /*!40000 ALTER TABLE `ED09_USUARIO_NOTIFICADO_SEG_TICKET` ENABLE KEYS */;
 
 
@@ -550,7 +660,7 @@ CREATE TABLE `ED10_USUARIO_NOTIFICADO_TICKET` (
   `ED03_TICKETID` int(11) NOT NULL,
   `ED10_TIPONOTIFICACION` int(11) NOT NULL DEFAULT '0',
   `ED10_LEIDO` int(11) DEFAULT '0',
-  `ED10_FECHANOTIFICACION` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ED10_FECHANOTIFICACION` datetime NOT NULL,
   PRIMARY KEY (`ED01_USUARIOID`,`ED03_TICKETID`,`ED10_TIPONOTIFICACION`,`ED10_FECHANOTIFICACION`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -560,25 +670,93 @@ CREATE TABLE `ED10_USUARIO_NOTIFICADO_TICKET` (
 
 /*!40000 ALTER TABLE `ED10_USUARIO_NOTIFICADO_TICKET` DISABLE KEYS */;
 INSERT INTO `ED10_USUARIO_NOTIFICADO_TICKET` (`ED01_USUARIOID`,`ED03_TICKETID`,`ED10_TIPONOTIFICACION`,`ED10_LEIDO`,`ED10_FECHANOTIFICACION`) VALUES 
+ ('aaedo',7644,1,0,'2019-07-28 08:41:58'),
  ('aaedo',7651,1,1,'2019-07-25 17:27:39'),
  ('aaedo',7652,1,0,'2019-07-28 03:03:22'),
+ ('aaedo',7652,1,0,'2019-07-28 09:41:49'),
+ ('aaedo',7653,1,0,'2019-07-28 08:32:24'),
+ ('aaedo',7653,1,0,'2019-07-28 08:33:19'),
+ ('aaedo',7653,1,0,'2019-07-28 08:34:14'),
+ ('aaedo',7654,1,0,'2019-07-28 09:41:09'),
+ ('aaedo',7655,1,0,'2019-07-28 09:53:09'),
+ ('aaedo',7656,1,0,'2019-07-28 10:03:56'),
+ ('aaedo',7656,1,0,'2019-07-28 10:04:27'),
+ ('aaedo',7656,1,0,'2019-07-28 10:05:39'),
+ ('aaguero',7644,1,0,'2019-07-28 08:41:58'),
  ('aaguero',7650,1,1,'2019-07-15 03:59:28'),
  ('aaguero',7651,1,1,'2019-07-15 04:34:27'),
  ('aaguero',7652,1,0,'2019-07-28 03:03:22'),
+ ('aaguero',7652,1,0,'2019-07-28 09:41:49'),
+ ('aaguero',7653,1,0,'2019-07-28 08:32:24'),
+ ('aaguero',7653,1,0,'2019-07-28 08:33:19'),
+ ('aaguero',7653,1,0,'2019-07-28 08:34:14'),
+ ('aaguero',7654,1,0,'2019-07-28 09:41:09'),
+ ('aaguero',7655,1,0,'2019-07-28 09:53:09'),
+ ('aaguero',7656,1,0,'2019-07-28 10:03:56'),
+ ('aaguero',7656,1,0,'2019-07-28 10:04:27'),
+ ('aaguero',7656,1,0,'2019-07-28 10:05:39'),
+ ('ayanez',7644,1,1,'2019-07-28 22:37:19'),
  ('ayanez',7650,1,0,'2019-07-15 01:49:08'),
- ('ayanez',7651,1,0,'2019-07-15 01:47:34'),
+ ('ayanez',7651,1,1,'2019-07-28 22:37:56'),
  ('ayanez',7652,1,0,'2019-07-28 03:03:22'),
+ ('ayanez',7652,1,0,'2019-07-28 09:41:49'),
+ ('ayanez',7653,1,0,'2019-07-28 08:32:24'),
+ ('ayanez',7653,1,0,'2019-07-28 08:33:19'),
+ ('ayanez',7653,1,0,'2019-07-28 08:34:14'),
+ ('ayanez',7654,1,1,'2019-07-28 22:43:38'),
+ ('ayanez',7655,1,0,'2019-07-28 09:53:09'),
+ ('ayanez',7656,1,0,'2019-07-28 10:03:56'),
+ ('ayanez',7656,1,0,'2019-07-28 10:04:27'),
+ ('ayanez',7656,1,0,'2019-07-28 10:05:39'),
+ ('emartinez',7644,1,0,'2019-07-28 08:41:58'),
  ('emartinez',7650,1,0,'2019-07-15 01:49:08'),
  ('emartinez',7651,1,0,'2019-07-15 01:47:34'),
  ('emartinez',7652,1,0,'2019-07-28 03:03:22'),
+ ('emartinez',7652,1,0,'2019-07-28 09:41:49'),
+ ('emartinez',7653,1,0,'2019-07-28 08:32:24'),
+ ('emartinez',7653,1,0,'2019-07-28 08:33:19'),
+ ('emartinez',7653,1,0,'2019-07-28 08:34:14'),
+ ('emartinez',7654,1,0,'2019-07-28 09:41:09'),
+ ('emartinez',7655,1,0,'2019-07-28 09:53:09'),
+ ('emartinez',7656,1,0,'2019-07-28 10:03:56'),
+ ('emartinez',7656,1,0,'2019-07-28 10:04:27'),
+ ('emartinez',7656,1,0,'2019-07-28 10:05:39'),
+ ('gpiaggio',7644,1,0,'2019-07-28 08:41:58'),
  ('gpiaggio',7650,1,0,'2019-07-15 01:49:08'),
  ('gpiaggio',7651,1,0,'2019-07-15 01:47:34'),
  ('gpiaggio',7652,1,0,'2019-07-28 03:03:22'),
+ ('gpiaggio',7652,1,0,'2019-07-28 09:41:49'),
+ ('gpiaggio',7653,1,0,'2019-07-28 08:32:24'),
+ ('gpiaggio',7653,1,0,'2019-07-28 08:33:19'),
+ ('gpiaggio',7653,1,0,'2019-07-28 08:34:14'),
+ ('gpiaggio',7654,1,0,'2019-07-28 09:41:09'),
+ ('gpiaggio',7655,1,0,'2019-07-28 09:53:09'),
+ ('gpiaggio',7656,1,0,'2019-07-28 10:03:56'),
+ ('gpiaggio',7656,1,0,'2019-07-28 10:04:27'),
+ ('gpiaggio',7656,1,0,'2019-07-28 10:05:39'),
  ('isegovia',7650,1,0,'2019-07-15 01:49:08'),
+ ('jalcaino',7644,1,1,'2019-07-28 20:45:59'),
+ ('jalcaino',7652,1,0,'2019-07-28 09:41:49'),
  ('jalcaino',7652,1,1,'2019-07-28 15:07:41'),
+ ('jalcaino',7653,1,1,'2019-07-28 20:36:23'),
+ ('jalcaino',7653,1,1,'2019-07-28 20:37:17'),
+ ('jalcaino',7653,1,1,'2019-07-28 21:01:09'),
+ ('jalcaino',7656,1,0,'2019-07-28 10:03:56'),
+ ('jalcaino',7656,1,0,'2019-07-28 10:04:27'),
+ ('jalcaino',7656,1,0,'2019-07-28 10:05:39'),
+ ('jortiz',7644,1,0,'2019-07-28 08:41:58'),
  ('jortiz',7650,1,0,'2019-07-15 01:49:08'),
  ('jortiz',7651,1,0,'2019-07-15 01:47:34'),
- ('jortiz',7652,1,0,'2019-07-28 03:03:22');
+ ('jortiz',7652,1,0,'2019-07-28 03:03:22'),
+ ('jortiz',7652,1,0,'2019-07-28 09:41:49'),
+ ('jortiz',7653,1,0,'2019-07-28 08:32:24'),
+ ('jortiz',7653,1,0,'2019-07-28 08:33:19'),
+ ('jortiz',7653,1,0,'2019-07-28 08:34:14'),
+ ('jortiz',7654,1,0,'2019-07-28 09:41:09'),
+ ('jortiz',7655,1,0,'2019-07-28 09:53:09'),
+ ('jortiz',7656,1,0,'2019-07-28 10:03:56'),
+ ('jortiz',7656,1,0,'2019-07-28 10:04:27'),
+ ('jortiz',7656,1,0,'2019-07-28 10:05:39');
 /*!40000 ALTER TABLE `ED10_USUARIO_NOTIFICADO_TICKET` ENABLE KEYS */;
 
 
@@ -602,11 +780,75 @@ CREATE TABLE `ED11_USUARIO_NOTIFICADO_ASISTENCIA` (
 
 /*!40000 ALTER TABLE `ED11_USUARIO_NOTIFICADO_ASISTENCIA` DISABLE KEYS */;
 INSERT INTO `ED11_USUARIO_NOTIFICADO_ASISTENCIA` (`ED01_USUARIOID`,`ED05_ASISTENCIAID`,`ED11_TIPONOTIFICACION`,`ED11_LEIDO`,`ED11_FECHANOTIFICACION`) VALUES 
+ ('aaedo',331,1,0,'2019-07-28 10:11:31'),
+ ('aaedo',331,1,0,'2019-07-28 10:13:01'),
  ('aaguero',329,1,1,'2019-07-15 03:59:12'),
- ('ayanez',329,1,0,'2019-07-15 02:12:13'),
+ ('aaguero',330,1,0,'2019-07-28 09:53:55'),
+ ('aaguero',330,1,0,'2019-07-28 09:55:07'),
+ ('aaguero',331,1,0,'2019-07-28 10:11:31'),
+ ('aaguero',331,1,0,'2019-07-28 10:13:01'),
+ ('aaguero',332,1,0,'2019-07-28 10:14:47'),
+ ('aaguero',332,1,0,'2019-07-28 10:15:27'),
+ ('aaguero',332,1,0,'2019-07-28 10:20:30'),
+ ('aaguero',332,1,0,'2019-07-28 10:21:19'),
+ ('ayanez',329,1,1,'2019-07-15 02:12:13'),
+ ('ayanez',329,1,0,'2019-07-28 10:57:55'),
+ ('ayanez',329,1,0,'2019-07-28 11:21:02'),
+ ('ayanez',329,1,0,'2019-07-28 11:41:24'),
+ ('ayanez',329,1,0,'2019-07-29 12:10:16'),
+ ('ayanez',330,1,0,'2019-07-28 09:53:55'),
+ ('ayanez',330,1,0,'2019-07-28 09:55:07'),
+ ('ayanez',331,1,0,'2019-07-28 10:11:31'),
+ ('ayanez',331,1,0,'2019-07-28 10:13:01'),
+ ('ayanez',332,1,1,'2019-07-28 10:14:47'),
+ ('ayanez',332,1,1,'2019-07-28 10:15:27'),
+ ('ayanez',332,1,1,'2019-07-28 10:20:30'),
+ ('ayanez',332,1,1,'2019-07-28 10:21:19'),
  ('emartinez',329,1,0,'2019-07-15 02:12:13'),
+ ('emartinez',329,1,0,'2019-07-28 10:57:55'),
+ ('emartinez',329,1,0,'2019-07-28 11:21:02'),
+ ('emartinez',329,1,0,'2019-07-28 11:41:24'),
+ ('emartinez',329,1,0,'2019-07-29 12:10:16'),
+ ('emartinez',330,1,0,'2019-07-28 09:53:55'),
+ ('emartinez',330,1,0,'2019-07-28 09:55:07'),
+ ('emartinez',331,1,0,'2019-07-28 10:11:31'),
+ ('emartinez',331,1,0,'2019-07-28 10:13:01'),
+ ('emartinez',332,1,0,'2019-07-28 10:14:47'),
+ ('emartinez',332,1,0,'2019-07-28 10:15:27'),
+ ('emartinez',332,1,0,'2019-07-28 10:20:30'),
+ ('emartinez',332,1,0,'2019-07-28 10:21:19'),
  ('gpiaggio',329,1,1,'2019-07-15 02:12:13'),
- ('jortiz',329,1,0,'2019-07-15 02:12:13');
+ ('gpiaggio',329,1,0,'2019-07-28 10:57:55'),
+ ('gpiaggio',329,1,0,'2019-07-28 11:21:02'),
+ ('gpiaggio',329,1,0,'2019-07-28 11:41:24'),
+ ('gpiaggio',329,1,0,'2019-07-29 12:10:16'),
+ ('gpiaggio',330,1,0,'2019-07-28 09:53:55'),
+ ('gpiaggio',330,1,0,'2019-07-28 09:55:07'),
+ ('gpiaggio',331,1,0,'2019-07-28 10:11:31'),
+ ('gpiaggio',331,1,0,'2019-07-28 10:13:01'),
+ ('gpiaggio',332,1,0,'2019-07-28 10:14:47'),
+ ('gpiaggio',332,1,0,'2019-07-28 10:15:27'),
+ ('gpiaggio',332,1,0,'2019-07-28 10:20:30'),
+ ('gpiaggio',332,1,0,'2019-07-28 10:21:19'),
+ ('jguzman',329,1,0,'2019-07-28 11:21:02'),
+ ('jguzman',329,1,0,'2019-07-28 11:41:24'),
+ ('jguzman',329,1,0,'2019-07-29 12:10:16'),
+ ('jolivos',329,1,1,'2019-07-28 11:21:02'),
+ ('jolivos',329,1,1,'2019-07-28 11:41:24'),
+ ('jolivos',329,1,0,'2019-07-29 12:10:16'),
+ ('jortiz',329,1,0,'2019-07-15 02:12:13'),
+ ('jortiz',329,1,0,'2019-07-28 10:57:55'),
+ ('jortiz',329,1,0,'2019-07-28 11:21:02'),
+ ('jortiz',329,1,0,'2019-07-28 11:41:24'),
+ ('jortiz',329,1,0,'2019-07-29 12:10:16'),
+ ('jortiz',330,1,0,'2019-07-28 09:53:55'),
+ ('jortiz',330,1,0,'2019-07-28 09:55:07'),
+ ('jortiz',331,1,0,'2019-07-28 10:11:31'),
+ ('jortiz',331,1,0,'2019-07-28 10:13:01'),
+ ('jortiz',332,1,0,'2019-07-28 10:14:47'),
+ ('jortiz',332,1,0,'2019-07-28 10:15:27'),
+ ('jortiz',332,1,0,'2019-07-28 10:20:30'),
+ ('jortiz',332,1,0,'2019-07-28 10:21:19');
 /*!40000 ALTER TABLE `ED11_USUARIO_NOTIFICADO_ASISTENCIA` ENABLE KEYS */;
 
 
@@ -631,12 +873,45 @@ CREATE TABLE `ED12_USUARIO_NOTIFICADO_SEG_ASIS` (
 /*!40000 ALTER TABLE `ED12_USUARIO_NOTIFICADO_SEG_ASIS` DISABLE KEYS */;
 INSERT INTO `ED12_USUARIO_NOTIFICADO_SEG_ASIS` (`ED01_USUARIOID`,`ED06_SEGASISTENCIAID`,`ED12_TIPONOTIFICACION`,`ED12_LEIDO`,`ED12_FECHANOTIFICACION`) VALUES 
  ('aaguero',10,1,0,'2019-07-15 01:58:07'),
+ ('aaguero',11,1,0,'2019-07-28 09:54:25'),
+ ('aaguero',12,1,0,'2019-07-28 10:19:58'),
+ ('aaguero',13,1,0,'2019-07-28 10:21:02'),
+ ('aaguero',14,1,0,'2019-07-28 11:17:18'),
+ ('aaguero',18,1,0,'2019-07-28 11:30:59'),
  ('ayanez',10,1,0,'2019-07-15 01:58:07'),
+ ('ayanez',11,1,0,'2019-07-28 09:54:25'),
+ ('ayanez',12,1,1,'2019-07-28 22:37:42'),
+ ('ayanez',13,1,1,'2019-07-28 22:37:42'),
+ ('ayanez',14,1,0,'2019-07-28 11:17:18'),
+ ('ayanez',18,1,0,'2019-07-28 11:30:59'),
+ ('ayanez',20,1,0,'2019-07-29 12:03:54'),
  ('emartinez',10,1,0,'2019-07-15 01:58:07'),
+ ('emartinez',11,1,0,'2019-07-28 09:54:25'),
+ ('emartinez',12,1,0,'2019-07-28 10:19:58'),
+ ('emartinez',13,1,0,'2019-07-28 10:21:02'),
+ ('emartinez',14,1,0,'2019-07-28 11:17:18'),
+ ('emartinez',18,1,0,'2019-07-28 11:30:59'),
+ ('emartinez',20,1,0,'2019-07-29 12:03:54'),
  ('gpiaggio',10,1,0,'2019-07-15 01:58:07'),
+ ('gpiaggio',11,1,0,'2019-07-28 09:54:25'),
+ ('gpiaggio',12,1,0,'2019-07-28 10:19:58'),
+ ('gpiaggio',13,1,0,'2019-07-28 10:21:02'),
+ ('gpiaggio',14,1,0,'2019-07-28 11:17:18'),
+ ('gpiaggio',18,1,0,'2019-07-28 11:30:59'),
+ ('gpiaggio',20,1,0,'2019-07-29 12:03:54'),
  ('isegovia',10,1,0,'2019-07-15 01:58:07'),
  ('jguzman',10,1,0,'2019-07-15 01:58:07'),
- ('jortiz',10,1,0,'2019-07-15 01:58:07');
+ ('jguzman',14,1,0,'2019-07-28 11:17:18'),
+ ('jguzman',18,1,0,'2019-07-28 11:30:59'),
+ ('jguzman',20,1,0,'2019-07-29 12:03:54'),
+ ('jolivos',20,1,1,'2019-07-29 00:12:58'),
+ ('jortiz',10,1,0,'2019-07-15 01:58:07'),
+ ('jortiz',11,1,0,'2019-07-28 09:54:25'),
+ ('jortiz',12,1,0,'2019-07-28 10:19:58'),
+ ('jortiz',13,1,0,'2019-07-28 10:21:02'),
+ ('jortiz',14,1,0,'2019-07-28 11:17:18'),
+ ('jortiz',18,1,0,'2019-07-28 11:30:59'),
+ ('jortiz',20,1,0,'2019-07-29 12:03:54');
 /*!40000 ALTER TABLE `ED12_USUARIO_NOTIFICADO_SEG_ASIS` ENABLE KEYS */;
 
 
@@ -658,7 +933,8 @@ CREATE TABLE `ED13_TICKET_ASISTENCIA_TECNICA` (
 /*!40000 ALTER TABLE `ED13_TICKET_ASISTENCIA_TECNICA` DISABLE KEYS */;
 INSERT INTO `ED13_TICKET_ASISTENCIA_TECNICA` (`ED03_TICKETID`,`ED05_ASISTENCIAID`) VALUES 
  (7641,324),
- (7645,327);
+ (7645,327),
+ (7656,331);
 /*!40000 ALTER TABLE `ED13_TICKET_ASISTENCIA_TECNICA` ENABLE KEYS */;
 
 
@@ -684,7 +960,9 @@ INSERT INTO `ED14_SOLICITUD_TICKET` (`ED02_SOLICITUDID`,`ED03_TICKETID`) VALUES
  (1635,7642),
  (1636,7643),
  (1637,7644),
- (1683,7652);
+ (1682,7656),
+ (1683,7652),
+ (1684,7653);
 /*!40000 ALTER TABLE `ED14_SOLICITUD_TICKET` ENABLE KEYS */;
 
 
@@ -707,7 +985,8 @@ CREATE TABLE `ED16_SOLICITUD_ASISTENCIA` (
 INSERT INTO `ED16_SOLICITUD_ASISTENCIA` (`ED02_SOLICITUDID`,`ED05_ASISTENCIAID`) VALUES 
  (1628,323),
  (1629,325),
- (1631,326);
+ (1631,326),
+ (1681,332);
 /*!40000 ALTER TABLE `ED16_SOLICITUD_ASISTENCIA` ENABLE KEYS */;
 
 
@@ -747,14 +1026,24 @@ INSERT INTO `ED17_USUARIO_NOTIFICADO_SOLICITUD` (`ED02_SOLICITUDID`,`ED01_USUARI
  (1682,'jortiz',1,0,'2019-07-15 01:48:45'),
  (1683,'aaguero',1,0,'2019-07-28 03:02:19'),
  (1683,'aaguero',1,0,'2019-07-28 03:02:34'),
- (1683,'ayanez',1,0,'2019-07-28 03:02:19'),
- (1683,'ayanez',1,0,'2019-07-28 03:02:34'),
+ (1683,'ayanez',1,1,'2019-07-28 03:02:19'),
+ (1683,'ayanez',1,1,'2019-07-28 03:02:34'),
  (1683,'emartinez',1,0,'2019-07-28 03:02:19'),
  (1683,'emartinez',1,0,'2019-07-28 03:02:34'),
  (1683,'gpiaggio',1,0,'2019-07-28 03:02:19'),
  (1683,'gpiaggio',1,0,'2019-07-28 03:02:34'),
  (1683,'jortiz',1,0,'2019-07-28 03:02:19'),
- (1683,'jortiz',1,0,'2019-07-28 03:02:34');
+ (1683,'jortiz',1,0,'2019-07-28 03:02:34'),
+ (1684,'aaguero',1,0,'2019-07-28 08:29:23'),
+ (1684,'aaguero',1,0,'2019-07-28 08:30:05'),
+ (1684,'ayanez',1,1,'2019-07-28 08:29:23'),
+ (1684,'ayanez',1,1,'2019-07-28 08:30:05'),
+ (1684,'emartinez',1,0,'2019-07-28 08:29:23'),
+ (1684,'emartinez',1,0,'2019-07-28 08:30:05'),
+ (1684,'gpiaggio',1,0,'2019-07-28 08:29:23'),
+ (1684,'gpiaggio',1,0,'2019-07-28 08:30:05'),
+ (1684,'jortiz',1,0,'2019-07-28 08:29:23'),
+ (1684,'jortiz',1,0,'2019-07-28 08:30:05');
 /*!40000 ALTER TABLE `ED17_USUARIO_NOTIFICADO_SOLICITUD` ENABLE KEYS */;
 
 

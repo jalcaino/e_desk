@@ -30,7 +30,13 @@ class AsistenciaController extends Zend_Controller_Action
 						$busqueda=$this->_request->getParam('busqueda');
 						if(isset($busqueda) && $busqueda!="")
 							Zend_Layout::getMvcInstance()->assign('busqueda',$busqueda);
-			
+						else{
+								if(isset($edesk_session->BUSQUEDA_ASIS) && trim($edesk_session->BUSQUEDA_ASIS)!="")
+								{
+									Zend_Layout::getMvcInstance()->assign('busqueda',$edesk_session->BUSQUEDA_ASIS);
+								}
+							}
+		
 					
 	
 	
@@ -555,15 +561,18 @@ class AsistenciaController extends Zend_Controller_Action
 														{
 															foreach($destinadatarios[1] as $clave => $valor)
 															{
-																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
-																$data_usuario[$valor] = array(
-																	   'ED01_USUARIOID' => $valor,
-																	   'ED05_ASISTENCIAID' => $nueva_solicitud,
-																	   'ED11_TIPONOTIFICACION' => '1',
-																	   'ED11_LEIDO' => '0',
-																	   'ED11_FECHANOTIFICACION' => date("Ymdhis")
-																	);
-
+																
+																if(!isset($USUARIOS_A_NOTIFICAR["$valor"]))
+																{
+																	$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																	$data_usuario[$valor] = array(
+																		   'ED01_USUARIOID' => $valor,
+																		   'ED05_ASISTENCIAID' => $nueva_solicitud,
+																		   'ED11_TIPONOTIFICACION' => '1',
+																		   'ED11_LEIDO' => '0',
+																		   'ED11_FECHANOTIFICACION' => date("Ymdhis")
+																		);
+																}
 															}
 														}
 					
@@ -1161,15 +1170,18 @@ class AsistenciaController extends Zend_Controller_Action
 														{
 															foreach($destinadatarios[1] as $clave => $valor)
 															{
-																$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
-																$data_usuario[$valor] = array(
-																	   'ED01_USUARIOID' => $valor,
-																	   'ED05_ASISTENCIAID' => $asistenciaid,
-																	   'ED11_TIPONOTIFICACION' => '1',
-																	   'ED11_LEIDO' => '0',
-																	   'ED11_FECHANOTIFICACION' => date("Ymdhis")
-																	);
-
+																if(!isset($USUARIOS_A_NOTIFICAR["$valor"]))
+																{
+																
+																	$USUARIOS_A_NOTIFICAR["$valor"]=$valor;
+																	$data_usuario[$valor] = array(
+																		   'ED01_USUARIOID' => $valor,
+																		   'ED05_ASISTENCIAID' => $asistenciaid,
+																		   'ED11_TIPONOTIFICACION' => '1',
+																		   'ED11_LEIDO' => '0',
+																		   'ED11_FECHANOTIFICACION' => date("Ymdhis")
+																		);
+																}
 															}
 														}
 					
@@ -1318,6 +1330,7 @@ class AsistenciaController extends Zend_Controller_Action
 
 						$lapagina=$this->_request->getPost('pagina');
 						$busqueda=$this->_request->getPost('busqueda');
+						$edesk_session->BUSQUEDA_ASIS=$busqueda;
 						
 					
 						if($lapagina!="")

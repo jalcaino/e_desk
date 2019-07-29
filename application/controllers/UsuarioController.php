@@ -421,7 +421,7 @@ class UsuarioController extends Zend_Controller_Action
 			
 									$DB->rollBack();
 									//echo("KO|".$e->getMessage());
-									echo "KO|Se ha producido un error..(31)";
+									echo "KO|Se ha producido un error..(32)";
 									exit;	
 								}
 
@@ -470,7 +470,7 @@ class UsuarioController extends Zend_Controller_Action
 						} catch (Zend_Exception $e) {
 
 							//echo $e->getMessage();
-							echo "KO|Se ha producido un error..(32)";
+							echo "KO|Se ha producido un error..(33)";
 
 						}
 		
