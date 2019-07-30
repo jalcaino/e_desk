@@ -69,6 +69,14 @@
 			function grabar()
 			{
 	
+
+				if(!($('#paquete').is(':checked'))) 
+					valpaquete=0;
+				else
+					valpaquete=1;
+
+
+
 				var file_data = $('#archivo').prop('files')[0];   
 				var form_data = new FormData();                  
 				form_data.append('file', file_data);
@@ -78,6 +86,8 @@
 				form_data.append('detalle', $("#detalle").val());
 				form_data.append('resuelto', $("#resuelto").val());
 				form_data.append('archivo', $("#archivo").val());
+				form_data.append('tecnologia', $("#tecnologia").val());
+				form_data.append('paquete',valpaquete);
 				form_data.append('accion', 'grabar');
 				
 				
@@ -172,17 +182,39 @@
 																			</div>
 																		</div>
 																		 
-														
-																		<div class="form-group">
-																			<label>Est&aacute; Resuelto? (*)</label>
+                                                                         
+                                                                   		<div class="form-group">
+																		
+                                                                        	<label>Est&aacute; Resuelto? (*)</label>
 																			<select class="form-control" id="resuelto" name="resuelto">
 																			  <option value="NO">NO</option>
 																			  <option value="SI">SI</option>
 																			</select>
-																		<div>
+                                                                        
+                                                                        </div>
+															  
+                                                                         
+																		<div class="form-group">
+                                                                        
+																			<label>Tecnolog&iacute;a (*)</label>
+																			<select class="form-control" id="tecnologia" name="tecnologia">
+																			  <option value="MATERIALES">MATERIALES</option>
+																			  <option value="ETEST">ETEST</option>
+																			  <option value="TOOLBOOK">TOOLBOOK</option>
+																			  <option value="REPORTES">REPORTES</option>
+																			  <option value="OTRA">OTRA</option>
+																			</select>
+																		 
+                                                                         </div>
 															
-																					
-																	  <button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
+																		
+																		<div class="form-group">
+                                                                        
+																			<label>Actualizar en paquete pr&oacute;ximo? (*) </label> 
+																			<input type="checkbox" id="paquete" name="paquete" value="1">  [SI]
+																		</div>
+                                                                         															
+																	    <button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
 				
 				
 				

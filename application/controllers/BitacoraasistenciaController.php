@@ -237,7 +237,7 @@ class BitacoraasistenciaController extends Zend_Controller_Action
 											
 												$email="";
 												
-												$destinadatarios=$functions->notificaciones_asistencias_seg($asistenciaid,$edesk_session->USUARIOID,$edesk_session->EMAIL);	
+												$destinadatarios=$functions->notificaciones_asistencias_seg($asistenciaid,$edesk_session->USUARIOID,"");	
 												if($destinadatarios!="0")
 												{
 													

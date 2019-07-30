@@ -86,6 +86,9 @@ class BitacoraController extends Zend_Controller_Action
 					$detalle=$this->_request->getPost('detalle');
 					$resuelto=$this->_request->getPost('resuelto');
 					$archivo=$this->_request->getPost('archivo');
+					$paquete=$this->_request->getPost('paquete');
+					$tecnologia=$this->_request->getPost('tecnologia');
+					
 					$accion=$this->_request->getPost('accion');
 			
 				
@@ -161,18 +164,29 @@ class BitacoraController extends Zend_Controller_Action
 					
 												$COMENTARIOS="Usuario introduce comentarios de incidente";
 												
+												$where['ED03_TICKETID = ?'] = $incidenteid;
+												
 												if($resuelto=="SI")
 												{
 													$COMENTARIOS.="<br>Incidente queda en estado gestionado";
 												
 													$data_update = array(
 														'ED03_ESTADO' => 'GESTIONADO',
+														'ED03_TECNOLOGIA' => $tecnologia,
+														'ED03_PARA_APLICAR_EN_PAQUETE' => $paquete
 													);
 												
-													$where['ED03_TICKETID = ?'] = $incidenteid;
+												}else{
+												
+														$COMENTARIOS.="<br>Se actualiza tecnologìa y si va en próximo paquete la mejora";
 													
+														$data_update = array(
+															'ED03_TECNOLOGIA' => $tecnologia,
+															'ED03_PARA_APLICAR_EN_PAQUETE' => $paquete
+														);
+													
+												
 												}
-					
 					
 												//insertamos con try
 												$data = array(
@@ -193,13 +207,8 @@ class BitacoraController extends Zend_Controller_Action
 													$DB->getConnection();
 													$DB->beginTransaction();
 													$DB->insert('e_desk.ED04_SEGUIMIENTO_TICKET', $data);
-													
-													if($resuelto=="SI")
-													{
-														$DB->update('e_desk.ED03_TICKET', $data_update, $where);
-													}										
-									
-							
+													$DB->update('e_desk.ED03_TICKET', $data_update, $where);
+												
 													$DB->commit();
 													
 												} catch (Zend_Exception $e) {
@@ -233,7 +242,7 @@ class BitacoraController extends Zend_Controller_Action
 											
 												$email="";
 												
-												$destinadatarios=$functions->notificaciones_incidentes_seg($incidenteid,$edesk_session->USUARIOID,$edesk_session->EMAIL);	
+												$destinadatarios=$functions->notificaciones_incidentes_seg($incidenteid,$edesk_session->USUARIOID,"");	
 												if($destinadatarios!="0")
 												{
 													

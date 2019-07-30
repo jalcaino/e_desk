@@ -583,7 +583,7 @@ class IncidenteController extends Zend_Controller_Action
 											
 												$email="";
 												
-												$destinadatarios=$functions->notificaciones_incidentes_seg($nueva_solicitud,$edesk_session->USUARIOID,$edesk_session->EMAIL);	
+												$destinadatarios=$functions->notificaciones_incidentes_seg($nueva_solicitud,$edesk_session->USUARIOID,$derivado);	
 												if($destinadatarios!="0")
 												{
 													
@@ -1293,7 +1293,7 @@ class IncidenteController extends Zend_Controller_Action
 											
 												$email="";
 												
-												$destinadatarios=$functions->notificaciones_incidentes_seg($incidenteid,$edesk_session->USUARIOID,$edesk_session->EMAIL);	
+												$destinadatarios=$functions->notificaciones_incidentes_seg($incidenteid,$edesk_session->USUARIOID,$derivado);	
 												if($destinadatarios!="0")
 												{
 													
