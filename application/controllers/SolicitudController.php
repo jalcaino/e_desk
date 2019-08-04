@@ -1132,10 +1132,10 @@ class SolicitudController extends Zend_Controller_Action
 									$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"]="";
 				
 									if(isset($matriz_match_solicitud_asistencia[$ID]))
-										$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Gesti&oacute;n en asistencia  : <strong>".$matriz_match_solicitud_asistencia[$ID]." ]</strong>";
+										$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Gesti&oacute;n en asistencia  : <strong><a href='/Asistencia/index/busqueda/".$matriz_match_solicitud_asistencia[$ID]."'>".$matriz_match_solicitud_asistencia[$ID]."</a> ]</strong>";
 									
 									if(isset($matriz_match_solicitud_incidente[$ID]))
-										$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Gesti&oacute;n en incidente  : <strong>".$matriz_match_solicitud_incidente[$ID]." ]</strong>";
+										$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Gesti&oacute;n en incidente  : <strong><a href='/Incidente/index/busqueda/".$matriz_match_solicitud_incidente[$ID]."'>".$matriz_match_solicitud_incidente[$ID]."</a> ]</strong>";
 									
 				
 							

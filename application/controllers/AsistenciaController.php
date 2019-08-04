@@ -1468,10 +1468,10 @@ class AsistenciaController extends Zend_Controller_Action
 										$datosasistencias["$ID"]["TEXTO_ASOCIADOS"]="";
 				
 										if(isset($matriz_match_solicitud_asistencia[$ID]))
-											$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociada a solicitud  : <strong>".$matriz_match_solicitud_asistencia[$ID]." ]</strong>";
+											$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociada a solicitud  : <strong><a href='/Solicitud/index/busqueda/".$matriz_match_solicitud_asistencia[$ID]."'>".$matriz_match_solicitud_asistencia[$ID]."</a> ]</strong>";
 										
 										if(isset($matriz_match_asistencia_incidente[$ID]))
-											$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociada a  incidente  : <strong>".$matriz_match_asistencia_incidente[$ID]." ]</strong>";
+											$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociada a  incidente  : <strong><a href='/Incidente/index/busqueda/".$matriz_match_asistencia_incidente[$ID]."'>".$matriz_match_asistencia_incidente[$ID]."</a> ]</strong>";
 										
 				
 								

@@ -1639,10 +1639,10 @@ class IncidenteController extends Zend_Controller_Action
 										$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"]="";
 				
 										if(isset($matriz_match_asistencia_incidente[$ID]))
-											$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociado a asistencia  : <strong>".$matriz_match_asistencia_incidente[$ID]." ]</strong>";
+											$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociado a asistencia  : <strong><a href='/Asistencia/index/busqueda/".$matriz_match_asistencia_incidente[$ID]."'>".$matriz_match_asistencia_incidente[$ID]."</a> ]</strong>";
 										
 										if(isset($matriz_match_solicitud_incidente[$ID]))
-											$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociado a solicitud  : <strong>".$matriz_match_solicitud_incidente[$ID]." ]</strong>";
+											$datossolicitudes["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociado a solicitud  : <strong><a href='/Solicitud/index/busqueda/".$matriz_match_solicitud_incidente[$ID]."'>".$matriz_match_solicitud_incidente[$ID]."</a> ]</strong>";
 								
 										
 								}						
