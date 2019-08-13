@@ -24,6 +24,11 @@
 	if(isset($this->layout()->NOMBRESOLICITANTE))
 		$NOMBRESOLICITANTE=$this->layout()->NOMBRESOLICITANTE;
 	
+	if(isset($this->layout()->FECHAORIGINALMAESTRA))
+		$FECHAORIGINALMAESTRA=$this->layout()->FECHAORIGINALMAESTRA;
+	else
+		$FECHAORIGINALMAESTRA=date("d/m/Y");
+	
 	//fin si hay solicitud	
 	//////////////////////////
 	
@@ -218,14 +223,9 @@
 											if(res[0]=='OK')
 											{
 													
-													$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>Datos almacenados correctamente<br><br><a href='/Asistencia'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
+													$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>Datos almacenados correctamente<br><br><a href='/Asistencia/index/busqueda/"+res[1]+"'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
 													$('#volver_bot').focus();
 									
-													//$("#divNotificaciones").html("<div class='panel panel-success'><div class='panel-heading'>Datos almacenados correctamente</div></div>");
-													//$('#volver_bot').focus();
-													//limpia formulario
-													//$('#oForm').trigger("reset");
-													//$("#detalle").val("");
 											
 											}else{
 													
@@ -329,7 +329,7 @@
 																	  
 																	   <div class="form-group">
 																			<label>Fecha a Realizar Asistencia (*)</label>
-																			<input type="text" class="form-control" id="calendario" readonly="readonly">
+																			<input type="text" class="form-control" id="calendario" readonly="readonly" value="<?php echo $FECHAORIGINALMAESTRA;?>">
 																	   </div>
 																	  
 																

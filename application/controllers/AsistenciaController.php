@@ -80,14 +80,15 @@ class AsistenciaController extends Zend_Controller_Action
 					$LABORATORIODESCRIPCION="";
 					$PRODUCTOID="";
 					$DETALLESOLICITUD="";
-					$NOMBRESOLICITANTE="";
+					$FECHAORIGINALMAESTRA="";
 					
 					$sSQL = "	SELECT 
 								s.SIS03_LABORATORIOID, 
 								l.SIS03_LABORATORIODESCRIPCION, 
 								s.SIS04_PRODUCTOID, 
 								s.ED02_DETALLESOLICITUD, 
-								s.ED02_NOMBRESOLICITANTE
+								s.ED02_NOMBRESOLICITANTE,
+								DATE_FORMAT(s.ED02_FECHASOLICITUD, '%d/%m/%Y') as ED02_FECHASOLICITUD 
 								FROM 
 								e_desk.ED02_SOLICITUD s
 								LEFT JOIN
@@ -108,6 +109,8 @@ class AsistenciaController extends Zend_Controller_Action
 											$PRODUCTOID=$row_datosQuery["SIS04_PRODUCTOID"];
 											$DETALLESOLICITUD=$row_datosQuery["ED02_DETALLESOLICITUD"];
 											$NOMBRESOLICITANTE=$row_datosQuery["ED02_NOMBRESOLICITANTE"];
+											$FECHAORIGINALMAESTRA=$row_datosQuery["ED02_FECHASOLICITUD"];
+								
 									}
 	
 							}
@@ -132,7 +135,8 @@ class AsistenciaController extends Zend_Controller_Action
 								l.SIS03_LABORATORIODESCRIPCION, 
 								s.SIS04_PRODUCTOID,
 								s.ED03_NOMBRESOLICITANTE,
-								s.ED03_DETALLETICKET
+								s.ED03_DETALLETICKET,
+								DATE_FORMAT(s.ED03_FECHATICKET, '%d/%m/%Y') as FECHATICKET
 								FROM 
 								e_desk.ED03_TICKET s
 								LEFT JOIN
@@ -156,6 +160,7 @@ class AsistenciaController extends Zend_Controller_Action
 											$PRODUCTOID=$row_datosQuery["SIS04_PRODUCTOID"];
 											$DETALLESOLICITUD=$row_datosQuery["ED03_DETALLETICKET"];
 											$NOMBRESOLICITANTE=$row_datosQuery["ED03_NOMBRESOLICITANTE"];
+											$FECHAORIGINALMAESTRA=$row_datosQuery["FECHATICKET"];
 										
 									}
 
@@ -238,6 +243,7 @@ class AsistenciaController extends Zend_Controller_Action
 					Zend_Layout::getMvcInstance()->assign('PRODUCTOID',$PRODUCTOID);
 					Zend_Layout::getMvcInstance()->assign('DETALLESOLICITUD',$DETALLESOLICITUD);
 					Zend_Layout::getMvcInstance()->assign('NOMBRESOLICITANTE',$NOMBRESOLICITANTE);
+					Zend_Layout::getMvcInstance()->assign('FECHAORIGINALMAESTRA',$FECHAORIGINALMAESTRA);
 				}
 	
 	
@@ -631,7 +637,7 @@ class AsistenciaController extends Zend_Controller_Action
 
 													$DB->commit();
 							
-													echo("OK|");
+													echo("OK|".$nueva_solicitud);
 													exit;
 													
 												} catch (Zend_Exception $e) {
@@ -1231,7 +1237,7 @@ class AsistenciaController extends Zend_Controller_Action
 
 													$DB->commit();
 							
-													echo("OK|");
+													echo("OK|".$asistenciaid);
 													exit;
 													
 												} catch (Zend_Exception $e) {

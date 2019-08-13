@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+
+<button id="buttonP">Dar Permisos</button>  
+<button id="buttonN">Lanzar notificación</button>
+
+
+
+
+<script>
+    
+            var btnNotificacion = document.getElementById("buttonN"),  
+                btnPermiso = document.getElementById("buttonP")
+                titulo = "Fili Santillán",
+                opciones = {
+                    icon: "logo.png",
+                    body: "Notificación de prueba"
+                };
+            
+            function permiso() {  
+                    Notification.requestPermission();
+            };
+            
+            function mostrarNotificacion() {  
+                if(Notification) {
+                    if (Notification.permission == "granted") {
+                        var n = new Notification(titulo, opciones);
+                    }
+            
+                    else if(Notification.permission == "default") {
+                        alert("Primero da los permisos de notificación");
+                    }
+            
+                    else {
+                        alert("Bloqueaste los permisos de notificación");
+                    }
+                }
+            };
+            
+            btnPermiso.addEventListener("click", permiso);  
+            btnNotificacion.addEventListener("click", mostrarNotificacion);
+    
+    
+    
+    </script>
+
+
+
+</body>
+</html>

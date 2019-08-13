@@ -79,16 +79,13 @@ class IncidenteController extends Zend_Controller_Action
 					$PRODUCTOID="";
 					$DETALLESOLICITUD="";
 					$NOMBRESOLICITANTE="";
-					$FECHASOLICITUD="";
-									
 					
 					$sSQL = "	SELECT 
 								s.SIS03_LABORATORIOID, 
 								l.SIS03_LABORATORIODESCRIPCION, 
 								s.SIS04_PRODUCTOID, 
 								s.ED02_DETALLESOLICITUD, 
-								s.ED02_NOMBRESOLICITANTE,
-								DATE_FORMAT(s.ED02_FECHASOLICITUD, '%d/%m/%Y') as ED02_FECHASOLICITUD 
+								s.ED02_NOMBRESOLICITANTE
 								FROM 
 								e_desk.ED02_SOLICITUD s
 								LEFT JOIN
@@ -109,8 +106,6 @@ class IncidenteController extends Zend_Controller_Action
 											$PRODUCTOID=$row_datosQuery["SIS04_PRODUCTOID"];
 											$DETALLESOLICITUD=$row_datosQuery["ED02_DETALLESOLICITUD"];
 											$NOMBRESOLICITANTE=$row_datosQuery["ED02_NOMBRESOLICITANTE"];
-											$FECHASOLICITUD=$row_datosQuery["ED02_FECHASOLICITUD"];
-									
 									}
 	
 							}
@@ -269,7 +264,6 @@ class IncidenteController extends Zend_Controller_Action
 					Zend_Layout::getMvcInstance()->assign('PRODUCTOID',$PRODUCTOID);
 					Zend_Layout::getMvcInstance()->assign('DETALLESOLICITUD',$DETALLESOLICITUD);
 					Zend_Layout::getMvcInstance()->assign('NOMBRESOLICITANTE',$NOMBRESOLICITANTE);
-					Zend_Layout::getMvcInstance()->assign('FECHASOLICITUD',$FECHASOLICITUD);
 				}			
 			
 	
@@ -681,7 +675,7 @@ class IncidenteController extends Zend_Controller_Action
 
 													$DB->commit();
 							
-													echo("OK|".$nueva_solicitud);
+													echo("OK|");
 													exit;
 													
 												} catch (Zend_Exception $e) {
@@ -1390,7 +1384,7 @@ class IncidenteController extends Zend_Controller_Action
 
 													$DB->commit();
 							
-													echo("OK|".$incidenteid);
+													echo("OK|");
 													exit;
 													
 												} catch (Zend_Exception $e) {
