@@ -40,6 +40,14 @@
 ?>
 <script type="text/javascript">
  
+ 
+		 $("#busqueda").keydown(function (e) {
+		  if (e.keyCode == 13) {
+		 		carga_pagina_incidente('1',$("#busqueda").val());
+		  }
+		});
+		 
+ 
 	   
 	   $("#realizar_busqueda_incidentes").click( function()
        {
@@ -130,8 +138,9 @@
 																								<?php
 																								}
 																							
-																								if($valor["ED03_ESTADO"]=="PENDIENTE" || $valor["ED03_ESTADO"]=="GESTIONADO")
-																								{ 
+																								//POR MIENTRAS
+																								//if($valor["ED03_ESTADO"]=="PENDIENTE" || $valor["ED03_ESTADO"]=="GESTIONADO")
+																								//{ 
 																											if(isset($acceso_funcionalidades[3]) && trim($acceso_funcionalidades[3])=="1")
 																											{																								
 																											?>	
@@ -139,7 +148,7 @@
 																											<?php
 																											}
 																							
-																								}
+																								//}
 																								if($valor["ED03_ESTADO"]=="PENDIENTE")
 																								{ 
 																								
@@ -162,7 +171,9 @@
 																											//Asistencia / es derivado: cuando se generó asistencia
 																											// hay que poner query aqui para saber si está asociado a auna 
 																											
-																											if($valor["ED03_ESTADO"]=="DERIVADO")
+																											//POR MIENTRAS
+																											//if($valor["ED03_ESTADO"]=="DERIVADO")
+																											if($valor["ED03_ESTADO"]!="RESUELTO")
 																											{ 
 																													if(isset($acceso_funcionalidades[5]) && trim($acceso_funcionalidades[5])=="1")
 																													{																								
@@ -241,12 +252,14 @@
 																																				<strong>TIPO CONTACTO : </strong><?php echo $valor["ED03_TIPOCONTACTO"]?><br><br>
 																																				<strong>NIVEL : </strong><?php echo $valor["ED03_NIVELSOPORTE"]?><br><br>
 																																				<strong>CLASIFICADOR : </strong><?php echo $valor["SIS07_CLASIFICADORDESCRIPCION"]?><br><br>
-																																				<strong>NUM ALUMNOS AFECTADOS : </strong><?php echo $valor["ED03_NUMALUMNOSAFECTADOS"]?><br><br>
+																																				<strong>NUM AFECTADOS : </strong><?php echo $valor["ED03_NUMALUMNOSAFECTADOS"]?><br><br>
 																																				<strong>NIVEL: </strong><?php echo $valor["ED03_NIVELDELPROGRAMA"]?><br><br>
 																																				<strong>MODULO : </strong><?php echo $valor["SIS05_CODIGOMODULO"]?><br><br>
 																																				<strong>NUM EJERCICIO : </strong><?php echo $valor["ED03_NUMEJERCICIO"]?><br><br>
 																																																									
 																																				<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED03_DETALLETICKET"])?><br><br>
+																																				<strong>GESTION INMEDIATA : </strong><br><?php echo nl2br($valor["ED03_GESTION_INMEDIATA"])?><br><br>
+																																				
 																																				<?php
 																																				if(trim($valor["ED03_ARCHIVOADJUNTO"])!="")
 																																				{	

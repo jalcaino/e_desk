@@ -558,7 +558,7 @@ class LoginController extends Zend_Controller_Action
 						WHERE
 						E.ED09_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."'
 						ORDER BY
-						E.ED09_FECHANOTIFICACION asc";			
+						E.ED09_FECHANOTIFICACION desc";			
 				
 				
 				$rowset = $DB->fetchAll($sSQL);
@@ -593,7 +593,7 @@ class LoginController extends Zend_Controller_Action
 							WHERE
 							T.ED10_LEIDO=0 and T.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."'
 							ORDER BY
-							T.ED10_FECHANOTIFICACION asc ";
+							T.ED10_FECHANOTIFICACION desc ";
 
 
 				
@@ -636,7 +636,7 @@ class LoginController extends Zend_Controller_Action
 						WHERE
 						E.ED12_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."'
 						ORDER BY
-						E.ED12_FECHANOTIFICACION asc";			
+						E.ED12_FECHANOTIFICACION desc ";			
 				
 				
 				$rowset = $DB->fetchAll($sSQL);
@@ -672,7 +672,7 @@ class LoginController extends Zend_Controller_Action
 							WHERE
 							T.ED11_LEIDO=0 and T.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."'
 							ORDER BY
-							T.ED11_FECHANOTIFICACION asc";
+							T.ED11_FECHANOTIFICACION desc ";
 
 
 				$rowset = $DB->fetchAll($sSQL);
@@ -718,7 +718,7 @@ class LoginController extends Zend_Controller_Action
 						WHERE
 						E.ED17_LEIDO=0 and E.ED01_USUARIOID='".trim($edesk_session->USUARIOID)."'
 						ORDER BY
-						E.ED17_FECHANOTIFICACION asc";			
+						E.ED17_FECHANOTIFICACION desc ";			
 				
 				
 				$rowset = $DB->fetchAll($sSQL);

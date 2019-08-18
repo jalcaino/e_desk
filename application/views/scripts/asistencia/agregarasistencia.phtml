@@ -29,6 +29,22 @@
 	else
 		$FECHAORIGINALMAESTRA=date("d/m/Y");
 	
+	
+	
+	if(isset($this->layout()->TELEFONOSOLICITANTE))
+		$TELEFONOSOLICITANTE=$this->layout()->TELEFONOSOLICITANTE;
+	
+	
+	if(isset($this->layout()->EMAILSOLICITANTE))
+		$EMAILSOLICITANTE=$this->layout()->EMAILSOLICITANTE;
+	
+	
+	if(isset($this->layout()->PRIORIDAD))
+		$PRIORIDAD=$this->layout()->PRIORIDAD;
+	
+	
+	
+	
 	//fin si hay solicitud	
 	//////////////////////////
 	
@@ -340,19 +356,19 @@
 																	 
 																	   <div class="form-group">
 																			<label>Tel&eacute;fono Solicitante (*)</label>
-																			<input class="form-control" type="text" id="telefono" maxlength="50"  name="telefono">
+																			<input class="form-control" type="text" id="telefono" maxlength="50"  name="telefono" value="<?php if(isset($TELEFONOSOLICITANTE) && $TELEFONOSOLICITANTE!="") echo $TELEFONOSOLICITANTE;?>">
 																	   </div>
 																	  
 																	   <div class="form-group">
 																			<label>E-mail Solicitante</label>
-																			<input class="form-control" type="text" id="email" maxlength="100"  name="email">
+																			<input class="form-control" type="text" id="email" maxlength="100"  name="email" value="<?php if(isset($EMAILSOLICITANTE) && $EMAILSOLICITANTE!="") echo $EMAILSOLICITANTE;?>">
 																	   </div>
 																	  
 																		<div class="form-group">
 																			<label>Prioridad (*)</label>
 																			<select class="form-control" id="prioridad" name="prioridad">
-																				<option value="1">ALTA</option>
-																				<option value="0">BAJA</option>
+																					<option value="1" <?php if(isset($PRIORIDAD) && $PRIORIDAD=="1") echo "selected"?>>ALTA</option>
+																					<option value="0" <?php if(isset($PRIORIDAD) && $PRIORIDAD=="0") echo "selected"?>>BAJA</option>
 																			</select>
 																		</div>
 																												  

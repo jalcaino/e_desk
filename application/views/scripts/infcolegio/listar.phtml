@@ -63,6 +63,12 @@
 		
 	if(isset($this->layout()->datosticket))
 		$datosticket=$this->layout()->datosticket;
+		
+	if(isset($this->layout()->datos_derivados))
+		$datos_derivados=$this->layout()->datos_derivados;	
+		
+	if(isset($this->layout()->datos_derivados_asis))
+		$datos_derivados_asis=$this->layout()->datos_derivados_asis;
 
 	if(isset($this->layout()->datossolicitud))
 		$datossolicitud=$this->layout()->datossolicitud;
@@ -504,11 +510,12 @@
 																		<th>TIPO CONTACTO</th>
 																		<th>NIVEL</th>
 																		<th>CLASIFICADOR</th>
-																		<th>NUM ALUMNOS AFECTADOS</th>
+																		<th>NUM-AFECTADOS</th>
 																		<th>NIVEL</th>
 																		<th>MODULO</th>
 																		<th>NUM EJERCICIO</th>
 																		<th>DETALLE</th>
+																		<th>GESTION INMEDIATA</th>
 																		<th>SOLICITANTE</th>
 																		<th>ULTIMA ACTUALIZACI&Oacute;N</th>
 																		<th>ESTADO</th>
@@ -555,12 +562,14 @@
 																										<strong>TIPO CONTACTO : </strong><?php echo $valor["ED03_TIPOCONTACTO"]?><br><br>
 																										<strong>NIVEL : </strong><?php echo $valor["ED03_NIVELSOPORTE"]?><br><br>
 																										<strong>CLASIFICADOR : </strong><?php echo $valor["SIS07_CLASIFICADORDESCRIPCION"]?><br><br>
-																										<strong>NUM ALUMNOS AFECTADOS : </strong><?php echo $valor["ED03_NUMALUMNOSAFECTADOS"]?><br><br>
+																										<strong>NUM AFECTADOS : </strong><?php echo $valor["ED03_NUMALUMNOSAFECTADOS"]?><br><br>
 																										<strong>NIVEL: </strong><?php echo $valor["ED03_NIVELDELPROGRAMA"]?><br><br>
 																										<strong>MODULO : </strong><?php echo $valor["SIS05_CODIGOMODULO"]?><br><br>
 																										<strong>NUM EJERCICIO : </strong><?php echo $valor["ED03_NUMEJERCICIO"]?><br><br>
 																																															
 																										<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED03_DETALLETICKET"])?><br><br>
+																										<strong>GESTION INMEDIATA : </strong><br><?php echo nl2br($valor["ED03_GESTION_INMEDIATA"])?><br><br>
+																										
 																										<?php
 																										if(trim($valor["ED03_ARCHIVOADJUNTO"])!="")
 																										{	
@@ -577,8 +586,19 @@
 																										<strong>SOLICITANTE : </strong><?php echo $valor["ED03_NOMBRESOLICITANTE"]?><br><br>
 																										<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
 																										<strong>ESTADO : </strong><?php echo $valor["ED03_ESTADO"]?><br><br>
+																										<?php 
+																										$IDTICKET=$valor["ED03_TICKETID"];
 																							
-																									
+																										if(isset($datos_derivados["$IDTICKET"]["ED01_USUARIOID"]))
+																										{
+																										?>
+																										<strong>DEPARTAMENTO : </strong><?php echo $valor["SECTOR"]?><br><br>
+																										<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados["$IDTICKET"]["ED01_USUARIOID"]?></button>
+																										<br><br>	
+																										<?php
+																										}
+																										?>
+															
 																									
 																									
 																								</div>
@@ -610,6 +630,7 @@
 																		<td><?php echo $valor["SIS05_CODIGOMODULO"]?></td>
 																		<td><?php echo $valor["ED03_NUMEJERCICIO"]?></td>
 																		<td><?php echo nl2br(utf8_decode($valor["ED03_DETALLETICKET"]))?></td>
+																		<td><?php echo nl2br(utf8_decode($valor["ED03_GESTION_INMEDIATA"]))?></td>
 																		<td><?php echo utf8_decode($valor["ED03_NOMBRESOLICITANTE"])?></td>
 																		<td><?php echo $valor["FECHAULTIMAACTUALIZACION"]?></td>
 																		<td><?php echo $valor["ED03_ESTADO"]?></td>
@@ -735,7 +756,17 @@
 																									<strong>SOLICITANTE : </strong><?php echo $valor["ED05_NOMBRESOLICITANTE"]?><br><br>
 																									<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
 																									<strong>ESTADO : </strong><?php echo $valor["ED05_ESTADO"]?><br><br>
+																									<?php 
+																									$IDTICKET=$valor["ED05_ASISTENCIAID"];
 																						
+																									if(isset($datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]))
+																									{
+																									?>
+																									<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]?></button>
+																									<br><br>	
+																									<?php
+																									}
+																									?>
 																								</div>
 																								<div class="modal-footer">
 																									<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

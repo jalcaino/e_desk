@@ -304,6 +304,7 @@ class IncidenteController extends Zend_Controller_Action
 					$producto=$this->_request->getPost('producto');
 					$calendario=$this->_request->getPost('calendario');
 					$detalle=$this->_request->getPost('detalle');
+					$gestioninmediata=$this->_request->getPost('gestioninmediata');
 					$nombreapellido=$this->_request->getPost('nombreapellido');
 					$telefono=$this->_request->getPost('telefono');
 					$email=$this->_request->getPost('email');
@@ -480,7 +481,8 @@ class IncidenteController extends Zend_Controller_Action
 												  		'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
 														'ED01_USUARIOID' => $edesk_session->USUARIOID,
 												  		'ED03_DERIVADO' => $derivado,
-														'SIS01_SECTORID' => $sector
+														'SIS01_SECTORID' => $sector,
+														'ED03_GESTION_INMEDIATA' => $gestioninmediata											  	
 														
 												 );
 												  		
@@ -772,7 +774,8 @@ class IncidenteController extends Zend_Controller_Action
 								s.ED03_NUMEJERCICIO,
 								s.ED03_ESTADO,
 								s.ED03_DERIVADO,
-								s.SIS01_SECTORID 
+								s.SIS01_SECTORID,
+								s.ED03_GESTION_INMEDIATA
 								FROM 
 								e_desk.ED03_TICKET s
 								LEFT JOIN
@@ -819,7 +822,8 @@ class IncidenteController extends Zend_Controller_Action
 											$ESTADO=$row_datosQuery["ED03_ESTADO"];		
 											$USUARIOSELECCIONADO=$row_datosQuery["ED03_DERIVADO"];
 											$SECTOR=$row_datosQuery["SIS01_SECTORID"];
-				
+											$GESTIONINMEDIATA=$row_datosQuery["ED03_GESTION_INMEDIATA"];
+						
 									}
 
 							}
@@ -978,6 +982,7 @@ class IncidenteController extends Zend_Controller_Action
 				Zend_Layout::getMvcInstance()->assign('EMAILSOLICITANTE',$EMAILSOLICITANTE);
 				Zend_Layout::getMvcInstance()->assign('PRIORIDAD',$PRIORIDAD);
 				Zend_Layout::getMvcInstance()->assign('DETALLETICKET',$DETALLETICKET);
+				Zend_Layout::getMvcInstance()->assign('GESTIONINMEDIATA',$GESTIONINMEDIATA);
 				Zend_Layout::getMvcInstance()->assign('TIPOCONTACTO',$TIPOCONTACTO);
 				Zend_Layout::getMvcInstance()->assign('NIVELSOPORTE',$NIVELSOPORTE);
 				Zend_Layout::getMvcInstance()->assign('SECTOR',$SECTOR);
@@ -1018,6 +1023,7 @@ class IncidenteController extends Zend_Controller_Action
 					$producto=$this->_request->getPost('producto');
 					$calendario=$this->_request->getPost('calendario');
 					$detalle=$this->_request->getPost('detalle');
+					$gestioninmediata=$this->_request->getPost('gestioninmediata');
 					$nombreapellido=$this->_request->getPost('nombreapellido');
 					$telefono=$this->_request->getPost('telefono');
 					$email=$this->_request->getPost('email');
@@ -1196,7 +1202,8 @@ class IncidenteController extends Zend_Controller_Action
 															'ED03_ESTADO' => $estado,
 															'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
 															'ED03_DERIVADO' => $derivado,
-															'SIS01_SECTORID' => $sector
+															'SIS01_SECTORID' => $sector,
+															'ED03_GESTION_INMEDIATA' => $gestioninmediata
 														);
 												
 			
@@ -1221,7 +1228,8 @@ class IncidenteController extends Zend_Controller_Action
 															'ED03_ESTADO' => $estado,
 															'ED03_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
 															'ED03_DERIVADO' => $derivado,
-															'SIS01_SECTORID' => $sector
+															'SIS01_SECTORID' => $sector,
+															'ED03_GESTION_INMEDIATA' => $gestioninmediata
 														);
 													
 												}
@@ -1575,7 +1583,8 @@ class IncidenteController extends Zend_Controller_Action
 								s.ED03_ESTADO,
 								DATE_FORMAT(s.ED03_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION,
 								s.ED03_DERIVADO,
-								s.SIS01_SECTORID 
+								s.SIS01_SECTORID,
+								s.ED03_GESTION_INMEDIATA  
 								FROM 
 								e_desk.ED03_TICKET s
 								LEFT JOIN
@@ -1624,6 +1633,7 @@ class IncidenteController extends Zend_Controller_Action
 										
 										
 										$datossolicitudes["$ID"]["ED03_DETALLETICKET"]=$row_datosQuery["ED03_DETALLETICKET"];
+										$datossolicitudes["$ID"]["ED03_GESTION_INMEDIATA"]=$row_datosQuery["ED03_GESTION_INMEDIATA"];
 										$datossolicitudes["$ID"]["ED03_TIPOCONTACTO"]=$row_datosQuery["ED03_TIPOCONTACTO"];
 										$datossolicitudes["$ID"]["ED03_NIVELSOPORTE"]=$row_datosQuery["ED03_NIVELSOPORTE"];
 										$datossolicitudes["$ID"]["SIS07_CLASIFICADORID"]=$row_datosQuery["SIS07_CLASIFICADORID"];

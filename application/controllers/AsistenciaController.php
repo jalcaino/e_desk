@@ -136,7 +136,10 @@ class AsistenciaController extends Zend_Controller_Action
 								s.SIS04_PRODUCTOID,
 								s.ED03_NOMBRESOLICITANTE,
 								s.ED03_DETALLETICKET,
-								DATE_FORMAT(s.ED03_FECHATICKET, '%d/%m/%Y') as FECHATICKET
+								DATE_FORMAT(s.ED03_FECHATICKET, '%d/%m/%Y') as FECHATICKET,
+								s.ED03_TELEFONOSOLICITANTE,
+								s.ED03_EMAILSOLICITANTE,
+								s.ED03_PRIORIDAD
 								FROM 
 								e_desk.ED03_TICKET s
 								LEFT JOIN
@@ -145,6 +148,7 @@ class AsistenciaController extends Zend_Controller_Action
 								e_desk.SIS07_CLASIFICADOR c ON s.SIS07_CLASIFICADORID=c.SIS07_CLASIFICADORID
 								WHERE 
 								s.ED03_TICKETID = '$incidenteid' ";
+															
 								
 								
 							$rowset = $DB->fetchAll($sSQL);
@@ -161,6 +165,12 @@ class AsistenciaController extends Zend_Controller_Action
 											$DETALLESOLICITUD=$row_datosQuery["ED03_DETALLETICKET"];
 											$NOMBRESOLICITANTE=$row_datosQuery["ED03_NOMBRESOLICITANTE"];
 											$FECHAORIGINALMAESTRA=$row_datosQuery["FECHATICKET"];
+										
+											$TELEFONOSOLICITANTE=$row_datosQuery["ED03_TELEFONOSOLICITANTE"];
+											$EMAILSOLICITANTE=$row_datosQuery["ED03_EMAILSOLICITANTE"];
+											$PRIORIDAD=$row_datosQuery["ED03_PRIORIDAD"];
+										
+										
 										
 									}
 
@@ -234,6 +244,9 @@ class AsistenciaController extends Zend_Controller_Action
 				if($incidenteid!=0)
 				{
 					Zend_Layout::getMvcInstance()->assign('incidenteid',$incidenteid);
+					Zend_Layout::getMvcInstance()->assign('TELEFONOSOLICITANTE',$TELEFONOSOLICITANTE);
+					Zend_Layout::getMvcInstance()->assign('EMAILSOLICITANTE',$EMAILSOLICITANTE);
+					Zend_Layout::getMvcInstance()->assign('PRIORIDAD',$PRIORIDAD);
 				}			
 			
 				if($solicitudid!=0 || $incidenteid!=0)

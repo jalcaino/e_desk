@@ -34,6 +34,15 @@
 ?>
 <script type="text/javascript">
  
+	 
+	    $("#busqueda").keydown(function (e) {
+		  if (e.keyCode == 13) {
+		
+				carga_pagina('1',$("#busqueda").val());
+		
+		  }
+		});
+	 
 	   
 	   $("#realizar_busqueda").click( function()
        {

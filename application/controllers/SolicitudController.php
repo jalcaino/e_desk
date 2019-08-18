@@ -436,8 +436,8 @@ class SolicitudController extends Zend_Controller_Action
 							
 							
 													$DB->commit();
-							
-													echo("OK|");
+													echo("OK|".$nueva_solicitud);
+													
 													exit;
 													
 												} catch (Zend_Exception $e) {
@@ -908,7 +908,7 @@ class SolicitudController extends Zend_Controller_Action
 
 													$DB->commit();
 							
-													echo("OK|");
+													echo("OK|".$solicitudid);
 													exit;
 													
 												} catch (Zend_Exception $e) {

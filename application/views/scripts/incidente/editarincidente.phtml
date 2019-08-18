@@ -28,6 +28,7 @@
 		$EMAILSOLICITANTE=$this->layout()->EMAILSOLICITANTE;
 		$PRIORIDAD=$this->layout()->PRIORIDAD;
 		$DETALLETICKET=$this->layout()->DETALLETICKET;
+		$GESTIONINMEDIATA=$this->layout()->GESTIONINMEDIATA;
 		$TIPOCONTACTO=$this->layout()->TIPOCONTACTO;
 		$NIVELSOPORTE=$this->layout()->NIVELSOPORTE;
 		$CLASIFICADORID=$this->layout()->CLASIFICADORID;
@@ -243,6 +244,7 @@
 				form_data.append('email', $("#email").val());
 				form_data.append('prioridad', $("#prioridad").val());
 				form_data.append('detalle', $("#detalle").val());
+				form_data.append('gestioninmediata', $("#gestioninmediata").val());
 				form_data.append('tipocontacto', $("#tipocontacto").val());
 				form_data.append('nivelsoporte', $("#nivelsoporte").val());
 				form_data.append('clasificadores', $("#clasificadores").val());
@@ -429,10 +431,38 @@
 																				<option value="CHAT" <?php if($TIPOCONTACTO=="CHAT") echo "selected"?>>CHAT</option>
 																				<option value="TELEFONO" <?php if($TIPOCONTACTO=="TELEFONO") echo "selected"?>>TELEFONO</option>
 																				<option value="EMAIL" <?php if($TIPOCONTACTO=="EMAIL") echo "selected"?>>EMAIL</option>
+																				<option value="INTERNO"  <?php if($TIPOCONTACTO=="INTERNO") echo "selected"?>>INTERNO</option>
 																			</select>
 																		</div>
 
 																</div>  
+												
+												
+																<div class="col-md-4 col-sm-4">
+
+																		<div class="form-group">
+																			<label>Nivel (*)</label>
+																			<select class="form-control" id="nivel" name="nivel">
+																				<option value="1 BASICO" <?php if($NIVELDELPROGRAMA=="1 BASICO") echo "selected"?>>1 BASICO</option>
+																				<option value="2 BASICO" <?php if($NIVELDELPROGRAMA=="2 BASICO") echo "selected"?>>2 BASICO</option>
+																				<option value="3 BASICO" <?php if($NIVELDELPROGRAMA=="3 BASICO") echo "selected"?>>3 BASICO</option>
+																				<option value="4 BASICO" <?php if($NIVELDELPROGRAMA=="4 BASICO") echo "selected"?>>4 BASICO</option>
+																				<option value="5 BASICO" <?php if($NIVELDELPROGRAMA=="5 BASICO") echo "selected"?>>5 BASICO</option>
+																				<option value="6 BASICO" <?php if($NIVELDELPROGRAMA=="6 BASICO") echo "selected"?>>6 BASICO</option>
+																				<option value="7 BASICO" <?php if($NIVELDELPROGRAMA=="7 BASICO") echo "selected"?>>7 BASICO</option>
+																				<option value="8 BASICO" <?php if($NIVELDELPROGRAMA=="8 BASICO") echo "selected"?>>8 BASICO</option>
+																				<option value="I MEDIO" <?php if($NIVELDELPROGRAMA=="I MEDIO") echo "selected"?>>I MEDIO</option>
+																				<option value="II MEDIO" <?php if($NIVELDELPROGRAMA=="II MEDIO") echo "selected"?>>II MEDIO</option>
+																				<option value="III MEDIO" <?php if($NIVELDELPROGRAMA=="III MEDIO") echo "selected"?>>III MEDIO</option>
+																				<option value="IV MEDIO" <?php if($NIVELDELPROGRAMA=="IV MEDIO") echo "selected"?>>IV MEDIO</option>
+
+																			</select>
+																		</div>
+
+																</div>  
+					
+												
+												
 															</div>		  
 																		
 																		
@@ -443,12 +473,24 @@
 																				
 																			<div class="form-group">
 																				<label>Detalle Incidente (*)</label>
-																				<textarea class="form-control" rows="5" id="detalle" name="detalle"><?php echo $DETALLETICKET?></textarea>
+																				<textarea class="form-control" rows="3" id="detalle" name="detalle"><?php echo $DETALLETICKET?></textarea>
 																			</div>
 																	</div>  
 						
 															</div>			   
 																								
+												
+															<div class="row">
+														
+																	<div class="col-md-12">
+																				
+																			<div class="form-group">
+																				<label>Gesti&oacute;n Inmediata</label>
+																				<textarea class="form-control" rows="2" id="gestioninmediata" name="gestioninmediata"><?php echo $GESTIONINMEDIATA?></textarea>
+																			</div>
+																	</div>  
+						
+															</div>		
 												
 										
 														<div class="row">
@@ -484,46 +526,22 @@
 	
 																</div>  
 					
-														</div>			   
-
-
-														
-														
-														<div class="row">
-														
+					
 																<div class="col-md-4 col-sm-4">
 																	
 																		<div class="form-group">
-																			<label>Alumnos-Afectados</label>
+																			<label>Num-Afectados</label>
 																			<input class="form-control" type="text" id="num_alumnos" maxlength="3"  name="num_alumnos" value="<?php echo $NUMALUMNOSAFECTADOS?>">
 																		</div>
 
 																</div>												 
 														
-																<div class="col-md-4 col-sm-4">
-
-																		<div class="form-group">
-																			<label>Nivel (*)</label>
-																			<select class="form-control" id="nivel" name="nivel">
-																				<option value="1 BASICO" <?php if($NIVELDELPROGRAMA=="1 BASICO") echo "selected"?>>1 BASICO</option>
-																				<option value="2 BASICO" <?php if($NIVELDELPROGRAMA=="2 BASICO") echo "selected"?>>2 BASICO</option>
-																				<option value="3 BASICO" <?php if($NIVELDELPROGRAMA=="3 BASICO") echo "selected"?>>3 BASICO</option>
-																				<option value="4 BASICO" <?php if($NIVELDELPROGRAMA=="4 BASICO") echo "selected"?>>4 BASICO</option>
-																				<option value="5 BASICO" <?php if($NIVELDELPROGRAMA=="5 BASICO") echo "selected"?>>5 BASICO</option>
-																				<option value="6 BASICO" <?php if($NIVELDELPROGRAMA=="6 BASICO") echo "selected"?>>6 BASICO</option>
-																				<option value="7 BASICO" <?php if($NIVELDELPROGRAMA=="7 BASICO") echo "selected"?>>7 BASICO</option>
-																				<option value="8 BASICO" <?php if($NIVELDELPROGRAMA=="8 BASICO") echo "selected"?>>8 BASICO</option>
-																				<option value="I MEDIO" <?php if($NIVELDELPROGRAMA=="I MEDIO") echo "selected"?>>I MEDIO</option>
-																				<option value="II MEDIO" <?php if($NIVELDELPROGRAMA=="II MEDIO") echo "selected"?>>II MEDIO</option>
-																				<option value="III MEDIO" <?php if($NIVELDELPROGRAMA=="III MEDIO") echo "selected"?>>III MEDIO</option>
-																				<option value="IV MEDIO" <?php if($NIVELDELPROGRAMA=="IV MEDIO") echo "selected"?>>IV MEDIO</option>
-
-																			</select>
-																		</div>
-
-																</div>  
 					
 														</div>			   
+
+
+														
+														
 																	
 
 														<div class="row">

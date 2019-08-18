@@ -62,7 +62,17 @@ class FichacolegioController extends Zend_Controller_Action
 								SIS03_CURSOS,
 								SIS03_ASESOR,
 								SIS03_PRODUCTOS,
-								SIS03_CONEMATLOCAL 
+								SIS03_CONEMATLOCAL, 
+								SIS03_INTALADONEMATLOCAL,
+								SIS03_DETALLE_CURSOS_NIVELES,
+								SIS03_NUM_LABORATORIOS,
+								SIS03_NOMBRE_CONTACTO_1,
+								SIS03_NOMBRE_CONTACTO_2,
+								SIS03_PROVEEDOR_INTERNET,
+								SIS03_FONO_CONTACTO_1,
+								SIS03_FONO_CONTACTO_2,
+								SIS03_EMAIL_CONTACTO_1,
+								SIS03_EMAIL_CONTACTO_2
 								FROM 
 								e_desk.SIS03_LABORATORIO 
 								WHERE 
@@ -81,23 +91,117 @@ class FichacolegioController extends Zend_Controller_Action
 							$SIS03_CONEMATLOCAL = $row["SIS03_CONEMATLOCAL"];
 							$LABORATORIOID=$S_COLEGIO;
 	
+							$SIS03_INTALADONEMATLOCAL = $row["SIS03_INTALADONEMATLOCAL"];
+							$SIS03_DETALLE_CURSOS_NIVELES = $row["SIS03_DETALLE_CURSOS_NIVELES"];
+							$SIS03_NUM_LABORATORIOS = $row["SIS03_NUM_LABORATORIOS"];
+							$SIS03_NOMBRE_CONTACTO_1 = $row["SIS03_NOMBRE_CONTACTO_1"];
+							$SIS03_NOMBRE_CONTACTO_2 = $row["SIS03_NOMBRE_CONTACTO_2"];
+							$SIS03_PROVEEDOR_INTERNET = $row["SIS03_PROVEEDOR_INTERNET"];
+							$SIS03_FONO_CONTACTO_1 = $row["SIS03_FONO_CONTACTO_1"];
+							$SIS03_FONO_CONTACTO_2 = $row["SIS03_FONO_CONTACTO_2"];
+							$SIS03_EMAIL_CONTACTO_1 = $row["SIS03_EMAIL_CONTACTO_1"];
+							$SIS03_EMAIL_CONTACTO_2 = $row["SIS03_EMAIL_CONTACTO_2"];
+		
+	
 						}else{
 						
 								$LABORATORIODESCRIPCION="--";	
-								$SIS03_ESTADO="--";;
-								$SIS03_CURSOS="--";;
-								$SIS03_ASESOR="--";;
-								$SIS03_PRODUCTOS="--";;
-								$SIS03_CONEMATLOCAL="--";;
+								$SIS03_ESTADO="--";
+								$SIS03_CURSOS="--";
+								$SIS03_ASESOR="--";
+								$SIS03_PRODUCTOS="--";
+								$SIS03_CONEMATLOCAL="--";
 								$LABORATORIOID="SIN-INFO";
-					
+
+								$SIS03_INTALADONEMATLOCAL="--";
+								$SIS03_DETALLE_CURSOS_NIVELES="--";
+								$SIS03_NUM_LABORATORIOS="--";
+								$SIS03_NOMBRE_CONTACTO_1="--";
+								$SIS03_NOMBRE_CONTACTO_2="--";
+								$SIS03_PROVEEDOR_INTERNET="--";
+								$SIS03_FONO_CONTACTO_1="--";
+								$SIS03_FONO_CONTACTO_2="--";
+								$SIS03_EMAIL_CONTACTO_1="--";
+								$SIS03_EMAIL_CONTACTO_2="--";
+		
 						
 						}
 
 						
+		
+		
+		
+		
+						////////////---------
+						//INICIO ASISTENCIAS ASOCIADAS A SOLICITUD
+						//////////////////////////////////////////
+						$sSQL="SELECT ED02_SOLICITUDID,ED05_ASISTENCIAID FROM e_desk.ED16_SOLICITUD_ASISTENCIA";
+						$rowset = $DB->fetchAll($sSQL);
+						$SOLICITUD_ASOCIADA_DIRECTA=0;
+						foreach($rowset as $row_datosQuery)
+						{
+							if(trim($row_datosQuery["ED02_SOLICITUDID"])!="")
+							{
+								$IDENTIFICA=$row_datosQuery["ED02_SOLICITUDID"];
+								$IDENTIFICA2=$row_datosQuery["ED05_ASISTENCIAID"];
+	
+								$matriz_match_solicitud_asistencia[$IDENTIFICA]=$row_datosQuery["ED05_ASISTENCIAID"];
+								$matriz_match_asistencia_solicitud[$IDENTIFICA2]=$row_datosQuery["ED02_SOLICITUDID"];
+	
+							}								
+						}
+						
+						//FIN ASISTENCIAS ASOCIADAS A SOLICITUD
+						//////////////////////////////////////////
+						
+						//INICIO INCIDENTES ASOCIADAS A SOLICITUD
+						//////////////////////////////////////////
+						
+						$sSQL="SELECT ED02_SOLICITUDID,ED03_TICKETID FROM e_desk.ED14_SOLICITUD_TICKET";
+						$rowset = $DB->fetchAll($sSQL);
+						foreach($rowset as $row_datosQuery)
+						{
+							if(trim($row_datosQuery["ED02_SOLICITUDID"])!="")
+							{
+								$IDENTIFICA=$row_datosQuery["ED02_SOLICITUDID"];
+								$IDENTIFICA2=$row_datosQuery["ED03_TICKETID"];
+								
+								$matriz_match_solicitud_incidente[$IDENTIFICA]=$row_datosQuery["ED03_TICKETID"];
+								$matriz_match_incidente_solicitud[$IDENTIFICA2]=$row_datosQuery["ED02_SOLICITUDID"];
+					
+							}								
+						}
+	
+						//FIN INCIDENTES ASOCIADAS A SOLICITUD
+						//////////////////////////////////////////
+		
+						//INICIO INCIDENTES ASOCIADAS A ASISTENCIAS
+						//////////////////////////////////////////
+						
+						$sSQL="SELECT ED03_TICKETID,ED05_ASISTENCIAID FROM e_desk.ED13_TICKET_ASISTENCIA_TECNICA";
+						$rowset = $DB->fetchAll($sSQL);
+						foreach($rowset as $row_datosQuery)
+						{
+							if(trim($row_datosQuery["ED03_TICKETID"])!="")
+							{
+								$IDENTIFICA=$row_datosQuery["ED03_TICKETID"];
+								$IDENTIFICA2=$row_datosQuery["ED05_ASISTENCIAID"];
+								$matriz_match_incidente_asistencia[$IDENTIFICA]=$row_datosQuery["ED05_ASISTENCIAID"];
+								$matriz_match_asistencia_incidente[$IDENTIFICA2]=$row_datosQuery["ED03_TICKETID"];
+							}								
+						}
+	
+						//FIN INCIDENTES ASOCIADAS A SOLICITUD
+						//////////////////////////////////////////
+						///////////-------------
+		
+		
+		
 					
 						//TICKET
 						////////////////////////////
+						$ID_FILAS="0";
+						
 						$sSQL="SELECT 
 									s.ED03_TICKETID,
 									s.SIS03_LABORATORIOID,
@@ -123,7 +227,8 @@ class FichacolegioController extends Zend_Controller_Action
 									s.ED03_ESTADO,
 									DATE_FORMAT(s.ED03_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION,
 									s.ED03_DERIVADO,
-									s.SIS01_SECTORID
+									s.SIS01_SECTORID,
+									s.ED03_GESTION_INMEDIATA 
 									FROM 
 									e_desk.ED03_TICKET s
 									LEFT JOIN
@@ -145,6 +250,7 @@ class FichacolegioController extends Zend_Controller_Action
 							if(trim($row_datosQuery["ED03_TICKETID"])!="")
 							{
 								$ID=$row_datosQuery["ED03_TICKETID"];
+								$ID_FILAS.=",".$ID;
 								
 								$datosticket["$ID"]["ED03_TICKETID"]=$row_datosQuery["ED03_TICKETID"];
 								$datosticket["$ID"]["SIS04_PRODUCTOID"]=$row_datosQuery["SIS04_PRODUCTOID"];
@@ -165,6 +271,8 @@ class FichacolegioController extends Zend_Controller_Action
 								
 								
 								$datosticket["$ID"]["ED03_DETALLETICKET"]=$row_datosQuery["ED03_DETALLETICKET"];
+								$datosticket["$ID"]["ED03_GESTION_INMEDIATA"]=$row_datosQuery["ED03_GESTION_INMEDIATA"];
+								
 								$datosticket["$ID"]["ED03_TIPOCONTACTO"]=$row_datosQuery["ED03_TIPOCONTACTO"];
 								$datosticket["$ID"]["SIS07_CLASIFICADORID"]=$row_datosQuery["SIS07_CLASIFICADORID"];
 								$datosticket["$ID"]["SIS07_CLASIFICADORDESCRIPCION"]=$row_datosQuery["SIS07_CLASIFICADORDESCRIPCION"];
@@ -178,9 +286,66 @@ class FichacolegioController extends Zend_Controller_Action
 								$datosticket["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
 								$datosticket["$ID"]["SECTOR"]=$row_datosQuery["SIS01_SECTORID"];
 						
+								$datos_derivados["$ID"]["ED03_TICKETID"]=$ID;
+								$datos_derivados["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED03_DERIVADO"];
+								
+								
+								$datosticket["$ID"]["TEXTO_ASOCIADOS"]="";
+				
+								if(isset($matriz_match_incidente_asistencia[$ID]))
+									$datosticket["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociado a asistencia  : <strong><a href='/Asistencia/index/busqueda/".$matriz_match_incidente_asistencia[$ID]."'>".$matriz_match_incidente_asistencia[$ID]."</a> ]</strong>";
+								
+								if(isset($matriz_match_incidente_solicitud[$ID]))
+									$datosticket["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociado a solicitud  : <strong><a href='/Solicitud/index/busqueda/".$matriz_match_incidente_solicitud[$ID]."'>".$matriz_match_incidente_solicitud[$ID]."</a> ]</strong>";
+						
+						
+						
 
 							}								
 						}
+					
+					
+						//INICIO SEGUIMIENTO
+						/////////////////////////////
+					
+						$sSQL="SELECT
+									ED04_SEGTICKETID,
+									ED03_TICKETID,
+									ED01_USUARIOID,
+									DATE_FORMAT(ED04_SEGFECHA, '%d/%m/%Y') as ED04_SEGFECHA,
+									ED04_SEGCOMENTARIOS,
+									ED04_ARCHIVOADJUNTO,
+									ED04_NOMBREARCHIVOADJUNTO,
+									ED04_TIPOARCHIVOADJUNTO,
+									ED04_FECHAULTIMAACTUALIZACION,
+									ED04_REGISTRODETALLECAMBIO
+									FROM
+									e_desk.ED04_SEGUIMIENTO_TICKET WHERE ED03_TICKETID in ($ID_FILAS)";
+							
+						$rowset = $DB->fetchAll($sSQL);
+		
+						foreach($rowset as $row_datosQuery)
+						{
+							if(trim($row_datosQuery["ED04_SEGTICKETID"])!="")
+							{
+							
+								$ID=$row_datosQuery["ED04_SEGTICKETID"];
+								$datos_seguimiento["$ID"]["ED04_SEGTICKETID"]=$row_datosQuery["ED04_SEGTICKETID"];
+								$datos_seguimiento["$ID"]["ED03_TICKETID"]=$row_datosQuery["ED03_TICKETID"];
+								$datos_seguimiento["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED01_USUARIOID"];
+								$datos_seguimiento["$ID"]["ED04_SEGFECHA"]=$row_datosQuery["ED04_SEGFECHA"];
+								$datos_seguimiento["$ID"]["ED04_SEGCOMENTARIOS"]=$row_datosQuery["ED04_SEGCOMENTARIOS"];
+								$datos_seguimiento["$ID"]["ED04_ARCHIVOADJUNTO"]=$row_datosQuery["ED04_ARCHIVOADJUNTO"];
+								$datos_seguimiento["$ID"]["ED04_NOMBREARCHIVOADJUNTO"]=$row_datosQuery["ED04_NOMBREARCHIVOADJUNTO"];
+								$datos_seguimiento["$ID"]["ED04_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED04_TIPOARCHIVOADJUNTO"];
+								$datos_seguimiento["$ID"]["ED04_FECHAULTIMAACTUALIZACION"]=$row_datosQuery["ED04_FECHAULTIMAACTUALIZACION"];
+								$datos_seguimiento["$ID"]["ED04_REGISTRODETALLECAMBIO"]=$row_datosQuery["ED04_REGISTRODETALLECAMBIO"];
+							
+							}								
+						}
+			
+
+					
 					
 					
 					
@@ -234,6 +399,17 @@ class FichacolegioController extends Zend_Controller_Action
 								$datossolicitud["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
 								$datossolicitud["$ID"]["ED02_ESTADO"]=$row_datosQuery["ED02_ESTADO"];
 						
+						
+								$datossolicitud["$ID"]["TEXTO_ASOCIADOS"]="";
+			
+								if(isset($matriz_match_solicitud_asistencia[$ID]))
+									$datossolicitud["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Gesti&oacute;n en asistencia  : <strong><a href='/Asistencia/index/busqueda/".$matriz_match_solicitud_asistencia[$ID]."'>".$matriz_match_solicitud_asistencia[$ID]."</a> ]</strong>";
+								
+								if(isset($matriz_match_solicitud_incidente[$ID]))
+									$datossolicitud["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Gesti&oacute;n en incidente  : <strong><a href='/Incidente/index/busqueda/".$matriz_match_solicitud_incidente[$ID]."'>".$matriz_match_solicitud_incidente[$ID]."</a> ]</strong>";
+							
+						
+						
 							}
 						}
 					
@@ -243,6 +419,7 @@ class FichacolegioController extends Zend_Controller_Action
 						
 						//ASISTENCIAS TECNICAS
 						////////////////////////////
+						$ID_FILAS="0";
 						
 							$sSQL="SELECT 
 								s.ED05_ASISTENCIAID,
@@ -284,6 +461,8 @@ class FichacolegioController extends Zend_Controller_Action
 							{
 								$ID=$row_datosQuery["ED05_ASISTENCIAID"];
 
+								$ID_FILAS.=",".$ID;
+
 								$datosasistencias["$ID"]["ED05_ASISTENCIAID"]=$row_datosQuery["ED05_ASISTENCIAID"];
 								$datosasistencias["$ID"]["ED05_FECHAINGRESO"]=$row_datosQuery["ED05_FECHAINGRESO"];
 								$datosasistencias["$ID"]["ED05_NOMBRESOLICITANTE"]=$row_datosQuery["ED05_NOMBRESOLICITANTE"];
@@ -310,9 +489,67 @@ class FichacolegioController extends Zend_Controller_Action
 								$datosasistencias["$ID"]["ED05_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED05_TIPOARCHIVOADJUNTO"];
 								$datosasistencias["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
 					
+					
+								$datos_derivados_asis["$ID"]["ED05_ASISTENCIAID"]=$ID;
+								$datos_derivados_asis["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED05_DERIVADO"];
+													
+								
+								$datosasistencias["$ID"]["TEXTO_ASOCIADOS"]="";
+		
+								if(isset($matriz_match_asistencia_solicitud[$ID]))
+									$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociada a solicitud  : <strong><a href='/Solicitud/index/busqueda/".$matriz_match_asistencia_solicitud[$ID]."'>".$matriz_match_asistencia_solicitud[$ID]."</a> ]</strong>";
+								
+								if(isset($matriz_match_asistencia_incidente[$ID]))
+									$datosasistencias["$ID"]["TEXTO_ASOCIADOS"].="<hr>[ Asociada a  incidente  : <strong><a href='/Incidente/index/busqueda/".$matriz_match_asistencia_incidente[$ID]."'>".$matriz_match_asistencia_incidente[$ID]."</a> ]</strong>";
+								
+		
+					
+					
 							}							
 						}
 							
+									
+									
+						//INICIO SEGUIMIENTO
+						/////////////////////////////
+						$sSQL="SELECT
+									ED06_SEGASISTENCIAID,
+									ED05_ASISTENCIAID,
+									ED01_USUARIOID,
+									DATE_FORMAT(ED06_SEGFECHA, '%d/%m/%Y') as ED06_SEGFECHA,
+									ED06_SEGCOMENTARIOS,
+									ED06_ARCHIVOADJUNTO,
+									ED06_NOMBREARCHIVOADJUNTO,
+									ED06_TIPOARCHIVOADJUNTO,
+									ED06_FECHAULTIMAACTUALIZACION,
+									ED06_REGISTRODETALLECAMBIO
+									FROM
+									e_desk.ED06_SEGUIMIENTO_ASISTENCIA_TECNICA WHERE ED05_ASISTENCIAID in ($ID_FILAS)";
+							
+						$rowset = $DB->fetchAll($sSQL);
+		
+						foreach($rowset as $row_datosQuery)
+						{
+							if(trim($row_datosQuery["ED06_SEGASISTENCIAID"])!="")
+							{
+							
+								$ID=$row_datosQuery["ED06_SEGASISTENCIAID"];
+								$datos_seguimiento_asis["$ID"]["ED06_SEGASISTENCIAID"]=$row_datosQuery["ED06_SEGASISTENCIAID"];
+								$datos_seguimiento_asis["$ID"]["ED05_ASISTENCIAID"]=$row_datosQuery["ED05_ASISTENCIAID"];
+								$datos_seguimiento_asis["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED01_USUARIOID"];
+								$datos_seguimiento_asis["$ID"]["ED06_SEGFECHA"]=$row_datosQuery["ED06_SEGFECHA"];
+								$datos_seguimiento_asis["$ID"]["ED06_SEGCOMENTARIOS"]=$row_datosQuery["ED06_SEGCOMENTARIOS"];
+								$datos_seguimiento_asis["$ID"]["ED06_ARCHIVOADJUNTO"]=$row_datosQuery["ED06_ARCHIVOADJUNTO"];
+								$datos_seguimiento_asis["$ID"]["ED06_NOMBREARCHIVOADJUNTO"]=$row_datosQuery["ED06_NOMBREARCHIVOADJUNTO"];
+								$datos_seguimiento_asis["$ID"]["ED06_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED06_TIPOARCHIVOADJUNTO"];
+								$datos_seguimiento_asis["$ID"]["ED06_FECHAULTIMAACTUALIZACION"]=$row_datosQuery["ED06_FECHAULTIMAACTUALIZACION"];
+								$datos_seguimiento_asis["$ID"]["ED06_REGISTRODETALLECAMBIO"]=$row_datosQuery["ED06_REGISTRODETALLECAMBIO"];
+							
+							}								
+						}
+			
+		
+									
 												
 						
 						Zend_Layout::getMvcInstance()->assign('LABORATORIOID',$LABORATORIOID);
@@ -323,8 +560,32 @@ class FichacolegioController extends Zend_Controller_Action
 						Zend_Layout::getMvcInstance()->assign('SIS03_PRODUCTOS',$SIS03_PRODUCTOS);
 						Zend_Layout::getMvcInstance()->assign('SIS03_CONEMATLOCAL',$SIS03_CONEMATLOCAL);
 					
+						Zend_Layout::getMvcInstance()->assign('SIS03_INTALADONEMATLOCAL',$SIS03_INTALADONEMATLOCAL);
+						Zend_Layout::getMvcInstance()->assign('SIS03_DETALLE_CURSOS_NIVELES',$SIS03_DETALLE_CURSOS_NIVELES);
+						Zend_Layout::getMvcInstance()->assign('SIS03_NUM_LABORATORIOS',$SIS03_NUM_LABORATORIOS);
+						Zend_Layout::getMvcInstance()->assign('SIS03_NOMBRE_CONTACTO_1',$SIS03_NOMBRE_CONTACTO_1);
+						Zend_Layout::getMvcInstance()->assign('SIS03_NOMBRE_CONTACTO_2',$SIS03_NOMBRE_CONTACTO_2);
+						Zend_Layout::getMvcInstance()->assign('SIS03_PROVEEDOR_INTERNET',$SIS03_PROVEEDOR_INTERNET);
+						Zend_Layout::getMvcInstance()->assign('SIS03_FONO_CONTACTO_1',$SIS03_FONO_CONTACTO_1);
+						Zend_Layout::getMvcInstance()->assign('SIS03_FONO_CONTACTO_2',$SIS03_FONO_CONTACTO_2);
+						Zend_Layout::getMvcInstance()->assign('SIS03_EMAIL_CONTACTO_1',$SIS03_EMAIL_CONTACTO_1);
+						Zend_Layout::getMvcInstance()->assign('SIS03_EMAIL_CONTACTO_2',$SIS03_EMAIL_CONTACTO_2);
+
+
 						if(isset($datosticket))
 							Zend_Layout::getMvcInstance()->assign('datosticket',$datosticket);
+						
+						if(isset($datos_seguimiento))
+								Zend_Layout::getMvcInstance()->assign('datos_seguimiento',$datos_seguimiento);
+	   	
+
+						
+						if(isset($datos_derivados))
+							Zend_Layout::getMvcInstance()->assign('datos_derivados',$datos_derivados);
+					
+						if(isset($datos_derivados_asis))
+							Zend_Layout::getMvcInstance()->assign('datos_derivados_asis',$datos_derivados_asis);
+						
 						
 						if(isset($datossolicitud))
 							Zend_Layout::getMvcInstance()->assign('datossolicitud',$datossolicitud);
@@ -332,7 +593,11 @@ class FichacolegioController extends Zend_Controller_Action
 						if(isset($datosasistencias))
 							Zend_Layout::getMvcInstance()->assign('datosasistencias',$datosasistencias);
 				
-
+						if(isset($datos_seguimiento_asis))
+								Zend_Layout::getMvcInstance()->assign('datos_seguimiento_asis',$datos_seguimiento_asis);
+	   	
+		
+						
 
 
 		}

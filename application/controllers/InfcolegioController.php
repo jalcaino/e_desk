@@ -301,7 +301,8 @@ class InfcolegioController extends Zend_Controller_Action
 									s.ED03_ESTADO,
 									DATE_FORMAT(s.ED03_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION,
 									s.ED03_DERIVADO,
-									s.SIS01_SECTORID
+									s.SIS01_SECTORID,
+									s.ED03_GESTION_INMEDIATA
 									FROM 
 									e_desk.ED03_TICKET s
 									LEFT JOIN
@@ -342,6 +343,8 @@ class InfcolegioController extends Zend_Controller_Action
 								
 								
 								$datosticket["$ID"]["ED03_DETALLETICKET"]=$row_datosQuery["ED03_DETALLETICKET"];
+								$datosticket["$ID"]["ED03_GESTION_INMEDIATA"]=$row_datosQuery["ED03_GESTION_INMEDIATA"];
+								
 								$datosticket["$ID"]["ED03_TIPOCONTACTO"]=$row_datosQuery["ED03_TIPOCONTACTO"];
 								$datosticket["$ID"]["SIS07_CLASIFICADORID"]=$row_datosQuery["SIS07_CLASIFICADORID"];
 								$datosticket["$ID"]["SIS07_CLASIFICADORDESCRIPCION"]=$row_datosQuery["SIS07_CLASIFICADORDESCRIPCION"];
@@ -354,6 +357,10 @@ class InfcolegioController extends Zend_Controller_Action
 								$datosticket["$ID"]["ED03_NUMEJERCICIO"]=$row_datosQuery["ED03_NUMEJERCICIO"];
 								$datosticket["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
 								$datosticket["$ID"]["SECTOR"]=$row_datosQuery["SIS01_SECTORID"];
+						
+								$datos_derivados["$ID"]["ED03_TICKETID"]=$ID;
+								$datos_derivados["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED03_DERIVADO"];
+								
 						
 
 							}								
@@ -485,6 +492,14 @@ class InfcolegioController extends Zend_Controller_Action
 								$datosasistencias["$ID"]["ED05_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED05_TIPOARCHIVOADJUNTO"];
 								$datosasistencias["$ID"]["FECHAULTIMAACTUALIZACION"]=$row_datosQuery["FECHAULTIMAACTUALIZACION"];
 					
+					
+					
+								$datos_derivados_asis["$ID"]["ED05_ASISTENCIAID"]=$ID;
+								$datos_derivados_asis["$ID"]["ED01_USUARIOID"]=$row_datosQuery["ED05_DERIVADO"];
+													
+							
+					
+					
 							}							
 						}
 							
@@ -536,6 +551,12 @@ class InfcolegioController extends Zend_Controller_Action
 			
 						if(isset($datosticket))
 							Zend_Layout::getMvcInstance()->assign('datosticket',$datosticket);
+						
+						if(isset($datos_derivados))
+							Zend_Layout::getMvcInstance()->assign('datos_derivados',$datos_derivados);
+
+						if(isset($datos_derivados_asis))
+							Zend_Layout::getMvcInstance()->assign('datos_derivados_asis',$datos_derivados_asis);
 						
 						if(isset($datossolicitud))
 							Zend_Layout::getMvcInstance()->assign('datossolicitud',$datossolicitud);

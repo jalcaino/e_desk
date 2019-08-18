@@ -18,6 +18,10 @@
 	if(isset($this->layout()->DETALLESOLICITUD))
 		$DETALLESOLICITUD=$this->layout()->DETALLESOLICITUD;
 
+	if(isset($this->layout()->GESTIONINMEDIATA))
+		$GESTIONINMEDIATA=$this->layout()->GESTIONINMEDIATA;
+
+
 	if(isset($this->layout()->NOMBRESOLICITANTE))
 		$NOMBRESOLICITANTE=$this->layout()->NOMBRESOLICITANTE;
 	
@@ -249,6 +253,7 @@
 				form_data.append('email', $("#email").val());
 				form_data.append('prioridad', $("#prioridad").val());
 				form_data.append('detalle', $("#detalle").val());
+				form_data.append('gestioninmediata', $("#gestioninmediata").val());
 				form_data.append('tipocontacto', $("#tipocontacto").val());
 				form_data.append('nivelsoporte', $("#nivelsoporte").val());
 				form_data.append('clasificadores', $("#clasificadores").val());
@@ -496,27 +501,67 @@
 																				<option value="CHAT">CHAT</option>
 																				<option value="TELEFONO">TELEFONO</option>
 																				<option value="EMAIL">EMAIL</option>
+																				<option value="INTERNO"  <?php if(isset($solicitudid) && $solicitudid!="") echo "selected"?>>INTERNO</option>
 																			</select>
 																		</div>
 																		
 																</div>  
+														
+														
+																<div class="col-md-4 col-sm-4">
+                		  									  
+																		<div class="form-group">
+																			<label>Nivel (*)</label>
+																			<select class="form-control" id="nivel" name="nivel">
+																				<option value="1 BASICO">1 BASICO</option>
+																				<option value="2 BASICO">2 BASICO</option>
+																				<option value="3 BASICO">3 BASICO</option>
+																				<option value="4 BASICO">4 BASICO</option>
+																				<option value="5 BASICO">5 BASICO</option>
+																				<option value="6 BASICO">6 BASICO</option>
+																				<option value="7 BASICO">7 BASICO</option>
+																				<option value="8 BASICO">8 BASICO</option>
+																				<option value="I MEDIO">I MEDIO</option>
+																				<option value="II MEDIO">II MEDIO</option>
+																				<option value="III MEDIO">III MEDIO</option>
+																				<option value="IV MEDIO">IV MEDIO</option>
+																			</select>
+																		</div>
+															
+																</div>  
+															
+														
+														
+														
 															</div>		  
 																		
 																		
 																		
-														<div class="row">
-													
-															<div class="col-md-12">
-                		  												
-																		<div class="form-group">
-																			<label>Detalle Incidente (*)</label>
-																			<textarea class="form-control" rows="5" id="detalle" name="detalle"><?php if(isset($DETALLESOLICITUD) && $DETALLESOLICITUD!="") echo $DETALLESOLICITUD;?></textarea>
-																		</div>
-															  
-															</div>  
-														</div>		
+															<div class="row">
+														
+																<div class="col-md-12">
+																			
+																			<div class="form-group">
+																				<label>Detalle Incidente (*)</label>
+																				<textarea class="form-control" rows="3" id="detalle" name="detalle"><?php if(isset($DETALLESOLICITUD) && $DETALLESOLICITUD!="") echo $DETALLESOLICITUD;?></textarea>
+																			</div>
+																  
+																</div>  
+															</div>		
 														
 															
+															<div class="row">
+														
+																<div class="col-md-12">
+																			
+																			<div class="form-group">
+																				<label>Gesti&oacute;n Inmediata</label>
+																				<textarea class="form-control" rows="2" id="gestioninmediata" name="gestioninmediata"><?php if(isset($GESTIONINMEDIATA) && $GESTIONINMEDIATA!="") echo $GESTIONINMEDIATA;?></textarea>
+																			</div>
+																  
+																</div>  
+															</div>			
+																
 													
 													
 														
@@ -551,39 +596,19 @@
 																		</div>
 															
 																</div>  
-															</div>		  
 															
-															<div class="row">
 																<div class="col-md-4 col-sm-4">
                 										
 																		<div class="form-group">
-																			<label>Alumnos-Afectados</label>
+																			<label>Num-Afectados</label>
 																			<input class="form-control" type="text" id="num_alumnos" maxlength="3"  name="num_alumnos">
 																		</div>
 															
 																</div>												 
-																<div class="col-md-4 col-sm-4">
-                		  									  
-																		<div class="form-group">
-																			<label>Nivel (*)</label>
-																			<select class="form-control" id="nivel" name="nivel">
-																				<option value="1 BASICO">1 BASICO</option>
-																				<option value="2 BASICO">2 BASICO</option>
-																				<option value="3 BASICO">3 BASICO</option>
-																				<option value="4 BASICO">4 BASICO</option>
-																				<option value="5 BASICO">5 BASICO</option>
-																				<option value="6 BASICO">6 BASICO</option>
-																				<option value="7 BASICO">7 BASICO</option>
-																				<option value="8 BASICO">8 BASICO</option>
-																				<option value="I MEDIO">I MEDIO</option>
-																				<option value="II MEDIO">II MEDIO</option>
-																				<option value="III MEDIO">III MEDIO</option>
-																				<option value="IV MEDIO">IV MEDIO</option>
-																			</select>
-																		</div>
 															
-																</div>  
+															
 															</div>		  
+															
 															
 															
 															
