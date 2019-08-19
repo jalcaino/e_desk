@@ -40,6 +40,12 @@ class SolicitudController extends Zend_Controller_Action
 								}
 							}
 			
+					
+						//sólo para usuario asesor
+						if(trim($edesk_session->NIVELID)=="8")
+							Zend_Layout::getMvcInstance()->assign('busqueda_defecto',$edesk_session->USUARIOID);
+						else
+							Zend_Layout::getMvcInstance()->assign('busqueda_defecto','PENDIENTE');
 			
 	
 	}
@@ -1088,16 +1094,29 @@ class SolicitudController extends Zend_Controller_Action
 								s.ED02_NOMBRESOLICITANTE, 
 								DATE_FORMAT(s.ED02_FECHAINGRESO, '%d/%m/%Y') as FECHAINGRESO,
 								DATE_FORMAT(s.ED02_FECHAULTIMAACTUALIZACION, '%d/%m/%Y') as FECHAULTIMAACTUALIZACION,
-								s.ED02_ESTADO 
+								s.ED02_ESTADO,
+								s.ED01_USUARIOID 
 								FROM 
 								e_desk.ED02_SOLICITUD s
 								LEFT JOIN
-								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID ";
-								
+								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID 
+								LEFT JOIN
+								e_desk.ED01_USUARIO u ON s.ED01_USUARIOID=u.ED01_USUARIOID  ";
 								
 				
 						if(trim($busqueda)!="")
-								$sSQL.=" WHERE s.ED02_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID='".$busqueda."' OR s.ED02_SOLICITUDID='".$busqueda."' ";		
+						{
+								$sSQL.=" WHERE 
+										s.ED02_ESTADO like '%".$busqueda."%' OR 
+										s.SIS03_LABORATORIOID='".$busqueda."' OR 
+										s.ED02_SOLICITUDID='".$busqueda."' OR 
+										s.ED02_DETALLESOLICITUD like '%".$busqueda."%' OR 
+										l.SIS03_LABORATORIODESCRIPCION like '%".$busqueda."%' OR 
+										s.ED01_USUARIOID='".$busqueda."' OR
+										u.ED01_NOMBREAPELLIDO like '%".$busqueda."%' ";		
+							
+						}	
+							
 							
 				
 						$sSQL.=" ORDER BY ED02_SOLICITUDID desc ";

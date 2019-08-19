@@ -37,6 +37,13 @@ class AsistenciaController extends Zend_Controller_Action
 								}
 							}
 		
+		
+						//si es tecnico ve las suyas
+						if(trim($edesk_session->NIVELID)=="4")
+							Zend_Layout::getMvcInstance()->assign('busqueda_defecto',$edesk_session->USUARIOID);
+						else
+							Zend_Layout::getMvcInstance()->assign('busqueda_defecto','DERIVADO');
+		
 					
 	
 	
@@ -1429,12 +1436,26 @@ class AsistenciaController extends Zend_Controller_Action
 								FROM 
 								e_desk.ED05_ASISTENCIA_TECNICA s
 								LEFT JOIN
-								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID ";
+								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID 
+								LEFT JOIN
+								e_desk.ED01_USUARIO u ON s.ED05_DERIVADO=u.ED01_USUARIOID  ";
 																
 							
 						if(trim($busqueda)!="")
-								$sSQL.=" WHERE s.ED05_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID='".$busqueda."' OR s.ED05_ASISTENCIAID='".$busqueda."' ";		
-						
+						{
+								$sSQL.=" WHERE 
+										s.ED05_ESTADO like '%".$busqueda."%' OR 
+										s.SIS03_LABORATORIOID='".$busqueda."' OR 
+										s.ED05_ASISTENCIAID='".$busqueda."' OR
+										s.ED05_DETALLEASISTENCIAREALIZAR like '%".$busqueda."%' OR 
+										l.SIS03_LABORATORIODESCRIPCION like '%".$busqueda."%' OR 
+										s.ED05_DERIVADO='".$busqueda."' OR
+										u.ED01_NOMBREAPELLIDO like '%".$busqueda."%' ";		
+					
+						}				
+										
+					
+					
 					
 						$sSQL.=" ORDER BY ED05_ASISTENCIAID desc ";
 					

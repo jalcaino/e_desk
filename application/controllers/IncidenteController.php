@@ -37,6 +37,12 @@ class IncidenteController extends Zend_Controller_Action
 								}
 							}
 		
+						
+						if(trim($edesk_session->NIVELID)!="1" && trim($edesk_session->NIVELID)!="3")
+							Zend_Layout::getMvcInstance()->assign('busqueda_defecto',$edesk_session->SECTORID);
+						else
+							Zend_Layout::getMvcInstance()->assign('busqueda_defecto','DERIVADO');
+			
 			
 			
 					
@@ -1590,12 +1596,25 @@ class IncidenteController extends Zend_Controller_Action
 								LEFT JOIN
 								e_desk.SIS03_LABORATORIO l ON s.SIS03_LABORATORIOID=l.SIS03_LABORATORIOID
 								LEFT JOIN
-								e_desk.SIS07_CLASIFICADOR c ON s.SIS07_CLASIFICADORID=c.SIS07_CLASIFICADORID ";
+								e_desk.SIS07_CLASIFICADOR c ON s.SIS07_CLASIFICADORID=c.SIS07_CLASIFICADORID 
+								LEFT JOIN
+								e_desk.ED01_USUARIO u ON s.ED03_DERIVADO=u.ED01_USUARIOID  ";
 																
 								
 						if(trim($busqueda)!="")
-								$sSQL.=" WHERE s.ED03_ESTADO like '%".$busqueda."%' OR s.SIS03_LABORATORIOID='".$busqueda."' OR s.ED03_TICKETID='".$busqueda."' OR s.SIS05_CODIGOMODULO='".$busqueda."' ";		
-
+						{
+								$sSQL.=" WHERE 
+										 s.ED03_ESTADO like '%".$busqueda."%' OR 
+										 s.SIS03_LABORATORIOID='".$busqueda."' OR 
+										 s.ED03_TICKETID='".$busqueda."' OR 
+										 s.SIS05_CODIGOMODULO='".$busqueda."' OR
+										 s.ED03_DETALLETICKET like '%".$busqueda."%' OR 
+										 l.SIS03_LABORATORIODESCRIPCION like '%".$busqueda."%' OR 
+										 c.SIS07_CLASIFICADORDESCRIPCION like '%".$busqueda."%' OR
+										 s.SIS01_SECTORID='".$busqueda."' OR
+										 s.ED03_DERIVADO='".$busqueda."' OR
+										 u.ED01_NOMBREAPELLIDO like '%".$busqueda."%' ";		
+						}
 					
 									
 						$sSQL.=" ORDER BY ED03_TICKETID desc ";
