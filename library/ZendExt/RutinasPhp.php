@@ -52,7 +52,7 @@ class ZendExt_RutinasPhp
 	
 
 
-	function obtiene_usuarios()
+	function obtiene_usuarios($USUARIONO)
     {
         
 						$DB = Zend_Registry::get('db1');
@@ -78,7 +78,7 @@ class ZendExt_RutinasPhp
 								FROM
 								e_desk.ED01_USUARIO
 								WHERE 
-								ED01_ESPRIVADO=0 and ED01_NOTIFICAR=1 
+								ED01_ESPRIVADO=0 and ED01_NOTIFICAR=1 and ED01_USUARIOID <> '$USUARIONO'
 								ORDER BY
 								SIS02_NIVELID";
 					
@@ -126,6 +126,10 @@ class ZendExt_RutinasPhp
 	function obtiene_colegio_asesor($RBD)
     {
         
+						//se comenta hasta establecer 
+						//bien la relación de los asesores
+						
+						/*
 						$DB = Zend_Registry::get('db1');
       					
 						$sSQL="SELECT
@@ -146,7 +150,8 @@ class ZendExt_RutinasPhp
 								  $LISTAUSUARIOS["$ID"]=$row_datosQuery["ED07_MAILASESOR"];
 							}								
 						}
-				  		
+				  		*/
+						
 				  		if (isset($LISTAUSUARIOS))
 							return $LISTAUSUARIOS;
 				  		else
@@ -155,7 +160,7 @@ class ZendExt_RutinasPhp
     }
 
 
-	function obtiene_usuarios_solicitud_ticket($SOLICITUDID,$TICKETID)
+	function obtiene_usuarios_solicitud_ticket($SOLICITUDID,$TICKETID,$USUARIONO)
     {
         
 						$DB = Zend_Registry::get('db1');
@@ -178,12 +183,14 @@ class ZendExt_RutinasPhp
 								LEFT JOIN
 								e_desk.ED01_USUARIO U2 on T.ED03_DERIVADO=U2.ED01_USUARIOID";
 					
+					    $sSQL.=" WHERE U1.ED01_USUARIOID <> '$USUARIONO' and U2.ED01_USUARIOID <> '$USUARIONO' ";
+					
 						if(trim($SOLICITUDID)!="")
-						   $sSQL.=" WHERE S.ED02_SOLICITUDID='$SOLICITUDID'";
+						   $sSQL.=" and S.ED02_SOLICITUDID='$SOLICITUDID'";
 					
 					
 						if(trim($TICKETID)!="")
-						   $sSQL.=" WHERE T.ED03_TICKETID='$TICKETID'";
+						   $sSQL.=" and T.ED03_TICKETID='$TICKETID'";
 										
 					
 					
@@ -224,7 +231,7 @@ class ZendExt_RutinasPhp
 
 
 
-	function obtiene_usuarios_solicitud_asistencia($SOLICITUDID,$ASISTENCIAID)
+	function obtiene_usuarios_solicitud_asistencia($SOLICITUDID,$ASISTENCIAID,$USUARIONO)
     {
         
 						$DB = Zend_Registry::get('db1');
@@ -248,14 +255,15 @@ class ZendExt_RutinasPhp
 								e_desk.ED01_USUARIO U2 on T.ED05_DERIVADO=U2.ED01_USUARIOID
 								";
 					
+						$sSQL.=" WHERE U1.ED01_USUARIOID <> '$USUARIONO' and U2.ED01_USUARIOID <> '$USUARIONO' ";
 					
 					
 						if(trim($SOLICITUDID)!="")
-						   $sSQL.=" WHERE S.ED02_SOLICITUDID='$SOLICITUDID'";
+						   $sSQL.=" and S.ED02_SOLICITUDID='$SOLICITUDID'";
 					
 					
 						if(trim($ASISTENCIAID)!="")
-						   $sSQL.=" WHERE T.ED05_ASISTENCIAID='$ASISTENCIAID'";
+						   $sSQL.=" and T.ED05_ASISTENCIAID='$ASISTENCIAID'";
 										
 					
 					
@@ -299,7 +307,7 @@ class ZendExt_RutinasPhp
 
 
 
-	function obtiene_usuarios_incidente_asistencia($TICKETID,$ASISTENCIAID)
+	function obtiene_usuarios_incidente_asistencia($TICKETID,$ASISTENCIAID,$USUARIONO)
     {
         
 						$DB = Zend_Registry::get('db1');
@@ -322,13 +330,15 @@ class ZendExt_RutinasPhp
 								LEFT JOIN
 								e_desk.ED01_USUARIO U2 on T.ED05_DERIVADO=U2.ED01_USUARIOID	";
 					
+						$sSQL.=" WHERE U1.ED01_USUARIOID <> '$USUARIONO' and U2.ED01_USUARIOID <> '$USUARIONO' ";
+					
 					
 						if(trim($TICKETID)!="")
-						   $sSQL.=" WHERE S.ED03_TICKETID='$TICKETID'";
+						   $sSQL.=" and S.ED03_TICKETID='$TICKETID'";
 					
 					
 						if(trim($ASISTENCIAID)!="")
-						   $sSQL.=" WHERE T.ED05_ASISTENCIAID='$ASISTENCIAID'";
+						   $sSQL.=" and T.ED05_ASISTENCIAID='$ASISTENCIAID'";
 										
 					
 						$rowset = $DB->fetchAll($sSQL);
@@ -377,7 +387,7 @@ class ZendExt_RutinasPhp
 	//////////////////////LLAMADO A NOTIFICACIONES//////////////////////
 		
 		
-		function notificaciones_solicitudes($ELCOLEGIO)
+		function notificaciones_solicitudes($ELCOLEGIO,$USUARIO)
 		{
         
 						#################################
@@ -395,7 +405,7 @@ class ZendExt_RutinasPhp
 						
 						//DESTINATARIOS POR AREA
 						////////////////////////
-						$destinadatario2=$this->obtiene_usuarios();
+						$destinadatario2=$this->obtiene_usuarios($USUARIO);
 						if($destinadatario2!="0")
 						{
 							foreach($destinadatario2 as $clave => $valor)
@@ -464,7 +474,7 @@ class ZendExt_RutinasPhp
 						#################################
 						##NOTIFICACIONES
 						#################################
-						$destinadatario00=$this->obtiene_usuarios_incidente_asistencia($incidenteid,'');
+						$destinadatario00=$this->obtiene_usuarios_incidente_asistencia($incidenteid,'',$USUARIO);
 						if($destinadatario00!="0")
 						{
 								if(isset($destinadatario00[0]))
@@ -493,7 +503,7 @@ class ZendExt_RutinasPhp
 						}
 
 		
-						$destinadatario0=$this->obtiene_usuarios_solicitud_ticket('',$incidenteid);
+						$destinadatario0=$this->obtiene_usuarios_solicitud_ticket('',$incidenteid,$USUARIO);
 						if($destinadatario0!="0")
 						{
 								if(isset($destinadatario0[0]))
@@ -535,7 +545,7 @@ class ZendExt_RutinasPhp
 						
 						//DESTINATARIOS POR AREA
 						////////////////////////
-						$destinadatario2=$this->obtiene_usuarios();
+						$destinadatario2=$this->obtiene_usuarios($USUARIO);
 						if($destinadatario2!="0")
 						{
 							foreach($destinadatario2 as $clave => $valor)
@@ -606,7 +616,7 @@ class ZendExt_RutinasPhp
 						#################################
 						##NOTIFICACIONES
 						#################################
-						$destinadatario00=$this->obtiene_usuarios_incidente_asistencia('',$asistenciaid);
+						$destinadatario00=$this->obtiene_usuarios_incidente_asistencia('',$asistenciaid,$USUARIO);
 						if($destinadatario00!="0")
 						{
 								if(isset($destinadatario00[0]))
@@ -635,7 +645,7 @@ class ZendExt_RutinasPhp
 						}
 
 		
-						$destinadatario0=$this->obtiene_usuarios_solicitud_asistencia('',$asistenciaid);
+						$destinadatario0=$this->obtiene_usuarios_solicitud_asistencia('',$asistenciaid,$USUARIO);
 						if($destinadatario0!="0")
 						{
 								if(isset($destinadatario0[0]))
@@ -677,7 +687,7 @@ class ZendExt_RutinasPhp
 						
 						//DESTINATARIOS POR AREA
 						////////////////////////
-						$destinadatario2=$this->obtiene_usuarios();
+						$destinadatario2=$this->obtiene_usuarios($USUARIO);
 						if($destinadatario2!="0")
 						{
 							foreach($destinadatario2 as $clave => $valor)

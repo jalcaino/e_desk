@@ -66,13 +66,19 @@ class FichacolegioController extends Zend_Controller_Action
 								SIS03_INTALADONEMATLOCAL,
 								SIS03_DETALLE_CURSOS_NIVELES,
 								SIS03_NUM_LABORATORIOS,
+								SIS03_PROVEEDOR_INTERNET,
 								SIS03_NOMBRE_CONTACTO_1,
 								SIS03_NOMBRE_CONTACTO_2,
-								SIS03_PROVEEDOR_INTERNET,
+								SIS03_NOMBRE_CONTACTO_3,
 								SIS03_FONO_CONTACTO_1,
 								SIS03_FONO_CONTACTO_2,
+								SIS03_FONO_CONTACTO_3,
 								SIS03_EMAIL_CONTACTO_1,
-								SIS03_EMAIL_CONTACTO_2
+								SIS03_EMAIL_CONTACTO_2,
+								SIS03_EMAIL_CONTACTO_3,
+								SIS03_TIPO_CONTACTO_1,
+								SIS03_TIPO_CONTACTO_2,
+								SIS03_TIPO_CONTACTO_3
 								FROM 
 								e_desk.SIS03_LABORATORIO 
 								WHERE 
@@ -94,14 +100,82 @@ class FichacolegioController extends Zend_Controller_Action
 							$SIS03_INTALADONEMATLOCAL = $row["SIS03_INTALADONEMATLOCAL"];
 							$SIS03_DETALLE_CURSOS_NIVELES = $row["SIS03_DETALLE_CURSOS_NIVELES"];
 							$SIS03_NUM_LABORATORIOS = $row["SIS03_NUM_LABORATORIOS"];
+							$SIS03_PROVEEDOR_INTERNET = $row["SIS03_PROVEEDOR_INTERNET"];
+						
 							$SIS03_NOMBRE_CONTACTO_1 = $row["SIS03_NOMBRE_CONTACTO_1"];
 							$SIS03_NOMBRE_CONTACTO_2 = $row["SIS03_NOMBRE_CONTACTO_2"];
-							$SIS03_PROVEEDOR_INTERNET = $row["SIS03_PROVEEDOR_INTERNET"];
+							$SIS03_NOMBRE_CONTACTO_3 = $row["SIS03_NOMBRE_CONTACTO_3"];
+						
 							$SIS03_FONO_CONTACTO_1 = $row["SIS03_FONO_CONTACTO_1"];
 							$SIS03_FONO_CONTACTO_2 = $row["SIS03_FONO_CONTACTO_2"];
+							$SIS03_FONO_CONTACTO_3 = $row["SIS03_FONO_CONTACTO_3"];
+						
 							$SIS03_EMAIL_CONTACTO_1 = $row["SIS03_EMAIL_CONTACTO_1"];
 							$SIS03_EMAIL_CONTACTO_2 = $row["SIS03_EMAIL_CONTACTO_2"];
+							$SIS03_EMAIL_CONTACTO_3 = $row["SIS03_EMAIL_CONTACTO_3"];
 		
+							$SIS03_TIPO_CONTACTO_1 = $row["SIS03_TIPO_CONTACTO_1"];
+							$SIS03_TIPO_CONTACTO_2 = $row["SIS03_TIPO_CONTACTO_2"];
+							$SIS03_TIPO_CONTACTO_3 = $row["SIS03_TIPO_CONTACTO_3"];
+
+
+							switch ($SIS03_TIPO_CONTACTO_1) {
+								case 0:
+									$TIPO_CONTACTO_1="Otro";
+									break;
+								case 1:
+									$TIPO_CONTACTO_1="Encargado Laboratorio";
+									break;
+								case 2:
+									$TIPO_CONTACTO_1="Utp / Encargado Proyecto";
+									break;
+								case 3:
+									$TIPO_CONTACTO_1="Directivo";
+									break;
+								case 4:
+									$TIPO_CONTACTO_1="Externo";
+									break;
+							}
+
+							switch ($SIS03_TIPO_CONTACTO_2) {
+								case 0:
+									$TIPO_CONTACTO_2="Otro";
+									break;
+								case 1:
+									$TIPO_CONTACTO_2="Encargado Laboratorio";
+									break;
+								case 2:
+									$TIPO_CONTACTO_2="Utp / Encargado Proyecto";
+									break;
+								case 3:
+									$TIPO_CONTACTO_2="Directivo";
+									break;
+								case 4:
+									$TIPO_CONTACTO_2="Externo";
+									break;
+							}
+
+							switch ($SIS03_TIPO_CONTACTO_3) {
+								case 0:
+									$TIPO_CONTACTO_3="Otro";
+									break;
+								case 1:
+									$TIPO_CONTACTO_3="Encargado Laboratorio";
+									break;
+								case 2:
+									$TIPO_CONTACTO_3="Utp / Encargado Proyecto";
+									break;
+								case 3:
+									$TIPO_CONTACTO_3="Directivo";
+									break;
+								case 4:
+									$TIPO_CONTACTO_3="Externo";
+									break;
+							}
+	
+	
+	
+	
 	
 						}else{
 						
@@ -116,13 +190,22 @@ class FichacolegioController extends Zend_Controller_Action
 								$SIS03_INTALADONEMATLOCAL="--";
 								$SIS03_DETALLE_CURSOS_NIVELES="--";
 								$SIS03_NUM_LABORATORIOS="--";
+								$SIS03_PROVEEDOR_INTERNET="--";
 								$SIS03_NOMBRE_CONTACTO_1="--";
 								$SIS03_NOMBRE_CONTACTO_2="--";
-								$SIS03_PROVEEDOR_INTERNET="--";
+								$SIS03_NOMBRE_CONTACTO_3="--";
 								$SIS03_FONO_CONTACTO_1="--";
 								$SIS03_FONO_CONTACTO_2="--";
+								$SIS03_FONO_CONTACTO_3="--";
 								$SIS03_EMAIL_CONTACTO_1="--";
 								$SIS03_EMAIL_CONTACTO_2="--";
+								$SIS03_EMAIL_CONTACTO_3="--";
+								$SIS03_TIPO_CONTACTO_1="--";
+								$SIS03_TIPO_CONTACTO_2="--";
+								$SIS03_TIPO_CONTACTO_3="--";
+								$TIPO_CONTACTO_1="--";
+								$TIPO_CONTACTO_2="--";
+								$TIPO_CONTACTO_3="--";
 		
 						
 						}
@@ -318,7 +401,8 @@ class FichacolegioController extends Zend_Controller_Action
 									ED04_NOMBREARCHIVOADJUNTO,
 									ED04_TIPOARCHIVOADJUNTO,
 									ED04_FECHAULTIMAACTUALIZACION,
-									ED04_REGISTRODETALLECAMBIO
+									ED04_REGISTRODETALLECAMBIO,
+									ED04_SOLUCIONADO 
 									FROM
 									e_desk.ED04_SEGUIMIENTO_TICKET WHERE ED03_TICKETID in ($ID_FILAS)";
 							
@@ -340,6 +424,7 @@ class FichacolegioController extends Zend_Controller_Action
 								$datos_seguimiento["$ID"]["ED04_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED04_TIPOARCHIVOADJUNTO"];
 								$datos_seguimiento["$ID"]["ED04_FECHAULTIMAACTUALIZACION"]=$row_datosQuery["ED04_FECHAULTIMAACTUALIZACION"];
 								$datos_seguimiento["$ID"]["ED04_REGISTRODETALLECAMBIO"]=$row_datosQuery["ED04_REGISTRODETALLECAMBIO"];
+								$datos_seguimiento["$ID"]["ED04_SOLUCIONADO"]=$row_datosQuery["ED04_SOLUCIONADO"];
 							
 							}								
 						}
@@ -522,7 +607,8 @@ class FichacolegioController extends Zend_Controller_Action
 									ED06_NOMBREARCHIVOADJUNTO,
 									ED06_TIPOARCHIVOADJUNTO,
 									ED06_FECHAULTIMAACTUALIZACION,
-									ED06_REGISTRODETALLECAMBIO
+									ED06_REGISTRODETALLECAMBIO,
+									ED06_SOLUCIONADO 
 									FROM
 									e_desk.ED06_SEGUIMIENTO_ASISTENCIA_TECNICA WHERE ED05_ASISTENCIAID in ($ID_FILAS)";
 							
@@ -544,6 +630,7 @@ class FichacolegioController extends Zend_Controller_Action
 								$datos_seguimiento_asis["$ID"]["ED06_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED06_TIPOARCHIVOADJUNTO"];
 								$datos_seguimiento_asis["$ID"]["ED06_FECHAULTIMAACTUALIZACION"]=$row_datosQuery["ED06_FECHAULTIMAACTUALIZACION"];
 								$datos_seguimiento_asis["$ID"]["ED06_REGISTRODETALLECAMBIO"]=$row_datosQuery["ED06_REGISTRODETALLECAMBIO"];
+								$datos_seguimiento_asis["$ID"]["ED06_SOLUCIONADO"]=$row_datosQuery["ED06_SOLUCIONADO"];
 							
 							}								
 						}
@@ -565,12 +652,21 @@ class FichacolegioController extends Zend_Controller_Action
 						Zend_Layout::getMvcInstance()->assign('SIS03_NUM_LABORATORIOS',$SIS03_NUM_LABORATORIOS);
 						Zend_Layout::getMvcInstance()->assign('SIS03_NOMBRE_CONTACTO_1',$SIS03_NOMBRE_CONTACTO_1);
 						Zend_Layout::getMvcInstance()->assign('SIS03_NOMBRE_CONTACTO_2',$SIS03_NOMBRE_CONTACTO_2);
+						Zend_Layout::getMvcInstance()->assign('SIS03_NOMBRE_CONTACTO_3',$SIS03_NOMBRE_CONTACTO_3);
+						
 						Zend_Layout::getMvcInstance()->assign('SIS03_PROVEEDOR_INTERNET',$SIS03_PROVEEDOR_INTERNET);
+						
 						Zend_Layout::getMvcInstance()->assign('SIS03_FONO_CONTACTO_1',$SIS03_FONO_CONTACTO_1);
 						Zend_Layout::getMvcInstance()->assign('SIS03_FONO_CONTACTO_2',$SIS03_FONO_CONTACTO_2);
+						Zend_Layout::getMvcInstance()->assign('SIS03_FONO_CONTACTO_3',$SIS03_FONO_CONTACTO_3);
+					
 						Zend_Layout::getMvcInstance()->assign('SIS03_EMAIL_CONTACTO_1',$SIS03_EMAIL_CONTACTO_1);
 						Zend_Layout::getMvcInstance()->assign('SIS03_EMAIL_CONTACTO_2',$SIS03_EMAIL_CONTACTO_2);
+						Zend_Layout::getMvcInstance()->assign('SIS03_EMAIL_CONTACTO_3',$SIS03_EMAIL_CONTACTO_3);
 
+						Zend_Layout::getMvcInstance()->assign('SIS03_TIPO_CONTACTO_1',$TIPO_CONTACTO_1);
+						Zend_Layout::getMvcInstance()->assign('SIS03_TIPO_CONTACTO_2',$TIPO_CONTACTO_2);
+						Zend_Layout::getMvcInstance()->assign('SIS03_TIPO_CONTACTO_3',$TIPO_CONTACTO_3);
 
 						if(isset($datosticket))
 							Zend_Layout::getMvcInstance()->assign('datosticket',$datosticket);

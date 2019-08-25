@@ -13,15 +13,23 @@
 	 $SIS03_NUM_LABORATORIOS=$this->layout()->SIS03_NUM_LABORATORIOS;
 	 $SIS03_NOMBRE_CONTACTO_1=$this->layout()->SIS03_NOMBRE_CONTACTO_1;
 	 $SIS03_NOMBRE_CONTACTO_2=$this->layout()->SIS03_NOMBRE_CONTACTO_2;
+	 $SIS03_NOMBRE_CONTACTO_3=$this->layout()->SIS03_NOMBRE_CONTACTO_3;
+	 
 	 $SIS03_PROVEEDOR_INTERNET=$this->layout()->SIS03_PROVEEDOR_INTERNET;
 
 
 	 $SIS03_FONO_CONTACTO_1=$this->layout()->SIS03_FONO_CONTACTO_1;
 	 $SIS03_FONO_CONTACTO_2=$this->layout()->SIS03_FONO_CONTACTO_2;
+	 $SIS03_FONO_CONTACTO_3=$this->layout()->SIS03_FONO_CONTACTO_3;
+	 
 	 $SIS03_EMAIL_CONTACTO_1=$this->layout()->SIS03_EMAIL_CONTACTO_1;
 	 $SIS03_EMAIL_CONTACTO_2=$this->layout()->SIS03_EMAIL_CONTACTO_2;
+	 $SIS03_EMAIL_CONTACTO_3=$this->layout()->SIS03_EMAIL_CONTACTO_3;
 
-	 	
+	 $SIS03_TIPO_CONTACTO_1=$this->layout()->SIS03_TIPO_CONTACTO_1;
+	 $SIS03_TIPO_CONTACTO_2=$this->layout()->SIS03_TIPO_CONTACTO_2;
+	 $SIS03_TIPO_CONTACTO_3=$this->layout()->SIS03_TIPO_CONTACTO_3;
+
 	if(isset($this->layout()->datosticket))
 		$datosticket=$this->layout()->datosticket;
 		
@@ -49,48 +57,73 @@
 	
 ?>
    
-			<div class="col-md-4 col-sm-4">
+			<div class="col-md-6 col-sm-6 col-xs-12">
 			
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 						<strong>Colegio : </strong><?php echo $LABORATORIOID?> <?php echo $LABORATORIODESCRIPCION?>
 					</div>
 					<div class="panel-body">
-						<p><strong>Num Cursos : </strong><?php echo $SIS03_CURSOS?></p>
-						<p><strong>Detalle Cursos : </strong><?php echo $SIS03_DETALLE_CURSOS_NIVELES?></p>
-						<p><strong>Num Laboratorios : </strong><?php echo $SIS03_NUM_LABORATORIOS?></p>
-						<p><strong>Asesor : </strong><?php echo $SIS03_ASESOR?></p>
-						<p><strong>Productos : </strong><?php echo $SIS03_PRODUCTOS?></p>
-						<p><strong>&iquest;Tiene Emat-Local? : </strong> <?=($SIS03_CONEMATLOCAL=="1")?'SI':'NO'?></p>
-						<?php
-						if($SIS03_CONEMATLOCAL=="1")
-						{
-						?>
-						<p><strong>&iquest;Instalado Emat-Local? : </strong> <?=($SIS03_INTALADONEMATLOCAL=="1")?'SI':'NO'?></p>
-						<?php
-						}
-						?>
-						<p><strong>Nombre Contacto 1 : </strong><?php echo $SIS03_NOMBRE_CONTACTO_1?></p>
-						<p><strong>Fono Contacto 1 : </strong><?php echo $SIS03_FONO_CONTACTO_1?></p>
-						<p><strong>E-mail Contacto 1 : </strong><?php echo $SIS03_EMAIL_CONTACTO_1?></p>
-						<?php 
-						if(trim($SIS03_NOMBRE_CONTACTO_2)!="" && trim($SIS03_FONO_CONTACTO_2)!="" && trim($SIS03_EMAIL_CONTACTO_2)!="")
-						{
-						?>
-						<p><strong>Nombre Contacto 2 : </strong><?php echo $SIS03_NOMBRE_CONTACTO_2?></p>
-						<p><strong>Fono Contacto 2 : </strong><?php echo $SIS03_FONO_CONTACTO_2?></p>
-						<p><strong>E-mail Contacto 2 : </strong><?php echo $SIS03_EMAIL_CONTACTO_2?></p>
-						<?php
-						}
-						?>
-						<?php
-						if(trim($SIS03_PROVEEDOR_INTERNET)!="")
-						{
-						?>
-						<p><strong>Proveedor Internet : </strong><?php echo $SIS03_PROVEEDOR_INTERNET?></p>
-						<?php
-						}
-						?>
+				
+				
+						<div id="capa_ficha_colegio" style="height:300px; overflow-y: scroll; overflow-x: auto;">
+						
+							<p><strong>Cant. Cursos del Colegio : </strong><?php echo $SIS03_CURSOS?></p>
+							<p><strong>Detalle Cursos Emat : </strong><?php echo $SIS03_DETALLE_CURSOS_NIVELES?></p>
+							<p><strong>Num Laboratorios : </strong><?php echo $SIS03_NUM_LABORATORIOS?></p>
+							<p><strong>Asesor : </strong><?php echo $SIS03_ASESOR?></p>
+							<p><strong>Productos : </strong><?php echo $SIS03_PRODUCTOS?></p>
+							<p><strong>&iquest;Tiene Emat-Local? : </strong> <?=($SIS03_CONEMATLOCAL=="1")?'SI':'NO'?></p>
+							<?php
+							if($SIS03_CONEMATLOCAL=="1")
+							{
+							?>
+							<p><strong>&iquest;Instalado Emat-Local? : </strong> <?=($SIS03_INTALADONEMATLOCAL=="1")?'SI':'NO'?></p>
+							<?php
+							}
+							?>
+							<hr>
+							<p><strong>Cargo Contacto 1 : </strong><?php echo $SIS03_TIPO_CONTACTO_1?></p>
+							<p><strong>Nombre Contacto 1 : </strong><?php echo $SIS03_NOMBRE_CONTACTO_1?></p>
+							<p><strong>Fono Contacto 1 : </strong><?php echo $SIS03_FONO_CONTACTO_1?></p>
+							<p><strong>E-mail Contacto 1 : </strong><?php echo $SIS03_EMAIL_CONTACTO_1?></p>
+							<?php 
+							if(trim($SIS03_NOMBRE_CONTACTO_2)!="" && trim($SIS03_FONO_CONTACTO_2)!="" && trim($SIS03_EMAIL_CONTACTO_2)!="")
+							{
+							?>
+							<hr>
+							<p><strong>Cargo Contacto 2 : </strong><?php echo $SIS03_TIPO_CONTACTO_2?></p>
+							<p><strong>Nombre Contacto 2 : </strong><?php echo $SIS03_NOMBRE_CONTACTO_2?></p>
+							<p><strong>Fono Contacto 2 : </strong><?php echo $SIS03_FONO_CONTACTO_2?></p>
+							<p><strong>E-mail Contacto 2 : </strong><?php echo $SIS03_EMAIL_CONTACTO_2?></p>
+							<?php
+							}
+							if(trim($SIS03_NOMBRE_CONTACTO_3)!="" && trim($SIS03_FONO_CONTACTO_3)!="" && trim($SIS03_EMAIL_CONTACTO_3)!="")
+							{
+							?>
+							<hr>
+							<p><strong>Cargo Contacto 3 : </strong><?php echo $SIS03_TIPO_CONTACTO_3?></p>
+							<p><strong>Nombre Contacto 3 : </strong><?php echo $SIS03_NOMBRE_CONTACTO_3?></p>
+							<p><strong>Fono Contacto 3 : </strong><?php echo $SIS03_FONO_CONTACTO_3?></p>
+							<p><strong>E-mail Contacto 3 : </strong><?php echo $SIS03_EMAIL_CONTACTO_3?></p>
+							<?php
+							}
+							?>
+						
+							<?php
+							if(trim($SIS03_PROVEEDOR_INTERNET)!="")
+							{
+							?>
+							<hr>
+							<p><strong>Proveedor Internet : </strong><?php echo $SIS03_PROVEEDOR_INTERNET?></p>
+							<?php
+							}
+							?>
+					
+				
+						</div>
+				
+				
 					</div>
 				</div>
 			
@@ -193,6 +226,18 @@
 																															<div class="tab-pane fade active in" id="home<?php echo $valor["ED03_TICKETID"]?>">
 																																	<br>
 																																	<p>
+																																	<?php 
+																																	$IDTICKET=$valor["ED03_TICKETID"];
+																														
+																																	if(isset($datos_derivados["$IDTICKET"]["ED01_USUARIOID"]))
+																																	{
+																																	?>
+																																	<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados["$IDTICKET"]["ED01_USUARIOID"]?> - <?php echo $valor["SECTOR"]?></button>
+																																	<br><br>	
+																																	<?php
+																																	}
+																																	?>
+																															
 																																	<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
 																																	<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
 																																	<strong>NUM INCIDENTE : </strong><?php echo $valor["ED03_TICKETID"]?><br><br>
@@ -229,18 +274,6 @@
 																																	<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
 																																	<strong>ESTADO : </strong><?php echo $valor["ED03_ESTADO"]?><br><br>
 																														
-																																	<?php 
-																																	$IDTICKET=$valor["ED03_TICKETID"];
-																														
-																																	if(isset($datos_derivados["$IDTICKET"]["ED01_USUARIOID"]))
-																																	{
-																																	?>
-																																	<strong>DEPARTAMENTO : </strong><?php echo $valor["SECTOR"]?><br><br>
-																																	<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados["$IDTICKET"]["ED01_USUARIOID"]?></button>
-																																	<br><br>	
-																																	<?php
-																																	}
-																																	?>
 																																	</p>
 																													
 																															</div>
@@ -259,6 +292,7 @@
 																																	<p>
 																																	<strong>USUARIO : </strong><?php echo $valor_seg["ED01_USUARIOID"]?><br><br>
 																																	<strong>FECHA : </strong><?php echo $valor_seg["ED04_SEGFECHA"]?><br><br>
+																																	<strong>ESTA RESUELTO? : </strong><?php echo $valor_seg["ED04_SOLUCIONADO"]?><br><br>
 																																	<strong>DETALLE : </strong><br><?php echo nl2br($valor_seg["ED04_SEGCOMENTARIOS"])?><br><br>
 																																																						
 																																	<?php
@@ -503,6 +537,20 @@
 																															<div class="tab-pane fade active in" id="home<?php echo $valor["ED05_ASISTENCIAID"]?>">
 																																	<br>
 																																	<p>
+																																	
+																																	<?php 
+																																	$IDTICKET=$valor["ED05_ASISTENCIAID"];
+																														
+																																	if(isset($datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]))
+																																	{
+																																	?>
+																																	<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]?></button>
+																																	<br><br>	
+																																	<?php
+																																	}
+																																	?>
+																																	
+																																	
 																																	<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
 																																	<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
 																																	<strong>NUM ASISTENCIA : </strong><?php echo $valor["ED05_ASISTENCIAID"]?><br><br>
@@ -532,17 +580,6 @@
 																																	<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
 																																	<strong>ESTADO : </strong><?php echo $valor["ED05_ESTADO"]?><br><br>
 																														
-																																	<?php 
-																																	$IDTICKET=$valor["ED05_ASISTENCIAID"];
-																														
-																																	if(isset($datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]))
-																																	{
-																																	?>
-																																	<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]?></button>
-																																	<br><br>	
-																																	<?php
-																																	}
-																																	?>
 																																	</p>
 																													
 																															</div>
@@ -561,6 +598,7 @@
 																																	<p>
 																																	<strong>USUARIO : </strong><?php echo $valor_seg["ED01_USUARIOID"]?><br><br>
 																																	<strong>FECHA : </strong><?php echo $valor_seg["ED06_SEGFECHA"]?><br><br>
+																																	<strong>ESTA RESUELTO? : </strong><?php echo $valor_seg["ED06_SOLUCIONADO"]?><br><br>
 																																	<strong>DETALLE : </strong><br><?php echo nl2br($valor_seg["ED06_SEGCOMENTARIOS"])?><br><br>
 																																																						
 																																	<?php

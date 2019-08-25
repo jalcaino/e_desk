@@ -334,7 +334,7 @@ class SolicitudController extends Zend_Controller_Action
 											
 												$email="";
 												
-												$destinadatarios=$functions->notificaciones_solicitudes($ELCOLEGIO);	
+												$destinadatarios=$functions->notificaciones_solicitudes($ELCOLEGIO,$edesk_session->USUARIOID);	
 												if($destinadatarios!="0")
 												{
 													
@@ -824,7 +824,7 @@ class SolicitudController extends Zend_Controller_Action
 											
 												$email="";
 												
-												$destinadatarios=$functions->notificaciones_solicitudes($ELCOLEGIO);	
+												$destinadatarios=$functions->notificaciones_solicitudes($ELCOLEGIO,$edesk_session->USUARIOID);	
 												if($destinadatarios!="0")
 												{
 													

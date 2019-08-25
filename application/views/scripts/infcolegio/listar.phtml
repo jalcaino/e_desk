@@ -551,6 +551,18 @@
 																								</div>
 																								<div class="modal-body">
 																									
+																										<?php 
+																										$IDTICKET=$valor["ED03_TICKETID"];
+																							
+																										if(isset($datos_derivados["$IDTICKET"]["ED01_USUARIOID"]))
+																										{
+																										?>
+																										<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados["$IDTICKET"]["ED01_USUARIOID"]?> - <?php echo $valor["SECTOR"]?></button>
+																										<br><br>	
+																										<?php
+																										}
+																										?>
+															
 																										<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
 																										<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
 																										<strong>NUM INCIDENTE : </strong><?php echo $valor["ED03_TICKETID"]?><br><br>
@@ -586,19 +598,7 @@
 																										<strong>SOLICITANTE : </strong><?php echo $valor["ED03_NOMBRESOLICITANTE"]?><br><br>
 																										<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
 																										<strong>ESTADO : </strong><?php echo $valor["ED03_ESTADO"]?><br><br>
-																										<?php 
-																										$IDTICKET=$valor["ED03_TICKETID"];
-																							
-																										if(isset($datos_derivados["$IDTICKET"]["ED01_USUARIOID"]))
-																										{
-																										?>
-																										<strong>DEPARTAMENTO : </strong><?php echo $valor["SECTOR"]?><br><br>
-																										<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados["$IDTICKET"]["ED01_USUARIOID"]?></button>
-																										<br><br>	
-																										<?php
-																										}
-																										?>
-															
+																									
 																									
 																									
 																								</div>
@@ -727,7 +727,17 @@
 																									<h4 class="modal-title" id="myModalLabel"><strong>ASISTENCIA NUMERO : <?php echo $valor["ED05_ASISTENCIAID"]?></strong></h4>
 																								</div>
 																								<div class="modal-body">
-																									
+																									<?php 
+																									$IDTICKET=$valor["ED05_ASISTENCIAID"];
+																						
+																									if(isset($datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]))
+																									{
+																									?>
+																									<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]?></button>
+																									<br><br>	
+																									<?php
+																									}
+																									?>
 																									<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
 																									<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
 																									<strong>NUM ASISTENCIA : </strong><?php echo $valor["ED05_ASISTENCIAID"]?><br><br>
@@ -756,17 +766,7 @@
 																									<strong>SOLICITANTE : </strong><?php echo $valor["ED05_NOMBRESOLICITANTE"]?><br><br>
 																									<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
 																									<strong>ESTADO : </strong><?php echo $valor["ED05_ESTADO"]?><br><br>
-																									<?php 
-																									$IDTICKET=$valor["ED05_ASISTENCIAID"];
-																						
-																									if(isset($datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]))
-																									{
-																									?>
-																									<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]?></button>
-																									<br><br>	
-																									<?php
-																									}
-																									?>
+																									
 																								</div>
 																								<div class="modal-footer">
 																									<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

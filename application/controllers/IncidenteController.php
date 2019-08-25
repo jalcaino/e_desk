@@ -1704,7 +1704,8 @@ class IncidenteController extends Zend_Controller_Action
 									ED04_NOMBREARCHIVOADJUNTO,
 									ED04_TIPOARCHIVOADJUNTO,
 									ED04_FECHAULTIMAACTUALIZACION,
-									ED04_REGISTRODETALLECAMBIO
+									ED04_REGISTRODETALLECAMBIO,
+									ED04_SOLUCIONADO 
 									FROM
 									e_desk.ED04_SEGUIMIENTO_TICKET WHERE ED03_TICKETID in ($ID_FILAS)";
 							
@@ -1726,6 +1727,7 @@ class IncidenteController extends Zend_Controller_Action
 								$datos_seguimiento["$ID"]["ED04_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED04_TIPOARCHIVOADJUNTO"];
 								$datos_seguimiento["$ID"]["ED04_FECHAULTIMAACTUALIZACION"]=$row_datosQuery["ED04_FECHAULTIMAACTUALIZACION"];
 								$datos_seguimiento["$ID"]["ED04_REGISTRODETALLECAMBIO"]=$row_datosQuery["ED04_REGISTRODETALLECAMBIO"];
+								$datos_seguimiento["$ID"]["ED04_SOLUCIONADO"]=$row_datosQuery["ED04_SOLUCIONADO"];
 							
 							}								
 						}

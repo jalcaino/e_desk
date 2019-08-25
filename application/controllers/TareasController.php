@@ -45,8 +45,7 @@ class TareasController extends Zend_Controller_Action
 					}
 				}
 		
-		
-		
+				
 				
 		
 				//incidentes
@@ -190,6 +189,10 @@ class TareasController extends Zend_Controller_Action
 				
 			
 			
+			
+			
+			
+			
 			    $email="";
 				
 				if(isset($matriz_notificacion))
@@ -218,6 +221,8 @@ class TareasController extends Zend_Controller_Action
 	  
 	  
 	  
+	 	
+	  
 			  
 				if($email!="")
 				{
@@ -230,6 +235,9 @@ class TareasController extends Zend_Controller_Action
 				
 		
 					   $RES_ENVIO=$functions->envio_correos($config['desdeenvio'],$email,$subject,$body);
+	
+	
+	
 				}			
 
 	  

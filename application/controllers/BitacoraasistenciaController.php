@@ -187,7 +187,9 @@ class BitacoraasistenciaController extends Zend_Controller_Action
 														  'ED06_NOMBREARCHIVOADJUNTO' => $fileName,
 														  'ED06_TIPOARCHIVOADJUNTO' => $fileType,
 														  'ED06_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
-														  'ED06_REGISTRODETALLECAMBIO' => $COMENTARIOS
+														  'ED06_REGISTRODETALLECAMBIO' => $COMENTARIOS,
+														  'ED06_SOLUCIONADO' => $resuelto 
+												
 												);
 												  		
 					

@@ -112,14 +112,9 @@
 											if(res[0]=='OK')
 											{
 												
-													$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>Datos almacenados correctamente<br><br><a href='/Incidente'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
+													$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>Datos almacenados correctamente<br><br><a href='/Incidente/index/busqueda/<?php echo $INCIDENTEID;?>'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
 													$('#volver_bot').focus();
-										
 												
-													//$("#divNotificaciones").html("<div class='panel panel-success'><div class='panel-heading'>Datos almacenados correctamente</div></div>");
-													//$('#volver_bot').focus();
-													//limpia formulario
-													//$('#oForm').trigger("reset");
 											
 											}else{
 												

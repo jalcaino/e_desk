@@ -1536,7 +1536,8 @@ class AsistenciaController extends Zend_Controller_Action
 									ED06_NOMBREARCHIVOADJUNTO,
 									ED06_TIPOARCHIVOADJUNTO,
 									ED06_FECHAULTIMAACTUALIZACION,
-									ED06_REGISTRODETALLECAMBIO
+									ED06_REGISTRODETALLECAMBIO,
+									ED06_SOLUCIONADO
 									FROM
 									e_desk.ED06_SEGUIMIENTO_ASISTENCIA_TECNICA WHERE ED05_ASISTENCIAID in ($ID_FILAS)";
 							
@@ -1558,6 +1559,7 @@ class AsistenciaController extends Zend_Controller_Action
 								$datos_seguimiento["$ID"]["ED06_TIPOARCHIVOADJUNTO"]=$row_datosQuery["ED06_TIPOARCHIVOADJUNTO"];
 								$datos_seguimiento["$ID"]["ED06_FECHAULTIMAACTUALIZACION"]=$row_datosQuery["ED06_FECHAULTIMAACTUALIZACION"];
 								$datos_seguimiento["$ID"]["ED06_REGISTRODETALLECAMBIO"]=$row_datosQuery["ED06_REGISTRODETALLECAMBIO"];
+								$datos_seguimiento["$ID"]["ED06_SOLUCIONADO"]=$row_datosQuery["ED06_SOLUCIONADO"];
 							
 							}								
 						}

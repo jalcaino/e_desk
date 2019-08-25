@@ -178,7 +178,7 @@ class BitacoraController extends Zend_Controller_Action
 												
 												}else{
 												
-														$COMENTARIOS.="<br>Se actualiza tecnologìa y si va en próximo paquete la mejora";
+														$COMENTARIOS.="<br>Se actualiza tecnolog&iacute;a y si va en pr&oacute;ximo paquete la mejora";
 													
 														$data_update = array(
 															'ED03_TECNOLOGIA' => $tecnologia,
@@ -198,7 +198,9 @@ class BitacoraController extends Zend_Controller_Action
 														  'ED04_NOMBREARCHIVOADJUNTO' => $fileName,
 														  'ED04_TIPOARCHIVOADJUNTO' => $fileType,
 														  'ED04_FECHAULTIMAACTUALIZACION' => date("Ymdhis"),
-														  'ED04_REGISTRODETALLECAMBIO' => $COMENTARIOS
+														  'ED04_REGISTRODETALLECAMBIO' => $COMENTARIOS,
+														  'ED04_SOLUCIONADO' => $resuelto
+														  
 												);
 												  		
 					

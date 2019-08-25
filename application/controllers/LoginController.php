@@ -550,7 +550,7 @@ class LoginController extends Zend_Controller_Action
 						T.ED03_TICKETID as MAESTROID,
 						T.ED04_SEGCOMENTARIOS as SEGCOMENTARIOS,
 						T.ED01_USUARIOID as USUARIO_ORIGEN,
-						E.ED09_FECHANOTIFICACION as FECHA_TEMS
+						(E.ED09_FECHANOTIFICACION+0) as FECHA_TEMS
 						FROM 
 						e_desk.ED09_USUARIO_NOTIFICADO_SEG_TICKET E
 						INNER JOIN
@@ -567,7 +567,8 @@ class LoginController extends Zend_Controller_Action
 				{
 						if(trim($row_datosQuery["SEGID"])!="")
 						{
-							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							//$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							$ID=trim($row_datosQuery["FECHA_TEMS"]);
 							$matriz_notificacion["$ID"]["TIPO"]="1";
 							$matriz_notificacion["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
 							$matriz_notificacion["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
@@ -586,7 +587,7 @@ class LoginController extends Zend_Controller_Action
 							E.ED03_TICKETID as MAESTROID,
 							E.ED03_DETALLETICKET as SEGCOMENTARIOS,
 							T.ED01_USUARIOID as USUARIO_ORIGEN,
-							T.ED10_FECHANOTIFICACION as FECHA_TEMS
+							(T.ED10_FECHANOTIFICACION+0) as FECHA_TEMS
 							FROM
 							e_desk.ED03_TICKET E
 							INNER JOIN e_desk.ED10_USUARIO_NOTIFICADO_TICKET T ON E.ED03_TICKETID=T.ED03_TICKETID
@@ -603,7 +604,8 @@ class LoginController extends Zend_Controller_Action
 				{
 						if(trim($row_datosQuery["SEGID"])!="")
 						{
-							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							//$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							$ID=trim($row_datosQuery["FECHA_TEMS"]);
 							$matriz_notificacion["$ID"]["TIPO"]="1";
 							$matriz_notificacion["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
 							$matriz_notificacion["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
@@ -628,7 +630,7 @@ class LoginController extends Zend_Controller_Action
 						T.ED05_ASISTENCIAID as MAESTROID,
 						T.ED06_SEGCOMENTARIOS as SEGCOMENTARIOS,
 						T.ED01_USUARIOID as USUARIO_ORIGEN,
-						E.ED12_FECHANOTIFICACION as FECHA_TEMS
+						(E.ED12_FECHANOTIFICACION+0) as FECHA_TEMS
 						FROM 
 						e_desk.ED12_USUARIO_NOTIFICADO_SEG_ASIS E
 						INNER JOIN
@@ -645,7 +647,8 @@ class LoginController extends Zend_Controller_Action
 				{
 						if(trim($row_datosQuery["SEGID"])!="")
 						{
-							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							//$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							$ID=trim($row_datosQuery["FECHA_TEMS"]);
 							$matriz_notificacion["$ID"]["TIPO"]="2";
 							$matriz_notificacion["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
 							$matriz_notificacion["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
@@ -665,7 +668,7 @@ class LoginController extends Zend_Controller_Action
 							E.ED05_ASISTENCIAID as MAESTROID,
 							E.ED05_DETALLEASISTENCIAREALIZAR as SEGCOMENTARIOS,
 							T.ED01_USUARIOID as USUARIO_ORIGEN,
-							T.ED11_TIPONOTIFICACION as FECHA_TEMS
+							(T.ED11_FECHANOTIFICACION+0) as FECHA_TEMS
 							FROM
 							e_desk.ED05_ASISTENCIA_TECNICA E
 							INNER JOIN e_desk.ED11_USUARIO_NOTIFICADO_ASISTENCIA T ON E.ED05_ASISTENCIAID=T.ED05_ASISTENCIAID
@@ -681,7 +684,8 @@ class LoginController extends Zend_Controller_Action
 				{
 						if(trim($row_datosQuery["SEGID"])!="")
 						{
-							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							//$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							$ID=trim($row_datosQuery["FECHA_TEMS"]);
 							$matriz_notificacion["$ID"]["TIPO"]="2";
 							$matriz_notificacion["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
 							$matriz_notificacion["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
@@ -710,7 +714,7 @@ class LoginController extends Zend_Controller_Action
 						T.ED02_SOLICITUDID as MAESTROID,
 						T.ED02_DETALLESOLICITUD as SEGCOMENTARIOS,
 						T.ED01_USUARIOID as USUARIO_ORIGEN,
-						E.ED17_FECHANOTIFICACION as FECHA_TEMS
+						(E.ED17_FECHANOTIFICACION+0) as FECHA_TEMS
 						FROM 
 						e_desk.ED17_USUARIO_NOTIFICADO_SOLICITUD E
 						INNER JOIN
@@ -727,7 +731,8 @@ class LoginController extends Zend_Controller_Action
 				{
 						if(trim($row_datosQuery["SEGID"])!="")
 						{
-							$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							//$ID=trim($row_datosQuery["FECHA_TEMS"]).trim($row_datosQuery["SEGID"]);
+							$ID=trim($row_datosQuery["FECHA_TEMS"]);
 							$matriz_notificacion_sol["$ID"]["SEGID"]=$ID;
 							$matriz_notificacion_sol["$ID"]["FECHANOTIFICACION"]=trim($row_datosQuery["FECHANOTIFICACION"]);
 							$matriz_notificacion_sol["$ID"]["MAESTROID"]=trim($row_datosQuery["MAESTROID"]);
@@ -744,15 +749,15 @@ class LoginController extends Zend_Controller_Action
 			
 				if(isset($matriz_notificacion))
 				{
-					ksort($matriz_notificacion);
-					
+					krsort($matriz_notificacion);
 					Zend_Layout::getMvcInstance()->assign('matriz_notificacion',$matriz_notificacion);
 				}					
 			
 				if(isset($matriz_notificacion_sol))
+				{
+					krsort($matriz_notificacion_sol);
 					Zend_Layout::getMvcInstance()->assign('matriz_notificacion_sol',$matriz_notificacion_sol);
-	
-				
+				}
 				
 				Zend_Layout::getMvcInstance()->assign('CONTADOR_NOTIFICACIONES',$CONTADOR_NOTIFICACIONES);
 				
