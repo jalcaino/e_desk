@@ -7,39 +7,9 @@
 	 $SIS03_ASESOR=$this->layout()->SIS03_ASESOR;
 	 $SIS03_PRODUCTOS=$this->layout()->SIS03_PRODUCTOS;
 	 $SIS03_CONEMATLOCAL=$this->layout()->SIS03_CONEMATLOCAL;
-	 
-	 $SIS03_INTALADONEMATLOCAL=$this->layout()->SIS03_INTALADONEMATLOCAL;
-	 $SIS03_DETALLE_CURSOS_NIVELES=$this->layout()->SIS03_DETALLE_CURSOS_NIVELES;
-	 $SIS03_NUM_LABORATORIOS=$this->layout()->SIS03_NUM_LABORATORIOS;
-	 $SIS03_NOMBRE_CONTACTO_1=$this->layout()->SIS03_NOMBRE_CONTACTO_1;
-	 $SIS03_NOMBRE_CONTACTO_2=$this->layout()->SIS03_NOMBRE_CONTACTO_2;
-	 $SIS03_NOMBRE_CONTACTO_3=$this->layout()->SIS03_NOMBRE_CONTACTO_3;
-	 
-	 $SIS03_PROVEEDOR_INTERNET=$this->layout()->SIS03_PROVEEDOR_INTERNET;
-
-
-	 $SIS03_FONO_CONTACTO_1=$this->layout()->SIS03_FONO_CONTACTO_1;
-	 $SIS03_FONO_CONTACTO_2=$this->layout()->SIS03_FONO_CONTACTO_2;
-	 $SIS03_FONO_CONTACTO_3=$this->layout()->SIS03_FONO_CONTACTO_3;
-	 
-	 $SIS03_EMAIL_CONTACTO_1=$this->layout()->SIS03_EMAIL_CONTACTO_1;
-	 $SIS03_EMAIL_CONTACTO_2=$this->layout()->SIS03_EMAIL_CONTACTO_2;
-	 $SIS03_EMAIL_CONTACTO_3=$this->layout()->SIS03_EMAIL_CONTACTO_3;
-
-	 $SIS03_TIPO_CONTACTO_1=$this->layout()->SIS03_TIPO_CONTACTO_1;
-	 $SIS03_TIPO_CONTACTO_2=$this->layout()->SIS03_TIPO_CONTACTO_2;
-	 $SIS03_TIPO_CONTACTO_3=$this->layout()->SIS03_TIPO_CONTACTO_3;
-
+	
 	if(isset($this->layout()->datosticket))
 		$datosticket=$this->layout()->datosticket;
-		
-	if(isset($this->layout()->datos_derivados))
-		$datos_derivados=$this->layout()->datos_derivados;
-
-
-	if(isset($this->layout()->datos_derivados_asis))
-		$datos_derivados_asis=$this->layout()->datos_derivados_asis;
-		
 
 	if(isset($this->layout()->datossolicitud))
 		$datossolicitud=$this->layout()->datossolicitud;
@@ -48,82 +18,19 @@
 	   $datosasistencias=$this->layout()->datosasistencias;
 	
 	
-	if(isset($this->layout()->datos_seguimiento))
-		$datos_seguimiento=$this->layout()->datos_seguimiento;
-
-	if(isset($this->layout()->datos_seguimiento_asis))
-		$datos_seguimiento_asis=$this->layout()->datos_seguimiento_asis;
-	
-	
 ?>
    
-			<div class="col-md-6 col-sm-6 col-xs-12">
+			<div class="col-md-4 col-sm-4">
 			
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 						<strong>Colegio : </strong><?php echo $LABORATORIOID?> <?php echo $LABORATORIODESCRIPCION?>
 					</div>
 					<div class="panel-body">
-				
-				
-						<div id="capa_ficha_colegio" style="height:300px; overflow-y: scroll; overflow-x: auto;">
-						
-							<p><strong>Cant. Cursos del Colegio : </strong><?php echo $SIS03_CURSOS?></p>
-							<p><strong>Detalle Cursos Emat : </strong><?php echo $SIS03_DETALLE_CURSOS_NIVELES?></p>
-							<p><strong>Num Laboratorios : </strong><?php echo $SIS03_NUM_LABORATORIOS?></p>
-							<p><strong>Asesor : </strong><?php echo $SIS03_ASESOR?></p>
-							<p><strong>Productos : </strong><?php echo $SIS03_PRODUCTOS?></p>
-							<p><strong>&iquest;Tiene Emat-Local? : </strong> <?=($SIS03_CONEMATLOCAL=="1")?'SI':'NO'?></p>
-							<?php
-							if($SIS03_CONEMATLOCAL=="1")
-							{
-							?>
-							<p><strong>&iquest;Instalado Emat-Local? : </strong> <?=($SIS03_INTALADONEMATLOCAL=="1")?'SI':'NO'?></p>
-							<?php
-							}
-							?>
-							<hr>
-							<p><strong>Cargo Contacto 1 : </strong><?php echo $SIS03_TIPO_CONTACTO_1?></p>
-							<p><strong>Nombre Contacto 1 : </strong><?php echo $SIS03_NOMBRE_CONTACTO_1?></p>
-							<p><strong>Fono Contacto 1 : </strong><?php echo $SIS03_FONO_CONTACTO_1?></p>
-							<p><strong>E-mail Contacto 1 : </strong><?php echo $SIS03_EMAIL_CONTACTO_1?></p>
-							<?php 
-							if(trim($SIS03_NOMBRE_CONTACTO_2)!="" && trim($SIS03_FONO_CONTACTO_2)!="" && trim($SIS03_EMAIL_CONTACTO_2)!="")
-							{
-							?>
-							<hr>
-							<p><strong>Cargo Contacto 2 : </strong><?php echo $SIS03_TIPO_CONTACTO_2?></p>
-							<p><strong>Nombre Contacto 2 : </strong><?php echo $SIS03_NOMBRE_CONTACTO_2?></p>
-							<p><strong>Fono Contacto 2 : </strong><?php echo $SIS03_FONO_CONTACTO_2?></p>
-							<p><strong>E-mail Contacto 2 : </strong><?php echo $SIS03_EMAIL_CONTACTO_2?></p>
-							<?php
-							}
-							if(trim($SIS03_NOMBRE_CONTACTO_3)!="" && trim($SIS03_FONO_CONTACTO_3)!="" && trim($SIS03_EMAIL_CONTACTO_3)!="")
-							{
-							?>
-							<hr>
-							<p><strong>Cargo Contacto 3 : </strong><?php echo $SIS03_TIPO_CONTACTO_3?></p>
-							<p><strong>Nombre Contacto 3 : </strong><?php echo $SIS03_NOMBRE_CONTACTO_3?></p>
-							<p><strong>Fono Contacto 3 : </strong><?php echo $SIS03_FONO_CONTACTO_3?></p>
-							<p><strong>E-mail Contacto 3 : </strong><?php echo $SIS03_EMAIL_CONTACTO_3?></p>
-							<?php
-							}
-							?>
-						
-							<?php
-							if(trim($SIS03_PROVEEDOR_INTERNET)!="")
-							{
-							?>
-							<hr>
-							<p><strong>Proveedor Internet : </strong><?php echo $SIS03_PROVEEDOR_INTERNET?></p>
-							<?php
-							}
-							?>
-					
-				
-						</div>
-				
-				
+						<p><strong>Cursos : </strong><?php echo $SIS03_CURSOS?></p>
+						<p><strong>Asesor : </strong><?php echo $SIS03_ASESOR?></p>
+						<p><strong>Productos : </strong><?php echo $SIS03_PRODUCTOS?></p>
+						<p><strong>&iquest;Tiene Emat-Local? : </strong> <?=($SIS03_CONEMATLOCAL=="1")?'SI':'NO'?></p>
 					</div>
 				</div>
 			
@@ -139,9 +46,9 @@
 							<div class="panel-body">
 								<ul class="nav nav-pills">
 									<!--class="active"-->
-									<li class=""><a href="#profile-pills" data-toggle="tab">Solicitudes Internas</a>
-									</li>
 									<li class=""><a href="#home-pills" data-toggle="tab">Incidentes</a>
+									</li>
+									<li class=""><a href="#profile-pills" data-toggle="tab">Solicitudes Internas</a>
 									</li>
 									<li class=""><a href="#messages-pills" data-toggle="tab">Atenciones T&eacute;cnicas</a>
 									</li>
@@ -167,7 +74,7 @@
 																	<th>Fecha</th>
 																	<th>Solicitante</th>
 																	<th>Nivel</th>
-																	<th>Detalle</th>
+																	<th>Clasificador</th>
 																</tr>
 															</thead>
 															<tbody>
@@ -182,176 +89,7 @@
 																		<td><?php echo $valor["ED03_FECHATICKET"]?></td>
 																		<td><?php echo $valor["ED03_NOMBRESOLICITANTE"]?></td>
 																		<td><?php echo $valor["ED03_NIVELSOPORTE"]?></td>
-																		<td><a href="#" data-toggle="modal" data-target="#myModal_tic_<?php echo $valor["ED03_TICKETID"]?>">Detalle</a></td>
-																		<td>
-																			<div class="modal fade" id="myModal_tic_<?php echo $valor["ED03_TICKETID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-																					<div class="modal-dialog">
-																								<div class="modal-content">
-																					
-																											<div class="modal-header">
-																												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-																												<h4 class="modal-title" id="myModalLabel"><strong>INCIDENTE NUMERO : <?php echo $valor["ED03_TICKETID"]?></strong><?php echo $valor["TEXTO_ASOCIADOS"]?></h4>
-																											</div>
-																											<div class="modal-body">
-																		
-
-																												 <div class="panel panel-default">
-																													<div class="panel-heading">
-																														DETALLE INCIDENTE
-																													</div>
-																													<div class="panel-body">
-																														<ul class="nav nav-tabs">
-																															<li class="active"><a href="#home<?php echo $valor["ED03_TICKETID"]?>" data-toggle="tab">INFO</a>
-																															</li>
-																														
-																															<?php
-																															if(isset($datos_seguimiento))
-																															{
-																																foreach($datos_seguimiento as $clave_seg => $valor_seg)
-																																{
-																																	if($valor_seg["ED03_TICKETID"]==$valor["ED03_TICKETID"])
-																																	{
-																																?>
-																																<li class=""><a href="#profile<?php echo $valor_seg["ED04_SEGTICKETID"]?>" data-toggle="tab">SEG. <?php echo $valor_seg["ED04_SEGFECHA"]?></a></li>
-																																<?php
-																																	}
-																																}
-																															}
-																															?>
-																														
-																														</ul>
-																							
-																														<div class="tab-content">
-																															
-																															<div class="tab-pane fade active in" id="home<?php echo $valor["ED03_TICKETID"]?>">
-																																	<br>
-																																	<p>
-																																	<?php 
-																																	$IDTICKET=$valor["ED03_TICKETID"];
-																														
-																																	if(isset($datos_derivados["$IDTICKET"]["ED01_USUARIOID"]))
-																																	{
-																																	?>
-																																	<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados["$IDTICKET"]["ED01_USUARIOID"]?> - <?php echo $valor["SECTOR"]?></button>
-																																	<br><br>	
-																																	<?php
-																																	}
-																																	?>
-																															
-																																	<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
-																																	<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
-																																	<strong>NUM INCIDENTE : </strong><?php echo $valor["ED03_TICKETID"]?><br><br>
-																																	<strong>PRODUCTO : </strong><?php echo $valor["SIS04_PRODUCTOID"]?><br><br>
-																																	<strong>FECHA TICKET : </strong><?php echo $valor["ED03_FECHATICKET"]?><br><br>
-																																	<strong>TELEFONO SOLICITANTE : </strong><?php echo $valor["ED03_TELEFONOSOLICITANTE"]?><br><br>
-																																	<strong>EMAIL SOLICITANTE : </strong><?php echo $valor["ED03_EMAILSOLICITANTE"]?><br><br>
-																																	<strong>PRIORIDAD : </strong><?php echo $valor["ED03_PRIORIDAD"]?><br><br>
-																																	<strong>TIPO CONTACTO : </strong><?php echo $valor["ED03_TIPOCONTACTO"]?><br><br>
-																																	<strong>NIVEL : </strong><?php echo $valor["ED03_NIVELSOPORTE"]?><br><br>
-																																	<strong>CLASIFICADOR : </strong><?php echo $valor["SIS07_CLASIFICADORDESCRIPCION"]?><br><br>
-																																	<strong>NUM AFECTADOS : </strong><?php echo $valor["ED03_NUMALUMNOSAFECTADOS"]?><br><br>
-																																	<strong>NIVEL: </strong><?php echo $valor["ED03_NIVELDELPROGRAMA"]?><br><br>
-																																	<strong>MODULO : </strong><?php echo $valor["SIS05_CODIGOMODULO"]?><br><br>
-																																	<strong>NUM EJERCICIO : </strong><?php echo $valor["ED03_NUMEJERCICIO"]?><br><br>
-																																																						
-																																	<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED03_DETALLETICKET"])?><br><br>
-																																	<strong>GESTION INMEDIATA : </strong><br><?php echo nl2br($valor["ED03_GESTION_INMEDIATA"])?><br><br>
-																																	
-																																	<?php
-																																	if(trim($valor["ED03_ARCHIVOADJUNTO"])!="")
-																																	{	
-																																	?>
-																																	<strong>ARCHIVO ADJUNTO : </strong><br>
-																																	
-																																	<strong><a href="<?php echo $valor["ED03_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor["ED03_NOMBREARCHIVOADJUNTO"]?></a></strong>
-																																	
-																																	<br><br>
-																																	
-																																	<?php
-																																	}
-																																	?>
-																																	<strong>SOLICITANTE : </strong><?php echo $valor["ED03_NOMBRESOLICITANTE"]?><br><br>
-																																	<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
-																																	<strong>ESTADO : </strong><?php echo $valor["ED03_ESTADO"]?><br><br>
-																														
-																																	</p>
-																													
-																															</div>
-																														
-																													
-																														  <?php
-																															if(isset($datos_seguimiento))
-																															{
-																																foreach($datos_seguimiento as $clave_seg => $valor_seg)
-																																{
-																																	if($valor_seg["ED03_TICKETID"]==$valor["ED03_TICKETID"])
-																																	{
-																																?>
-																																<div class="tab-pane fade" id="profile<?php echo $valor_seg["ED04_SEGTICKETID"]?>">
-																																	<br>
-																																	<p>
-																																	<strong>USUARIO : </strong><?php echo $valor_seg["ED01_USUARIOID"]?><br><br>
-																																	<strong>FECHA : </strong><?php echo $valor_seg["ED04_SEGFECHA"]?><br><br>
-																																	<strong>ESTA RESUELTO? : </strong><?php echo $valor_seg["ED04_SOLUCIONADO"]?><br><br>
-																																	<strong>DETALLE : </strong><br><?php echo nl2br($valor_seg["ED04_SEGCOMENTARIOS"])?><br><br>
-																																																						
-																																	<?php
-																																	if(trim($valor_seg["ED04_ARCHIVOADJUNTO"])!="")
-																																	{	
-																																	?>
-																																	<strong>ARCHIVO ADJUNTO : </strong><br>
-																																	
-																																	<strong><a href="<?php echo $valor_seg["ED04_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor_seg["ED04_NOMBREARCHIVOADJUNTO"]?></a></strong>
-																																	
-																																	<br><br>
-																																	
-																																	<?php
-																																	}
-																																	?>
-																																	<strong>COMENTARIO DEL SEGUIMIENTO : </strong><br><?php echo nl2br($valor_seg["ED04_REGISTRODETALLECAMBIO"])?><br><br>
-																																	</p>
-																																</div>
-																															
-																															
-																																<?php
-																																	}
-																																}
-																															}
-																															?>
-																														
-																														
-																														
-																														</div>
-																													</div>
-																												</div>
-																																																								
-																									
-
-
-																												
-																									
-																											</div>
-																											<div class="modal-footer">
-																												<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-																											</div>
-																							
-																					
-																								</div>
-																					</div>
-																			</div>
-
-																					
-																		
-																		
-																		
-																		
-																		
-																		</td>
-															
-																	
-																	
-																	
-																	
+																		<td><?php echo $valor["ED03_CLASIFICADOR"]?></td>
 																	</tr>
 																	<?
 																	}
@@ -397,56 +135,7 @@
 																		<td><?php echo $valor["ED02_SOLICITUDID"]?></td>
 																		<td><?php echo $valor["ED02_FECHASOLICITUD"]?></td>
 																		<td><?php echo $valor["ED02_NOMBRESOLICITANTE"]?></td>
-																		<td><a href="#" data-toggle="modal" data-target="#myModal_sol_<?php echo $valor["ED02_SOLICITUDID"]?>">Detalle</a></td>
-																		<td>
-																			<div class="modal fade" id="myModal_sol_<?php echo $valor["ED02_SOLICITUDID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-																				<div class="modal-dialog">
-																					<div class="modal-content">
-																							<div class="modal-header">
-																									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-																									<h4 class="modal-title" id="myModalLabel"><strong>SOLICITUD NUMERO : <?php echo $valor["ED02_SOLICITUDID"]?></strong><?php echo $valor["TEXTO_ASOCIADOS"]?></h4>
-																								</div>
-																								<div class="modal-body">
-																									
-																										<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
-																										<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
-																										<strong>PRODUCTO : </strong><?php echo $valor["SIS04_PRODUCTOID"]?><br><br>
-																										<strong>FECHA SOLICITUD : </strong><?php echo $valor["ED02_FECHASOLICITUD"]?><br><br>
-																										<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED02_DETALLESOLICITUD"])?><br><br>
-																										<?php
-																										if(trim($valor["ED02_ARCHIVOADJUNTO"])!="")
-																										{	
-																										?>
-																										<strong>ARCHIVO ADJUNTO : </strong><br>
-																										
-																										<strong><a href="<?php echo $valor["ED02_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor["ED02_NOMBREARCHIVOADJUNTO"]?></a></strong>
-																										
-																										<br><br>
-																										
-																										<?php
-																										}
-																										?>
-																										<strong>SOLICITANTE : </strong><?php echo $valor["ED02_NOMBRESOLICITANTE"]?><br><br>
-																										<strong>FECHA INGRESO : </strong><?php echo $valor["FECHAINGRESO"]?><br><br>
-																										<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
-																										<strong>ESTADO : </strong><?php echo $valor["ED02_ESTADO"]?><br><br>
-																							
-																									
-																									
-																								</div>
-																								<div class="modal-footer">
-																									<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-																								</div>
-																				
-																		
-																					</div>
-																				</div>
-																			</div>
-																		</td>
-															
-																	
-																	
-																	
+																		<td><?php echo $valor["ED02_DETALLESOLICITUD"]?></td>
 																	</tr>
 																	<?
 																	}
@@ -491,161 +180,7 @@
 																		<td><?php echo $valor["ED05_ASISTENCIAID"]?></td>
 																		<td><?php echo $valor["ED05_FECHAINGRESO"]?></td>
 																		<td><?php echo $valor["ED05_NOMBRESOLICITANTE"]?></td>
-																		<td><a href="#" data-toggle="modal" data-target="#myModal_as_<?php echo $valor["ED05_ASISTENCIAID"]?>">Detalle</a></td>
-																		<td>
-																			
-																				<div class="modal fade" id="myModal_as_<?php echo $valor["ED05_ASISTENCIAID"]?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-																					<div class="modal-dialog">
-																								<div class="modal-content">
-																					
-																											<div class="modal-header">
-																												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-																												<h4 class="modal-title" id="myModalLabel"><strong>ASISTENCIA NUMERO : <?php echo $valor["ED05_ASISTENCIAID"]?></strong><?php echo $valor["TEXTO_ASOCIADOS"]?></h4>
-																											</div>
-																											<div class="modal-body">
-																		
-																		
-																		
-																												 <div class="panel panel-default">
-																													<div class="panel-heading">
-																														DETALLE ASISTENCIA
-																													</div>
-																													<div class="panel-body">
-																														<ul class="nav nav-tabs">
-																															<li class="active"><a href="#home<?php echo $valor["ED05_ASISTENCIAID"]?>" data-toggle="tab">INFO</a>
-																															</li>
-																														
-																															<?php
-																															if(isset($datos_seguimiento_asis))
-																															{
-																																foreach($datos_seguimiento_asis as $clave_seg => $valor_seg)
-																																{
-																																	if($valor_seg["ED05_ASISTENCIAID"]==$valor["ED05_ASISTENCIAID"])
-																																	{
-																																?>
-																																<li class=""><a href="#profile<?php echo $valor_seg["ED06_SEGASISTENCIAID"]?>" data-toggle="tab">SEG. <?php echo $valor_seg["ED06_SEGFECHA"]?></a></li>
-																																<?php
-																																	}
-																																}
-																															}
-																															?>
-																														
-																														</ul>
-																							
-																														<div class="tab-content">
-																															
-																															<div class="tab-pane fade active in" id="home<?php echo $valor["ED05_ASISTENCIAID"]?>">
-																																	<br>
-																																	<p>
-																																	
-																																	<?php 
-																																	$IDTICKET=$valor["ED05_ASISTENCIAID"];
-																														
-																																	if(isset($datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]))
-																																	{
-																																	?>
-																																	<button type="button" class="btn btn-lg btn-success">DERIVADO A : </strong><?php echo $datos_derivados_asis["$IDTICKET"]["ED01_USUARIOID"]?></button>
-																																	<br><br>	
-																																	<?php
-																																	}
-																																	?>
-																																	
-																																	
-																																	<strong>RBD : </strong><?php echo $valor["SIS03_LABORATORIOID"]?><br><br>
-																																	<strong>COLEGIO : </strong><?php echo $valor["SIS03_LABORATORIODESCRIPCION"]?><br><br>
-																																	<strong>NUM ASISTENCIA : </strong><?php echo $valor["ED05_ASISTENCIAID"]?><br><br>
-																																	<strong>FECHA REGISTRO ASISTENCIA : </strong><?php echo $valor["ED05_FECHAINGRESO"]?><br><br>
-																																	<strong>FECHA A REALIZAR ASISTENCIA : </strong><?php echo $valor["FECHAREALIZARCE"]?><br><br>
-																																	
-																																	<strong>TELEFONO SOLICITANTE : </strong><?php echo $valor["ED05_TELEFONOSOLICITANTE"]?><br><br>
-																																	<strong>EMAIL SOLICITANTE : </strong><?php echo $valor["ED05_EMAILSOLICITANTE"]?><br><br>
-																																	<strong>PRIORIDAD : </strong><?php echo $valor["ED05_PRIORIDAD"]?><br><br>
-																																	<strong>TIPO CONTACTO : </strong><?php echo $valor["ED05_TIPOCONTACTO"]?><br><br>
-																																																						
-																																	<strong>DETALLE : </strong><br><?php echo nl2br($valor["ED05_DETALLEASISTENCIAREALIZAR"])?><br><br>
-																																	<?php
-																																	if(trim($valor["ED05_ARCHIVOADJUNTO"])!="")
-																																	{	
-																																	?>
-																																	<strong>ARCHIVO ADJUNTO : </strong><br>
-																																	
-																																	<strong><a href="<?php echo $valor["ED05_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor["ED05_NOMBREARCHIVOADJUNTO"]?></a></strong>
-																																	
-																																	<br><br>
-																																	
-																																	<?php
-																																	}
-																																	?>
-																																	<strong>SOLICITANTE : </strong><?php echo $valor["ED05_NOMBRESOLICITANTE"]?><br><br>
-																																	<strong>ULTIMA ACTUALIZACI&Oacute;N : </strong><?php echo $valor["FECHAULTIMAACTUALIZACION"]?><br><br>
-																																	<strong>ESTADO : </strong><?php echo $valor["ED05_ESTADO"]?><br><br>
-																														
-																																	</p>
-																													
-																															</div>
-																														
-																													
-																														  <?php
-																															if(isset($datos_seguimiento_asis))
-																															{
-																																foreach($datos_seguimiento_asis as $clave_seg => $valor_seg)
-																																{
-																																	if($valor_seg["ED05_ASISTENCIAID"]==$valor["ED05_ASISTENCIAID"])
-																																	{
-																																?>
-																																<div class="tab-pane fade" id="profile<?php echo $valor_seg["ED06_SEGASISTENCIAID"]?>">
-																																	<br>
-																																	<p>
-																																	<strong>USUARIO : </strong><?php echo $valor_seg["ED01_USUARIOID"]?><br><br>
-																																	<strong>FECHA : </strong><?php echo $valor_seg["ED06_SEGFECHA"]?><br><br>
-																																	<strong>ESTA RESUELTO? : </strong><?php echo $valor_seg["ED06_SOLUCIONADO"]?><br><br>
-																																	<strong>DETALLE : </strong><br><?php echo nl2br($valor_seg["ED06_SEGCOMENTARIOS"])?><br><br>
-																																																						
-																																	<?php
-																																	if(trim($valor_seg["ED06_ARCHIVOADJUNTO"])!="")
-																																	{	
-																																	?>
-																																	<strong>ARCHIVO ADJUNTO : </strong><br>
-																																	
-																																	<strong><a href="<?php echo $valor_seg["ED06_ARCHIVOADJUNTO"]?>" target="_blank"><?php echo $valor_seg["ED06_NOMBREARCHIVOADJUNTO"]?></a></strong>
-																																	
-																																	<br><br>
-																																	
-																																	<?php
-																																	}
-																																	?>
-																																	<strong>COMENTARIO DEL SEGUIMIENTO : </strong><br><?php echo nl2br($valor_seg["ED06_REGISTRODETALLECAMBIO"])?><br><br>
-																																	</p>
-																																</div>
-																															
-																															
-																																<?php
-																																	}
-																																}
-																															}
-																															?>
-																														
-																														
-																														
-																														</div>
-																													</div>
-																												</div>
-																																																								
-																									
-																											</div>
-																											<div class="modal-footer">
-																												<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-																											</div>
-																							
-																					
-																								</div>
-																					</div>
-																			</div>
-
-																		
-																		
-																		</td>
-															
+																		<td><?php echo $valor["ED05_DETALLEASISTENCIAREALIZAR"]?></td>
 																	</tr>
 																	<?
 																	}

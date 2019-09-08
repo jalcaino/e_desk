@@ -609,7 +609,7 @@ class IncidenteController extends Zend_Controller_Action
 																if($email=="")
 																	$email=$valor;
 																else
-																	$email.=",".$valor;
+																	$email.=";".$valor;
 															}
 														}
 					
@@ -1325,7 +1325,7 @@ class IncidenteController extends Zend_Controller_Action
 																if($email=="")
 																	$email=$valor;
 																else
-																	$email.=",".$valor;
+																	$email.=";".$valor;
 															}
 														}
 					

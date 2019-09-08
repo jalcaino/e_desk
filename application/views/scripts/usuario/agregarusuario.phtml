@@ -112,7 +112,7 @@
 							url:   '/Usuario/agregarusuarioprocess', 
 							type:  'post', 
 							beforeSend: function () {
-														$("#divNotificaciones").html("<div class='panel panel-primary'><div class='panel-heading'>Procesando solicitud..</div></div>");
+														$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando solicitud..</h4></div>");
 													},
 	
 							success:  function (response) { 
@@ -122,18 +122,14 @@
 								
 										if(res[0]=='OK')
 										{
-												
-												$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>Datos almacenados correctamente<br><br><a href='/Usuario'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
+												$("#divNotificaciones").html("<div class='panel-body'><a href='/Usuario'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
 												$('#volver_bot').focus();
-										
-												//$("#divNotificaciones").html("<div class='panel panel-success'><div class='panel-heading'>Datos almacenados correctamente</div></div>");
-												//$('#volver_bot').focus();
 												//limpia formulario
-												//$('#oForm').trigger("reset");
+												$('#oForm').trigger("reset");
 										
 										}else{
 											
-												$("#divNotificaciones").html("<div class='panel panel-primary'><div class='panel-heading'>"+res[1]+"</div></div>");
+												$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
 											
 										}
 									
@@ -149,104 +145,102 @@
 </script>
 
 
-<div id="formulario">
-
-
-	 <div class="col-md-12">
-				 <div class="row">
-						 <div class="col-md-6 col-sm-6 col-xs-12">
-						
-							   <div id="divNotificaciones">
-							   </div>	
-						
-								<div class="panel panel-default">
-					
-										<div class="panel-heading">
-											<button type="button" class="btn btn btn-default">INGRESO USUARIO</button>
-											<a href="/Usuario"><button type="button" class="btn btn btn-danger" id="volver_bot">VOLVER</button></a>
-										</div>
-										<div class="panel-body">
-					
-											   
-					
-												<form role="form" id="oForm" name="oForm">
-														<div class="form-group">
-															<label>Login Usuario (*)</label>
-															<input id="login" name="login" class="form-control" maxlength="10" type="text" title="Aqu&iacute; debe ingresar el login de usuario con el cual ingresar&aacute; al sistema, m&iacute;nimo 5 caracteres">
-															<p class="help-block">M&iacute;nimo 5 carateres sin espacio</p>
-														</div>
-													  
-														<div class="form-group">
-															<label>Departamento (*)</label>
-															<select class="form-control" id="sector" name="sector">
-																<option value="">[SELECCIONE]</option>
-																<?php
-																if(isset($datossector))
+ <div class="col-md-12">
+  			 <div class="row">
+					 <div class="col-md-6 col-sm-6 col-xs-12">
+											
+						   <div id="divNotificaciones">
+							    <div class='panel-body'>
+									<a href="/Usuario"><button type="button" class="btn btn-danger">Volver</button></a>
+                           		</div>
+						   </div>	
+				
+				
+							<div class="panel panel-danger">
+				
+									<div class="panel-heading">
+                                       <strong>INGRESO USUARIO</strong>
+                                    </div>
+                                    <div class="panel-body">
+                
+										   
+				
+				                            <form role="form" id="oForm" name="oForm">
+                                                    <div class="form-group">
+                                                        <label>Login Usuario (*)</label>
+														<input id="login" name="login" class="form-control" maxlength="10" type="text" title="Aqu&iacute; debe ingresar el login de usuario con el cual ingresar&aacute; al sistema, m&iacute;nimo 5 caracteres">
+                                                        <p class="help-block">M&iacute;nimo 5 carateres sin espacio</p>
+                                     				</div>
+                                                  
+												    <div class="form-group">
+                                                        <label>Departamento (*)</label>
+                                                        <select class="form-control" id="sector" name="sector">
+															<option value="">[SELECCIONE]</option>
+															<?php
+															if(isset($datossector))
+															{
+																foreach($datossector as $clave => $valor)
 																{
-																	foreach($datossector as $clave => $valor)
-																	{
-																	?>
-																		<option value="<?php echo $valor["SIS01_SECTORID"]?>"><?php echo $valor["SIS01_SECTORDESCRIPCION"]?></option>
-																	<?
-																	}
-																}		
 																?>
-															</select>
-														</div>
+																	<option value="<?php echo $valor["SIS01_SECTORID"]?>"><?php echo $valor["SIS01_SECTORDESCRIPCION"]?></option>
+																<?
+																}
+															}		
+															?>
+														</select>
+													</div>
+                                                
+												
+												 	<div id="combonivel">
+													</div>
+                                                
+												
+												  
+												    <div class="form-group">
+                                                        <label>Nombre / Apellido (*)</label>
+                                                        <input class="form-control" type="text" id="nombreapellido" maxlength="50"  name="nombreapellido">
+                                                    </div>
+                                                    
+													  <div class="form-group">
+                                                        <label>E-mail (*)</label>
+                                                        <input class="form-control" type="text" id="email" maxlength="100"  name="email">
+                                                    
+													
+													</div>
+                                                    				
+													<div class="form-group">
+                                                        <label>Password (*)</label>
+                                                        <input class="form-control" type="text" maxlength="10" id="clave" name="clave" title="Aqu&iacute; debe ingresar la password de usuario con el cual ingresar&aacute; al sistema, m&iacute;nimo 5 caracteres">
+                                                        <p class="help-block">M&iacute;nimo 5 carateres</p>
+                                                    </div>
+                                                    						
 													
 													
-														<div id="combonivel">
-														</div>
-													
-													
-													  
-														<div class="form-group">
-															<label>Nombre / Apellido (*)</label>
-															<input class="form-control" type="text" id="nombreapellido" maxlength="50"  name="nombreapellido">
-														</div>
-														
-														  <div class="form-group">
-															<label>E-mail (*)</label>
-															<input class="form-control" type="text" id="email" maxlength="100"  name="email">
-														
-														
-														</div>
-																		
-														<div class="form-group">
-															<label>Password (*)</label>
-															<input class="form-control" type="text" maxlength="10" id="clave" name="clave" title="Aqu&iacute; debe ingresar la password de usuario con el cual ingresar&aacute; al sistema, m&iacute;nimo 5 caracteres">
-															<p class="help-block">M&iacute;nimo 5 carateres</p>
-														</div>
-																				
-														
-														
-														<div class="form-group">
-																<label>Es Usuario Privado (*)</label>
-																
-																<select class="form-control" id="privado" name="privado">
-																	<option value="1">SI</option>
-																	<option value="0">NO</option>
-																</select>
-																
+													<div class="form-group">
+															<label>Es Usuario Privado (*)</label>
 															
-														</div>
-														<div class="form-group">
-																<label>Notificar (*)</label>
-																<select class="form-control" id="notiasig" name="notiasig">
-																	<option value="1">SI</option>
-																	<option value="0">NO</option>
-																</select>
-														</div>
+															<select class="form-control" id="privado" name="privado">
+																<option value="1">SI</option>
+																<option value="0">NO</option>
+															</select>
+															
 														
-														<button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
-												</form>
-										</div>
-	
-								</div>
-					
-						 </div>
+											        </div>
+          											<div class="form-group">
+															<label>Notificar (*)</label>
+															<select class="form-control" id="notiasig" name="notiasig">
+																<option value="1">SI</option>
+																<option value="0">NO</option>
+															</select>
+												    </div>
+          											
+													<button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
+										    </form>
+                                    </div>
+
+							</div>
+				
 					 </div>
-	
-	 </div>
-</div>
-	 
+				 </div>
+
+ </div>

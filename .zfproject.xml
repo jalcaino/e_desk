@@ -24,8 +24,6 @@
           <actionMethod actionName="eliminarusuario"/>
           <actionMethod actionName="listarusuarios"/>
           <actionMethod actionName="utilidades"/>
-          <actionMethod actionName="usuarioxnivel"/>
-          <actionMethod actionName="usuarioxsector"/>
         </controllerFile>
         <controllerFile controllerName="Login">
           <actionMethod actionName="index"/>
@@ -86,43 +84,18 @@
         </controllerFile>
         <controllerFile controllerName="Infacceso">
           <actionMethod actionName="index"/>
-          <actionMethod actionName="listar"/>
-          <actionMethod actionName="imprimir"/>
-          <actionMethod actionName="grafico"/>
         </controllerFile>
         <controllerFile controllerName="Infincidente">
           <actionMethod actionName="index"/>
-          <actionMethod actionName="grafico"/>
-          <actionMethod actionName="imprimir"/>
-          <actionMethod actionName="listar"/>
         </controllerFile>
         <controllerFile controllerName="Infclasificador">
           <actionMethod actionName="index"/>
-          <actionMethod actionName="listar"/>
-          <actionMethod actionName="imprimir"/>
-          <actionMethod actionName="grafico"/>
         </controllerFile>
         <controllerFile controllerName="Infactividad">
           <actionMethod actionName="index"/>
-          <actionMethod actionName="grafico"/>
-          <actionMethod actionName="imprimir"/>
-          <actionMethod actionName="listar"/>
         </controllerFile>
         <controllerFile controllerName="Infcolegio">
           <actionMethod actionName="index"/>
-          <actionMethod actionName="listar"/>
-          <actionMethod actionName="imprimir"/>
-          <actionMethod actionName="grafico"/>
-        </controllerFile>
-        <controllerFile controllerName="Tareas">
-          <actionMethod actionName="index"/>
-          <actionMethod actionName="avisonotificaciones"/>
-          <actionMethod actionName="avisoincidenteretraso"/>
-          <actionMethod actionName="avisoasistenciagenda"/>
-        </controllerFile>
-        <controllerFile controllerName="Loginusuario">
-          <actionMethod actionName="index"/>
-          <actionMethod actionName="validarusuario"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false"/>
@@ -131,9 +104,7 @@
           <layoutScriptFile layoutName="layout"/>
         </layoutScriptsDirectory>
       </layoutsDirectory>
-      <modelsDirectory>
-        <modelFile modelName="Ed01usuario"/>
-      </modelsDirectory>
+      <modelsDirectory/>
       <modulesDirectory enabled="false"/>
       <servicesDirectory enabled="false"/>
       <viewsDirectory>
@@ -323,75 +294,6 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Infcolegio">
             <viewScriptFile forActionName="index"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Usuario">
-            <viewScriptFile forActionName="usuarioxnivel"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Usuario">
-            <viewScriptFile forActionName="usuarioxsector"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infacceso">
-            <viewScriptFile forActionName="listar"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infacceso">
-            <viewScriptFile forActionName="imprimir"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infacceso">
-            <viewScriptFile forActionName="grafico"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infincidente">
-            <viewScriptFile forActionName="grafico"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infincidente">
-            <viewScriptFile forActionName="imprimir"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infincidente">
-            <viewScriptFile forActionName="listar"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infclasificador">
-            <viewScriptFile forActionName="listar"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infclasificador">
-            <viewScriptFile forActionName="imprimir"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infclasificador">
-            <viewScriptFile forActionName="grafico"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infactividad">
-            <viewScriptFile forActionName="grafico"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infactividad">
-            <viewScriptFile forActionName="imprimir"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infactividad">
-            <viewScriptFile forActionName="listar"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infcolegio">
-            <viewScriptFile forActionName="listar"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infcolegio">
-            <viewScriptFile forActionName="imprimir"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Infcolegio">
-            <viewScriptFile forActionName="grafico"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Tareas">
-            <viewScriptFile forActionName="index"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Tareas">
-            <viewScriptFile forActionName="avisonotificaciones"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Tareas">
-            <viewScriptFile forActionName="avisoincidenteretraso"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Loginusuario">
-            <viewScriptFile forActionName="index"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Loginusuario">
-            <viewScriptFile forActionName="validarusuario"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Tareas">
-            <viewScriptFile forActionName="avisoasistenciagenda"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

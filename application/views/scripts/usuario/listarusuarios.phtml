@@ -20,9 +20,7 @@
 
 	if(isset($this->layout()->usuario_fin))
 		$usuario_fin=$this->layout()->usuario_fin;
-	
-	
-	$USUARIOACTUAL=$this->layout()->USUARIOACTUAL;
+		
 	
 ?>
 <div class="col-md-12">
@@ -89,7 +87,7 @@
 																								<li><a href="#" onclick="carga_editar('<?php echo $valor["ED01_USUARIOID"]?>')">Editar</a></li>
 																								<?php
 																								}
-																								if(isset($acceso_funcionalidades[4]) && trim($acceso_funcionalidades[4])=="1" && trim($USUARIOACTUAL)!=trim($valor["ED01_USUARIOID"]))
+																								if(isset($acceso_funcionalidades[4]) && trim($acceso_funcionalidades[4])=="1")
 																								{																								
 																								?>	
 																								<li><a href="#" onclick="accion_eliminar('<?php echo $valor["ED01_USUARIOID"]?>')">Eliminar</a></li>

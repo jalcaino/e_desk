@@ -138,7 +138,7 @@
 								data: form_data,                         
 								type: 'post',
 								beforeSend: function () {
-															$("#divNotificaciones").html("<div class='panel panel-primary'><div class='panel-heading'>Procesando solicitud..</div></div>");
+															$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando solicitud..</h4></div>");
 														},
 		
 								success:  function (response) { 
@@ -148,11 +148,12 @@
 									
 											if(res[0]=='OK')
 											{
-												$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>Datos almacenados correctamente<br><br><a href='/Solicitud/index/busqueda/"+res[1]+"'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
+												$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
 												$('#volver_bot').focus();
 									
 											}else{
-													$("#formulario").html("<div class='panel panel-primary'><div class='panel-heading' id='volver_frame'>"+res[1]+"<br><br><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
+												
+													$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
 													$('#volver_bot').focus();
 										
 											}
@@ -172,19 +173,18 @@
 					 <div class="col-md-6 col-sm-6 col-xs-12">
 											
 						   <div id="divNotificaciones">
+							    <div class='panel-body'>
+									<a href="/Solicitud"><button type="button" class="btn btn-danger">Volver</button></a>
+                           		</div>
 						   </div>	
 				
 				
-							<div class="panel panel-info">
-								
+							<div class="panel panel-danger">
+				
 									<div class="panel-heading">
-                                    	<button type="button" class="btn btn btn-default">EDITAR SOLICITUD</button>
-										<a href="/Solicitud"><button type="button" class="btn btn btn-danger" id="volver_bot">VOLVER</button></a>
-									</div>
-                                   
-									
-									
-									<div class="panel-body">
+                                       <strong>EDITAR SOLICITUD</strong>
+                                    </div>
+                                    <div class="panel-body">
 				
 				                            <form role="form" id="oForm" name="oForm" enctype="multipart/form-data">
 												 
@@ -241,7 +241,7 @@
 														</div>
 										   
 															 
-														 <div class="form-group" style="background-color:#EEEEEE">
+														 <div class="form-group">
 															<label class="control-label col-lg-4">Archivo adjunto </label>
 															<div class="">
 																 <input type="file" name="archivo" id="archivo" class="btn btn-info">
@@ -250,7 +250,7 @@
 																 {
 																 ?>
 																 <br>
-																 <strong> [ Archivo actual : <a href="<?php echo $ARCHIVOADJUNTO?>" target="_blank"><?php echo $NOMBREARCHIVOADJUNTO?></a> ] </strong>
+																 <strong>Archivo actual : <a href="<?php echo $ARCHIVOADJUNTO?>" target="_blank"><?php echo $NOMBREARCHIVOADJUNTO?></a></strong>
 																 <?php
 																 }
 																 ?>

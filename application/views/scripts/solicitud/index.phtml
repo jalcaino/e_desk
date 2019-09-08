@@ -1,36 +1,4 @@
-<?php
-if(isset($this->layout()->busqueda))
-		$busqueda=$this->layout()->busqueda;
-else	
-		$busqueda=$this->layout()->busqueda_defecto;
-?>
 <script type="text/javascript">
- 
- 
- 
-	 	function graba_lectura_notificaciones(valores)
-		{
-		
-				var parametros = {
-								 tipo:'3',
-								 concepto:'solicitud',
-								 valores:valores
-								 };
-		
-				$.ajax({
-							data:  parametros,
-							url:   '/Login/notificacion', 
-							type:  'post', 
-							evalscripts : true,
-							success:  function (response) { 
-						
-						
-							}
-						});
-		
-		}					
-
- 
  
  
  	   function accion_generar(solicitudid,tipo)
@@ -65,7 +33,7 @@ else
 											evalscripts : true,
 											success:  function (response) { 
 											
-													$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>"+response+"<br><br><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
+													$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Solicitud'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>"+response+"</h4></div>");
 													$('#volver_bot').focus();
 									
 																
@@ -123,7 +91,7 @@ else
 
 
 		//carga inicial
-		carga_pagina('1','<?php echo $busqueda?>');
+		carga_pagina('1','PENDIENTE');
 </script>
 <div id="formulario">
 		

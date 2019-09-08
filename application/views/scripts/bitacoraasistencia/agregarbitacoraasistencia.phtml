@@ -90,8 +90,7 @@
 								data: form_data,                         
 								type: 'post',
 								beforeSend: function () {
-															$("#divNotificaciones").html("<div class='panel panel-primary'><div class='panel-heading'>Procesando solicitud..</div></div>");
-
+															$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando seguimiento..</h4></div>");
 														},
 		
 								success:  function (response) { 
@@ -101,15 +100,14 @@
 									
 											if(res[0]=='OK')
 											{
-													
-													$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>Datos almacenados correctamente<br><br><a href='/Asistencia/index/busqueda/<?php echo $ASISTENCIAID;?>'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
+													$("#divNotificaciones").html("<div class='panel-body'><a href='/Asistencia'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
 													$('#volver_bot').focus();
-										
+													//limpia formulario
+													$('#oForm').trigger("reset");
 											
 											}else{
 												
-													$("#divNotificaciones").html("<div class='panel panel-primary'><div class='panel-heading'>"+res[1]+"</div></div>");
-
+													$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
 												
 											}
 										
@@ -125,26 +123,26 @@
 	</script>
 
 
-<div id="formulario">
-
- 	<div class="col-md-12">
+ <div class="col-md-12">
   			 <div class="row">
 					 <div class="col-md-6 col-sm-6 col-xs-12">
 											
 						   <div id="divNotificaciones">
+							    <div class='panel-body'>
+									<a href="/Asistencia"><button type="button" class="btn btn-danger">Volver</button></a>
+                           		</div>
 						   </div>	
 				
-						
-							<div class="panel panel-default">
+				
+							<div class="panel panel-danger">
 				
 									<div class="panel-heading">
-                                        <button type="button" class="btn btn btn-default">INGRESO SEGUIMIENTO ASISTENCIA</button>
-										<a href="/Asistencia"><button type="button" class="btn btn btn-danger" id="volver_bot">VOLVER</button></a>
-							        </div>
-                
+                                       <strong>INGRESO SEGUIMIENTO ASISTENCIA</strong>
+                                    </div>
+                                    <div class="panel-body">
 				
-				                    <div class="panel-body">
-					 
+											 
+											 
 															<form role="form" id="oForm" name="oForm" enctype="multipart/form-data">
 																 
 																	   <input type="hidden" id="asistenciaid" name="asistenciaid" value="<?php echo $ASISTENCIAID?>">
@@ -152,7 +150,7 @@
 																 
 																	   <div class="form-group">
 																			<label>Fecha Seguimiento (*)</label>
-																			<input type="text" class="form-control" id="calendario" readonly="readonly" value="<?php echo date("d/m/Y")?>">
+																			<input type="text" class="form-control" id="calendario" readonly="readonly">
 																	   </div>
 																	  
 																		<div class="form-group">
@@ -161,7 +159,7 @@
 																		</div>
 															  
 															  			 
-																		 <div class="form-group" style="background-color:#EEEEEE">
+																		 <div class="form-group">
 																			<label class="control-label col-lg-4">Adjunto</label>
 																			<div class="">
 																				 <input type="file" name="archivo" id="archivo" class="btn btn-info">
@@ -174,7 +172,7 @@
 																			<select class="form-control" id="resuelto" name="resuelto">
 																			  <option value="NO">NO</option>
 																			  <option value="SI">SI</option>
-																			 </select>
+																			</select>
 																		<div>
 															
 																					
@@ -193,6 +191,4 @@
 				 
 				 </div>
 
-		</div>
-		
  </div>
