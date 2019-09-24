@@ -1,0 +1,129 @@
+<?php
+	
+	if(isset($this->layout()->matriz_notificacion))
+		$matriz_notificacion=$this->layout()->matriz_notificacion;
+	
+	if(isset($this->layout()->matriz_notificacion_sol))
+		$matriz_notificacion_sol=$this->layout()->matriz_notificacion_sol;
+
+
+
+	$CONTADOR_NOTIFICACIONES=$this->layout()->CONTADOR_NOTIFICACIONES;
+
+	$TIPO_DESPLIEGUE=$this->layout()->TIPO_DESPLIEGUE;
+
+
+				
+	if($TIPO_DESPLIEGUE==1)
+	{
+
+?>
+		<div class="row">
+			<div class="col-md-12">
+				<h1 class="page-head-line">NUEVAS NOTIFICACIONES</h1>
+				<h1 class="page-subhead-line">En esta p&aacute;gina usted puede visualizar las actividades en las que est&aacute; notificado</h1>
+
+			</div>
+		</div>
+		<!-- /. ROW  -->
+		<div class="row">
+
+			<?php
+			if(isset($matriz_notificacion_sol))
+			{
+			?>
+			<div class="col-md-6">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<i class="fa fa-bell fa-fw"></i> SOLICITUDES
+					</div>
+
+					<div class="panel-body">
+						<div class="list-group">
+					<?php
+							foreach($matriz_notificacion_sol as $clave => $valor)
+							{
+							?>
+							<a href="/Solicitud/index/busqueda/<?php echo $valor["MAESTROID"]?>" class="list-group-item">
+							<strong><?php echo $valor["FECHANOTIFICACION"]?></strong> <button type="button" title="Solicitud : <?php echo $valor["MAESTROID"]?>" class="btn btn-sm btn-default"><?php echo $valor["MAESTROID"]?></button> <br> <?php echo nl2br($valor["SEGCOMENTARIOS"])?>
+							<span class="pull-right text-muted small">[<?php echo $valor["USUARIO_ORIGEN"]?>]
+							</span>
+							</a>
+						<?php
+							}
+						?>
+						</div>
+						<!-- /.list-group -->
+					</div>
+
+				</div>
+			</div>
+	
+			<?php
+			}
+			
+			
+			if(isset($matriz_notificacion))
+			{
+			?>
+		   <div class="col-md-6">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+					   <i class="fa fa-bell fa-fw"></i> SEGUIMIENTOS
+					</div>
+					<div class="panel-body" style="padding: 0px;">
+						<div class="chat-widget-main">
+							<?php
+							foreach($matriz_notificacion as $clave => $valor)
+							{
+									if($valor["TIPO"]=="1")
+									{
+							?>
+							<div class="chat-widget-left">
+								[<?php echo $valor["USUARIO_ORIGEN"]?>] <br><strong><?php echo $valor["FECHANOTIFICACION"]?></strong> <a href="/Incidente/index/busqueda/<?php echo $valor["MAESTROID"]?>"><button type="button" title="Incidente  : <?php echo $valor["MAESTROID"]?>" class="btn btn-sm btn-default"><?php echo $valor["MAESTROID"]?></button></a> <br> <?php echo nl2br($valor["SEGCOMENTARIOS"])?>
+							</div>
+							<div class="chat-widget-name-left">
+								<h4>INCIDENTE</h4>
+							</div>
+							<?php
+									}
+								
+									if($valor["TIPO"]=="2")
+									{
+							?>
+							<div class="chat-widget-right">
+								 [<?php echo $valor["USUARIO_ORIGEN"]?>] <br><strong><?php echo $valor["FECHANOTIFICACION"]?></strong> <a href="/Asistencia/index/busqueda/<?php echo $valor["MAESTROID"]?>"><button type="button" title="Asistencia : <?php echo $valor["MAESTROID"]?>" class="btn btn-sm btn-default"><?php echo $valor["MAESTROID"]?></button></a> <br> <?php echo nl2br($valor["SEGCOMENTARIOS"])?>
+							</div>
+							<div class="chat-widget-name-right">
+								<h4>ASISTENCIA</h4>
+							</div>
+					
+							<?php
+									}					
+					
+								}
+							?>
+								
+						</div>
+					</div>
+				</div>
+			</div>
+			<?php
+			}
+			?>
+	</div>
+	<?php
+	
+	}else{
+	
+			if(intval($CONTADOR_NOTIFICACIONES)>0)
+			{
+			?>	
+			<a href="/Login/notificacion" class="btn btn-info" title="Nuevas Notificaciones"><b><?php echo $CONTADOR_NOTIFICACIONES;?> </b><i class="fa fa-envelope-o fa-2x"></i></a>
+        	<?php
+			}
+			?>	
+			<a href="/Login/logout" class="btn btn-primary" title="Salir"><i class="fa fa-plug fa-2x"></i></a>
+	<?php
+	}
+	?>

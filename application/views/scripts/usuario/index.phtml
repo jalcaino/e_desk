@@ -21,9 +21,8 @@
 											evalscripts : true,
 											success:  function (response) { 
 											
-													$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Usuario'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>"+response+"</h4></div>");
+													$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>"+response+"<br><br><a href='/Usuario'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
 													$('#volver_bot').focus();
-									
 																
 											}
 									});

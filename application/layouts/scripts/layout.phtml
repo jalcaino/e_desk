@@ -17,6 +17,23 @@
 
     <!-- BOOTSTRAP STYLES-->
     <link href="/assets/css/bootstrap.css" rel="stylesheet" />
+	<style>
+	
+		dialog {
+		visibility: hidden;
+		transform: scale(0.1);
+		transition: transform 200ms;
+		}
+
+		dialog.dialog-scale {
+			visibility: visible;
+			transform: scale(1);
+		}
+
+		
+	</style>
+	
+	
 	
     <!-- GOOGLE FONTS-->
 	<link href="/assets/css/open-sans.css" rel="stylesheet" />
@@ -35,10 +52,11 @@
 	<link href="/assets/css/jquery-ui.css" rel="stylesheet">
 	<script src="/assets/js/jquery-ui.js"></script>
 
-		
-	
-	
 	<script language="JavaScript" type="text/javascript">
+	
+	
+	
+	
 		
 		function trae_menu()
 		{
@@ -70,13 +88,46 @@
 							success:  function (response) { 
 						
 									$("#info-usuario").html(response);
+									trae_notificaciones();
 						
 							}
 						});
 		
 		}					
 	
+
+		function trae_notificaciones()
+		{
+		
+				var parametros = {tipo:'0'};
+		
+				$.ajax({
+							data:  parametros,
+							url:   '/Login/notificacion', 
+							type:  'post', 
+							evalscripts : true,
+							success:  function (response) { 
+						
+										 $("#idNumNotificaciones").html(response);
+						
+										setTimeout(function(){
+				
+													trae_notificaciones();
+				
+										},60000); 
+										
+									  
+
+							}
+						});
+		
+		}					
+
+
 		trae_menu();
+
+
+			
 	
 	</script>
 
@@ -92,20 +143,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">E-DESK</a>
+                <a class="navbar-brand" href="/index.php">E-DESK</a>
             </div>
 
             <div class="header-right">
 
-                <a href="message-task.html" class="btn btn-info" title="New Message"><b>30 </b><i class="fa fa-envelope-o fa-2x"></i></a>
-                <a href="message-task.html" class="btn btn-primary" title="New Task"><b>40 </b><i class="fa fa-bars fa-2x"></i></a>
-                <a href="/Login/logout" class="btn btn-danger" title="Logout"><i class="fa fa-exclamation-circle fa-2x"></i></a>
+				<div id="idNumNotificaciones"></div>
 
             </div>
+
         </nav>
         <!-- /. NAV TOP  -->
-
-
 
         <nav class="navbar-default navbar-side" role="navigation">
 
@@ -150,13 +198,6 @@
 		<!-- /. WRAPPER  -->
 
 
-
-
-
-
-
-
-
 	     <div id="footer-sec">
         	&copy; 2019 Compumat.cl | Diseñado por : <a href="http://www.compumat.cl/" target="_blank">Compumat.cl</a>
     	</div>
@@ -169,11 +210,6 @@
 		<script src="/assets/js/jquery.metisMenu.js"></script>
 	    <!-- CUSTOM SCRIPTS -->
 		<script src="/assets/js/custom.js"></script> 
-
-
-		
-
-
 
 </body>
 </html>

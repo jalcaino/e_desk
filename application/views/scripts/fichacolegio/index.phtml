@@ -6,6 +6,126 @@
 			<script language="JavaScript" type="text/javascript">
 
 
+					var parametros = '';
+					var link = '';
+
+
+					function limpiar_reinicio(paso)
+					{
+					
+							if(!$("#rutalumno").val())
+							{
+								alert("Debe Ingresar el Rut del Alumno");
+								$("#rutalumno").focus();
+								return false;
+							}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+							if(paso>4)
+							{
+									$("#informacion_alumno").html("<div class='panel panel-info'><div class='panel-heading'>Datos reinicio eliminados para el alumno</div></div>");
+									return false;
+							}
+			
+			
+							if(paso==1)
+							{
+									
+									parametros = {
+											"Reinicio" : "|"+$("#rutalumno").val()+"|",
+											"Prod" : 'minlocal'
+											
+									};
+							
+									link='http://minlocal.e-mat.cl/Ematpsuoper/reinicio/'; 
+			
+									if (!confirm("Seguro que deseas realizar esta operacion?")) 
+									{
+										return false;
+									
+									} 
+			
+							}							
+					
+					
+					
+							if(paso==2)
+							{
+			
+									parametros = {
+											"Reinicio" : "|"+$("#rutalumno").val()+"|",
+											"Prod" : 'minpsu'
+											
+									};
+							
+									link='http://psu.e-mat.cl/Ematpsuoper/reinicio/'; 
+							
+							}							
+					
+					
+							if(paso==3)
+							{
+			
+									parametros = {
+											"rut" : $("#rutalumno").val(),
+											"Prod" : 'minlocal'
+											
+									};
+						
+									link='http://minlocal.e-mat.cl/Ematpsuadmin/limpiarpru/'; 
+							
+							}				
+					
+					
+							if(paso==4)
+							{
+			
+									parametros = {
+											"rut" : $("#rutalumno").val(),
+											"Prod" : 'minpsu'
+											
+									};
+						
+									link='http://psu.e-mat.cl/Ematpsuadmin/limpiarpru/'; 
+							
+							}				
+					
+						
+					
+					
+							$.ajax({
+											data:  parametros,
+											url:   link, 
+											type:  'post', 
+											evalscripts : true,
+											success:  function (response) { 
+											
+											
+													nuevo=parseInt(paso)+1;
+													limpiar_reinicio(nuevo);
+												
+											
+											}
+									});
+			
+					
+					}
+
+
+
+											
+
+
+
+
+
 					  function consulta_rut()
 					  {
 					
@@ -142,6 +262,7 @@
 																<input class="form-control" name="rutalumno" id="rutalumno" type="text" size="10" value="">
 															</div>
 															<button id="envia_consulta_rut" type="button" class="btn btn-info" onclick="consulta_rut();">Consultar</button>
+															<button id="limpiar_datos_reinicio" type="button" class="btn btn-success" onclick="limpiar_reinicio(1);">Limpiar Datos Reinicio</button>
 												</form>
 										</div>
 								</div>

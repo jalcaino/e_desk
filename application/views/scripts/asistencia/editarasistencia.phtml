@@ -172,7 +172,8 @@
 								data: form_data,                         
 								type: 'post',
 								beforeSend: function () {
-															$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando asistencia..</h4></div>");
+															$("#divNotificaciones").html("<div class='panel panel-primary'><div class='panel-heading'>Procesando solicitud..</div></div>");
+
 														},
 		
 								success:  function (response) { 
@@ -182,12 +183,12 @@
 									
 											if(res[0]=='OK')
 											{
-												$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Asistencia'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
+												$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>Datos almacenados correctamente<br><br><a href='/Asistencia/index/busqueda/"+res[1]+"'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
 												$('#volver_bot').focus();
 									
 											}else{
 												
-													$("#formulario").html("<div class='panel-body' id='volver_frame'><a href='/Asistencia'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
+													$("#formulario").html("<div class='panel panel-primary'><div class='panel-heading' id='volver_frame'>"+res[1]+"<br><br><a href='/Asistencia'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
 													$('#volver_bot').focus();
 										
 											}
@@ -207,18 +208,17 @@
 					 <div class="col-md-6 col-sm-6 col-xs-12">
 											
 						   <div id="divNotificaciones">
-							    <div class='panel-body'>
-									<a href="/Asistencia"><button type="button" class="btn btn-danger">Volver</button></a>
-                           		</div>
-						   </div>	
+						  </div>	
 				
 				
-							<div class="panel panel-danger">
-				
+							<div class="panel panel-info">
+								
 									<div class="panel-heading">
-                                       <strong>EDITAR ASISTENCIA</strong>
-                                    </div>
-                                    <div class="panel-body">
+                                    	<button type="button" class="btn btn btn-default">EDITAR ASISTENCIA</button>
+										<a href="/Asistencia"><button type="button" class="btn btn btn-danger" id="volver_bot">VOLVER</button></a>
+									</div>
+                        		  
+								    <div class="panel-body">
 				
 										
 										
@@ -291,7 +291,7 @@
 														</div>
 														
 															 
-														 <div class="form-group">
+														 <div class="form-group" style="background-color:#EEEEEE">
 															<label class="control-label col-lg-4">Adjunto </label>
 															<div class="">
 																 <input type="file" name="archivo" id="archivo" class="btn btn-info">
@@ -300,7 +300,7 @@
 																 {
 																 ?>
 																 <br>
-																 <strong>Archivo actual : <a href="<?php echo $ARCHIVOADJUNTO?>" target="_blank"><?php echo $NOMBREARCHIVOADJUNTO?></a></strong>
+																 <strong> [ Archivo actual : <a href="<?php echo $ARCHIVOADJUNTO?>" target="_blank"><?php echo $NOMBREARCHIVOADJUNTO?></a> ]</strong>
 																 <?php
 																 }
 																 ?>
@@ -332,8 +332,10 @@
 														 <div class="form-group">
 															<label>Estado (*)</label>
 															<select class="form-control" id="estado" name="estado">
+																<?php if($ESTADO!="GESTIONADO"){?>
 																<option value="PENDIENTE" <?php if($ESTADO=="PENDIENTE") echo "selected"?>>PENDIENTE</option>
-																<option value="DERIVADO" <?php if($ESTADO=="DERIVADO") echo "selected"?>>DERIVADO</option>
+																<?php }?>
+																<option value="DERIVADO" <?php if($ESTADO=="DERIVADO" || $ESTADO=="GESTIONADO") echo "selected"?>>DERIVADO</option>
 																<option value="RESUELTO" <?php if($ESTADO=="RESUELTO") echo "selected"?>>RESUELTO</option>
 																<option value="MEJORA-FUTURA" <?php if($ESTADO=="MEJORA-FUTURA") echo "selected"?>>MEJORA-FUTURA</option>
 															</select>

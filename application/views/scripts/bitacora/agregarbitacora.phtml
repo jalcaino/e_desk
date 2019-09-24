@@ -69,6 +69,14 @@
 			function grabar()
 			{
 	
+
+				if(!($('#paquete').is(':checked'))) 
+					valpaquete=0;
+				else
+					valpaquete=1;
+
+
+
 				var file_data = $('#archivo').prop('files')[0];   
 				var form_data = new FormData();                  
 				form_data.append('file', file_data);
@@ -78,6 +86,8 @@
 				form_data.append('detalle', $("#detalle").val());
 				form_data.append('resuelto', $("#resuelto").val());
 				form_data.append('archivo', $("#archivo").val());
+				form_data.append('tecnologia', $("#tecnologia").val());
+				form_data.append('paquete',valpaquete);
 				form_data.append('accion', 'grabar');
 				
 				
@@ -90,7 +100,8 @@
 								data: form_data,                         
 								type: 'post',
 								beforeSend: function () {
-															$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>Procesando seguimiento..</h4></div>");
+															$("#divNotificaciones").html("<div class='panel panel-primary'><div class='panel-heading'>Procesando solicitud..</div></div>");
+													
 														},
 		
 								success:  function (response) { 
@@ -100,15 +111,15 @@
 									
 											if(res[0]=='OK')
 											{
-													$("#divNotificaciones").html("<div class='panel-body'><a href='/Incidente'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a><h4 class='alert alert-info' style='line-height:50px;'>Datos almacenados correctamente</h4></div>");
+												
+													$("#formulario").html("<div class='panel panel-success'><div class='panel-heading' id='volver_frame'>Datos almacenados correctamente<br><br><a href='/Incidente/index/busqueda/<?php echo $INCIDENTEID;?>'><button type='button' id='volver_bot' class='btn btn-danger'>Volver</button></a></div></div>");
 													$('#volver_bot').focus();
-													//limpia formulario
-													$('#oForm').trigger("reset");
+												
 											
 											}else{
 												
-													$("#divNotificaciones").html("<div class='panel-body'><h4 class='alert alert-info' style='line-height:50px;'>"+res[1]+"</h4></div>");
-												
+													$("#divNotificaciones").html("<div class='panel panel-primary'><div class='panel-heading'>"+res[1]+"</div></div>");
+
 											}
 										
 								}
@@ -122,24 +133,24 @@
 	
 	</script>
 
+<div id="formulario">
 
- <div class="col-md-12">
+	 <div class="col-md-12">
   			 <div class="row">
 					 <div class="col-md-6 col-sm-6 col-xs-12">
 											
 						   <div id="divNotificaciones">
-							    <div class='panel-body'>
-									<a href="/Incidente"><button type="button" class="btn btn-danger">Volver</button></a>
-                           		</div>
 						   </div>	
-				
-				
-							<div class="panel panel-danger">
+					
+							<div class="panel panel-default">
 				
 									<div class="panel-heading">
-                                       <strong>INGRESO SEGUIMIENTO INCIDENTE</strong>
-                                    </div>
-                                    <div class="panel-body">
+                                        <button type="button" class="btn btn btn-default">INGRESO SEGUIMIENTO INCIDENTE</button>
+										<a href="/Incidente"><button type="button" class="btn btn btn-danger" id="volver_bot">VOLVER</button></a>
+							        </div>
+                			 
+								 
+								    <div class="panel-body">
 				
 											 
 											 
@@ -150,7 +161,7 @@
 																 
 																	   <div class="form-group">
 																			<label>Fecha Seguimiento (*)</label>
-																			<input type="text" class="form-control" id="calendario" readonly="readonly">
+																			<input type="text" class="form-control" id="calendario" readonly="readonly" value="<?php echo date("d/m/Y")?>">
 																	   </div>
 																	  
 																		<div class="form-group">
@@ -159,24 +170,46 @@
 																		</div>
 															  
 															  			 
-																		 <div class="form-group">
+																		 <div class="form-group" style="background-color:#EEEEEE">
 																			<label class="control-label col-lg-4">Adjunto</label>
 																			<div class="">
 																				 <input type="file" name="archivo" id="archivo" class="btn btn-info">
 																			</div>
 																		</div>
 																		 
-														
-																		<div class="form-group">
-																			<label>Est&aacute; Resuelto? (*)</label>
+                                                                         
+                                                                   		<div class="form-group">
+																		
+                                                                        	<label>Est&aacute; Resuelto? (*)</label>
 																			<select class="form-control" id="resuelto" name="resuelto">
 																			  <option value="NO">NO</option>
 																			  <option value="SI">SI</option>
 																			</select>
-																		<div>
+                                                                        
+                                                                        </div>
+															  
+                                                                         
+																		<div class="form-group">
+                                                                        
+																			<label>Tecnolog&iacute;a (*)</label>
+																			<select class="form-control" id="tecnologia" name="tecnologia">
+																			  <option value="MATERIALES">MATERIALES</option>
+																			  <option value="ETEST">ETEST</option>
+																			  <option value="TOOLBOOK">TOOLBOOK</option>
+																			  <option value="REPORTES">REPORTES</option>
+																			  <option value="OTRA">OTRA</option>
+																			</select>
+																		 
+                                                                         </div>
 															
-																					
-																	  <button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
+																		
+																		<div class="form-group">
+                                                                        
+																			<label>Actualizar en paquete pr&oacute;ximo? (*) </label> 
+																			<input type="checkbox" id="paquete" name="paquete" value="1">  [SI]
+																		</div>
+                                                                         															
+																	    <button type="button" class="btn btn-info" id="btn_guardar">Guardar</button>
 				
 				
 				
@@ -191,4 +224,6 @@
 				 
 				 </div>
 
+ 		</div>
+ 
  </div>
