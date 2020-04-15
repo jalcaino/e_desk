@@ -75,14 +75,21 @@ class FichacolegioController extends Zend_Controller_Action
 								SIS03_FONO_CONTACTO_3,
 								SIS03_EMAIL_CONTACTO_1,
 								SIS03_EMAIL_CONTACTO_2,
-								SIS03_EMAIL_CONTACTO_3,
-								SIS03_TIPO_CONTACTO_1,
-								SIS03_TIPO_CONTACTO_2,
-								SIS03_TIPO_CONTACTO_3
+								SIS03_EMAIL_CONTACTO_3
 								FROM 
 								e_desk.SIS03_LABORATORIO 
 								WHERE 
 								SIS03_LABORATORIOID='".$S_COLEGIO."'";
+				
+						/*
+						
+						,
+								SIS03_TIPO_CONTACTO_1,
+								SIS03_TIPO_CONTACTO_2,
+								SIS03_TIPO_CONTACTO_3
+						
+						*/
+				
 				
 						$rowset = $DB->fetchAll($sSQL);
 						if (count($rowset) > 0)  
